@@ -14,6 +14,13 @@ class LCFileVisitor: LCBaseVisitor() {
                 return null
             }
         }
+        methods["print"] = object: Method(listOf(), Type("any")) {
+            override fun call(args: List<Any?>): Any? {
+                print(args[0])
+
+                return null
+            }
+        }
     }
 
     override fun visitFile(ctx: lclangParser.FileContext?): Any? {
