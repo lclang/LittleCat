@@ -17,7 +17,7 @@ open class LCContextVisitor(parent: LCContextVisitor? = null, importVars: Boolea
     override fun visitVariable(ctx: lclangParser.VariableContext?): Any? {
         val variableName = ctx!!.ID().text
         if(!variables.containsKey(variableName))
-            throw VariableNotFoundException(variableName)
+            throw VariableNotFoundException(variableName, ctx.start.line, ctx.start.startIndex)
 
         return variables[variableName]
     }
