@@ -18,12 +18,12 @@ class VisitorMethod(private val methodContext: lclangParser.MethodContext,
         Type.from(methodContext.type())
     else Type.VOID
 ) {
-    override fun call(args: List<Value?>): Any? {
+    override fun call(args: List<Any?>): Any? {
         val lcContextVisitor = LCContextVisitor(parent)
 
         val methodArgs = methodContext.args().arg()
         for(argNum in 0 until methodArgs.size){
-            lcContextVisitor.variables[methodArgs[argNum].ID().text] = args[argNum]
+            lcContextVisitor.variables[methodArgs[argNum].ID().text] = Value({ args[argNum] })
         }
 
         return lcContextVisitor.visitBlock(methodContext.block())
