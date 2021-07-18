@@ -1,10 +1,6 @@
-println("123");
-    test();
-
-method test() {
-    println("123");
+method main() {
+    print("My super ");
+    println("program");
 }
 
-class Test {
-
-}
+main();
