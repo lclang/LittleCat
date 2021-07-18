@@ -8,15 +8,19 @@ class LCFileVisitor: LCContextVisitor() {
 
     init {
         methods["println"] = object: Method(listOf(), Type("any")) {
-            override fun call(args: List<Any?>): Any? {
-                println(args[0])
+            override fun call(args: List<Value?>): Any? {
+                println(args[0]?.let {
+                    return it.get()
+                })
 
                 return null
             }
         }
         methods["print"] = object: Method(listOf(), Type("any")) {
-            override fun call(args: List<Any?>): Any? {
-                print(args[0])
+            override fun call(args: List<Value?>): Any? {
+                print(args[0]?.let {
+                    return it.get()
+                })
 
                 return null
             }
