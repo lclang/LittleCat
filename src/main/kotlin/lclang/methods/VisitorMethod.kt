@@ -1,9 +1,11 @@
 package lclang.methods
 
+import lclang.LCContextVisitor
 import lclang.Type
 import lclang.lclangParser
 
-class VisitorMethod(methodContext: lclangParser.MethodContext): Method(
+class VisitorMethod(private val methodContext: lclangParser.MethodContext,
+        private val parent: LCContextVisitor): Method(
     run {
         val args = ArrayList<Type>()
         for (arg in methodContext.args().arg())
@@ -16,7 +18,11 @@ class VisitorMethod(methodContext: lclangParser.MethodContext): Method(
     else Type.VOID
 ) {
     override fun call(args: List<Any?>): Any? {
+        val lcContextVisitor = LCContextVisitor(parent)
+        for(arg in methodContext.args().arg()){
+            lcContextVisitor.variables[arg.ID().text] = args
+        }
 
-        return null
+        return lcContextVisitor.visitBlock(methodContext.block())
     }
 }

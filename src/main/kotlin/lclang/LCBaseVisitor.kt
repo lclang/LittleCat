@@ -35,13 +35,6 @@ open class LCBaseVisitor: lclangBaseVisitor<Any?>() {
         return expressionValue
     }
 
-    override fun visitMethod(ctx: lclangParser.MethodContext?): Any? {
-        if(ctx==null) return null
-
-        methods[ctx.ID().text] = VisitorMethod(ctx)
-        return null
-    }
-
     override fun visitCall(ctx: lclangParser.CallContext?): Any? {
         if(ctx==null) return null
         val subjectName = Type.from(ctx.type()).name

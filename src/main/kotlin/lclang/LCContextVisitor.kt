@@ -1,8 +1,15 @@
 package lclang
 
-open class LCContextVisitor: LCBaseVisitor() {
+import lclang.methods.VisitorMethod
+
+open class LCContextVisitor(parent: LCContextVisitor? = null): LCBaseVisitor() {
     val variables = HashMap<String, Any?>()
     init {
+        if(parent!=null) {
+            variables.putAll(parent.variables)
+            methods.putAll(parent.methods)
+        }
+
         variables["test"] = "test"
     }
 
@@ -12,5 +19,12 @@ open class LCContextVisitor: LCBaseVisitor() {
             throw Exception("Variable $variableName not found")
 
         return variables[variableName]
+    }
+
+    override fun visitMethod(ctx: lclangParser.MethodContext?): Any? {
+        if(ctx==null) return null
+
+        methods[ctx.ID().text] = VisitorMethod(ctx, this)
+        return null
     }
 }
