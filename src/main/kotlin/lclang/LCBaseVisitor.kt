@@ -1,6 +1,8 @@
 package lclang
 
-class LCBaseVisitor: lclangBaseVisitor<Any?>() {
+open class LCBaseVisitor: lclangBaseVisitor<Any?>() {
+    val methods = ArrayList<lclangParser.MethodContext>()
+
     override fun visitBlock(ctx: lclangParser.BlockContext?): Any? {
         for(stmt in ctx!!.stmt())
             visit(stmt)
@@ -9,6 +11,17 @@ class LCBaseVisitor: lclangBaseVisitor<Any?>() {
     }
 
     override fun visitStmt(ctx: lclangParser.StmtContext?): Any? {
-        return ctx!!.children[0]
+        return visit(ctx!!.children[0])
+    }
+
+    override fun visitExpression(ctx: lclangParser.ExpressionContext?): Any? {
+        val expressionValue = visit(ctx!!.children[0])
+        //TODO
+        return expressionValue
+    }
+
+    override fun visitMethod(ctx: lclangParser.MethodContext?): Any? {
+        methods.add(ctx!!)
+        return null
     }
 }
