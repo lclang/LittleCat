@@ -5,7 +5,7 @@ ID: [A-z]+;
 STRING: '"'(.+?)'"';
 NUMBER: [0-9]+;
 
-file: use* global* (stmt+component+classExpr)*;
+file: use* global* (stmt+method+component+classExpr)*;
 type: ID ('\\' type)*;
 
 expression: (returnExpr|call|ID|value) arrayAccess* operation?;
@@ -18,7 +18,7 @@ operation: access|set;
 set: '=' expression;
 access: '.' expression;
 
-stmt: (method|block|expression ';');
+stmt: (block|expression ';');
 block: '{' stmt* '}';
 
 component: 'component' type '{' (method+classExpr)* '}';
