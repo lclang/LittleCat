@@ -32,18 +32,4 @@ open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
         val value = visit(ctx!!.children[0])?.get?.invoke()
         return Value({ value })
     }
-
-    override fun visitCall(ctx: lclangParser.CallContext?): Value? {
-        if(ctx==null) return null
-        val subjectName = Type.from(ctx.type()).name
-        val args = ArrayList<Any?>()
-        for(arg in ctx.expression())
-            args.add(visit(arg)?.get?.invoke())
-
-        val method = methods[subjectName] ?: throw MethodNotFoundException(subjectName,
-            ctx.start.line, ctx.stop.line)
-        val value = method.call(args)
-
-        return Value({ value })
-    }
 }

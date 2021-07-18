@@ -1,5 +1,5 @@
 method main() {
-    print("My super ");
+    printq("My super ");
     println("program");
 }
 

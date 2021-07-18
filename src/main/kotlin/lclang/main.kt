@@ -54,7 +54,7 @@ fun main(args: Array<String>) {
     val parser = lclangParser(tokens)
     val tree = parser.file()
 
-    val eval = LCFileVisitor()
+    val eval = LCFileVisitor(executeFile.path.toString())
     eval.visit(tree)
 }
 

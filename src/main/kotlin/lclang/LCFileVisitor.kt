@@ -2,11 +2,14 @@ package lclang
 
 import lclang.methods.Method
 
-class LCFileVisitor: LCContextVisitor() {
+class LCFileVisitor(
+    val path: String
+): LCContextVisitor() {
     val classes = HashMap<String, lclangParser.ClassExprContext>()
     val components = HashMap<String, lclangParser.ComponentContext>()
 
     init {
+        fileVisitor = this
         methods["println"] = object: Method(listOf(), Type("any")) {
             override fun call(args: List<Any?>): Any? {
                 println(args[0])
