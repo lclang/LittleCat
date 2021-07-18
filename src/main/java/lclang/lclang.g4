@@ -21,8 +21,8 @@ access: '.' expression;
 stmt: (block|expression ';');
 block: '{' stmt* '}';
 
-component: 'component' type '{' (method+classExpr)* '}';
-classExpr: 'class' (method+field)*;
+component: 'component' type '{' (method|classExpr)* '}';
+classExpr: 'class' (method|field)*;
 field: ID '=' expression;
 
 arg: type? ID;
