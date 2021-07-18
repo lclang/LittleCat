@@ -5,7 +5,7 @@ ID: [A-z]+;
 STRING: '"'(.+?)'"';
 NUMBER: [0-9]+;
 
-file: use* global* (stmt+method+component+classExpr)*;
+file: use* global* (stmt|method|component|classExpr)*;
 type: ID ('\\' type)*;
 
 expression: (returnExpr|call|ID|value) arrayAccess* operation?;
