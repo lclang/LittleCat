@@ -2,7 +2,6 @@ package lclang
 
 import lclang.methods.Method
 import lclang.methods.VisitorMethod
-import sun.reflect.generics.visitor.Visitor
 
 open class LCBaseVisitor: lclangBaseVisitor<Any?>() {
     val methods = HashMap<String, Method>()
@@ -12,6 +11,16 @@ open class LCBaseVisitor: lclangBaseVisitor<Any?>() {
             visit(stmt)
 
         return null
+    }
+
+    override fun visitValue(ctx: lclangParser.ValueContext?): Any? {
+        if(ctx==null) return null
+        if(ctx.STRING()!=null){
+            val string = ctx.STRING().text
+            return string.substring(1, string.length-1)
+        }
+
+        return super.visitValue(ctx)
     }
 
     override fun visitStmt(ctx: lclangParser.StmtContext?): Any? {

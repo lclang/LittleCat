@@ -9,7 +9,7 @@ class LCFileVisitor: LCBaseVisitor() {
     init {
         methods["println"] = object: Method(listOf(), Type("any")) {
             override fun call(args: List<Any?>): Any? {
-                println(args)
+                println(args[0])
 
                 return null
             }
