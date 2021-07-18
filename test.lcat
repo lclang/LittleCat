@@ -1,6 +1,7 @@
 method main() {
     print("My super ");
     println("program");
+    println(readLine());
 }
 
 main();
