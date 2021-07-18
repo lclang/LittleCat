@@ -11,7 +11,7 @@ type: ID ('\\' type)*;
 
 expression: (returnExpr|call|variable|value) arrayAccess* operation?;
 value: STRING|LONG|INTEGER;
-call: type '(' expression (',' expression)* ')'|'()';
+call: type ('(' expression (',' expression)* ')'|'()');
 returnExpr: 'return' expression?;
 arrayAccess: '[' expression ']';
 variable: ID;
