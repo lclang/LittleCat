@@ -19,7 +19,7 @@ open class LCContextVisitor(parent: LCContextVisitor? = null, importVars: Boolea
 
         return Value({
             if(!variables.containsKey(variableName))
-                throw VariableNotFoundException(variableName)
+                throw VariableNotFoundException(variableName, ctx.start.line, ctx.start.startIndex)
 
             return@Value variables[variableName]!!.get()
         })
