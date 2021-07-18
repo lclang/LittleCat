@@ -54,8 +54,10 @@ fun main(args: Array<String>) {
     val parser = lclangParser(tokens)
     val tree = parser.file()
 
-    val eval = LCBaseVisitor()
+    val eval = LCFileVisitor()
     eval.visit(tree)
+
+    println(eval.classes)
 }
 
 private fun read(file: File): String {
