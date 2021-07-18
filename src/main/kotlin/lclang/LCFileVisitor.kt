@@ -23,7 +23,7 @@ class LCFileVisitor: LCContextVisitor() {
         }
     }
 
-    override fun visitFile(ctx: lclangParser.FileContext?): Any? {
+    override fun visitFile(ctx: lclangParser.FileContext?): Value? {
         if(ctx===null) return null
         for(classExpr in ctx.classExpr())
             classes[classExpr.ID().text] = classExpr

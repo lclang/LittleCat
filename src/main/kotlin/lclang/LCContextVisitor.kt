@@ -4,25 +4,28 @@ import lclang.exceptions.VariableNotFoundException
 import lclang.methods.VisitorMethod
 
 open class LCContextVisitor(parent: LCContextVisitor? = null, importVars: Boolean = false): LCBaseVisitor() {
-    val variables = HashMap<String, Any?>()
+    val variables = HashMap<String, Value?>()
     init {
         if(parent!=null) {
             variables.putAll(parent.variables)
             if(importVars) methods.putAll(parent.methods)
         }
 
-        variables["test"] = "test"
+        variables["test"] = Value({ return@Value "" })
     }
 
-    override fun visitVariable(ctx: lclangParser.VariableContext?): Any? {
+    override fun visitVariable(ctx: lclangParser.VariableContext?): Value? {
         val variableName = ctx!!.ID().text
-        if(!variables.containsKey(variableName))
-            throw VariableNotFoundException(variableName)
 
-        return variables[variableName]
+        return Value({
+            if(!variables.containsKey(variableName))
+                throw VariableNotFoundException(variableName)
+
+            return@Value variables[variableName]!!.get()
+        })
     }
 
-    override fun visitMethod(ctx: lclangParser.MethodContext?): Any? {
+    override fun visitMethod(ctx: lclangParser.MethodContext?): Value? {
         if(ctx==null) return null
 
         methods[ctx.ID().text] = VisitorMethod(ctx, this)
