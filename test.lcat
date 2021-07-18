@@ -1,7 +1,9 @@
 println("123");
-test();
+    test();
 
-
+method test() {
+    println("123");
+}
 
 class Test {
 
