@@ -3,13 +3,14 @@ WS : ([ \t\r\n])+ -> skip;
 FUNCTION: ':'|'method';
 ID: [A-z]+;
 STRING: '"'(.+?)'"';
-NUMBER: [0-9]+;
+LONG: [0-9]+ 'L';
+INTEGER: [0-9]+;
 
 file: use* global* (stmt|method|component|classExpr)*;
 type: ID ('\\' type)*;
 
 expression: (returnExpr|call|ID|value) arrayAccess* operation?;
-value: STRING|NUMBER;
+value: STRING|LONG|INTEGER;
 call: type '(' expression (',' expression)* ')'|'()';
 returnExpr: 'return' expression?;
 arrayAccess: '[' expression ']';
