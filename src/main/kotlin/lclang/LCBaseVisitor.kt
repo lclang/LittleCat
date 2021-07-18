@@ -15,12 +15,15 @@ open class LCBaseVisitor: lclangBaseVisitor<Any?>() {
 
     override fun visitValue(ctx: lclangParser.ValueContext?): Any? {
         if(ctx==null) return null
-        if(ctx.STRING()!=null){
-            val string = ctx.STRING().text
-            return string.substring(1, string.length-1)
+        return when {
+            ctx.STRING()!=null -> {
+                val string = ctx.STRING().text
+                string.substring(1, string.length-1)
+            }
+            ctx.INTEGER()!=null -> ctx.INTEGER().text.toInt()
+            ctx.LONG()!=null -> ctx.LONG().text.toInt()
+            else -> throw Exception()
         }
-
-        return super.visitValue(ctx)
     }
 
     override fun visitStmt(ctx: lclangParser.StmtContext?): Any? {
