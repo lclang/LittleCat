@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+    id 'antlr'
+    id 'org.jetbrains.kotlin.jvm' version '1.5.10'
+}
+
+sourceSets.main.java.srcDirs 'src/main/gen'
+
+group 'lclang'
+version '0.1'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    antlr "org.antlr:antlr4:4.9.1"
+    implementation 'commons-cli:commons-cli:1.4'
+    implementation 'com.github.albfernandez:juniversalchardet:2.4.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
