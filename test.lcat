@@ -1,4 +1,4 @@
-println("Hello, world!");
+println("Test");
 
 class Test {
 
