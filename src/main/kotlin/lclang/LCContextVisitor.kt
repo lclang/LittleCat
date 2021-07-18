@@ -3,12 +3,12 @@ package lclang
 import lclang.exceptions.VariableNotFoundException
 import lclang.methods.VisitorMethod
 
-open class LCContextVisitor(parent: LCContextVisitor? = null): LCBaseVisitor() {
+open class LCContextVisitor(parent: LCContextVisitor? = null, importVars: Boolean = false): LCBaseVisitor() {
     val variables = HashMap<String, Any?>()
     init {
         if(parent!=null) {
             variables.putAll(parent.variables)
-            methods.putAll(parent.methods)
+            if(importVars) methods.putAll(parent.methods)
         }
 
         variables["test"] = "test"
