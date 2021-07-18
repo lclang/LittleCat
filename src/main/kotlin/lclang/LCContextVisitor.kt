@@ -7,8 +7,8 @@ open class LCContextVisitor(parent: LCContextVisitor? = null, importVars: Boolea
     val variables = HashMap<String, Value?>()
     init {
         if(parent!=null) {
-            variables.putAll(parent.variables)
-            if(importVars) methods.putAll(parent.methods)
+            if(importVars) variables.putAll(parent.variables)
+            methods.putAll(parent.methods)
         }
 
         variables["test"] = Value({ return@Value "" })

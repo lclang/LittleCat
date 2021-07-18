@@ -1,5 +1,6 @@
 package lclang
 
+import lclang.exceptions.MethodNotFoundException
 import lclang.methods.Method
 
 open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
@@ -7,7 +8,7 @@ open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
 
     override fun visitBlock(ctx: lclangParser.BlockContext?): Value? {
         for(stmt in ctx!!.stmt())
-            visit(stmt)
+            visit(stmt)?.let { it.get() }
 
         return null
     }
@@ -28,19 +29,21 @@ open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
     }
 
     override fun visitExpression(ctx: lclangParser.ExpressionContext?): Value? {
-        return visit(ctx!!.children[0])
+        val value = visit(ctx!!.children[0])?.get
+        return Value({ value })
     }
 
     override fun visitCall(ctx: lclangParser.CallContext?): Value? {
-        return Value({
-            if(ctx==null) return@Value null
-            val subjectName = Type.from(ctx.type()).name
-            val args = ArrayList<Value?>()
-            for(arg in ctx.expression())
-                args.add(visit(arg))
+        if(ctx==null) return null
+        val subjectName = Type.from(ctx.type()).name
+        val args = ArrayList<Value?>()
+        for(arg in ctx.expression())
+            args.add(visit(arg))
 
-            val method = methods[subjectName] ?: throw Exception("Method $subjectName not found")
-            return@Value method.call(args)
-        })
+        val method = methods[subjectName] ?: throw MethodNotFoundException(subjectName,
+            ctx.start.line, ctx.stop.line)
+        val value = method.call(args)
+
+        return Value({ value })
     }
 }

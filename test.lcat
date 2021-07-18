@@ -1,8 +1,7 @@
-test("123");
+println("123");
+test();
 
-method test(string text) {
-println(text);
-}
+
 
 class Test {
 
