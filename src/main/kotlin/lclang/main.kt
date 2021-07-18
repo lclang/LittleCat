@@ -1,5 +1,6 @@
 package lclang
 
+import lclang.libs.std.StdLibrary
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import org.apache.commons.cli.*
@@ -56,7 +57,9 @@ fun main(args: Array<String>) {
     val tree = parser.file()
 
     try {
-        val eval = LCFileVisitor(executeFile.path.toString())
+        val eval = LCFileVisitor(executeFile.path.toString()).apply {
+            libraries.add(StdLibrary())
+        }
         eval.visit(tree)
     }catch (e: Exception){
         println("\u001B[31m"+e.message)

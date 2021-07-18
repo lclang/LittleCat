@@ -1,4 +1,7 @@
 package lclang.libs
 
-interface Library {
+import lclang.methods.Method
+
+abstract class Library {
+    val methods = HashMap<String, Method>()
 }
