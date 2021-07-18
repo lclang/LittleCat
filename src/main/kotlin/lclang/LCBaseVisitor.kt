@@ -30,7 +30,8 @@ open class LCBaseVisitor: lclangBaseVisitor<Any?>() {
 
     override fun visitExpression(ctx: lclangParser.ExpressionContext?): Any? {
         val expressionValue = visit(ctx!!.children[0])
-        //TODO
+
+
         return expressionValue
     }
 

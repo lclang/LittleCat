@@ -2,7 +2,7 @@ package lclang
 
 import lclang.methods.Method
 
-class LCFileVisitor: LCBaseVisitor() {
+class LCFileVisitor: LCContextVisitor() {
     val classes = HashMap<String, lclangParser.ClassExprContext>()
     val components = HashMap<String, lclangParser.ComponentContext>()
 

@@ -9,11 +9,12 @@ INTEGER: [0-9]+;
 file: use* global* (stmt|method|component|classExpr)*;
 type: ID ('\\' type)*;
 
-expression: (returnExpr|call|ID|value) arrayAccess* operation?;
+expression: (returnExpr|call|variable|value) arrayAccess* operation?;
 value: STRING|LONG|INTEGER;
 call: type '(' expression (',' expression)* ')'|'()';
 returnExpr: 'return' expression?;
 arrayAccess: '[' expression ']';
+variable: ID;
 
 operation: access|set;
 set: '=' expression;
