@@ -1,5 +1,7 @@
 method main() {
     print("My super ");
+    printError("Error!");
+    exit(1);
     println("program");
 }
 
