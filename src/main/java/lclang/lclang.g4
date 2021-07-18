@@ -1,7 +1,7 @@
 grammar lclang;
 WS : ([ \t\r\n])+ -> skip;
 METHOD: 'method';
-ID: [A-z]+;
+ID: [A-Za-z-]+;
 STRING: '"'(.+?)'"';
 LONG: [0-9]+ 'L';
 INTEGER: [0-9]+;
