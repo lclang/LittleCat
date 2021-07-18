@@ -56,8 +56,6 @@ fun main(args: Array<String>) {
 
     val eval = LCFileVisitor()
     eval.visit(tree)
-
-    println(eval.classes)
 }
 
 private fun read(file: File): String {

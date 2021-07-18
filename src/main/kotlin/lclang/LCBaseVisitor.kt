@@ -1,7 +1,11 @@
 package lclang
 
+import lclang.methods.Method
+import lclang.methods.VisitorMethod
+import sun.reflect.generics.visitor.Visitor
+
 open class LCBaseVisitor: lclangBaseVisitor<Any?>() {
-    val methods = ArrayList<lclangParser.MethodContext>()
+    val methods = HashMap<String, Method>()
 
     override fun visitBlock(ctx: lclangParser.BlockContext?): Any? {
         for(stmt in ctx!!.stmt())
@@ -21,7 +25,20 @@ open class LCBaseVisitor: lclangBaseVisitor<Any?>() {
     }
 
     override fun visitMethod(ctx: lclangParser.MethodContext?): Any? {
-        methods.add(ctx!!)
+        if(ctx==null) return null
+
+        methods[ctx.ID().text] = VisitorMethod(ctx)
         return null
+    }
+
+    override fun visitCall(ctx: lclangParser.CallContext?): Any? {
+        if(ctx==null) return null
+        val subjectName = Type.from(ctx.type()).name
+        val args = ArrayList<Any?>()
+        for(arg in ctx.expression())
+            args.add(visit(arg))
+
+        val method = methods[subjectName] ?: throw Exception("Method $subjectName not found")
+        return method.call(args)
     }
 }
