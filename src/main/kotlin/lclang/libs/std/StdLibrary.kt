@@ -15,6 +15,7 @@ class StdLibrary: Library() {
                 return null
             }
         }
+
         methods["print"] = object: Method(listOf(Type.ANY), Type.VOID) {
             override fun call(args: List<Any?>): Any? {
                 print(args[0])
