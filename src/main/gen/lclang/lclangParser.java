@@ -19,7 +19,7 @@ public class lclangParser extends Parser {
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
-		T__17=18, T__18=19, T__19=20, WS=21, FUNCTION=22, ID=23, STRING=24, LONG=25, 
+		T__17=18, T__18=19, T__19=20, WS=21, METHOD=22, ID=23, STRING=24, LONG=25, 
 		INTEGER=26;
 	public static final int
 		RULE_file = 0, RULE_type = 1, RULE_expression = 2, RULE_value = 3, RULE_call = 4, 
@@ -40,14 +40,14 @@ public class lclangParser extends Parser {
 		return new String[] {
 			null, "'\\'", "'('", "','", "')'", "'()'", "'return'", "'['", "']'", 
 			"'='", "'.'", "';'", "'{'", "'}'", "'component'", "'class'", "'@'", "':'", 
-			"'use'", "'from'", "'global'"
+			"'use'", "'from'", "'global'", null, "'method'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, null, null, null, "WS", "FUNCTION", 
+			null, null, null, null, null, null, null, null, null, "WS", "METHOD", 
 			"ID", "STRING", "LONG", "INTEGER"
 		};
 	}
@@ -196,7 +196,7 @@ public class lclangParser extends Parser {
 			setState(62);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__5) | (1L << T__11) | (1L << T__13) | (1L << T__14) | (1L << T__15) | (1L << FUNCTION) | (1L << ID) | (1L << STRING) | (1L << LONG) | (1L << INTEGER))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__5) | (1L << T__11) | (1L << T__13) | (1L << T__14) | (1L << T__15) | (1L << METHOD) | (1L << ID) | (1L << STRING) | (1L << LONG) | (1L << INTEGER))) != 0)) {
 				{
 				setState(60);
 				_errHandler.sync(this);
@@ -213,7 +213,7 @@ public class lclangParser extends Parser {
 					}
 					break;
 				case T__15:
-				case FUNCTION:
+				case METHOD:
 					{
 					setState(57);
 					method();
@@ -1058,13 +1058,13 @@ public class lclangParser extends Parser {
 			setState(147);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__14) | (1L << T__15) | (1L << FUNCTION))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__14) | (1L << T__15) | (1L << METHOD))) != 0)) {
 				{
 				setState(145);
 				_errHandler.sync(this);
 				switch (_input.LA(1)) {
 				case T__15:
-				case FUNCTION:
+				case METHOD:
 					{
 					setState(143);
 					method();
@@ -1148,13 +1148,13 @@ public class lclangParser extends Parser {
 			setState(159);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__15) | (1L << FUNCTION) | (1L << ID))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__15) | (1L << METHOD) | (1L << ID))) != 0)) {
 				{
 				setState(157);
 				_errHandler.sync(this);
 				switch (_input.LA(1)) {
 				case T__15:
-				case FUNCTION:
+				case METHOD:
 					{
 					setState(155);
 					method();
@@ -1421,7 +1421,7 @@ public class lclangParser extends Parser {
 	}
 
 	public static class MethodContext extends ParserRuleContext {
-		public TerminalNode FUNCTION() { return getToken(lclangParser.FUNCTION, 0); }
+		public TerminalNode METHOD() { return getToken(lclangParser.METHOD, 0); }
 		public TerminalNode ID() { return getToken(lclangParser.ID, 0); }
 		public ArgsContext args() {
 			return getRuleContext(ArgsContext.class,0);
@@ -1479,7 +1479,7 @@ public class lclangParser extends Parser {
 				_la = _input.LA(1);
 			}
 			setState(196);
-			match(FUNCTION);
+			match(METHOD);
 			setState(197);
 			match(ID);
 			setState(198);

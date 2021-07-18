@@ -11,7 +11,9 @@ class VisitorMethod(methodContext: lclangParser.MethodContext): Method(
 
         return@run args
     },
-    Type.from(methodContext.type())
+    if(methodContext.type()!=null)
+        Type.from(methodContext.type())
+    else Type.VOID
 ) {
     override fun call(args: List<Any?>): Any? {
 

@@ -1,6 +1,6 @@
 test();
 
-:test {
+method test() {
 println("Test");
 }
 

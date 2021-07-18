@@ -1,6 +1,6 @@
 grammar lclang;
 WS : ([ \t\r\n])+ -> skip;
-FUNCTION: ':'|'method';
+METHOD: 'method';
 ID: [A-z]+;
 STRING: '"'(.+?)'"';
 LONG: [0-9]+ 'L';
@@ -30,7 +30,7 @@ field: ID '=' expression;
 arg: type? ID;
 args: '(' arg (',' arg)*')'|'()';
 attribute: '@' ID;
-method: attribute* FUNCTION ID args (':' type)? block;
+method: attribute* METHOD ID args (':' type)? block;
 
 //File expressions
 use: 'use' type ('from' STRING)? ';';
