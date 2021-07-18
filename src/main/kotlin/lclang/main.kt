@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.CommonTokenStream
 import org.apache.commons.cli.*
 import org.mozilla.universalchardet.UniversalDetector
 import java.io.File
+import java.lang.Exception
 import java.nio.file.Paths
 import java.util.*
 import kotlin.system.exitProcess
@@ -54,8 +55,13 @@ fun main(args: Array<String>) {
     val parser = lclangParser(tokens)
     val tree = parser.file()
 
-    val eval = LCFileVisitor(executeFile.path.toString())
-    eval.visit(tree)
+    try {
+        val eval = LCFileVisitor(executeFile.path.toString())
+        eval.visit(tree)
+    }catch (e: Exception){
+        println("\u001B[31m"+e.message)
+        exitProcess(1)
+    }
 }
 
 private fun read(file: File): String {

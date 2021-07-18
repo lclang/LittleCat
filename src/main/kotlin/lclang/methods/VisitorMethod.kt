@@ -23,7 +23,9 @@ class VisitorMethod(private val methodContext: lclangParser.MethodContext,
 
         val methodArgs = methodContext.args().arg()
         for(argNum in 0 until methodArgs.size){
-            lcContextVisitor.variables[methodArgs[argNum].ID().text] = Value({ args[argNum] })
+            lcContextVisitor.variables[methodArgs[argNum].ID().text] = Value({
+               this.args[argNum]
+            }, { args[argNum] })
         }
 
         return lcContextVisitor.visitBlock(methodContext.block())

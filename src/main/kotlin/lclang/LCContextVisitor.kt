@@ -15,14 +15,18 @@ open class LCContextVisitor(
             methods.putAll(parent.methods)
             fileVisitor = parent.fileVisitor
         }
-
-        variables["test"] = Value({ return@Value "" })
     }
 
     override fun visitVariable(ctx: lclangParser.VariableContext?): Value? {
         val variableName = ctx!!.ID().text
 
         return Value({
+            if(!variables.containsKey(variableName))
+                throw VariableNotFoundException(variableName, ctx.start.line, ctx.start.startIndex,
+                    fileVisitor?.path ?: "unknown")
+
+            return@Value variables[variableName]!!.type()
+        }, {
             if(!variables.containsKey(variableName))
                 throw VariableNotFoundException(variableName, ctx.start.line, ctx.start.startIndex,
                     fileVisitor?.path ?: "unknown")
@@ -41,14 +45,23 @@ open class LCContextVisitor(
     override fun visitCall(ctx: lclangParser.CallContext?): Value? {
         if(ctx==null) return null
         val subjectName = Type.from(ctx.type()).name
-        val args = ArrayList<Any?>()
-        for(arg in ctx.expression())
-            args.add(visit(arg)?.get?.invoke())
-
-        val method = methods[subjectName] ?: throw MethodNotFoundException(subjectName,
+        val notFoundException = MethodNotFoundException(subjectName,
             ctx.start.line, ctx.stop.line, fileVisitor?.path ?: "unknown")
+
+        val method = methods[subjectName] ?: throw notFoundException
+        if(method.args.size!=ctx.expression().size) throw notFoundException
+
+        val args = ArrayList<Any?>()
+        for(argNum in 0 until method.args.size){
+            val value = visit(ctx.expression(argNum)) ?: throw notFoundException
+            if(!method.args[argNum].isAccept(value.type()))
+                throw notFoundException
+
+            args.add(value.get())
+        }
+
         val value = method.call(args)
 
-        return Value({ value })
+        return Value({ method.returnType }, { value })
     }
 }

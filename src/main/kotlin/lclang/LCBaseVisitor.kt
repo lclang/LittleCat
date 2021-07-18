@@ -15,21 +15,24 @@ open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
 
     override fun visitValue(ctx: lclangParser.ValueContext?): Value? {
         if(ctx==null) return null
-        return Value({ return@Value when {
-            ctx.STRING()!=null -> ctx.STRING().text.substring(1)
-                .substringBeforeLast('"')
-            ctx.INTEGER()!=null -> ctx.INTEGER().text.toInt()
-            ctx.LONG()!=null -> ctx.LONG().text.substringBeforeLast('L').toLong()
+        return when {
+            ctx.STRING()!=null -> Value({ Type.STRING }, { ctx.STRING().text.substring(1)
+                .substringBeforeLast('"')})
+            ctx.INTEGER()!=null -> Value({ Type.INT }, { ctx.INTEGER().text.toInt() })
+            ctx.LONG()!=null -> Value({ Type.LONG }, { ctx.LONG().text
+                .substringBeforeLast('L').toLong()})
             else -> throw Exception()
-        }})
+        }
     }
 
     override fun visitStmt(ctx: lclangParser.StmtContext?): Value? {
-        return visit(ctx!!.children[0])
+        val value = visit(ctx!!.children[0])
+        value?.get?.invoke()
+        return value
     }
 
     override fun visitExpression(ctx: lclangParser.ExpressionContext?): Value? {
-        val value = visit(ctx!!.children[0])?.get?.invoke()
-        return Value({ value })
+        val value = visit(ctx!!.children[0])!!
+        return Value({ value.type() }, { value.get.invoke() })
     }
 }

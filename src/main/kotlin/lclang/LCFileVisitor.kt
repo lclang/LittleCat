@@ -10,14 +10,14 @@ class LCFileVisitor(
 
     init {
         fileVisitor = this
-        methods["println"] = object: Method(listOf(), Type("any")) {
+        methods["println"] = object: Method(listOf(Type.ANY), Type.VOID) {
             override fun call(args: List<Any?>): Any? {
                 println(args[0])
 
                 return null
             }
         }
-        methods["print"] = object: Method(listOf(), Type("any")) {
+        methods["print"] = object: Method(listOf(Type.ANY), Type.VOID) {
             override fun call(args: List<Any?>): Any? {
                 print(args[0])
 
