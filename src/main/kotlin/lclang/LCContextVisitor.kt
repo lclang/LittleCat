@@ -1,5 +1,6 @@
 package lclang
 
+import lclang.exceptions.VariableNotFoundException
 import lclang.methods.VisitorMethod
 
 open class LCContextVisitor(parent: LCContextVisitor? = null): LCBaseVisitor() {
@@ -16,7 +17,7 @@ open class LCContextVisitor(parent: LCContextVisitor? = null): LCBaseVisitor() {
     override fun visitVariable(ctx: lclangParser.VariableContext?): Any? {
         val variableName = ctx!!.ID().text
         if(!variables.containsKey(variableName))
-            throw Exception("Variable $variableName not found")
+            throw VariableNotFoundException(variableName)
 
         return variables[variableName]
     }
