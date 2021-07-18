@@ -43,5 +43,11 @@ class StdLibrary: Library() {
             }
         }
 
+        methods["time"] = object: Method(listOf(), Type.VOID) {
+            override fun call(args: List<Any?>): Any? {
+                return System.currentTimeMillis() / 1000
+            }
+        }
+
     }
 }

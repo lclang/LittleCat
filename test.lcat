@@ -1,4 +1,6 @@
 method main() {
+    print("Current time: ");
+    println(time());
     print("My super ");
     printError("Error!");
     exit(1);
