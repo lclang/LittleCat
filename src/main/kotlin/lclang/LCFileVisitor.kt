@@ -29,6 +29,7 @@ class LCFileVisitor(
 
         for(library in libraries){
             methods.putAll(library.methods)
+            globals.putAll(library.globals)
         }
 
         for(global in ctx.global())
