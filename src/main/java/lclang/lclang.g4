@@ -34,4 +34,4 @@ method: attribute* METHOD ID args (':' type)? block;
 
 //File expressions
 use: 'use' type ('from' STRING)? ';';
-global: 'global' ID '=' value;
+global: 'global' ID '=' value ';';

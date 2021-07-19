@@ -1,8 +1,10 @@
+global TEST = "error!";
+
 method main() {
     print("Current time: ");
     println(time());
     print("My super ");
-    printError("Error!");
+    printError(TEST);
     exit(1);
     println("program");
     println(readLine());
