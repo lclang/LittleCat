@@ -21,8 +21,10 @@ open class LCContextVisitor(
         val variableName = ctx!!.ID().text
 
         return variables[variableName]?: fileVisitor?.globals?.get(variableName) ?:
-        throw VariableNotFoundException(variableName,
-            ctx.start.line, ctx.stop.line, fileVisitor?.path?: "unknown")
+            Value({ Type.ANY }, {
+                throw VariableNotFoundException(variableName,
+                    ctx.start.line, ctx.stop.line, fileVisitor?.path?: "unknown")
+            }, { variables[variableName] = it })
     }
 
     override fun visitMethod(ctx: lclangParser.MethodContext?): Value? {
@@ -53,5 +55,18 @@ open class LCContextVisitor(
         val value = method.call(args)
 
         return Value({ method.returnType }, { value })
+    }
+
+    override fun visitExpression(ctx: lclangParser.ExpressionContext?): Value? {
+        val value =  super.visitExpression(ctx)
+        val operation = ctx?.operation()
+        if(operation?.set()!=null){
+            val expressionValue = visitExpression(operation.set().expression())
+            value!!.set(expressionValue)
+
+            return expressionValue
+        }
+
+        return value
     }
 }

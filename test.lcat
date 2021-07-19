@@ -3,7 +3,9 @@ global TEST = "error!";
 method main() {
     print("Current time: ");
     println(time());
-    print("My super ");
+
+    super = "My super ";
+    print(super);
     printError(TEST);
     exit(1);
     println("program");

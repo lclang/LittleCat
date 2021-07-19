@@ -32,7 +32,6 @@ open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
     }
 
     override fun visitExpression(ctx: lclangParser.ExpressionContext?): Value? {
-        val value = visit(ctx!!.children[0])!!
-        return Value({ value.type() }, { value.get.invoke() })
+        return visit(ctx!!.children[0])!!
     }
 }
