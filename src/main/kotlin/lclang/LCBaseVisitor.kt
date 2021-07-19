@@ -37,7 +37,7 @@ open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
 
     override fun visitArray(ctx: lclangParser.ArrayContext?): Value? {
         return Value({ Type.ARRAY }, {
-            val array = ArrayList<Value>()
+            val array = ValueList()
             for(expression in ctx!!.expression()){
                 array.add(visitExpression(expression)!!)
             }
@@ -57,12 +57,18 @@ open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
         var value = visit(ctx!!.children[0])!!
         for(access in ctx.arrayAccess()){
             val gettable = value.get()
-            value = if(gettable is List<*>) {
-                val getValue = visitExpression(access.expression())!!
-                if(getValue.type().isAccept(Type.INT))
-                    gettable[getValue.get() as Int] as Value
-                else throw Exception("error name (array get type not int)")
+            value = if(gettable is ValueList) {
+                if(access.expression()!=null) {
+                    val getValue = visitExpression(access.expression())!!
+                    if (getValue.type().isAccept(Type.INT))
+                        gettable[getValue.get() as Int]
+                    else throw Exception("error name (array get type not int)")
+                }else Value({ Type.ANY }, { gettable.last() }, {
+                    gettable.add(it!!)
+                })
             }else if(gettable is Map<*, *>){
+                if(access.expression()==null) throw Exception("damn")
+
                 val getValue = visitExpression(access.expression())!!
                 gettable[getValue.get()] as Value
             }else throw Exception("error name (array get)")

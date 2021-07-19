@@ -1,5 +1,5 @@
 grammar lclang;
-WS : ([ \t\r\n])+ -> skip;
+WS : ('//'(.+?)[\n\r]|'/*'(.+?)'*/'|([ \t\r\n])+) -> skip;
 METHOD: 'method';
 ID: [A-Za-z-]+;
 STRING: '"'(.+?)'"';
@@ -14,7 +14,7 @@ value: STRING|LONG|INTEGER;
 call: type ('(' expression (',' expression)* ')'|'()');
 returnExpr: 'return' expression?;
 array: '[' expression (',' expression)* ']';
-arrayAccess: '[' expression ']';
+arrayAccess: '[' expression ']'|'[]';
 variable: ID;
 typeGet: '*' expression;
 

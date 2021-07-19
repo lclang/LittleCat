@@ -76,7 +76,7 @@ fun main(args: Array<String>) {
         }
         eval.visit(tree)
     }catch (e: Exception){
-        println("\u001B[31m"+e.message)
+        println("\u001B[31m"+e::class.simpleName+": "+e.message)
         exitProcess(1)
     }
 }
