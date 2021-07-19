@@ -48,13 +48,5 @@ class StdLibrary: Library() {
                 return System.currentTimeMillis() / 1000
             }
         }
-
-        methods["type"] = object: Method(listOf(Type.ANY), Type.VOID) {
-            override fun call(args: List<Any?>): String? {
-                return args[0]?.javaClass?.simpleName
-            }
-        }
-
-
     }
 }

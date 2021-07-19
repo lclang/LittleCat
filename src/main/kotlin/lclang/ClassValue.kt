@@ -1,0 +1,4 @@
+package lclang
+
+class ClassValue {
+}

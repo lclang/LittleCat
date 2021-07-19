@@ -13,6 +13,11 @@ open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
         return null
     }
 
+    override fun visitTypeGet(ctx: lclangParser.TypeGetContext?): Value? {
+        val type = visitExpression(ctx!!.expression())!!.type()
+        return Value({ Type.STRING }, { type.name })
+    }
+
     override fun visitValue(ctx: lclangParser.ValueContext?): Value? {
         if(ctx==null) return null
         return when {
