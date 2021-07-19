@@ -1,8 +1,10 @@
 global TEST = "error!";
 
 method main() {
+    [time] = [time()];
+
     print("Current time: ");
-    println([time()][0]);
+    println([time][0]);
     println(*TEST);
     print(super = "My super ");
     printError(TEST);

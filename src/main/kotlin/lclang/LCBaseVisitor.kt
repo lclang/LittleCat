@@ -43,6 +43,13 @@ open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
             }
 
             return@Value array
+        }, {
+            val array = it!!.get()
+            if(array !is List<*>) throw Exception("Is not list")
+
+            for((i, expression) in ctx!!.expression().withIndex()){
+                visitExpression(expression)!!.set(array[i] as Value)
+            }
         })
     }
 
