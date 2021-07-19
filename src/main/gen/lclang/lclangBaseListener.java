@@ -88,6 +88,18 @@ public class lclangBaseListener implements lclangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterArray(lclangParser.ArrayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArray(lclangParser.ArrayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterArrayAccess(lclangParser.ArrayAccessContext ctx) { }
 	/**
 	 * {@inheritDoc}

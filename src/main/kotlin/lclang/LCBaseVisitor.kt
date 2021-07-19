@@ -1,6 +1,5 @@
 package lclang
 
-import lclang.exceptions.MethodNotFoundException
 import lclang.methods.Method
 
 open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
@@ -36,7 +35,32 @@ open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
         return value
     }
 
+    override fun visitArray(ctx: lclangParser.ArrayContext?): Value? {
+        return Value({ Type.ARRAY }, {
+            val array = ArrayList<Value>()
+            for(expression in ctx!!.expression()){
+                array.add(visitExpression(expression)!!)
+            }
+
+            return@Value array
+        })
+    }
+
     override fun visitExpression(ctx: lclangParser.ExpressionContext?): Value? {
-        return visit(ctx!!.children[0])!!
+        var value = visit(ctx!!.children[0])!!
+        for(access in ctx.arrayAccess()){
+            val gettable = value.get()
+            value = if(gettable is List<*>) {
+                val getValue = visitExpression(access.expression())!!
+                if(getValue.type().isAccept(Type.INT))
+                    gettable[getValue.get() as Int] as Value
+                else throw Exception("error name (array get type not int)")
+            }else if(gettable is Map<*, *>){
+                val getValue = visitExpression(access.expression())!!
+                gettable[getValue.get()] as Value
+            }else throw Exception("error name (array get)")
+        }
+
+        return value
     }
 }

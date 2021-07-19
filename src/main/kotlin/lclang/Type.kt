@@ -18,6 +18,7 @@ class Type(
         val INT = Type("int", true)
         val LONG = Type("long", true)
         val STRING = Type("string", true)
+        val ARRAY = Type("array", true)
 
         fun from(ctx: lclangParser.TypeContext): Type {
             var stringName = ctx.ID().text
@@ -30,6 +31,7 @@ class Type(
                 "int" -> INT
                 "long" -> LONG
                 "string" -> STRING
+                "array" -> ARRAY
                 else -> Type(stringName)
             }
         }
