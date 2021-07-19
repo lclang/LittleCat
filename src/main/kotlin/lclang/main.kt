@@ -1,14 +1,17 @@
 package lclang
 
+import lclang.libs.Library
 import lclang.libs.std.StdLibrary
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import org.apache.commons.cli.*
 import org.mozilla.universalchardet.UniversalDetector
 import java.io.File
-import java.lang.Exception
+import java.net.URL
+import java.net.URLClassLoader
 import java.nio.file.Paths
 import java.util.*
+import java.util.jar.JarFile
 import kotlin.system.exitProcess
 
 
@@ -59,6 +62,17 @@ fun main(args: Array<String>) {
     try {
         val eval = LCFileVisitor(executeFile.path.toString()).apply {
             libraries.add(StdLibrary())
+
+            val libDir = File(System.getProperty("libsPath", "./libs"))
+            if (libDir.exists() || libDir.mkdir()) {
+                val files = libDir.listFiles()
+                if(files != null) {
+                    for (libJar in files) {
+                        if(libJar.name.endsWith(".jar"))
+                            loadJarLibrary(this, libJar)
+                    }
+                }
+            }
         }
         eval.visit(tree)
     }catch (e: Exception){
@@ -79,5 +93,23 @@ private fun read(file: File): String {
                 substring(1)
             }else this
         }
+    }
+}
+
+private fun loadJarLibrary(executor: LCFileVisitor, file: File) {
+    val jarFile = JarFile(file)
+    val e = jarFile.entries()
+    val urls = arrayOf(URL("jar:file:" + file.path + "!/"))
+    val cl = URLClassLoader.newInstance(urls)
+    while (e.hasMoreElements()) {
+        val je = e.nextElement()
+        if (je.isDirectory || !je.name.endsWith(".class")) {
+            continue
+        }
+
+        val className = je.name.substring(0, je.name.length - 6)
+            .replace('/', '.')
+        val c = cl.loadClass(className)
+        if (Library::class.java.isAssignableFrom(c)) executor.libraries.add(c.newInstance() as Library)
     }
 }
