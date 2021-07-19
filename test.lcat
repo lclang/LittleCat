@@ -4,8 +4,7 @@ method main() {
     print("Current time: ");
     println(time());
 
-    super = "My super ";
-    print(super);
+    print(super = "My super ");
     printError(TEST);
     exit(1);
     println("program");
