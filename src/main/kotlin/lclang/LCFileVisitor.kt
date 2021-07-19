@@ -9,6 +9,7 @@ class LCFileVisitor(
     val classes = HashMap<String, lclangParser.ClassExprContext>()
     val components = HashMap<String, lclangParser.ComponentContext>()
     val libraries = ArrayList<Library>()
+    val globals = HashMap<String, Value?>()
 
     init {
         fileVisitor = this
@@ -16,7 +17,7 @@ class LCFileVisitor(
 
     override fun visitGlobal(ctx: lclangParser.GlobalContext?): Value? {
         if(ctx==null) return null
-        variables[ctx.ID().text] = visitValue(ctx.value())
+        globals[ctx.ID().text] = visitValue(ctx.value())
 
         return null
     }
@@ -29,6 +30,9 @@ class LCFileVisitor(
         for(library in libraries){
             methods.putAll(library.methods)
         }
+
+        for(global in ctx.global())
+            visitGlobal(global)
 
         for(method in ctx.method())
             visitMethod(method)
