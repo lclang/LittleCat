@@ -12,9 +12,10 @@ method main() {
     println(asString(large));
     println(asString(data));
 
-    print("Current time: ");
+    print(test());
     println([time][0]);
     println(data[]);
+
     printError(TEST);
     exit(1);
 
@@ -23,7 +24,7 @@ method main() {
 }
 
 method test(): string {
-    return "test";
+    return "Current time: ";
 }
 
 main();

@@ -28,6 +28,12 @@ class VisitorMethod(private val methodContext: lclangParser.MethodContext,
             }, { args[argNum] })
         }
 
-        return lcContextVisitor.visitBlock(methodContext.block())
+        val value = lcContextVisitor.visitBlock(methodContext.block())
+        val valueType = value?.type?.invoke()
+        if(valueType!=null&&!returnType.isAccept(valueType)||
+                valueType==null&&returnType!=Type.VOID)
+            throw Exception("invalid type of return")
+
+        return value?.get?.invoke()
     }
 }

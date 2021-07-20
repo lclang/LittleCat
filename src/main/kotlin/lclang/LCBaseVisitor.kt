@@ -7,7 +7,11 @@ open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
 
     override fun visitBlock(ctx: lclangParser.BlockContext?): Value? {
         for(stmt in ctx!!.stmt())
-            visit(stmt)?.let { it.get() }
+            visit(stmt)?.let {
+                if(it.isReturn)
+                    return@visitBlock it
+                else it.get()
+            }
 
         return null
     }
@@ -51,6 +55,12 @@ open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
                 visitExpression(expression)!!.set(array[i] as Value)
             }
         })
+    }
+
+    override fun visitReturnExpr(ctx: lclangParser.ReturnExprContext?): Value? {
+        return ctx?.expression()?.let { visitExpression(it) }?.apply {
+            isReturn = true
+        } ?: Value({ Type.VOID }, { null }, isReturn = true)
     }
 
     override fun visitExpression(ctx: lclangParser.ExpressionContext?): Value? {

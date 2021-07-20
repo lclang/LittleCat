@@ -1,4 +1,5 @@
 package lclang
 
-class ClassValue {
+class ClassValue(name: String): Value({Type(name)}, { null }) {
+
 }
