@@ -1,6 +1,7 @@
 package lclang.libs.std
 
 import lclang.Type
+import lclang.ValueList
 import lclang.libs.Library
 import lclang.methods.Method
 import kotlin.system.exitProcess
@@ -46,6 +47,17 @@ class StdLibrary: Library() {
         methods["time"] = object: Method(listOf(), Type.VOID) {
             override fun call(args: List<Any?>): Any {
                 return System.currentTimeMillis() / 1000
+            }
+        }
+
+        methods["asString"] = object: Method(listOf(Type.ARRAY), Type.VOID) {
+            override fun call(args: List<Any?>): Any {
+                val a = args[0] as ValueList
+                var str = ""
+                for((i, el) in a.withIndex()){
+                    str += el.get().toString() + if(a.size != i+1) ", " else ""
+                }
+                return str
             }
         }
     }

@@ -1,19 +1,17 @@
 global TEST = "error!";
 
 method main() {
-    data = [time()];
-    data[] = *TEST;
-    data[] = super = "My super ";
+    data = [time(), "a", "b", "c"];
 
     //Обычный комментарий
     /*Многострочный комментарий*/
-    [time, typeTest] = data;
+    [time] = data;
 
-    println(data[]);
+    println(asString(data));
 
     print("Current time: ");
     println([time][0]);
-    println(typeTest);
+    //println(typeTest);
     print(data[]);
     printError(TEST);
     exit(1);
