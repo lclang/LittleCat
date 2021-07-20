@@ -98,6 +98,16 @@ public interface lclangListener extends ParseTreeListener {
 	 */
 	void exitVariable(lclangParser.VariableContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link lclangParser#fixedVariable}.
+	 * @param ctx the parse tree
+	 */
+	void enterFixedVariable(lclangParser.FixedVariableContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link lclangParser#fixedVariable}.
+	 * @param ctx the parse tree
+	 */
+	void exitFixedVariable(lclangParser.FixedVariableContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link lclangParser#typeGet}.
 	 * @param ctx the parse tree
 	 */

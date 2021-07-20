@@ -57,14 +57,16 @@ open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
         var value = visit(ctx!!.children[0])!!
         for(access in ctx.arrayAccess()){
             val gettable = value.get()
+            val orValue = value;
             value = if(gettable is ValueList) {
                 if(access.expression()!=null) {
                     val getValue = visitExpression(access.expression())!!
                     if (getValue.type().isAccept(Type.INT))
                         gettable[getValue.get() as Int]
                     else throw Exception("error name (array get type not int)")
-                }else Value({ Type.ANY }, { gettable.last() }, {
+                }else Value({ Type.ANY }, { gettable.last().get() }, {
                     gettable.add(it!!)
+                    orValue.set(Value({Type.ARRAY}, {gettable}, orValue.set))
                 })
             }else if(gettable is Map<*, *>){
                 if(access.expression()==null) throw Exception("damn")

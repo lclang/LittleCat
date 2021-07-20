@@ -65,6 +65,12 @@ public interface lclangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVariable(lclangParser.VariableContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link lclangParser#fixedVariable}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFixedVariable(lclangParser.FixedVariableContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link lclangParser#typeGet}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
