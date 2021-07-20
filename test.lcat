@@ -13,7 +13,7 @@ method main() {
 
     print("Current time: ");
     println([time][0]);
-    //println(typeTest);
+    println(*TEST);
     print(data[]);
     printError(TEST);
     exit(1);
