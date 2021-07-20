@@ -17,6 +17,7 @@ class Type(
         val ANY = Type("any", true)
         val INT = Type("int", true)
         val LONG = Type("long", true)
+        val BOOL = Type("bool", true)
         val STRING = Type("string", true)
         val ARRAY = Type("array", true)
 
@@ -32,6 +33,7 @@ class Type(
                 "long" -> LONG
                 "string" -> STRING
                 "array" -> ARRAY
+                "bool" -> BOOL
                 else -> Type(stringName)
             }
         }

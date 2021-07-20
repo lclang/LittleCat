@@ -38,6 +38,16 @@ public interface lclangListener extends ParseTreeListener {
 	 */
 	void exitExpression(lclangParser.ExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link lclangParser#primitive}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrimitive(lclangParser.PrimitiveContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link lclangParser#primitive}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrimitive(lclangParser.PrimitiveContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link lclangParser#value}.
 	 * @param ctx the parse tree
 	 */
@@ -107,16 +117,6 @@ public interface lclangListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFixedVariable(lclangParser.FixedVariableContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link lclangParser#typeGet}.
-	 * @param ctx the parse tree
-	 */
-	void enterTypeGet(lclangParser.TypeGetContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link lclangParser#typeGet}.
-	 * @param ctx the parse tree
-	 */
-	void exitTypeGet(lclangParser.TypeGetContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link lclangParser#operation}.
 	 * @param ctx the parse tree

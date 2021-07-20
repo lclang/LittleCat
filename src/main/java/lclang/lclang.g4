@@ -9,8 +9,15 @@ INTEGER: [0-9]+;
 file: use* global* (stmt|method|component|classExpr)*;
 type: ID ('\\' type)*;
 
-expression: (typeGet|returnExpr|call|fixedVariable
-    |variable|value|array) arrayAccess* operation?;
+expression:
+    | typeGet='*' expression
+    | expression multiplication='*' expression
+    | expression add='+' expression
+    | primitive;
+
+primitive: (returnExpr|call|fixedVariable
+               |variable|value|array) arrayAccess* operation?;
+
 value: STRING|LONG|INTEGER;
 call: type ('(' expression (',' expression)* ')'|'()');
 returnExpr: 'return' expression?;
@@ -18,7 +25,6 @@ array: '[' expression (',' expression)* ']';
 arrayAccess: '[' expression ']'|'[]';
 variable: ID;
 fixedVariable: 'fixed' ID;
-typeGet: '*' expression;
 
 operation: access|set;
 set: '=' expression;

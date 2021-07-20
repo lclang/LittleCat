@@ -16,11 +16,6 @@ open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
         return null
     }
 
-    override fun visitTypeGet(ctx: lclangParser.TypeGetContext?): Value? {
-        val type = visitExpression(ctx!!.expression())!!.type()
-        return Value({ Type.STRING }, { type.name })
-    }
-
     override fun visitValue(ctx: lclangParser.ValueContext?): Value? {
         if(ctx==null) return null
         return when {
@@ -64,10 +59,43 @@ open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
     }
 
     override fun visitExpression(ctx: lclangParser.ExpressionContext?): Value? {
+        when {
+            ctx?.primitive()!=null -> return visitPrimitive(ctx.primitive())
+            ctx?.typeGet!=null -> {
+                val type = visitExpression(ctx.expression(0))!!.type()
+                return Value({ Type.STRING }, { type.name })
+            }
+            else -> ctx!!
+        }
+
+        val left = visitExpression(ctx.expression(0))!!.get()
+        val right = visitExpression(ctx.expression(1))!!.get()
+
+        return when {
+            ctx.multiplication!=null&&
+                    left is Number&&
+                    right is Number -> when {
+                left is Long||right is Long -> Value({Type.LONG}, {left.toLong()*right.toLong()})
+                left is Int||right is Int -> Value({Type.INT}, {left.toInt()*right.toInt()})
+                else -> throw Exception()
+            }
+            ctx.add!=null&&
+                    left is Number&&
+                    right is Number -> when {
+                left is Long||right is Long -> Value({Type.LONG}, {left.toLong()+right.toLong()})
+                left is Int||right is Int -> Value({Type.INT}, {left.toInt()+right.toInt()})
+                else -> throw Exception()
+            }
+
+            else -> throw Exception()
+        }
+    }
+
+    override fun visitPrimitive(ctx: lclangParser.PrimitiveContext?): Value? {
         var value = visit(ctx!!.children[0])!!
         for(access in ctx.arrayAccess()){
             val gettable = value.get()
-            val orValue = value;
+            val orValue = value
             value = if(gettable is ValueList) {
                 if(access.expression()!=null) {
                     val getValue = visitExpression(access.expression())!!

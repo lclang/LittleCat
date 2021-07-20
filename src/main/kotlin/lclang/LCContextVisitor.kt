@@ -59,8 +59,8 @@ open class LCContextVisitor(
         return Value({ method.returnType }, { value })
     }
 
-    override fun visitExpression(ctx: lclangParser.ExpressionContext?): Value? {
-        val value =  super.visitExpression(ctx)
+    override fun visitPrimitive(ctx: lclangParser.PrimitiveContext?): Value? {
+        val value =  super.visitPrimitive(ctx)
         val operation = ctx?.operation()
         if(operation?.set()!=null){
             val expressionValue = visitExpression(operation.set().expression())
