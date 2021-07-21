@@ -158,7 +158,9 @@ open class LCBaseVisitor : lclangBaseVisitor<Value?>() {
                         left is Int||right is Int -> Value({Type.INT}, {left.toInt()+right.toInt()})
                         else -> throw Exception()
                     }
-                else Value({ Type.STRING }, { StringClass(left.toString()+right, fileVisitor!!) })
+                else if(left is ValueList&&right is ValueList){
+                    Value({ Type.ARRAY }, { left+right })
+                }else Value({ Type.STRING }, { StringClass(left.toString()+right, fileVisitor!!) })
             }
             ctx.minus!=null&&
                     left is Number&&

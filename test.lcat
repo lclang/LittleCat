@@ -12,6 +12,7 @@ method main() {
 
     println(large);
     println(data);
+    println([123]+["test"]);
 
     println(test()+[time][0]);
     println(if true: data[] else false);

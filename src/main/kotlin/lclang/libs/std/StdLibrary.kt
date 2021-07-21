@@ -59,7 +59,8 @@ class StdLibrary: Library() {
 
         methods["printError"] = object: Method(listOf(Type.ANY), Type.VOID) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
-                error(args[0].toString())
+                println("\u001B[31m${args[0]}")
+                return null
             }
         }
 

@@ -1,1 +1,3 @@
-export = "Hello, World!";
+export = [
+123, 456
+];
