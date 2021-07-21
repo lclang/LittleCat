@@ -20,6 +20,7 @@ expression: '('expression')'
     | expression div='/' expression
     | expression add='+' expression
     | expression minus='-' expression
+    | expression pow='**' expression
     | primitive;
 
 primitive: (ifExpr|returnExpr|call|fixedVariable

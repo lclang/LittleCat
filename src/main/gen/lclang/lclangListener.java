@@ -1,4 +1,4 @@
-// Generated from D:/IdeaProjects/LittleCat/src/main/java/lclang\lclang.g4 by ANTLR 4.9.1
+// Generated from D:/LittleCat/src/main/java/lclang\lclang.g4 by ANTLR 4.9.1
 package lclang;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 

@@ -4,6 +4,7 @@ import lclang.exceptions.MethodNotFoundException
 import lclang.lang.StringClass
 import lclang.methods.Method
 import lclang.methods.VisitorMethod
+import kotlin.math.pow
 
 open class LCBaseVisitor : lclangBaseVisitor<Value?>() {
     var fileVisitor: LCFileVisitor? = null
@@ -165,6 +166,14 @@ open class LCBaseVisitor : lclangBaseVisitor<Value?>() {
                 left is Double||right is Double -> Value({Type.DOUBLE}, {left.toDouble()-right.toDouble()})
                 left is Long||right is Long -> Value({Type.LONG}, {left.toLong()-right.toLong()})
                 left is Int||right is Int -> Value({Type.INT}, {left.toInt()-right.toInt()})
+                else -> throw Exception()
+            }
+            ctx.pow!=null&&
+                    left is Number&&
+                    right is Number -> when {
+                left is Double||right is Double -> Value({Type.DOUBLE}, { left.toDouble().pow(right.toDouble())})
+                left is Long||right is Long -> Value({Type.LONG}, {left.toDouble().pow(right.toDouble())})
+                left is Int||right is Int -> Value({Type.INT}, {left.toDouble().pow(right.toDouble())})
                 else -> throw Exception()
             }
 
