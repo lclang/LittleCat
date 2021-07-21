@@ -58,18 +58,19 @@ open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
         } ?: Value({ Type.VOID }, { null }, isReturn = true)
     }
 
+    override fun visitTypeGet(ctx: lclangParser.TypeGetContext?): Value? {
+        return Value({ Type.STRING },
+            {visitExpression(ctx!!.expression())!!.type().name})
+    }
+
     override fun visitExpression(ctx: lclangParser.ExpressionContext?): Value? {
         when {
             ctx?.primitive()!=null -> return visitPrimitive(ctx.primitive())
-            ctx?.typeGet!=null -> {
-                val type = visitExpression(ctx.expression(0))!!.type()
-                return Value({ Type.STRING }, { type.name })
-            }
-            else -> ctx!!
+            else -> if(ctx==null) return null
         }
 
-        val left = visitExpression(ctx.expression(0))!!.get()
-        val right = visitExpression(ctx.expression(1))!!.get()
+        val left = visitExpression(ctx.expression(0))?.get?.let{ it() }
+        val right = visitExpression(ctx.expression(1))?.get?.let{ it() }
 
         return when {
             ctx.multiplication!=null&&

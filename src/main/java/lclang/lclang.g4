@@ -10,18 +10,18 @@ file: use* global* (stmt|method|component|classExpr)*;
 type: ID ('\\' type)*;
 
 expression:
-    | typeGet='*' expression
-    | expression multiplication='*' expression
+    expression multiplication='*' expression
     | expression add='+' expression
     | primitive;
 
 primitive: (returnExpr|call|fixedVariable
-               |variable|value|array) arrayAccess* operation?;
+               |variable|value|array|typeGet) arrayAccess* operation?;
 
 value: STRING|LONG|INTEGER;
 call: type ('(' expression (',' expression)* ')'|'()');
 returnExpr: 'return' expression?;
-array: '[' expression (',' expression)* ']';
+typeGet: '*' expression;
+array: '[' expression (',' expression)* ']'|'[]';
 arrayAccess: '[' expression ']'|'[]';
 variable: ID;
 fixedVariable: 'fixed' ID;

@@ -49,16 +49,5 @@ class StdLibrary: Library() {
                 return System.currentTimeMillis() / 1000
             }
         }
-
-        methods["asString"] = object: Method(listOf(Type.ARRAY), Type.VOID) {
-            override fun call(args: List<Any?>): Any {
-                val a = args[0] as ValueList
-                var str = ""
-                for((i, el) in a.withIndex()){
-                    str += el.get().toString() + if(a.size != i+1) ", " else ""
-                }
-                return str
-            }
-        }
     }
 }
