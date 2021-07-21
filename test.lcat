@@ -11,6 +11,7 @@ method main() {
     //Обычный комментарий
     [time] = data;
 
+    println(0xFF);
     println(large);
     println(data);
     println([123]+["test"]);

@@ -5,6 +5,7 @@ BOOL: 'true'|'false';
 ID: [A-Za-z-]+;
 STRING: '"'(.+?)'"';
 CHAR: '\''.'\'';
+HEX_LONG: '#'[1-9ABCDEF]+;
 LONG: [0-9]+ 'L';
 DOUBLE: [0-9]*'.'[0-9]+;
 INTEGER: [0-9]+;
@@ -27,7 +28,7 @@ expression: '('expression')'
 primitive: (ifExpr|returnExpr|call|fixedVariable
                |value|variable|array|typeGet) arrayAccess* operation?;
 
-value: BOOL|STRING|CHAR|DOUBLE|LONG|INTEGER;
+value: HEX_LONG|BOOL|STRING|CHAR|DOUBLE|LONG|INTEGER;
 call: type ('(' expression (',' expression)* ')'|'()');
 returnExpr: 'return' expression?;
 typeGet: '*' expression;
