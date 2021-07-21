@@ -15,7 +15,7 @@ expression:
     | expression add='+' expression
     | primitive;
 
-primitive: (returnExpr|call|fixedVariable
+primitive: (ifExpr|returnExpr|call|fixedVariable
                |value|variable|array|typeGet) arrayAccess* operation?;
 
 value: BOOL|STRING|LONG|INTEGER;
@@ -26,6 +26,7 @@ array: '[' expression (',' expression)* ']'|'[]';
 arrayAccess: '[' expression ']'|'[]';
 variable: ID;
 fixedVariable: 'fixed' ID;
+ifExpr: 'if ' condition=expression ':' ifT=stmt 'else' ifF=stmt;
 
 operation: access|set;
 set: '=' expression;

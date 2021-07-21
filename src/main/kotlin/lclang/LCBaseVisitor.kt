@@ -125,6 +125,19 @@ open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
         }
     }
 
+    override fun visitIfExpr(ctx: lclangParser.IfExprContext?): Value? {
+        val cond = visitExpression(ctx!!.condition)!!.apply {
+            if(!Type.BOOL.isAccept(type()))
+                throw Exception("Value is not bool: "+type().name)
+        }
+
+        if(cond.get()==true){
+            return visitStmt(ctx.ifT)
+        }
+
+        return visitStmt(ctx.ifF)
+    }
+
     override fun visitPrimitive(ctx: lclangParser.PrimitiveContext?): Value? {
         var value = visit(ctx!!.children[0])!!
         for(access in ctx.arrayAccess()){
