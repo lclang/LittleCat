@@ -3,7 +3,7 @@ package lclang.lang
 import lclang.*
 import lclang.methods.Method
 
-class StringClass(val string: String, parent: LCFileVisitor): LCClass("string", parent) {
+class StringClass(val string: String, parent: LCFileVisitor): LCClass("string", parent, string) {
     init {
         methods["charAt"] = object: Method(listOf(Type.INT), Type.STRING) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
@@ -15,6 +15,16 @@ class StringClass(val string: String, parent: LCFileVisitor): LCClass("string", 
                 val arr: ValueList = ValueList();
                 for (c in string) arr.add(Value(Type.CHAR, c))
                 return arr
+            }
+        }
+        methods["find"] = object: Method(listOf(Type.CHAR), Type.INT) {
+            override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
+                for ((i, c) in string.withIndex()){
+                    if(c == (args[0] as CharClass).char){
+                        return i
+                    }
+                }
+                return null
             }
         }
     }

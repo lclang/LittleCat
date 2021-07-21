@@ -6,7 +6,7 @@ import lclang.LCFileVisitor
 import lclang.Type
 import lclang.methods.Method
 
-class CharClass(val char: Char, parent: LCFileVisitor): LCClass("char", parent) {
+class CharClass(val char: Char, parent: LCFileVisitor): LCClass("char", parent, char) {
     init {
         methods["getValue"] = object: Method(listOf(), Type.INT) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {

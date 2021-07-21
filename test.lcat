@@ -11,6 +11,11 @@ method main() {
     // Char test
     println('a');
 
+
+    // println (only classes: char, string)
+    "println as class method".println();
+    't'.println();
+
     data[] = *TEST;
     //Обычный комментарий
     [time] = data;
