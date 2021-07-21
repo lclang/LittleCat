@@ -1,12 +1,8 @@
 package lclang.methods
 
-import lclang.LCContextVisitor
-import lclang.Type
-import lclang.Value
-import lclang.lclangParser
+import lclang.*
 
-class VisitorMethod(private val methodContext: lclangParser.MethodContext,
-        private val parent: LCContextVisitor): Method(
+class VisitorMethod(private val methodContext: lclangParser.MethodContext): Method(
     run {
         val args = ArrayList<Type>()
         for (arg in methodContext.args().arg())
@@ -18,8 +14,8 @@ class VisitorMethod(private val methodContext: lclangParser.MethodContext,
         Type.from(methodContext.type())
     else Type.VOID
 ) {
-    override fun call(args: List<Any?>): Any? {
-        val lcContextVisitor = LCContextVisitor(parent)
+    override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
+        val lcContextVisitor = LCContextVisitor(fileVisitor)
 
         val methodArgs = methodContext.args().arg()
         for(argNum in 0 until methodArgs.size){

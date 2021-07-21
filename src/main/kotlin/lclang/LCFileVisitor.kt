@@ -1,7 +1,6 @@
 package lclang
 
 import lclang.libs.Library
-import lclang.methods.Method
 
 class LCFileVisitor(
     val path: String

@@ -1,6 +1,7 @@
 package lclang
 
 import lclang.methods.Method
+import lclang.methods.VisitorMethod
 
 open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
     val methods = HashMap<String, Method>()
@@ -150,6 +151,13 @@ open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
         }
 
         return visitExpression(ctx.ifF)
+    }
+
+    override fun visitMethod(ctx: lclangParser.MethodContext?): Value? {
+        if(ctx==null) return null
+
+        methods[ctx.ID().text] = VisitorMethod(ctx)
+        return null
     }
 
     override fun visitPrimitive(ctx: lclangParser.PrimitiveContext?): Value? {

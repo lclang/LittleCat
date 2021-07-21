@@ -29,13 +29,6 @@ open class LCContextVisitor(
             }, { variables[variableName] = it })
     }
 
-    override fun visitMethod(ctx: lclangParser.MethodContext?): Value? {
-        if(ctx==null) return null
-
-        methods[ctx.ID().text] = VisitorMethod(ctx, this)
-        return null
-    }
-
     override fun visitCall(ctx: lclangParser.CallContext?): Value? {
         if(ctx==null) return null
         val subjectName = Type.from(ctx.type()).name
@@ -54,7 +47,7 @@ open class LCContextVisitor(
             args.add(value.get())
         }
 
-        val value = method.call(args)
+        val value = method.call(fileVisitor!!, args)
 
         return Value({ method.returnType }, { value })
     }
