@@ -1,9 +1,6 @@
 package lclang.lang
 
-import lclang.LCClass
-import lclang.LCContextVisitor
-import lclang.LCFileVisitor
-import lclang.Type
+import lclang.*
 import lclang.methods.Method
 
 class StringClass(val string: String, parent: LCFileVisitor): LCClass("string", parent) {
@@ -11,6 +8,13 @@ class StringClass(val string: String, parent: LCFileVisitor): LCClass("string", 
         methods["charAt"] = object: Method(listOf(Type.INT), Type.STRING) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
                 return string[args[0] as Int].toString()
+            }
+        }
+        methods["toArray"] = object: Method(listOf(), Type.ARRAY) {
+            override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
+                val arr: ValueList = ValueList();
+                for (c in string) arr.add(Value(Type.CHAR, c))
+                return arr
             }
         }
     }
