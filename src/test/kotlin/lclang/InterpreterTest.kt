@@ -49,7 +49,7 @@ class InterpreterTest {
             }
 
             if(needOutput!=output.toString())
-                throw Exception("Invalid output in ${file.path}")
+                throw Exception("Invalid output in ${file.path}\nOutput: " + output.toString())
         }
     }
 }

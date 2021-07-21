@@ -1,0 +1,5 @@
+println("abc".find('c'));
+println("abc".find('d'));
+--OUTPUT--
+2
+-1
