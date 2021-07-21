@@ -87,7 +87,7 @@ fun main(args: Array<String>) {
     }
 }
 
-private fun read(file: File): String {
+fun read(file: File): String {
     Scanner(file, UniversalDetector.detectCharset(file)).use {
         val value = StringBuilder()
         while (it.hasNextLine()) {

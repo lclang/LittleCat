@@ -18,7 +18,8 @@ method main() {
     println((2+2*2)/2-3);
     println("test".charAt(1));
 
-    Test().echo();
+    println(require("test1.lcat"));
+    println(Test());
     printError(TEST);
     exit(1);
 

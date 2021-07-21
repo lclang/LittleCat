@@ -1,6 +1,8 @@
 package lclang
 
 import lclang.libs.Library
+import org.antlr.v4.runtime.CharStreams
+import org.antlr.v4.runtime.CommonTokenStream
 
 class LCFileVisitor(
     val path: String
