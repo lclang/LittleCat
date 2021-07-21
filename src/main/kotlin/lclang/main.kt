@@ -61,8 +61,8 @@ fun main(args: Array<String>) {
         val lexer = lclangLexer(CharStreams.fromString(read(executeFile)))
         val tokens = CommonTokenStream(lexer)
         val parser = lclangParser(tokens)
-        parser.removeErrorListeners()
-        parser.addErrorListener(ErrorListener(executeFile.path.toString()))
+        //parser.removeErrorListeners()
+        //parser.addErrorListener(ErrorListener(executeFile.path.toString()))
 
         val tree = parser.file()
 

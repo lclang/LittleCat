@@ -28,5 +28,5 @@ method test(): string {
     return "Current time: ";
 }
 
-if true: main();
+if "123"=="123": main();
 else println("What?!");
