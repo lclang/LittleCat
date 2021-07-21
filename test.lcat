@@ -1,30 +1,51 @@
 global TEST = "error!";
 
 method main() {
+
+    // Arrays test
     data = [time(), 1, 2];
     large = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50];
 
+    // Pow test
     print(2^2);
-    print('a');
+    // Char test
+    println('a');
 
     data[] = *TEST;
     //Обычный комментарий
     [time] = data;
 
+    // Hex test
     println(#FF);
+
+    // Arrays test
     println(large);
     println(data);
+
+
+    // Array plus test
     println([123]+["test"]);
 
+    // Function Test
     println(test()+[time][0]);
-    println(if true: data[] else false);
 
+
+    // If test
+    println("If: " + if true: data[] else false);
+
+    // Operators test
     print("(2+2*2)/2-3=");
     println((2+2*2)/2-3);
-    println("test".charAt(1));
 
+    // Class methods test
+    println("Chat At: " + "test".charAt(1));
+
+    // require and export test
     println(require("test1.lcat"));
+
+    // Class
     println(Test());
+
     printError(TEST);
     exit(1);
 
