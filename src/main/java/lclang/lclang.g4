@@ -31,7 +31,8 @@ operation: access|set;
 set: '=' expression;
 access: '.' expression;
 
-stmt: block|ifStmt|expression ';';
+stmt: block|whileStmt|ifStmt|expression ';';
+whileStmt: 'while ' condition=expression ':' stmt;
 ifStmt: 'if ' condition=expression ':' ifT=stmt ('else' ifF=stmt)?;
 block: '{' stmt* '}';
 

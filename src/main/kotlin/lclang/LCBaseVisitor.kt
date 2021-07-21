@@ -29,6 +29,21 @@ open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
         }
     }
 
+    override fun visitWhileStmt(ctx: lclangParser.WhileStmtContext?): Value? {
+        val cond = visitExpression(ctx!!.condition)!!.apply {
+            if(!Type.BOOL.isAccept(type()))
+                throw Exception("Value is not bool: "+type().name)
+        }
+
+        while(cond.get()==true){
+            val value = visitStmt(ctx.stmt())
+            if(value?.isReturn==true)
+                return value
+        }
+
+        return null
+    }
+
     override fun visitIfStmt(ctx: lclangParser.IfStmtContext?): Value? {
         val cond = visitExpression(ctx!!.condition)!!.apply {
             if(!Type.BOOL.isAccept(type()))
