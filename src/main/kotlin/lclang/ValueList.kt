@@ -9,4 +9,9 @@ class ValueList: ArrayList<Value>(){
 
         return "[$str]"
     }
+
+    operator fun plus(a: ValueList): ValueList {
+        for(el in a) this.add(el);
+        return this;
+    }
 }
