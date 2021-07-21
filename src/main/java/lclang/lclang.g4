@@ -5,20 +5,23 @@ BOOL: 'true'|'false';
 ID: [A-Za-z-]+;
 STRING: '"'(.+?)'"';
 LONG: [0-9]+ 'L';
+DOUBLE: [0-9]*'.'[0-9]+;
 INTEGER: [0-9]+;
 
 file: use* global* (stmt|method|component|classExpr)*;
 type: ID ('\\' type)*;
 
-expression:
-    expression multiplication='*' expression
+expression: '('expression')'
+    | expression multiplication='*' expression
+    | expression div='/' expression
     | expression add='+' expression
+    | expression minus='-' expression
     | primitive;
 
 primitive: (ifExpr|returnExpr|call|fixedVariable
                |value|variable|array|typeGet) arrayAccess* operation?;
 
-value: BOOL|STRING|LONG|INTEGER;
+value: BOOL|STRING|DOUBLE|LONG|INTEGER;
 call: type ('(' expression (',' expression)* ')'|'()');
 returnExpr: 'return' expression?;
 typeGet: '*' expression;

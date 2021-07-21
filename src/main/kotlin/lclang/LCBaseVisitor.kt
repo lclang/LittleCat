@@ -96,6 +96,7 @@ open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
     override fun visitExpression(ctx: lclangParser.ExpressionContext?): Value? {
         when {
             ctx?.primitive()!=null -> return visitPrimitive(ctx.primitive())
+            ctx?.expression()?.size==1 -> return visitExpression(ctx.expression(0))
             else -> if(ctx==null) return null
         }
 
@@ -106,19 +107,32 @@ open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
             ctx.multiplication!=null&&
                     left is Number&&
                     right is Number -> when {
+                left is Double||right is Double -> Value({Type.DOUBLE}, {left.toDouble()*right.toDouble()})
                 left is Long||right is Long -> Value({Type.LONG}, {left.toLong()*right.toLong()})
                 left is Int||right is Int -> Value({Type.INT}, {left.toInt()*right.toInt()})
                 else -> throw Exception()
             }
+            ctx.div!=null&&
+                    left is Number&&
+                    right is Number -> Value({ Type.DOUBLE }, {left.toDouble()/right.toDouble()})
             ctx.add!=null -> {
                 return if(left is Number&&
                     right is Number)
                     when {
+                        left is Double||right is Double -> Value({Type.DOUBLE}, {left.toDouble()+right.toDouble()})
                         left is Long||right is Long -> Value({Type.LONG}, {left.toLong()+right.toLong()})
                         left is Int||right is Int -> Value({Type.INT}, {left.toInt()+right.toInt()})
                         else -> throw Exception()
                     }
                 else Value({ Type.STRING }, { left.toString()+right })
+            }
+            ctx.minus!=null&&
+                    left is Number&&
+                    right is Number -> when {
+                left is Double||right is Double -> Value({Type.DOUBLE}, {left.toDouble()-right.toDouble()})
+                left is Long||right is Long -> Value({Type.LONG}, {left.toLong()-right.toLong()})
+                left is Int||right is Int -> Value({Type.INT}, {left.toInt()-right.toInt()})
+                else -> throw Exception()
             }
 
             else -> throw Exception()

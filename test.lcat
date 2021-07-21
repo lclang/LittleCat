@@ -14,8 +14,8 @@ method main() {
     println(test()+[time][0]);
     println(if true: data[] else false);
 
-    print("2+2*2=");
-    println(2+2*2);
+    print("(2+2*2)/2-3=");
+    println((2+2*2)/2-3);
 
     printError(TEST);
     exit(1);
