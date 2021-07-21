@@ -1,6 +1,7 @@
 package lclang
 
 import lclang.exceptions.MethodNotFoundException
+import lclang.lang.CharClass
 import lclang.lang.StringClass
 import lclang.methods.Method
 import lclang.methods.VisitorMethod
@@ -26,6 +27,7 @@ open class LCBaseVisitor : lclangBaseVisitor<Value?>() {
         return when {
             ctx.STRING()!=null -> Value({ Type.STRING }, { StringClass(ctx.STRING().text.substring(1)
                 .substringBeforeLast('"'), fileVisitor!!) })
+            ctx.CHAR()!=null -> Value({ Type.CHAR }, { CharClass(ctx.CHAR().text.substring(1).substringBeforeLast('\'')[0], fileVisitor!!) })
             ctx.INTEGER()!=null -> Value({ Type.INT }, { ctx.INTEGER().text.toInt() })
             ctx.LONG()!=null -> Value({ Type.LONG }, { ctx.LONG().text
                 .substringBeforeLast('L').toLong()})

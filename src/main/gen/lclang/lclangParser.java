@@ -22,7 +22,7 @@ public class lclangParser extends Parser {
 		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
 		T__24=25, T__25=26, T__26=27, T__27=28, T__28=29, T__29=30, T__30=31, 
 		T__31=32, T__32=33, T__33=34, WS=35, METHOD=36, BOOL=37, ID=38, STRING=39, 
-		LONG=40, DOUBLE=41, INTEGER=42;
+		CHAR=40, LONG=41, DOUBLE=42, INTEGER=43;
 	public static final int
 		RULE_file = 0, RULE_type = 1, RULE_expression = 2, RULE_primitive = 3, 
 		RULE_value = 4, RULE_call = 5, RULE_returnExpr = 6, RULE_typeGet = 7, 
@@ -46,7 +46,7 @@ public class lclangParser extends Parser {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, "'\\'", "'('", "')'", "'||'", "'&&'", "'=='", "'!='", "'*'", "'/'", 
-			"'+'", "'-'", "'**'", "','", "'()'", "'return'", "'['", "']'", "'[]'", 
+			"'+'", "'-'", "'^'", "','", "'()'", "'return'", "'['", "']'", "'[]'", 
 			"'fixed'", "'if '", "':'", "'else'", "'='", "'.'", "';'", "'while '", 
 			"'{'", "'}'", "'component'", "'class'", "'@'", "'use'", "'from'", "'global'", 
 			null, "'method'"
@@ -58,7 +58,7 @@ public class lclangParser extends Parser {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
 			null, null, null, null, null, null, null, null, null, null, null, null, 
 			null, null, null, null, null, null, null, null, null, null, null, "WS", 
-			"METHOD", "BOOL", "ID", "STRING", "LONG", "DOUBLE", "INTEGER"
+			"METHOD", "BOOL", "ID", "STRING", "CHAR", "LONG", "DOUBLE", "INTEGER"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -206,7 +206,7 @@ public class lclangParser extends Parser {
 			setState(76);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__7) | (1L << T__14) | (1L << T__15) | (1L << T__17) | (1L << T__18) | (1L << T__19) | (1L << T__25) | (1L << T__26) | (1L << T__28) | (1L << T__29) | (1L << T__30) | (1L << METHOD) | (1L << BOOL) | (1L << ID) | (1L << STRING) | (1L << LONG) | (1L << DOUBLE) | (1L << INTEGER))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__7) | (1L << T__14) | (1L << T__15) | (1L << T__17) | (1L << T__18) | (1L << T__19) | (1L << T__25) | (1L << T__26) | (1L << T__28) | (1L << T__29) | (1L << T__30) | (1L << METHOD) | (1L << BOOL) | (1L << ID) | (1L << STRING) | (1L << CHAR) | (1L << LONG) | (1L << DOUBLE) | (1L << INTEGER))) != 0)) {
 				{
 				setState(74);
 				_errHandler.sync(this);
@@ -223,6 +223,7 @@ public class lclangParser extends Parser {
 				case BOOL:
 				case ID:
 				case STRING:
+				case CHAR:
 				case LONG:
 				case DOUBLE:
 				case INTEGER:
@@ -413,6 +414,7 @@ public class lclangParser extends Parser {
 			case BOOL:
 			case ID:
 			case STRING:
+			case CHAR:
 			case LONG:
 			case DOUBLE:
 			case INTEGER:
@@ -718,6 +720,7 @@ public class lclangParser extends Parser {
 	public static class ValueContext extends ParserRuleContext {
 		public TerminalNode BOOL() { return getToken(lclangParser.BOOL, 0); }
 		public TerminalNode STRING() { return getToken(lclangParser.STRING, 0); }
+		public TerminalNode CHAR() { return getToken(lclangParser.CHAR, 0); }
 		public TerminalNode DOUBLE() { return getToken(lclangParser.DOUBLE, 0); }
 		public TerminalNode LONG() { return getToken(lclangParser.LONG, 0); }
 		public TerminalNode INTEGER() { return getToken(lclangParser.INTEGER, 0); }
@@ -749,7 +752,7 @@ public class lclangParser extends Parser {
 			{
 			setState(146);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOL) | (1L << STRING) | (1L << LONG) | (1L << DOUBLE) | (1L << INTEGER))) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOL) | (1L << STRING) | (1L << CHAR) | (1L << LONG) | (1L << DOUBLE) | (1L << INTEGER))) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -1650,7 +1653,7 @@ public class lclangParser extends Parser {
 			setState(238);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__7) | (1L << T__14) | (1L << T__15) | (1L << T__17) | (1L << T__18) | (1L << T__19) | (1L << T__25) | (1L << T__26) | (1L << BOOL) | (1L << ID) | (1L << STRING) | (1L << LONG) | (1L << DOUBLE) | (1L << INTEGER))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__7) | (1L << T__14) | (1L << T__15) | (1L << T__17) | (1L << T__18) | (1L << T__19) | (1L << T__25) | (1L << T__26) | (1L << BOOL) | (1L << ID) | (1L << STRING) | (1L << CHAR) | (1L << LONG) | (1L << DOUBLE) | (1L << INTEGER))) != 0)) {
 				{
 				{
 				setState(235);
@@ -2327,7 +2330,7 @@ public class lclangParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3,\u0145\4\2\t\2\4"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3-\u0145\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
@@ -2353,7 +2356,7 @@ public class lclangParser extends Parser {
 		"\3\34\3\34\3\34\3\34\5\34\u0133\n\34\3\34\3\34\3\35\3\35\3\35\3\35\5\35"+
 		"\u013b\n\35\3\35\3\35\3\36\3\36\3\36\3\36\3\36\3\36\3\36\2\3\6\37\2\4"+
 		"\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\668:\2\3\4\2\'\'"+
-		"),\2\u0157\2?\3\2\2\2\4Q\3\2\2\2\6_\3\2\2\2\b\u0089\3\2\2\2\n\u0094\3"+
+		")-\2\u0157\2?\3\2\2\2\4Q\3\2\2\2\6_\3\2\2\2\b\u0089\3\2\2\2\n\u0094\3"+
 		"\2\2\2\f\u0096\3\2\2\2\16\u00a5\3\2\2\2\20\u00a9\3\2\2\2\22\u00b8\3\2"+
 		"\2\2\24\u00bf\3\2\2\2\26\u00c1\3\2\2\2\30\u00c3\3\2\2\2\32\u00c6\3\2\2"+
 		"\2\34\u00cf\3\2\2\2\36\u00d1\3\2\2\2 \u00d4\3\2\2\2\"\u00dd\3\2\2\2$\u00df"+
