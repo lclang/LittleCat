@@ -8,7 +8,11 @@ import lclang.methods.Method
 
 class CharClass(val char: Char, parent: LCFileVisitor): LCClass("char", parent) {
     init {
-        println(char)
+        methods["getValue"] = object: Method(listOf(), Type.INT) {
+            override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
+                return char.code
+            }
+        }
     }
 
     override fun equals(other: Any?): Boolean {
