@@ -20,7 +20,7 @@ public class lclangParser extends Parser {
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
 		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
-		WS=25, METHOD=26, ID=27, STRING=28, LONG=29, INTEGER=30;
+		WS=25, METHOD=26, ID=27, STRING=28, LONG=29, INTEGER=30, BOOL=31;
 	public static final int
 		RULE_file = 0, RULE_type = 1, RULE_expression = 2, RULE_primitive = 3, 
 		RULE_value = 4, RULE_call = 5, RULE_returnExpr = 6, RULE_typeGet = 7, 
@@ -51,7 +51,7 @@ public class lclangParser extends Parser {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, "WS", "METHOD", "ID", "STRING", "LONG", "INTEGER"
+			null, "WS", "METHOD", "ID", "STRING", "LONG", "INTEGER", "BOOL"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -199,7 +199,7 @@ public class lclangParser extends Parser {
 			setState(70);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__7) | (1L << T__8) | (1L << T__10) | (1L << T__11) | (1L << T__15) | (1L << T__17) | (1L << T__18) | (1L << T__19) | (1L << METHOD) | (1L << ID) | (1L << STRING) | (1L << LONG) | (1L << INTEGER))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__7) | (1L << T__8) | (1L << T__10) | (1L << T__11) | (1L << T__15) | (1L << T__17) | (1L << T__18) | (1L << T__19) | (1L << METHOD) | (1L << ID) | (1L << STRING) | (1L << LONG) | (1L << INTEGER) | (1L << BOOL))) != 0)) {
 				{
 				setState(68);
 				_errHandler.sync(this);
@@ -214,6 +214,7 @@ public class lclangParser extends Parser {
 				case STRING:
 				case LONG:
 				case INTEGER:
+				case BOOL:
 					{
 					setState(64);
 					stmt();
@@ -442,11 +443,11 @@ public class lclangParser extends Parser {
 		public FixedVariableContext fixedVariable() {
 			return getRuleContext(FixedVariableContext.class,0);
 		}
-		public VariableContext variable() {
-			return getRuleContext(VariableContext.class,0);
-		}
 		public ValueContext value() {
 			return getRuleContext(ValueContext.class,0);
+		}
+		public VariableContext variable() {
+			return getRuleContext(VariableContext.class,0);
 		}
 		public ArrayContext array() {
 			return getRuleContext(ArrayContext.class,0);
@@ -513,13 +514,13 @@ public class lclangParser extends Parser {
 			case 4:
 				{
 				setState(98);
-				variable();
+				value();
 				}
 				break;
 			case 5:
 				{
 				setState(99);
-				value();
+				variable();
 				}
 				break;
 			case 6:
@@ -575,6 +576,7 @@ public class lclangParser extends Parser {
 	}
 
 	public static class ValueContext extends ParserRuleContext {
+		public TerminalNode BOOL() { return getToken(lclangParser.BOOL, 0); }
 		public TerminalNode STRING() { return getToken(lclangParser.STRING, 0); }
 		public TerminalNode LONG() { return getToken(lclangParser.LONG, 0); }
 		public TerminalNode INTEGER() { return getToken(lclangParser.INTEGER, 0); }
@@ -606,7 +608,7 @@ public class lclangParser extends Parser {
 			{
 			setState(113);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << STRING) | (1L << LONG) | (1L << INTEGER))) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << STRING) | (1L << LONG) | (1L << INTEGER) | (1L << BOOL))) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -1252,6 +1254,7 @@ public class lclangParser extends Parser {
 			case STRING:
 			case LONG:
 			case INTEGER:
+			case BOOL:
 				{
 				setState(174);
 				expression(0);
@@ -1313,7 +1316,7 @@ public class lclangParser extends Parser {
 			setState(183);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__7) | (1L << T__8) | (1L << T__10) | (1L << T__11) | (1L << T__15) | (1L << ID) | (1L << STRING) | (1L << LONG) | (1L << INTEGER))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__7) | (1L << T__8) | (1L << T__10) | (1L << T__11) | (1L << T__15) | (1L << ID) | (1L << STRING) | (1L << LONG) | (1L << INTEGER) | (1L << BOOL))) != 0)) {
 				{
 				{
 				setState(180);
@@ -1976,7 +1979,7 @@ public class lclangParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3 \u010e\4\2\t\2\4"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3!\u010e\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
@@ -1997,7 +2000,7 @@ public class lclangParser extends Parser {
 		"\3\30\3\30\3\30\3\31\7\31\u00f2\n\31\f\31\16\31\u00f5\13\31\3\31\3\31"+
 		"\3\31\3\31\3\31\5\31\u00fc\n\31\3\31\3\31\3\32\3\32\3\32\3\32\5\32\u0104"+
 		"\n\32\3\32\3\32\3\33\3\33\3\33\3\33\3\33\3\33\3\33\2\3\6\34\2\4\6\b\n"+
-		"\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\2\3\3\2\36 \2\u0117\2"+
+		"\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\2\3\3\2\36!\2\u0117\2"+
 		"9\3\2\2\2\4K\3\2\2\2\6S\3\2\2\2\bh\3\2\2\2\ns\3\2\2\2\fu\3\2\2\2\16\u0084"+
 		"\3\2\2\2\20\u0088\3\2\2\2\22\u0097\3\2\2\2\24\u009e\3\2\2\2\26\u00a0\3"+
 		"\2\2\2\30\u00a2\3\2\2\2\32\u00a7\3\2\2\2\34\u00a9\3\2\2\2\36\u00ac\3\2"+
@@ -2011,7 +2014,7 @@ public class lclangParser extends Parser {
 		"\2NL\3\2\2\2OR\3\2\2\2PN\3\2\2\2PQ\3\2\2\2Q\5\3\2\2\2RP\3\2\2\2ST\b\4"+
 		"\1\2TU\5\b\5\2U^\3\2\2\2VW\f\5\2\2WX\7\4\2\2X]\5\6\4\6YZ\f\4\2\2Z[\7\5"+
 		"\2\2[]\5\6\4\5\\V\3\2\2\2\\Y\3\2\2\2]`\3\2\2\2^\\\3\2\2\2^_\3\2\2\2_\7"+
-		"\3\2\2\2`^\3\2\2\2ai\5\16\b\2bi\5\f\7\2ci\5\30\r\2di\5\26\f\2ei\5\n\6"+
+		"\3\2\2\2`^\3\2\2\2ai\5\16\b\2bi\5\f\7\2ci\5\30\r\2di\5\n\6\2ei\5\26\f"+
 		"\2fi\5\22\n\2gi\5\20\t\2ha\3\2\2\2hb\3\2\2\2hc\3\2\2\2hd\3\2\2\2he\3\2"+
 		"\2\2hf\3\2\2\2hg\3\2\2\2im\3\2\2\2jl\5\24\13\2kj\3\2\2\2lo\3\2\2\2mk\3"+
 		"\2\2\2mn\3\2\2\2nq\3\2\2\2om\3\2\2\2pr\5\32\16\2qp\3\2\2\2qr\3\2\2\2r"+

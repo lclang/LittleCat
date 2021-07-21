@@ -5,6 +5,7 @@ ID: [A-Za-z-]+;
 STRING: '"'(.+?)'"';
 LONG: [0-9]+ 'L';
 INTEGER: [0-9]+;
+BOOL: 'true'|'false';
 
 file: use* global* (stmt|method|component|classExpr)*;
 type: ID ('\\' type)*;
@@ -15,9 +16,9 @@ expression:
     | primitive;
 
 primitive: (returnExpr|call|fixedVariable
-               |variable|value|array|typeGet) arrayAccess* operation?;
+               |value|variable|array|typeGet) arrayAccess* operation?;
 
-value: STRING|LONG|INTEGER;
+value: BOOL|STRING|LONG|INTEGER;
 call: type ('(' expression (',' expression)* ')'|'()');
 returnExpr: 'return' expression?;
 typeGet: '*' expression;
@@ -31,6 +32,7 @@ set: '=' expression;
 access: '.' expression;
 
 stmt: (block|expression ';');
+if: 'if ' expression ':' stmt ('else' stmt)?;
 block: '{' stmt* '}';
 
 component: 'component' type '{' (method|classExpr)* '}';

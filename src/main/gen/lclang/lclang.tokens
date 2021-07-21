@@ -28,6 +28,7 @@ ID=27
 STRING=28
 LONG=29
 INTEGER=30
+BOOL=31
 '\\'=1
 '*'=2
 '+'=3

@@ -24,6 +24,7 @@ open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
             ctx.INTEGER()!=null -> Value({ Type.INT }, { ctx.INTEGER().text.toInt() })
             ctx.LONG()!=null -> Value({ Type.LONG }, { ctx.LONG().text
                 .substringBeforeLast('L').toLong()})
+            ctx.BOOL()!=null -> Value({ Type.BOOL }, { ctx.BOOL().text=="true" })
             else -> throw Exception()
         }
     }
