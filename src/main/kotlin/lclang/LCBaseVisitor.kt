@@ -132,10 +132,10 @@ open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
         }
 
         if(cond.get()==true){
-            return visitStmt(ctx.ifT)
+            return visitExpression(ctx.ifT)
         }
 
-        return visitStmt(ctx.ifF)
+        return visitExpression(ctx.ifF)
     }
 
     override fun visitPrimitive(ctx: lclangParser.PrimitiveContext?): Value? {

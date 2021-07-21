@@ -26,7 +26,7 @@ array: '[' expression (',' expression)* ']'|'[]';
 arrayAccess: '[' expression ']'|'[]';
 variable: ID;
 fixedVariable: 'fixed' ID;
-ifExpr: 'if ' condition=expression ':' ifT=stmt 'else' ifF=stmt;
+ifExpr: 'if ' condition=expression ':' ifT=expression 'else' ifF=expression;
 
 operation: access|set;
 set: '=' expression;

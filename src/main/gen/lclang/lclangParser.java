@@ -1068,16 +1068,13 @@ public class lclangParser extends Parser {
 
 	public static class IfExprContext extends ParserRuleContext {
 		public ExpressionContext condition;
-		public StmtContext ifT;
-		public StmtContext ifF;
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
+		public ExpressionContext ifT;
+		public ExpressionContext ifF;
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
 		}
-		public List<StmtContext> stmt() {
-			return getRuleContexts(StmtContext.class);
-		}
-		public StmtContext stmt(int i) {
-			return getRuleContext(StmtContext.class,i);
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
 		}
 		public IfExprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1111,11 +1108,11 @@ public class lclangParser extends Parser {
 			setState(172);
 			match(T__13);
 			setState(173);
-			((IfExprContext)_localctx).ifT = stmt();
+			((IfExprContext)_localctx).ifT = expression(0);
 			setState(174);
 			match(T__14);
 			setState(175);
-			((IfExprContext)_localctx).ifF = stmt();
+			((IfExprContext)_localctx).ifF = expression(0);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2249,8 +2246,8 @@ public class lclangParser extends Parser {
 		"\u00a0\3\2\2\2\u00a5\u00a4\3\2\2\2\u00a6\25\3\2\2\2\u00a7\u00a8\7!\2\2"+
 		"\u00a8\27\3\2\2\2\u00a9\u00aa\7\16\2\2\u00aa\u00ab\7!\2\2\u00ab\31\3\2"+
 		"\2\2\u00ac\u00ad\7\17\2\2\u00ad\u00ae\5\6\4\2\u00ae\u00af\7\20\2\2\u00af"+
-		"\u00b0\5\"\22\2\u00b0\u00b1\7\21\2\2\u00b1\u00b2\5\"\22\2\u00b2\33\3\2"+
-		"\2\2\u00b3\u00b6\5 \21\2\u00b4\u00b6\5\36\20\2\u00b5\u00b3\3\2\2\2\u00b5"+
+		"\u00b0\5\6\4\2\u00b0\u00b1\7\21\2\2\u00b1\u00b2\5\6\4\2\u00b2\33\3\2\2"+
+		"\2\u00b3\u00b6\5 \21\2\u00b4\u00b6\5\36\20\2\u00b5\u00b3\3\2\2\2\u00b5"+
 		"\u00b4\3\2\2\2\u00b6\35\3\2\2\2\u00b7\u00b8\7\22\2\2\u00b8\u00b9\5\6\4"+
 		"\2\u00b9\37\3\2\2\2\u00ba\u00bb\7\23\2\2\u00bb\u00bc\5\6\4\2\u00bc!\3"+
 		"\2\2\2\u00bd\u00c4\5(\25\2\u00be\u00c4\5$\23\2\u00bf\u00c4\5&\24\2\u00c0"+
