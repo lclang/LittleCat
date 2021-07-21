@@ -29,9 +29,7 @@ class ErrorListener(val filePath: String): ANTLRErrorListener {
         exact: Boolean,
         ambigAlts: BitSet?,
         configs: ATNConfigSet?
-    ) {
-        throw LCLangException("Syntax Error", "invalid token", startIndex, stopIndex, filePath)
-    }
+    ) {}
 
     override fun reportAttemptingFullContext(
         recognizer: Parser?,
@@ -40,9 +38,7 @@ class ErrorListener(val filePath: String): ANTLRErrorListener {
         stopIndex: Int,
         conflictingAlts: BitSet?,
         configs: ATNConfigSet?
-    ) {
-        throw LCLangException("Syntax Error", "invalid token", startIndex, stopIndex, filePath)
-    }
+    ) {}
 
     override fun reportContextSensitivity(
         recognizer: Parser?,
@@ -51,7 +47,5 @@ class ErrorListener(val filePath: String): ANTLRErrorListener {
         stopIndex: Int,
         prediction: Int,
         configs: ATNConfigSet?
-    ) {
-        throw LCLangException("Syntax Error", "invalid token", startIndex, stopIndex, filePath)
-    }
+    ) {}
 }
