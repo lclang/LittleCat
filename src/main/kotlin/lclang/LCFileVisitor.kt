@@ -5,7 +5,7 @@ import lclang.libs.Library
 class LCFileVisitor(
     val path: String
 ): LCContextVisitor() {
-    val classes = HashMap<String, lclangParser.ClassExprContext>()
+    val classes = HashMap<String, LCClass>()
     val components = HashMap<String, lclangParser.ComponentContext>()
     val libraries = ArrayList<Library>()
     val globals = HashMap<String, Value?>()
@@ -24,7 +24,7 @@ class LCFileVisitor(
     override fun visitFile(ctx: lclangParser.FileContext?): Value? {
         if(ctx===null) return null
         for(classExpr in ctx.classExpr())
-            classes[classExpr.ID().text] = classExpr
+            classes[classExpr.ID().text] = LCClass.from(this, classExpr)
 
         for(library in libraries){
             methods.putAll(library.methods)
