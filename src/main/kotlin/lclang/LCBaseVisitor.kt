@@ -192,7 +192,18 @@ open class LCBaseVisitor : lclangBaseVisitor<Value?>() {
             ctx.and!=null&&
                     left is Boolean&&
                     right is Boolean -> Value({ Type.BOOL }, { left&&right })
-
+            ctx.larger!=null&&
+                    left is Number&&
+                    right is Number -> Value({ Type.BOOL }, { left.toDouble()>right.toDouble() })
+            ctx.largerEquals!=null&&
+                    left is Number&&
+                    right is Number -> Value({ Type.BOOL }, { left.toDouble()>=right.toDouble() })
+            ctx.less!=null&&
+                    left is Number&&
+                    right is Number -> Value({ Type.BOOL }, { left.toDouble()<right.toDouble() })
+            ctx.lessEquals!=null&&
+                    left is Number&&
+                    right is Number -> Value({ Type.BOOL }, { left.toDouble()<=right.toDouble() })
             else -> throw Exception()
         }
     }

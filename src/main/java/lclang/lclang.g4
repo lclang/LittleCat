@@ -18,6 +18,10 @@ expression: '('expression')'
     | expression and='&&' expression
     | expression equals='==' expression
     | expression notEquals='!=' expression
+    | expression less='<' expression
+    | expression larger='>' expression
+    | expression lessEquals='>=' expression
+    | expression largerEquals='<=' expression
     | expression multiplication='*' expression
     | expression div='/' expression
     | expression add='+' expression
