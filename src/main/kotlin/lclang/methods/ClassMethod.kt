@@ -2,18 +2,8 @@ package lclang.methods
 
 import lclang.*
 
-class ClassMethod(val clazz: LCClass, private val methodContext: lclangParser.MethodContext): Method(
-    run {
-        val args = ArrayList<Type>()
-        for (arg in methodContext.args().arg())
-            args.add(Type.from(arg.type()))
-
-        return@run args
-    },
-    if(methodContext.type()!=null)
-        Type.from(methodContext.type())
-    else Type.VOID
-){
+class ClassMethod(val clazz: LCClass, private val methodContext: lclangParser.MethodContext):
+    VisitorMethod(methodContext) {
     override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
         val lcContextVisitor = LCContextVisitor(fileVisitor)
         lcContextVisitor.variables["this"] = Value({ Type(clazz.name) }, { clazz })

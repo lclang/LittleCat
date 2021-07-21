@@ -1,5 +1,6 @@
 package lclang
 
+import lclang.exceptions.MethodNotFoundException
 import lclang.lang.StringClass
 import lclang.methods.Method
 import lclang.methods.VisitorMethod
@@ -94,6 +95,35 @@ open class LCBaseVisitor : lclangBaseVisitor<Value?>() {
     override fun visitTypeGet(ctx: lclangParser.TypeGetContext?): Value? {
         return Value({ Type.STRING },
             {visitExpression(ctx!!.expression())!!.type().name})
+    }
+
+    override fun visitCall(ctx: lclangParser.CallContext?): Value? {
+        if(ctx==null) return null
+
+        val subjectName = Type.from(ctx.type()).name
+        if(this !is LCClass&&fileVisitor?.classes?.containsKey(subjectName) == true){
+            val clazz = fileVisitor!!.classes[subjectName]!!
+            //TODO: args
+            return Value({ Type(clazz.name) }, { clazz.create(listOf()) })
+        }
+
+        val notFoundException = MethodNotFoundException(subjectName,
+            ctx.start.line, ctx.stop.line, fileVisitor?.path ?: "unknown")
+
+        val method = methods[subjectName] ?: throw notFoundException
+        if(method.args.size!=ctx.expression().size) throw notFoundException
+
+        val args = ArrayList<Any?>()
+        for(argNum in 0 until method.args.size){
+            val value = visit(ctx.expression(argNum)) ?: throw notFoundException
+            if(!method.args[argNum].isAccept(value.type()))
+                throw notFoundException
+
+            args.add(value.get())
+        }
+
+        val value = method.call(fileVisitor!!, args)
+        return Value({ method.returnType }, { value })
     }
 
     override fun visitExpression(ctx: lclangParser.ExpressionContext?): Value? {

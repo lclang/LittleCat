@@ -1,5 +1,6 @@
 package lclang
 
+import lclang.methods.ClassMethod
 import lclang.methods.VisitorMethod
 
 open class LCClass(
@@ -20,9 +21,7 @@ open class LCClass(
         fun from(parent: LCFileVisitor, clazz: lclangParser.ClassExprContext): LCClass {
             return LCClass(clazz.ID().text, parent).apply {
                 for(method in clazz.method())
-                    methods[method.ID().text] = VisitorMethod(method).apply {
-
-                    }
+                    methods[method.ID().text] = ClassMethod(this, method)
             }
         }
     }

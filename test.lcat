@@ -18,6 +18,7 @@ method main() {
     println((2+2*2)/2-3);
     println("test".charAt(1));
 
+    Test().echo();
     printError(TEST);
     exit(1);
 
@@ -31,3 +32,9 @@ method test(): string {
 
 if "123"=="123": main();
 else println("What?!");
+
+class Test {
+    method echo(): void {
+        println("ok");
+    }
+}

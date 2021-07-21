@@ -2,7 +2,7 @@ package lclang.methods
 
 import lclang.*
 
-class VisitorMethod(private val methodContext: lclangParser.MethodContext): Method(
+open class VisitorMethod(private val methodContext: lclangParser.MethodContext): Method(
     run {
         val args = ArrayList<Type>()
         for (arg in methodContext.args().arg())

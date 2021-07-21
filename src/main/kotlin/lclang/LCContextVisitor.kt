@@ -27,29 +27,6 @@ open class LCContextVisitor(
             }, { variables[variableName] = it })
     }
 
-    override fun visitCall(ctx: lclangParser.CallContext?): Value? {
-        if(ctx==null) return null
-        val subjectName = Type.from(ctx.type()).name
-        val notFoundException = MethodNotFoundException(subjectName,
-            ctx.start.line, ctx.stop.line, fileVisitor?.path ?: "unknown")
-
-        val method = methods[subjectName] ?: throw notFoundException
-        if(method.args.size!=ctx.expression().size) throw notFoundException
-
-        val args = ArrayList<Any?>()
-        for(argNum in 0 until method.args.size){
-            val value = visit(ctx.expression(argNum)) ?: throw notFoundException
-            if(!method.args[argNum].isAccept(value.type()))
-                throw notFoundException
-
-            args.add(value.get())
-        }
-
-        val value = method.call(fileVisitor!!, args)
-
-        return Value({ method.returnType }, { value })
-    }
-
     override fun visitPrimitive(ctx: lclangParser.PrimitiveContext?): Value? {
         val value =  super.visitPrimitive(ctx)
         val operation = ctx?.operation()
