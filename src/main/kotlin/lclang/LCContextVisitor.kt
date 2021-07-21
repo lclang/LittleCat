@@ -2,12 +2,10 @@ package lclang
 
 import lclang.exceptions.MethodNotFoundException
 import lclang.exceptions.VariableNotFoundException
-import lclang.methods.VisitorMethod
 
 open class LCContextVisitor(
     parent: LCContextVisitor? = null, importVars: Boolean = false): LCBaseVisitor() {
     val variables = HashMap<String, Value?>()
-    var fileVisitor: LCFileVisitor? = null
 
     init {
         if(parent!=null) {

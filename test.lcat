@@ -16,6 +16,7 @@ method main() {
 
     print("(2+2*2)/2-3=");
     println((2+2*2)/2-3);
+    println("test".charAt(1));
 
     printError(TEST);
     exit(1);

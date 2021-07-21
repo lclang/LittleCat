@@ -1,9 +1,11 @@
 package lclang
 
+import lclang.lang.StringClass
 import lclang.methods.Method
 import lclang.methods.VisitorMethod
 
-open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
+open class LCBaseVisitor : lclangBaseVisitor<Value?>() {
+    var fileVisitor: LCFileVisitor? = null
     val methods = HashMap<String, Method>()
 
     override fun visitBlock(ctx: lclangParser.BlockContext?): Value? {
@@ -20,8 +22,8 @@ open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
     override fun visitValue(ctx: lclangParser.ValueContext?): Value? {
         if(ctx==null) return null
         return when {
-            ctx.STRING()!=null -> Value({ Type.STRING }, { ctx.STRING().text.substring(1)
-                .substringBeforeLast('"')})
+            ctx.STRING()!=null -> Value({ Type.STRING }, { StringClass(ctx.STRING().text.substring(1)
+                .substringBeforeLast('"'), fileVisitor!!) })
             ctx.INTEGER()!=null -> Value({ Type.INT }, { ctx.INTEGER().text.toInt() })
             ctx.LONG()!=null -> Value({ Type.LONG }, { ctx.LONG().text
                 .substringBeforeLast('L').toLong()})
@@ -125,7 +127,7 @@ open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
                         left is Int||right is Int -> Value({Type.INT}, {left.toInt()+right.toInt()})
                         else -> throw Exception()
                     }
-                else Value({ Type.STRING }, { left.toString()+right })
+                else Value({ Type.STRING }, { StringClass(left.toString()+right, fileVisitor!!) })
             }
             ctx.minus!=null&&
                     left is Number&&
@@ -191,6 +193,14 @@ open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
                 val getValue = visitExpression(access.expression())!!
                 gettable[getValue.get()] as Value
             }else throw Exception("error name (array get)")
+        }
+
+        if(ctx.operation()?.access()!=null){
+            val classValue = value.get()
+            if(classValue !is LCClass)
+                throw Exception()
+
+            value = classValue.visitExpression(ctx.operation().access().expression())!!
         }
 
         return value
