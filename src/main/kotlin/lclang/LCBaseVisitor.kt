@@ -136,6 +136,16 @@ open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
                 else -> throw Exception()
             }
 
+            /**Bool operations*/
+            ctx.equals!=null -> Value({ Type.BOOL }, { left == right })
+            ctx.notEquals!=null -> Value({ Type.BOOL }, { left != right })
+            ctx.or!=null&&
+                    left is Boolean&&
+                    right is Boolean -> Value({ Type.BOOL }, { left||right })
+            ctx.and!=null&&
+                    left is Boolean&&
+                    right is Boolean -> Value({ Type.BOOL }, { left&&right })
+
             else -> throw Exception()
         }
     }
