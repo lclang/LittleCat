@@ -18,7 +18,7 @@ class ErrorListener(val filePath: String): ANTLRErrorListener {
         msg: String?,
         e: RecognitionException?
     ) {
-        throw LCLangException("Syntax Error", msg!!, line, line, filePath)
+        throw LCLangException("Syntax Error", msg!!, line+1, line+1, filePath)
     }
 
     override fun reportAmbiguity(
