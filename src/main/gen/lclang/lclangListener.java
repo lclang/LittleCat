@@ -168,6 +168,16 @@ public interface lclangListener extends ParseTreeListener {
 	 */
 	void exitStmt(lclangParser.StmtContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link lclangParser#ifStmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterIfStmt(lclangParser.IfStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link lclangParser#ifStmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitIfStmt(lclangParser.IfStmtContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link lclangParser#block}.
 	 * @param ctx the parse tree
 	 */

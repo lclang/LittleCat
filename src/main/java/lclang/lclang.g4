@@ -1,11 +1,11 @@
 grammar lclang;
 WS : ('//'(.+?)[\n\r]|'/*'(.+?)'*/'|([ \t\r\n])+) -> skip;
 METHOD: 'method';
+BOOL: 'true'|'false';
 ID: [A-Za-z-]+;
 STRING: '"'(.+?)'"';
 LONG: [0-9]+ 'L';
 INTEGER: [0-9]+;
-BOOL: 'true'|'false';
 
 file: use* global* (stmt|method|component|classExpr)*;
 type: ID ('\\' type)*;
@@ -31,8 +31,8 @@ operation: access|set;
 set: '=' expression;
 access: '.' expression;
 
-stmt: (block|expression ';');
-if: 'if ' expression ':' stmt ('else' stmt)?;
+stmt: block|ifStmt|expression ';';
+ifStmt: 'if ' condition=expression ':' ifT=stmt ('else' ifF=stmt)?;
 block: '{' stmt* '}';
 
 component: 'component' type '{' (method|classExpr)* '}';

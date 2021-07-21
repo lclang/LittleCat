@@ -29,4 +29,4 @@ method test(): string {
     return "Current time: ";
 }
 
-main();
+if true: main();
