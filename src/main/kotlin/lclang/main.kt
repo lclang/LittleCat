@@ -1,5 +1,6 @@
 package lclang
 
+import lclang.exceptions.LCLangException
 import lclang.libs.Library
 import lclang.libs.std.StdLibrary
 import org.antlr.v4.runtime.CharStreams
@@ -75,8 +76,8 @@ fun main(args: Array<String>) {
             }
         }
         eval.visit(tree)
-    }catch (e: Exception){
-        println("\u001B[31m"+e::class.simpleName+": "+e.message)
+    }catch (e: LCLangException){
+        println("\u001B[31m"+e.message)
         exitProcess(1)
     }
 }
