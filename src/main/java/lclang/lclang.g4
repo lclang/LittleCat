@@ -4,7 +4,7 @@ METHOD: 'method';
 BOOL: 'true'|'false';
 ID: [A-Za-z-]+;
 STRING: '"'(.+?)'"';
-CHAR: '\''(.)'\'';
+CHAR: '\''.'\'';
 LONG: [0-9]+ 'L';
 DOUBLE: [0-9]*'.'[0-9]+;
 INTEGER: [0-9]+;

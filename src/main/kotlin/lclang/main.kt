@@ -80,6 +80,7 @@ fun main(args: Array<String>) {
                 }
             }
         }
+
         eval.visit(tree)
     }catch (e: LCLangException){
         println("\u001B[31m"+e.message)
