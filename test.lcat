@@ -30,3 +30,4 @@ method test(): string {
 }
 
 if true: main();
+else println("What?!");
