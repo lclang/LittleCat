@@ -12,6 +12,10 @@ file: use* global* (stmt|method|component|classExpr)*;
 type: ID ('\\' type)*;
 
 expression: '('expression')'
+    | expression or='||' expression
+    | expression and='&&' expression
+    | expression equals='==' expression
+    | expression notEquals='!=' expression
     | expression multiplication='*' expression
     | expression div='/' expression
     | expression add='+' expression

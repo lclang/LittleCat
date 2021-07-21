@@ -3,8 +3,10 @@ package lclang
 import lclang.exceptions.LCLangException
 import lclang.libs.Library
 import lclang.libs.std.StdLibrary
-import org.antlr.v4.runtime.CharStreams
-import org.antlr.v4.runtime.CommonTokenStream
+import org.antlr.v4.runtime.*
+import org.antlr.v4.runtime.Parser
+import org.antlr.v4.runtime.atn.ATNConfigSet
+import org.antlr.v4.runtime.dfa.DFA
 import org.apache.commons.cli.*
 import org.mozilla.universalchardet.UniversalDetector
 import java.io.File
@@ -55,12 +57,15 @@ fun main(args: Array<String>) {
         return
     }
 
-    val lexer = lclangLexer(CharStreams.fromString(read(executeFile)))
-    val tokens = CommonTokenStream(lexer)
-    val parser = lclangParser(tokens)
-    val tree = parser.file()
-
     try {
+        val lexer = lclangLexer(CharStreams.fromString(read(executeFile)))
+        val tokens = CommonTokenStream(lexer)
+        val parser = lclangParser(tokens)
+        parser.removeErrorListeners()
+        parser.addErrorListener(ErrorListener(executeFile.path.toString()))
+
+        val tree = parser.file()
+
         val eval = LCFileVisitor(executeFile.path.toString()).apply {
             libraries.add(StdLibrary())
 
