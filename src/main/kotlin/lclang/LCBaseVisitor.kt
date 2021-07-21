@@ -110,12 +110,15 @@ open class LCBaseVisitor: lclangBaseVisitor<Value?>() {
                 left is Int||right is Int -> Value({Type.INT}, {left.toInt()*right.toInt()})
                 else -> throw Exception()
             }
-            ctx.add!=null&&
-                    left is Number&&
-                    right is Number -> when {
-                left is Long||right is Long -> Value({Type.LONG}, {left.toLong()+right.toLong()})
-                left is Int||right is Int -> Value({Type.INT}, {left.toInt()+right.toInt()})
-                else -> throw Exception()
+            ctx.add!=null -> {
+                return if(left is Number&&
+                    right is Number)
+                    when {
+                        left is Long||right is Long -> Value({Type.LONG}, {left.toLong()+right.toLong()})
+                        left is Int||right is Int -> Value({Type.INT}, {left.toInt()+right.toInt()})
+                        else -> throw Exception()
+                    }
+                else Value({ Type.STRING }, { left.toString()+right })
             }
 
             else -> throw Exception()

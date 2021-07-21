@@ -11,8 +11,7 @@ method main() {
     println(large);
     println(data);
 
-    print(test());
-    println([time][0]);
+    println(test()+[time][0]);
     println(data[]);
 
     print("2+2*2=");
