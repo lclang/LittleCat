@@ -3,6 +3,6 @@ method fib(int n): int {
     else fib(n-1) + fib(n-2);
 }
 
-println(fib(9));
+println(fib(20));
 --OUTPUT--
-34
+6765
