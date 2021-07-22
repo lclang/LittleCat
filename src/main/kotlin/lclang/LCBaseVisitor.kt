@@ -14,7 +14,7 @@ open class LCBaseVisitor : lclangBaseVisitor<Value?>() {
     override fun visitBlock(ctx: lclangParser.BlockContext?): Value? {
         for(stmt in ctx!!.stmt())
             visit(stmt)?.let {
-                if(it.isReturn)
+                if(it.isReturn||it.stop)
                     return@visitBlock it
                 else it.get()
             }
@@ -47,7 +47,7 @@ open class LCBaseVisitor : lclangBaseVisitor<Value?>() {
             if(value?.isReturn==true)
                 return value
             else if(value?.stop==true)
-                return null
+                break
         }
 
         return null

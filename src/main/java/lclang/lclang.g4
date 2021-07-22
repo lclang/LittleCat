@@ -2,7 +2,7 @@ grammar lclang;
 WS : ('//'(.+?)[\n\r]|'/*'(.+?)'*/'|([ \t\r\n])+) -> skip;
 METHOD: 'method';
 BOOL: 'true'|'false';
-ID: [A-Za-z-]+;
+ID: [A-Za-z]+;
 STRING: '"'(.+?)?'"';
 CHAR: '\''.'\'';
 HEX_LONG: '#'[1-9ABCDEF]+;

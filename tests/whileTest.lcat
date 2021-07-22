@@ -1,11 +1,24 @@
 i = 0;
 
-while i<20: {
-    print(".");
+while i<5: {
+    println(i);
     i = i+1;
 }
 
-println("");
+while true: {
+    println(i);
+    if i==0: stop;
+    i = i-1;
+}
 
 --OUTPUT--
-....................
+0
+1
+2
+3
+4
+4
+3
+2
+1
+0
