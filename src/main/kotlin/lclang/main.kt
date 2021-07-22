@@ -80,7 +80,7 @@ fun main(args: Array<String>) {
                 }
             }
         }
-
+        StdLibrary.fileVisitor = eval
         eval.visit(tree)
     }catch (e: LCLangException){
         println("\u001B[31m"+e.message)
