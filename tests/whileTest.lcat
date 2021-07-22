@@ -1,8 +1,8 @@
 i = 0;
 
-while i<5: {
-    i = i+1;
+while i<4: {
     println(i);
+    i = i+1;
 }
 
 while true: {
@@ -16,9 +16,6 @@ while true: {
 1
 2
 3
-4
-5
-5
 4
 3
 2
