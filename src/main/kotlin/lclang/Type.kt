@@ -28,6 +28,8 @@ class Type(
             for(type in ctx.ID())
                 stringName += "\\"+type
 
+            stringName = stringName.substring(1)
+
             return when(stringName){
                 "void" -> VOID
                 "any" -> ANY
