@@ -12,10 +12,10 @@ import kotlin.system.exitProcess
 import java.util.*
 
 
-class StdLibrary: Library() {
+class StdLibrary: Library("std") {
 
     init {
-        globals["math"] = Value({Type("math")}, { MathClass() })
+        globals["math"] = Value({Type("math")}, { MathClass(this) })
         methods["println"] = object: Method(listOf(Type.ANY), Type.VOID) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 println(args[0])

@@ -1,9 +1,7 @@
 package lclang.libs
 
-import lclang.Value
-import lclang.methods.Method
+import lclang.LCFileVisitor
 
-abstract class Library {
-    val methods = HashMap<String, Method>()
-    val globals = HashMap<String, Value>()
-}
+abstract class Library(
+    libraryName: String
+): LCFileVisitor(libraryName)

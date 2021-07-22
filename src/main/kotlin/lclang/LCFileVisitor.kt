@@ -2,7 +2,7 @@ package lclang
 
 import lclang.libs.Library
 
-class LCFileVisitor(
+open class LCFileVisitor(
     val path: String
 ): LCBaseVisitor() {
     val classes = HashMap<String, LCClass>()

@@ -3,20 +3,22 @@ package lclang.lang
 import lclang.*
 import lclang.methods.Method
 
-class StringClass(val string: String): LCClass("string") {
+class StringClass(val string: String, fileVisitor: LCFileVisitor): LCClass("string", fileVisitor) {
     init {
         methods["charAt"] = object: Method(listOf(Type.INT), Type.STRING) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
                 return string[args[0] as Int].toString()
             }
         }
+
         methods["toArray"] = object: Method(listOf(), Type.ARRAY) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
-                val arr = ValueList()
+                val arr = ValueList(this@StringClass.fileVisitor)
                 for (c in string) arr.add(Value(Type.CHAR, c))
                 return arr
             }
         }
+
         methods["find"] = object: Method(listOf(Type.CHAR), Type.INT) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 for ((i, c) in string.withIndex()){

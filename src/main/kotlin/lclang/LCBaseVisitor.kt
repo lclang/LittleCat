@@ -62,9 +62,9 @@ open class LCBaseVisitor(
         if(ctx==null) return null
         return when {
             ctx.STRING()!=null -> Value({ Type.STRING }, { StringClass(ctx.STRING().text.substring(1)
-                .substringBeforeLast('"')) })
+                .substringBeforeLast('"'), fileVisitor) })
             ctx.CHAR()!=null -> Value({ Type.CHAR }, { CharClass(ctx.CHAR().text.substring(1)
-                .substringBeforeLast('\'')[0]) })
+                .substringBeforeLast('\'')[0], fileVisitor) })
             ctx.INTEGER()!=null -> Value({ Type.INT }, { ctx.INTEGER().text.toInt() })
             ctx.LONG()!=null -> Value({ Type.LONG }, { ctx.LONG().text
                 .substringBeforeLast('L').toLong()})
@@ -112,7 +112,7 @@ open class LCBaseVisitor(
 
     override fun visitArray(ctx: lclangParser.ArrayContext?): Value? {
         return Value({ Type.ARRAY }, {
-            val array = ValueList()
+            val array = ValueList(fileVisitor)
             for(expression in ctx!!.expression()){
                 array.add(visitExpression(expression)!!)
             }
@@ -234,7 +234,7 @@ open class LCBaseVisitor(
                                 right is Int||left is Int ->
                             return Value(Type.STRING, StringClass(if(right is Int)
                                 left.toString().repeat(right)
-                            else right.toString().repeat(left as Int)))
+                            else right.toString().repeat(left as Int), fileVisitor))
                     }
                 }
 

@@ -6,7 +6,7 @@ import lclang.Type
 import lclang.methods.Method
 import kotlin.math.sqrt
 
-class MathClass: LCClass("math")  {
+class MathClass(fileVisitor: LCFileVisitor): LCClass("math", fileVisitor)  {
 
     init {
         methods["sqrt"] = object: Method(listOf(Type.DOUBLE), Type.DOUBLE) {

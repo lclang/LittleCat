@@ -1,6 +1,6 @@
 package lclang
 
-class ValueList: LCClass("array") {
+class ValueList(file: LCFileVisitor): LCClass("array", file) {
     val list = ArrayList<Value>()
 
     fun add(value: Value) = list.add(value)
