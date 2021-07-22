@@ -1,0 +1,8 @@
+method fib(int n): int {
+    return if n<=1: n
+    else fib(n-1) + fib(n-2);
+}
+
+println(fib(9));
+--OUTPUT--
+34
