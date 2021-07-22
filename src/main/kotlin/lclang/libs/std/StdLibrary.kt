@@ -42,8 +42,10 @@ class StdLibrary: Library() {
                 parser.removeErrorListeners()
                 parser.addErrorListener(ErrorListener(requiredFile.path.toString()))
 
-                val eval = LCFileVisitor(requiredFile.path.toString())
-                eval.visitFile(parser.file())
+                val eval = LCFileVisitor(requiredFile.path.toString()).apply {
+                    libraries.addAll(fileVisitor.libraries)
+                    visitFile(parser.file())
+                }
 
                 return eval.variables["export"]?.get?.let { it() }
             }
