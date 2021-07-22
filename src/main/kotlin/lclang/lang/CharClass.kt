@@ -1,7 +1,6 @@
 package lclang.lang
 
 import lclang.LCClass
-import lclang.LCContextVisitor
 import lclang.LCFileVisitor
 import lclang.Type
 import lclang.methods.Method

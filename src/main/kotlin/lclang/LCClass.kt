@@ -1,17 +1,16 @@
 package lclang
 
-import lclang.lang.CharClass
 import lclang.methods.ClassMethod
 import lclang.methods.Method
-import lclang.methods.VisitorMethod
 
 open class LCClass(
     val name: String,
-    parent: LCFileVisitor?,
+    fileVisitor: LCFileVisitor?,
     val value: Any?
-): LCContextVisitor(parent){
+): LCBaseVisitor(){
 
     init {
+        this.fileVisitor = fileVisitor
         methods["println"] = object: Method(listOf(), Type.STRING) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 println(value)

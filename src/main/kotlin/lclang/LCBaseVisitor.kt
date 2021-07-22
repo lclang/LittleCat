@@ -1,15 +1,39 @@
 package lclang
 
 import lclang.exceptions.MethodNotFoundException
+import lclang.exceptions.VariableNotFoundException
 import lclang.lang.CharClass
 import lclang.lang.StringClass
 import lclang.methods.Method
 import lclang.methods.VisitorMethod
 import kotlin.math.pow
 
-open class LCBaseVisitor : lclangBaseVisitor<Value?>() {
+open class LCBaseVisitor(
+    parent: LCBaseVisitor? = null, importVars: Boolean = false): lclangBaseVisitor<Value?>() {
     var fileVisitor: LCFileVisitor? = null
     val methods = HashMap<String, Method>()
+
+    val variables = HashMap<String, Value?>()
+
+    init {
+        if(parent!=null) {
+            if(importVars) variables.putAll(parent.variables)
+            methods.putAll(parent.methods)
+            fileVisitor = parent.fileVisitor
+        }
+    }
+
+    override fun visitVariable(ctx: lclangParser.VariableContext?): Value? {
+        val variableName = ctx!!.ID().text
+
+        return Value({ variables[variableName]?.type?.invoke()?:
+        fileVisitor?.globals?.get(variableName)?.type?.invoke()?: Type.ANY }, {
+            variables[variableName]?.get?.invoke()?:
+            fileVisitor?.globals?.get(variableName)?.get?.invoke() ?:
+            throw VariableNotFoundException(variableName,
+                ctx.start.line, ctx.stop.line, fileVisitor?.path?: "unknown")
+        }, { variables[variableName] = it })
+    }
 
     override fun visitBlock(ctx: lclangParser.BlockContext?): Value? {
         for(stmt in ctx!!.stmt())
@@ -266,12 +290,20 @@ open class LCBaseVisitor : lclangBaseVisitor<Value?>() {
             }else throw Exception("error name (array get)")
         }
 
-        if(ctx.operation()?.access()!=null){
+        val operation = ctx.operation()
+        if(operation?.access()!=null){
             val classValue = value.get()
             if(classValue !is LCClass)
                 throw Exception()
 
-            value = classValue.visitExpression(ctx.operation().access().expression())!!
+            value = classValue.visitExpression(operation.access().expression())!!
+        }
+
+        if(operation?.set()!=null){
+            val expressionValue = visitExpression(operation.set().expression())!!
+            value.set(expressionValue)
+
+            return expressionValue
         }
 
         return value

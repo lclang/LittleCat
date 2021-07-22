@@ -5,7 +5,7 @@ import lclang.*
 class ClassMethod(val clazz: LCClass, private val methodContext: lclangParser.MethodContext):
     VisitorMethod(methodContext) {
     override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
-        val lcContextVisitor = LCContextVisitor(fileVisitor)
+        val lcContextVisitor = LCBaseVisitor(fileVisitor)
         lcContextVisitor.variables["this"] = Value({ Type(clazz.name) }, { clazz })
 
         val methodArgs = methodContext.args().arg()

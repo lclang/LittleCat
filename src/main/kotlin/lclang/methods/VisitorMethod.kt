@@ -15,7 +15,7 @@ open class VisitorMethod(private val methodContext: lclangParser.MethodContext):
     else Type.VOID
 ) {
     override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
-        val lcContextVisitor = LCContextVisitor(fileVisitor)
+        val lcContextVisitor = LCBaseVisitor(fileVisitor)
 
         val methodArgs = methodContext.args().arg()
         for(argNum in 0 until methodArgs.size){

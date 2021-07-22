@@ -6,7 +6,7 @@ import org.antlr.v4.runtime.CommonTokenStream
 
 class LCFileVisitor(
     val path: String
-): LCContextVisitor() {
+): LCBaseVisitor() {
     val classes = HashMap<String, LCClass>()
     val components = HashMap<String, lclangParser.ComponentContext>()
     val libraries = ArrayList<Library>()
