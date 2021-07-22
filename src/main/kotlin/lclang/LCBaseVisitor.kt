@@ -24,7 +24,7 @@ open class LCBaseVisitor : lclangBaseVisitor<Value?>() {
 
     override fun visitContainer(ctx: lclangParser.ContainerContext?): Value? {
         for(stmt in ctx!!.stmt())
-            visit(stmt)?.let {
+            visitStmt(stmt)?.let {
                 if(it.isReturn||it.stop)
                     return@visitContainer it
                 else it.get()
@@ -135,7 +135,7 @@ open class LCBaseVisitor : lclangBaseVisitor<Value?>() {
 
         val args = ArrayList<Any?>()
         for(argNum in 0 until method.args.size){
-            val value = visit(ctx.expression(argNum)) ?: throw notFoundException
+            val value = visitExpression(ctx.expression(argNum)) ?: throw notFoundException
             if(!method.args[argNum].isAccept(value.type()))
                 throw notFoundException
 
@@ -150,75 +150,85 @@ open class LCBaseVisitor : lclangBaseVisitor<Value?>() {
         when {
             ctx?.primitive()!=null -> return visitPrimitive(ctx.primitive())
             ctx?.expression()?.size==1 -> return visitExpression(ctx.expression(0))
-            else -> if(ctx==null) return null
-        }
+            ctx!=null -> {
+                val leftValue = visitExpression(ctx.expression(0))!!
+                val leftType = leftValue.type()
+                val left = leftValue.get()
 
-        val left = visitExpression(ctx.expression(0))?.get?.let{ it() }
-        val right = visitExpression(ctx.expression(1))?.get?.let{ it() }
+                val rightValue = visitExpression(ctx.expression(0))!!
+                val rightType = leftValue.type()
+                val right = rightValue.get()
 
-        return when {
-            ctx.multiplication!=null&&
-                    left is Number&&
-                    right is Number -> when {
-                left is Double||right is Double -> Value({Type.DOUBLE}, {left.toDouble()*right.toDouble()})
-                left is Long||right is Long -> Value({Type.LONG}, {left.toLong()*right.toLong()})
-                left is Int||right is Int -> Value({Type.INT}, {left.toInt()*right.toInt()})
-                else -> throw Exception()
-            }
-            ctx.div!=null&&
-                    left is Number&&
-                    right is Number -> Value({ Type.DOUBLE }, {left.toDouble()/right.toDouble()})
-            ctx.add!=null -> {
-                return if(left is Number&&
-                    right is Number)
-                    when {
-                        left is Double||right is Double -> Value({Type.DOUBLE}, {left.toDouble()+right.toDouble()})
-                        left is Long||right is Long -> Value({Type.LONG}, {left.toLong()+right.toLong()})
-                        left is Int||right is Int -> Value({Type.INT}, {left.toInt()+right.toInt()})
+                if(left is Number&&right is Number) {
+                    return when {
+                        ctx.div != null -> Value(Type.DOUBLE, left.toDouble() / right.toDouble())
+                        ctx.pow != null -> Value(Type.DOUBLE, left.toDouble().pow(right.toDouble()))
+                        ctx.less != null -> Value(Type.BOOL, left.toDouble() < right.toDouble())
+                        ctx.lessEquals != null -> Value(Type.BOOL, left.toDouble() <= right.toDouble())
+                        ctx.larger != null -> Value(Type.BOOL, left.toDouble() > right.toDouble())
+                        ctx.largerEquals != null -> Value(Type.BOOL, left.toDouble() >= right.toDouble())
+
+                        else -> {
+                            val needType = when {
+                                leftType==Type.DOUBLE||
+                                        rightType==Type.DOUBLE -> Type.DOUBLE
+                                leftType==Type.LONG||
+                                        rightType==Type.LONG -> Type.LONG
+                                else -> Type.INT
+                            }
+
+                            Value(needType, when {
+                                ctx.multiplication != null -> when(needType){
+                                    Type.DOUBLE -> left.toDouble()*right.toDouble()
+                                    Type.LONG -> left.toLong()*right.toLong()
+                                    else -> left.toInt()*right.toInt()
+                                }
+
+                                ctx.add != null -> when(needType){
+                                    Type.DOUBLE -> left.toDouble()+right.toDouble()
+                                    Type.LONG -> left.toLong()+right.toLong()
+                                    else -> left.toInt()+right.toInt()
+                                }
+
+                                ctx.minus != null -> when(needType){
+                                    Type.DOUBLE -> left.toDouble()-right.toDouble()
+                                    Type.LONG -> left.toLong()-right.toLong()
+                                    else -> left.toInt()-right.toInt()
+                                }
+                                else -> throw Exception()
+                            })
+                        }
+                    }
+                }else if(right is StringClass||left is StringClass){
+                    return when {
+                        ctx.add!=null -> Value(Type.STRING, right.toString()+left)
+                        ctx.multiplication!=null&&
+                            right is Int||left is Int ->
+                                Value(Type.STRING, if(right is Int)
+                                    left.toString().repeat(right)
+                                else right.toString().repeat(left as Int))
                         else -> throw Exception()
                     }
-                else if(left is ValueList&&right is ValueList){
-                    Value({ Type.ARRAY }, { left+right })
-                }else Value({ Type.STRING }, { StringClass(left.toString()+right, fileVisitor!!) })
+                }else if(right is ValueList&&left is ValueList){
+                    return when {
+                        ctx.add!=null -> Value(Type.ARRAY, right+left)
+                        else -> throw Exception()
+                    }
+                }else if(right is Boolean&&left is Boolean){
+                    return when {
+                        ctx.or!=null -> Value(Type.BOOL, right||left)
+                        ctx.and!=null -> Value(Type.BOOL, right&&left)
+                        else -> throw Exception()
+                    }
+                }else{
+                    return when {
+                        /**Bool operations*/
+                        ctx.equals!=null -> Value({ Type.BOOL }, { left == right })
+                        ctx.notEquals!=null -> Value({ Type.BOOL }, { left != right })
+                        else -> throw Exception()
+                    }
+                }
             }
-            ctx.minus!=null&&
-                    left is Number&&
-                    right is Number -> when {
-                left is Double||right is Double -> Value({Type.DOUBLE}, {left.toDouble()-right.toDouble()})
-                left is Long||right is Long -> Value({Type.LONG}, {left.toLong()-right.toLong()})
-                left is Int||right is Int -> Value({Type.INT}, {left.toInt()-right.toInt()})
-                else -> throw Exception()
-            }
-            ctx.pow!=null&&
-                    left is Number&&
-                    right is Number -> when {
-                left is Double||right is Double -> Value({Type.DOUBLE}, { left.toDouble().pow(right.toDouble())})
-                left is Long||right is Long -> Value({Type.LONG}, {left.toDouble().pow(right.toDouble())})
-                left is Int||right is Int -> Value({Type.INT}, {left.toDouble().pow(right.toDouble())})
-                else -> throw Exception()
-            }
-
-            /**Bool operations*/
-            ctx.equals!=null -> Value({ Type.BOOL }, { left == right })
-            ctx.notEquals!=null -> Value({ Type.BOOL }, { left != right })
-            ctx.or!=null&&
-                    left is Boolean&&
-                    right is Boolean -> Value({ Type.BOOL }, { left||right })
-            ctx.and!=null&&
-                    left is Boolean&&
-                    right is Boolean -> Value({ Type.BOOL }, { left&&right })
-            ctx.larger!=null&&
-                    left is Number&&
-                    right is Number -> Value({ Type.BOOL }, { left.toDouble()>right.toDouble() })
-            ctx.largerEquals!=null&&
-                    left is Number&&
-                    right is Number -> Value({ Type.BOOL }, { left.toDouble()>=right.toDouble() })
-            ctx.less!=null&&
-                    left is Number&&
-                    right is Number -> Value({ Type.BOOL }, { left.toDouble()<right.toDouble() })
-            ctx.lessEquals!=null&&
-                    left is Number&&
-                    right is Number -> Value({ Type.BOOL }, { left.toDouble()<=right.toDouble() })
             else -> throw Exception()
         }
     }
