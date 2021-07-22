@@ -3,6 +3,7 @@ package lclang.libs.std
 import lclang.*
 import lclang.exceptions.LCLangException
 import lclang.libs.Library
+import lclang.libs.std.classes.MathClass
 import lclang.methods.Method
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
@@ -10,8 +11,14 @@ import java.io.File
 import kotlin.system.exitProcess
 import java.util.*
 
+
 class StdLibrary: Library() {
+    companion object {
+        lateinit var fileVisitor: LCFileVisitor
+    }
+
     init {
+        globals["math"] = Value({Type("math")}, { MathClass(fileVisitor) })
         methods["println"] = object: Method(listOf(Type.ANY), Type.VOID) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 println(args[0])
