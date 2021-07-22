@@ -13,6 +13,11 @@ class CharClass(val char: Char, parent: LCFileVisitor): LCClass("char", parent, 
                 return char.code
             }
         }
+        methods["upper"] = object: Method(listOf(), Type.CHAR) {
+            override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
+                return char.uppercase()
+            }
+        }
     }
 
     override fun equals(other: Any?): Boolean {
