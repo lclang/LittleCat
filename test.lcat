@@ -1,5 +1,8 @@
+use global someNum from "test1.lcat";
+
 global TEST = "error!";
 
+println(someNum);
 println(math);
 method main() {
 

@@ -64,5 +64,5 @@ attribute: '@' ID;
 method: attribute* METHOD ID args (':' type)? block;
 
 //File expressions
-use: 'use' type ('from' STRING)? ';';
+use: 'use' useGlobal='global' type 'from' STRING ';';
 global: 'global' ID '=' value ';';

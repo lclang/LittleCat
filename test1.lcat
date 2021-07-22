@@ -1,3 +1,4 @@
+global someNum = 123;
 export = [
 123, 456
 ];

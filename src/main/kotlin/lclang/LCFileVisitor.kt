@@ -1,6 +1,10 @@
 package lclang
 
+import lclang.exceptions.LCLangException
 import lclang.libs.Library
+import org.antlr.v4.runtime.CharStreams
+import org.antlr.v4.runtime.CommonTokenStream
+import java.io.File
 
 open class LCFileVisitor(
     val path: String
@@ -30,6 +34,7 @@ open class LCFileVisitor(
 
     override fun visitFile(ctx: lclangParser.FileContext?): Value? {
         if(ctx===null) return null
+
         for(classExpr in ctx.classExpr())
             classes[classExpr.ID().text] = LCClass.from("",this, classExpr)
 
@@ -39,6 +44,39 @@ open class LCFileVisitor(
         for(library in libraries){
             methods.putAll(library.methods)
             globals.putAll(library.globals)
+        }
+
+        for(usage in ctx.use()){
+            val requiredFile = File(File(fileVisitor.path).parent, usage.STRING().text
+                .substring(1).substringBeforeLast('"'))
+            if(!requiredFile.exists())
+                throw LCLangException("File", "file "+requiredFile.name+" not found",
+                    usage.start.line, usage.stop.line, fileVisitor.path)
+            else if(requiredFile.length()!=0L){
+                val lexer = lclangLexer(CharStreams.fromString(read(requiredFile)))
+                val tokens = CommonTokenStream(lexer)
+                val parser = lclangParser(tokens)
+                parser.removeErrorListeners()
+                parser.addErrorListener(ErrorListener(requiredFile.path.toString()))
+
+                val eval = LCFileVisitor(requiredFile.path.toString()).apply {
+                    libraries.addAll(fileVisitor.libraries)
+                    visitFile(parser.file())
+                }
+
+                val name = Type.from(usage.type()).name
+                if(usage.useGlobal!=null){
+                    if(eval.globals.containsKey(name))
+                        globals[name] = eval.globals[name]
+                    else throw LCLangException("File", "global "+requiredFile.name+" not found",
+                        usage.start.line, usage.stop.line, fileVisitor.path)
+                }else{
+                    if(eval.classes.containsKey(name))
+                        classes[name] = eval.classes[name]!!
+                    else throw LCLangException("File", "class "+requiredFile.name+" not found",
+                        usage.start.line, usage.stop.line, fileVisitor.path)
+                }
+            }
         }
 
         for(global in ctx.global())
