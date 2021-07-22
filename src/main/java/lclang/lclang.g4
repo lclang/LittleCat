@@ -11,7 +11,7 @@ DOUBLE: [0-9]*'.'[0-9]+;
 INTEGER: [0-9]+;
 
 file: use* global* (stmt|method|component|classExpr)*;
-type: ID ('\\' type)?;
+type: ID ('\\' ID)*;
 
 expression: '('expression')'
     | expression or='||' expression

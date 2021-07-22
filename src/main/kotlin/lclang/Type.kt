@@ -24,9 +24,9 @@ class Type(
         val DOUBLE = Type("double", true)
 
         fun from(ctx: lclangParser.TypeContext): Type {
-            var stringName = ctx.ID().text
-            for(type in ctx.type())
-                stringName += "\\"+type.ID().text
+            var stringName = ""
+            for(type in ctx.ID())
+                stringName += "\\"+type
 
             return when(stringName){
                 "void" -> VOID
