@@ -48,6 +48,8 @@ open class LCBaseVisitor : lclangBaseVisitor<Value?>() {
             val value = visitStmt(ctx.stmt())
             if(value?.isReturn==true)
                 return value
+            else if(value?.stop==true)
+                return null
         }
 
         return null
@@ -95,6 +97,10 @@ open class LCBaseVisitor : lclangBaseVisitor<Value?>() {
         return ctx?.expression()?.let { visitExpression(it) }?.apply {
             isReturn = true
         } ?: Value({ Type.VOID }, { null }, isReturn = true)
+    }
+
+    override fun visitStop(ctx: lclangParser.StopContext?): Value? {
+        return Value({ Type.VOID }, { null }, stop = true)
     }
 
     override fun visitTypeGet(ctx: lclangParser.TypeGetContext?): Value? {

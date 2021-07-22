@@ -11,7 +11,7 @@ DOUBLE: [0-9]*'.'[0-9]+;
 INTEGER: [0-9]+;
 
 file: use* global* (stmt|method|component|classExpr)*;
-type: ID ('\\' type)*;
+type: ID ('\\' type)?;
 
 expression: '('expression')'
     | expression or='||' expression
@@ -30,7 +30,7 @@ expression: '('expression')'
     | primitive;
 
 primitive: (ifExpr|returnExpr|call|fixedVariable
-               |value|variable|array|typeGet) arrayAccess* operation?;
+               |stop|value|variable|array|typeGet) arrayAccess* operation?;
 
 value: HEX_LONG|BOOL|STRING|CHAR|DOUBLE|LONG|INTEGER;
 call: type ('(' expression (',' expression)* ')'|'()');
@@ -38,6 +38,7 @@ returnExpr: 'return' expression?;
 typeGet: '*' expression;
 array: '[' expression (',' expression)* ']'|'[]';
 arrayAccess: '[' expression ']'|'[]';
+stop: 'stop';
 variable: ID;
 fixedVariable: 'fixed' ID;
 ifExpr: 'if ' condition=expression ':' ifT=expression 'else' ifF=expression;
@@ -53,7 +54,7 @@ block: '{' stmt* '}';
 
 component: 'component' type '{' (method|classExpr)* '}';
 classExpr: 'class' ID '{' (method|field)* '}';
-field: ID '=' expression;
+field: ID ('=' expression)?;
 
 arg: type? ID;
 args: '(' arg (',' arg)*')'|'()';
