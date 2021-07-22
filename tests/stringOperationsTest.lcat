@@ -1,0 +1,5 @@
+println("hi "*5);
+println("123"+456);
+--OUTPUT--
+hi hi hi hi hi
+123456

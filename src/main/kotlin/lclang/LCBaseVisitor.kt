@@ -227,9 +227,9 @@ open class LCBaseVisitor(
                     }
                 }
 
-                if(right is StringClass||left is StringClass){
+                if(left is StringClass||right is StringClass){
                     when {
-                        ctx.add!=null -> return Value(Type.STRING, right.toString()+left)
+                        ctx.add!=null -> return Value(Type.STRING, left.toString()+right)
                         ctx.multiplication!=null&&
                                 right is Int||left is Int ->
                             return Value(Type.STRING, StringClass(if(right is Int)
@@ -240,14 +240,14 @@ open class LCBaseVisitor(
 
                 if(right is ValueList&&left is ValueList){
                     when {
-                        ctx.add!=null -> return Value(Type.ARRAY, right+left)
+                        ctx.add!=null -> return Value(Type.ARRAY, left+right)
                     }
                 }
 
                 if(right is Boolean&&left is Boolean){
                     when {
-                        ctx.or!=null -> return Value(Type.BOOL, right||left)
-                        ctx.and!=null -> return Value(Type.BOOL, right&&left)
+                        ctx.or!=null -> return Value(Type.BOOL,left||right)
+                        ctx.and!=null -> return Value(Type.BOOL, left&&right)
                     }
                 }
 
