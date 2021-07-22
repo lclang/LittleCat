@@ -1,0 +1,7 @@
+test = {
+    return "Test string!";
+};
+
+println(test);
+--OUTPUT--
+Test string!

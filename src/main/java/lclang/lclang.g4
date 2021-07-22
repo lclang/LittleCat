@@ -30,7 +30,7 @@ expression: '('expression')'
     | primitive;
 
 primitive: (ifExpr|returnExpr|call|fixedVariable
-               |stop|value|variable|array|typeGet) arrayAccess* operation?;
+               |stop|value|variable|array|typeGet|lambda|container) arrayAccess* operation?;
 
 value: HEX_LONG|BOOL|STRING|CHAR|DOUBLE|LONG|INTEGER;
 call: type ('(' expression (',' expression)* ')'|'()');
@@ -41,6 +41,8 @@ arrayAccess: '[' expression ']'|'[]';
 stop: 'stop';
 variable: ID;
 fixedVariable: 'fixed' ID;
+lambda: '->' args expression;
+container: '{' stmt* '}'|'{}';
 ifExpr: 'if ' condition=expression ':' ifT=expression 'else' ifF=expression;
 
 operation: access|set;
