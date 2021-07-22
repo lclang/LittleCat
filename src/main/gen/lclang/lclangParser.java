@@ -345,8 +345,8 @@ public class lclangParser extends Parser {
 		public Token notEquals;
 		public Token less;
 		public Token larger;
-		public Token lessEquals;
 		public Token largerEquals;
+		public Token lessEquals;
 		public Token multiplication;
 		public Token div;
 		public Token add;
@@ -522,7 +522,7 @@ public class lclangParser extends Parser {
 						setState(115);
 						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
 						setState(116);
-						((ExpressionContext)_localctx).lessEquals = match(T__9);
+						((ExpressionContext)_localctx).largerEquals = match(T__9);
 						setState(117);
 						expression(9);
 						}
@@ -534,7 +534,7 @@ public class lclangParser extends Parser {
 						setState(118);
 						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
 						setState(119);
-						((ExpressionContext)_localctx).largerEquals = match(T__10);
+						((ExpressionContext)_localctx).lessEquals = match(T__10);
 						setState(120);
 						expression(8);
 						}

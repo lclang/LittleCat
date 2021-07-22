@@ -1,0 +1,9 @@
+println(20<10);
+println(20<30);
+println(20<=10);
+println(20<=20);
+--OUTPUT--
+false
+true
+false
+true
