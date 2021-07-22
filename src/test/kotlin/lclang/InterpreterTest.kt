@@ -5,11 +5,13 @@ import lclang.methods.Method
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import java.io.File
 import java.util.stream.Stream
 
+@DisplayName("Interpreter Tests")
 class InterpreterTest {
     private val testsFile = File("./tests/")
 
