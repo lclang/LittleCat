@@ -1,5 +1,6 @@
 global TEST = "error!";
 
+println(math);
 method main() {
 
     // Arrays test
@@ -10,11 +11,6 @@ method main() {
     print(2^2);
     // Char test
     println('a');
-
-
-    // println (only classes: char, string)
-    "println as class method".println();
-    't'.println();
 
     data[] = *TEST;
     //Обычный комментарий

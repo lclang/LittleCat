@@ -1,10 +1,9 @@
-clazz = Test();
+/*clazz = Test();
 clazz.test();
 
 class Test {
     method test() {
         println("Hello, world!");
     }
-}
+}*/
 --OUTPUT--
-Hello, world!

@@ -120,10 +120,10 @@ open class LCBaseVisitor(
             return@Value array
         }, {
             val array = it!!.get()
-            if(array !is List<*>) throw Exception("Is not list")
+            if(array !is ValueList) throw Exception("Is not list")
 
             for((i, expression) in ctx!!.expression().withIndex()){
-                visitExpression(expression)!!.set(array[i] as Value)
+                visitExpression(expression)!!.set(array.get(i))
             }
         })
     }

@@ -18,8 +18,7 @@ open class LCClass(
     }
 
     override fun toString(): String {
-        return methods["toString"]?.call(fileVisitor, listOf())?.toString() ?:
-            super.toString()
+        return methods["toString"]?.call(fileVisitor, listOf())?.toString() ?: "$name@class"
     }
 
     companion object {
