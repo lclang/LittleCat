@@ -177,25 +177,26 @@ open class LCBaseVisitor : lclangBaseVisitor<Value?>() {
                                 else -> Type.INT
                             }
 
-                            when {
-                                ctx.multiplication != null -> return Value(needType, when(needType){
+                            return Value(needType, when {
+                                ctx.multiplication != null -> when(needType){
                                     Type.DOUBLE -> left.toDouble()*right.toDouble()
                                     Type.LONG -> left.toLong()*right.toLong()
                                     else -> left.toInt()*right.toInt()
-                                })
+                                }
 
-                                ctx.add != null -> return Value(needType, when(needType){
+                                ctx.add != null -> when(needType){
                                     Type.DOUBLE -> left.toDouble()+right.toDouble()
                                     Type.LONG -> left.toLong()+right.toLong()
                                     else -> left.toInt()+right.toInt()
-                                })
+                                }
 
-                                ctx.minus != null -> return Value(needType, when(needType){
+                                ctx.minus != null -> when(needType){
                                     Type.DOUBLE -> left.toDouble()-right.toDouble()
                                     Type.LONG -> left.toLong()-right.toLong()
                                     else -> left.toInt()-right.toInt()
-                                })
-                            }
+                                }
+                                else -> throw Exception()
+                            })
                         }
                     }
                 }
