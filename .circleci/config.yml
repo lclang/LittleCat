@@ -4,7 +4,7 @@
 #
 version: 2.1
 orbs:
-  slack: circleci/slack@4.4.2
+  discord: teka23/discord@0.0.1
 
 jobs:
   build:
@@ -43,10 +43,11 @@ jobs:
 
       # run tests!
       - run: gradle test
-      - slack/notify:
-               event: fail
-               mentions: '@Tests'
-               template: basic_fail_1
-      - slack/notify:
-               event: pass
-               template: success_tagged_deploy_1
+      - discord/status:
+          fail_only: true
+          mentions: 'levkopo'
+          webhook: ${DISCORD_WEBHOOK_URL}
+      - discord/status:
+          fail_only: false
+          mentions: 'levkopo'
+          webhook: ${DISCORD_WEBHOOK_URL}
