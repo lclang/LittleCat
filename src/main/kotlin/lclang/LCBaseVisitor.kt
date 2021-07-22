@@ -243,7 +243,7 @@ open class LCBaseVisitor : lclangBaseVisitor<Value?>() {
         return null
     }
 
-    override fun visitPrimitive(ctx: lclangParser.PrimitiveContext?): Value? {
+    override fun visitPrimitive(ctx: lclangParser.PrimitiveContext?): Value {
         var value = visit(ctx!!.children[0])!!
         for(access in ctx.arrayAccess()){
             val gettable = value.get()

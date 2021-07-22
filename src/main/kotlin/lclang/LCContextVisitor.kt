@@ -1,6 +1,5 @@
 package lclang
 
-import lclang.exceptions.MethodNotFoundException
 import lclang.exceptions.VariableNotFoundException
 
 open class LCContextVisitor(
@@ -27,12 +26,12 @@ open class LCContextVisitor(
             }, { variables[variableName] = it })
     }
 
-    override fun visitPrimitive(ctx: lclangParser.PrimitiveContext?): Value? {
+    override fun visitPrimitive(ctx: lclangParser.PrimitiveContext?): Value {
         val value =  super.visitPrimitive(ctx)
         val operation = ctx?.operation()
         if(operation?.set()!=null){
-            val expressionValue = visitExpression(operation.set().expression())
-            value!!.set(expressionValue)
+            val expressionValue = visitExpression(operation.set().expression())!!
+            value.set(expressionValue)
 
             return expressionValue
         }
