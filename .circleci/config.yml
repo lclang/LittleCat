@@ -4,7 +4,8 @@
 #
 version: 2.1
 orbs:
-  discord: teka23/discord@0.0.1
+  slack: circleci/slack@4.4.2
+
 jobs:
   build:
     docker:
@@ -42,8 +43,10 @@ jobs:
 
       # run tests!
       - run: gradle test
-
-      - discord/notify:
-          color: '4383476'
-          message: This is a custom message notification
-          webhook: $WEBHOOK
+      - slack/notify:
+               event: fail
+               mentions: '@Tests'
+               template: basic_fail_1
+      - slack/notify:
+               event: pass
+               template: success_tagged_deploy_1
