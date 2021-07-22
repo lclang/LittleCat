@@ -22,6 +22,17 @@ open class LCBaseVisitor : lclangBaseVisitor<Value?>() {
         return null
     }
 
+    override fun visitContainer(ctx: lclangParser.ContainerContext?): Value? {
+        for(stmt in ctx!!.stmt())
+            visit(stmt)?.let {
+                if(it.isReturn||it.stop)
+                    return@visitContainer it
+                else it.get()
+            }
+
+        return Value({ Type.VOID }, { null })
+    }
+
     override fun visitValue(ctx: lclangParser.ValueContext?): Value? {
         if(ctx==null) return null
         return when {
