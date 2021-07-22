@@ -1,17 +1,23 @@
 package lclang
 
-class ValueList: ArrayList<Value>(){
+class ValueList: LCClass("array") {
+    val list = ArrayList<Value>()
+
+    fun add(value: Value) = list.add(value)
+    fun get(index: Int) = list[index]
+    fun last() = list.last()
+
     override fun toString(): String {
         var str = ""
-        for((i, el) in this.withIndex()){
-            str += el.get().toString() + if(this.size != i+1) ", " else ""
+        for((i, el) in list.withIndex()){
+            str += el.get().toString() + if(list.size != i+1) ", " else ""
         }
 
         return "[$str]"
     }
 
     operator fun plus(a: ValueList): ValueList {
-        for(el in a) this.add(el);
-        return this;
+        for(el in a.list) list.add(el)
+        return this
     }
 }

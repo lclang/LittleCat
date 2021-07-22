@@ -3,10 +3,8 @@ package lclang
 import lclang.exceptions.LCLangException
 import lclang.libs.Library
 import lclang.libs.std.StdLibrary
-import org.antlr.v4.runtime.*
-import org.antlr.v4.runtime.Parser
-import org.antlr.v4.runtime.atn.ATNConfigSet
-import org.antlr.v4.runtime.dfa.DFA
+import org.antlr.v4.runtime.CharStreams
+import org.antlr.v4.runtime.CommonTokenStream
 import org.apache.commons.cli.*
 import org.mozilla.universalchardet.UniversalDetector
 import java.io.File
@@ -80,7 +78,6 @@ fun main(args: Array<String>) {
                 }
             }
         }
-        StdLibrary.fileVisitor = eval
         eval.visit(tree)
     }catch (e: LCLangException){
         println("\u001B[31m"+e.message)

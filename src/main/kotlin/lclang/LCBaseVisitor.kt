@@ -11,9 +11,8 @@ import kotlin.math.pow
 
 open class LCBaseVisitor(
     parent: LCBaseVisitor? = null, importVars: Boolean = false): lclangBaseVisitor<Value?>() {
-    var fileVisitor: LCFileVisitor? = null
+    lateinit var fileVisitor: LCFileVisitor
     val methods = HashMap<String, Method>()
-
     val variables = HashMap<String, Value?>()
 
     init {
@@ -28,11 +27,12 @@ open class LCBaseVisitor(
         val variableName = ctx!!.ID().text
 
         return Value({ variables[variableName]?.type?.invoke()?:
-        fileVisitor?.globals?.get(variableName)?.type?.invoke()?: Type.ANY }, {
+        fileVisitor.globals[variableName]?.type?.invoke()?: Type.ANY }, {
             variables[variableName]?.get?.invoke()?:
-            fileVisitor?.globals?.get(variableName)?.get?.invoke() ?:
+            fileVisitor.globals[variableName]?.get?.invoke() ?:
             throw VariableNotFoundException(variableName,
-                ctx.start.line, ctx.stop.line, fileVisitor?.path?: "unknown")
+                ctx.start.line, ctx.stop.line, fileVisitor.path
+            )
         }, { variables[variableName] = it })
     }
 
@@ -62,8 +62,9 @@ open class LCBaseVisitor(
         if(ctx==null) return null
         return when {
             ctx.STRING()!=null -> Value({ Type.STRING }, { StringClass(ctx.STRING().text.substring(1)
-                .substringBeforeLast('"'), fileVisitor!!) })
-            ctx.CHAR()!=null -> Value({ Type.CHAR }, { CharClass(ctx.CHAR().text.substring(1).substringBeforeLast('\'')[0], fileVisitor!!) })
+                .substringBeforeLast('"')) })
+            ctx.CHAR()!=null -> Value({ Type.CHAR }, { CharClass(ctx.CHAR().text.substring(1)
+                .substringBeforeLast('\'')[0]) })
             ctx.INTEGER()!=null -> Value({ Type.INT }, { ctx.INTEGER().text.toInt() })
             ctx.LONG()!=null -> Value({ Type.LONG }, { ctx.LONG().text
                 .substringBeforeLast('L').toLong()})
@@ -146,14 +147,15 @@ open class LCBaseVisitor(
         if(ctx==null) return null
 
         val subjectName = Type.from(ctx.type()).name
-        if(this !is LCClass&&fileVisitor?.classes?.containsKey(subjectName) == true){
-            val clazz = fileVisitor!!.classes[subjectName]!!
+        if(this !is LCClass&&fileVisitor.classes.containsKey(subjectName)){
+            val clazz = fileVisitor.classes[subjectName]!!
             //TODO: args
             return Value({ Type(clazz.name) }, { clazz.create(listOf()) })
         }
 
         val notFoundException = MethodNotFoundException(subjectName,
-            ctx.start.line, ctx.stop.line, fileVisitor?.path ?: "unknown")
+            ctx.start.line, ctx.stop.line, fileVisitor.path
+        )
 
         val method = methods[subjectName] ?: throw notFoundException
         if(method.args.size!=ctx.expression().size) throw notFoundException
@@ -167,7 +169,7 @@ open class LCBaseVisitor(
             args.add(value.get())
         }
 
-        val value = method.call(fileVisitor!!, args)
+        val value = method.call(fileVisitor, args)
         return Value({ method.returnType }, { value })
     }
 
@@ -230,9 +232,9 @@ open class LCBaseVisitor(
                         ctx.add!=null -> return Value(Type.STRING, right.toString()+left)
                         ctx.multiplication!=null&&
                                 right is Int||left is Int ->
-                            return Value(Type.STRING, if(right is Int)
+                            return Value(Type.STRING, StringClass(if(right is Int)
                                 left.toString().repeat(right)
-                            else right.toString().repeat(left as Int))
+                            else right.toString().repeat(left as Int)))
                     }
                 }
 
@@ -254,7 +256,7 @@ open class LCBaseVisitor(
                     ctx.notEquals!=null -> Value({ Type.BOOL }, { left != right })
                     else -> throw TypeErrorException("Unsupported operand types: ${leftType.name} " +
                             "${ctx.getChild(1)} ${rightType.name}",
-                                ctx.start.line, ctx.stop.line, fileVisitor!!.path)
+                                ctx.start.line, ctx.stop.line, fileVisitor.path)
                 }
             }
             else -> throw Exception()
@@ -290,7 +292,7 @@ open class LCBaseVisitor(
                 if(access.expression()!=null) {
                     val getValue = visitExpression(access.expression())!!
                     if (getValue.type().isAccept(Type.INT))
-                        gettable[getValue.get() as Int]
+                        gettable.get(getValue.get() as Int)
                     else throw Exception("error name (array get type not int)")
                 }else Value({ Type.ANY }, { gettable.last().get() }, {
                     gettable.add(it!!)

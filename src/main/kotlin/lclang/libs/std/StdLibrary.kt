@@ -13,12 +13,9 @@ import java.util.*
 
 
 class StdLibrary: Library() {
-    companion object {
-        lateinit var fileVisitor: LCFileVisitor
-    }
 
     init {
-        globals["math"] = Value({Type("math")}, { MathClass(fileVisitor) })
+        globals["math"] = Value({Type("math")}, { MathClass() })
         methods["println"] = object: Method(listOf(Type.ANY), Type.VOID) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 println(args[0])

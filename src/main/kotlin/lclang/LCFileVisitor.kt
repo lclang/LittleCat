@@ -1,14 +1,11 @@
 package lclang
 
 import lclang.libs.Library
-import org.antlr.v4.runtime.CharStreams
-import org.antlr.v4.runtime.CommonTokenStream
 
 class LCFileVisitor(
     val path: String
 ): LCBaseVisitor() {
     val classes = HashMap<String, LCClass>()
-    val components = HashMap<String, lclangParser.ComponentContext>()
     val libraries = ArrayList<Library>()
     val globals = HashMap<String, Value?>()
 
@@ -23,10 +20,21 @@ class LCFileVisitor(
         return null
     }
 
+    override fun visitComponent(ctx: lclangParser.ComponentContext?): Value? {
+        val name = Type.from(ctx!!.type()).name + "\\"
+        for(classExpr in ctx.classExpr())
+            classes[classExpr.ID().text] = LCClass.from(name,this, classExpr);
+
+        return null
+    }
+
     override fun visitFile(ctx: lclangParser.FileContext?): Value? {
         if(ctx===null) return null
         for(classExpr in ctx.classExpr())
-            classes[classExpr.ID().text] = LCClass.from(this, classExpr)
+            classes[classExpr.ID().text] = LCClass.from("",this, classExpr)
+
+        for(component in ctx.component())
+            visitComponent(component)
 
         for(library in libraries){
             methods.putAll(library.methods)
