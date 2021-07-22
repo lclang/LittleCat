@@ -160,13 +160,13 @@ open class LCBaseVisitor : lclangBaseVisitor<Value?>() {
                 val right = rightValue.get()
 
                 if(left is Number&&right is Number) {
-                    when {
-                        ctx.div != null -> return Value(Type.DOUBLE, left.toDouble() / right.toDouble())
-                        ctx.pow != null -> return Value(Type.DOUBLE, left.toDouble().pow(right.toDouble()))
-                        ctx.less != null -> return Value(Type.BOOL, left.toDouble() < right.toDouble())
-                        ctx.lessEquals != null -> return Value(Type.BOOL, left.toDouble() <= right.toDouble())
-                        ctx.larger != null -> return Value(Type.BOOL, left.toDouble() > right.toDouble())
-                        ctx.largerEquals != null -> return Value(Type.BOOL, left.toDouble() >= right.toDouble())
+                    return when {
+                        ctx.div != null -> Value(Type.DOUBLE, left.toDouble() / right.toDouble())
+                        ctx.pow != null -> Value(Type.DOUBLE, left.toDouble().pow(right.toDouble()))
+                        ctx.less != null -> Value(Type.BOOL, left.toDouble() < right.toDouble())
+                        ctx.lessEquals != null -> Value(Type.BOOL, left.toDouble() <= right.toDouble())
+                        ctx.larger != null -> Value(Type.BOOL, left.toDouble() > right.toDouble())
+                        ctx.largerEquals != null -> Value(Type.BOOL, left.toDouble() >= right.toDouble())
 
                         else -> {
                             val needType = when {
@@ -177,7 +177,7 @@ open class LCBaseVisitor : lclangBaseVisitor<Value?>() {
                                 else -> Type.INT
                             }
 
-                            return Value(needType, when {
+                            Value(needType, when {
                                 ctx.multiplication != null -> when(needType){
                                     Type.DOUBLE -> left.toDouble()*right.toDouble()
                                     Type.LONG -> left.toLong()*right.toLong()
@@ -199,37 +199,34 @@ open class LCBaseVisitor : lclangBaseVisitor<Value?>() {
                             })
                         }
                     }
-                }
-
-                if(right is StringClass||left is StringClass){
-                    when {
-                        ctx.add!=null -> return Value(Type.STRING, right.toString()+left)
+                }else if(right is StringClass||left is StringClass){
+                    return when {
+                        ctx.add!=null -> Value(Type.STRING, right.toString()+left)
                         ctx.multiplication!=null&&
                             right is Int||left is Int ->
-                                return Value(Type.STRING, if(right is Int)
+                                Value(Type.STRING, if(right is Int)
                                     left.toString().repeat(right)
                                 else right.toString().repeat(left as Int))
+                        else -> throw Exception()
                     }
-                }
-
-                if(right is ValueList&&left is ValueList){
-                    when {
-                        ctx.add!=null -> return Value(Type.ARRAY, right+left)
+                }else if(right is ValueList&&left is ValueList){
+                    return when {
+                        ctx.add!=null -> Value(Type.ARRAY, right+left)
+                        else -> throw Exception()
                     }
-                }
-
-                if(right is Boolean&&left is Boolean){
-                    when {
-                        ctx.or!=null -> return Value(Type.BOOL, right||left)
-                        ctx.and!=null -> return Value(Type.BOOL, right&&left)
+                }else if(right is Boolean&&left is Boolean){
+                    return when {
+                        ctx.or!=null -> Value(Type.BOOL, right||left)
+                        ctx.and!=null -> Value(Type.BOOL, right&&left)
+                        else -> throw Exception()
                     }
-                }
-
-                return when {
-                    /**Bool operations*/
-                    ctx.equals!=null -> Value({ Type.BOOL }, { left == right })
-                    ctx.notEquals!=null -> Value({ Type.BOOL }, { left != right })
-                    else -> throw Exception()
+                }else{
+                    return when {
+                        /**Bool operations*/
+                        ctx.equals!=null -> Value({ Type.BOOL }, { left == right })
+                        ctx.notEquals!=null -> Value({ Type.BOOL }, { left != right })
+                        else -> throw Exception()
+                    }
                 }
             }
             else -> throw Exception()
