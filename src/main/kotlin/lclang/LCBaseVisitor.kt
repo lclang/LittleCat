@@ -1,5 +1,6 @@
 package lclang
 
+import lclang.exceptions.LCLangException
 import lclang.exceptions.MethodNotFoundException
 import lclang.exceptions.TypeErrorException
 import lclang.exceptions.VariableNotFoundException
@@ -71,14 +72,17 @@ open class LCBaseVisitor(
             ctx.HEX_LONG()!=null -> Value({ Type.LONG }, { ctx.HEX_LONG().text
                 .substring(1).toLong(radix=16)})
             ctx.BOOL()!=null -> Value({ Type.BOOL }, { ctx.BOOL().text=="true" })
-            else -> throw Exception()
+            else -> throw LCLangException("Syntax error", "Invalid value "+ctx.text,
+                ctx.start.line, ctx.stop.line, fileVisitor.path)
         }
     }
 
     override fun visitWhileStmt(ctx: lclangParser.WhileStmtContext?): Value? {
         while(visitExpression(ctx!!.condition)!!.apply {
                 if(!Type.BOOL.isAccept(type()))
-                    throw Exception("Value is not bool: "+type().name)
+                    throw TypeErrorException("Value is not bool: "+type().name,
+                        ctx.condition.start.line, ctx.condition.stop.line, fileVisitor.path)
+
             }.get()==true){
             val value = visitStmt(ctx.stmt())
             if(value?.isReturn==true)
@@ -93,7 +97,8 @@ open class LCBaseVisitor(
     override fun visitIfStmt(ctx: lclangParser.IfStmtContext?): Value? {
         val cond = visitExpression(ctx!!.condition)!!.apply {
             if(!Type.BOOL.isAccept(type()))
-                throw Exception("Value is not bool: "+type().name)
+                throw TypeErrorException("Value is not bool: "+type().name,
+                    ctx.condition.start.line, ctx.condition.stop.line, fileVisitor.path)
         }
 
         if(cond.get()==true){
@@ -120,7 +125,9 @@ open class LCBaseVisitor(
             return@Value array
         }, {
             val array = it!!.get()
-            if(array !is ValueList) throw Exception("Is not list")
+            if(array !is ValueList)
+                throw TypeErrorException("Value is not list", ctx!!.start.line, ctx.stop.line,
+                    fileVisitor.path)
 
             for((i, expression) in ctx!!.expression().withIndex()){
                 visitExpression(expression)!!.set(array.get(i))
@@ -147,30 +154,40 @@ open class LCBaseVisitor(
         if(ctx==null) return null
 
         val subjectName = Type.from(ctx.type()).name
+
+        val argsTypes = ArrayList<Type>()
+        val args = ArrayList<Value>()
+        for(arg in ctx.expression())
+            args.add(visitExpression(arg)!!.let {
+                argsTypes.add(it.type())
+                it
+            })
+
         if(this !is LCClass&&fileVisitor.classes.containsKey(subjectName)){
             val clazz = fileVisitor.classes[subjectName]!!
-            //TODO: args
-            return Value({ Type(clazz.name) }, { clazz.create(listOf()) })
+            return Value({ Type(clazz.name) },
+                { clazz.create(args) })
         }
 
         val notFoundException = MethodNotFoundException(subjectName,
-            ctx.start.line, ctx.stop.line, fileVisitor.path
-        )
+            ctx.start.line, ctx.stop.line, fileVisitor.path)
 
         val method = methods[subjectName] ?: throw notFoundException
-        if(method.args.size!=ctx.expression().size) throw notFoundException
-
-        val args = ArrayList<Any?>()
-        for(argNum in 0 until method.args.size){
-            val value = visit(ctx.expression(argNum)) ?: throw notFoundException
-            if(!method.args[argNum].isAccept(value.type()))
-                throw notFoundException
-
-            args.add(value.get())
+        if(method.args.size!=argsTypes.size){
+            if(method.args.size>argsTypes.size)
+                throw TypeErrorException("Invalid arguments: few arguments",
+                    ctx.start.line, ctx.stop.line, fileVisitor.path)
+            else throw TypeErrorException("Invalid arguments: too many arguments",
+                ctx.start.line, ctx.stop.line, fileVisitor.path)
         }
 
-        val value = method.call(fileVisitor, args)
-        return Value({ method.returnType }, { value })
+        val notAcceptArg = method.args.isAccept(argsTypes)
+        if(notAcceptArg!=-1)
+            throw TypeErrorException("Invalid argument $notAcceptArg",
+                ctx.expression(notAcceptArg).start.line, ctx.expression(notAcceptArg).stop.line,
+                    fileVisitor.path)
+
+        return call(method, args)
     }
 
     override fun visitExpression(ctx: lclangParser.ExpressionContext?): Value? {
@@ -266,7 +283,8 @@ open class LCBaseVisitor(
     override fun visitIfExpr(ctx: lclangParser.IfExprContext?): Value? {
         val cond = visitExpression(ctx!!.condition)!!.apply {
             if(!Type.BOOL.isAccept(type()))
-                throw Exception("Value is not bool: "+type().name)
+                throw TypeErrorException("Value is not bool: "+type().name,
+                ctx.condition.start.line, ctx.condition.stop.line, fileVisitor.path)
         }
 
         if(cond.get()==true){
@@ -277,9 +295,7 @@ open class LCBaseVisitor(
     }
 
     override fun visitMethod(ctx: lclangParser.MethodContext?): Value? {
-        if(ctx==null) return null
-
-        methods[ctx.ID().text] = VisitorMethod(ctx)
+        if(ctx!=null) methods[ctx.ID().text] = VisitorMethod(ctx)
         return null
     }
 
@@ -329,5 +345,12 @@ open class LCBaseVisitor(
         }
 
         return value
+    }
+
+    fun call(method: Method, args: List<Value>): Value {
+        val argsList = ArrayList<Any?>()
+        for(arg in args) argsList.add(arg.get())
+
+        return Value(method.returnType, { method.call(fileVisitor, argsList) })
     }
 }
