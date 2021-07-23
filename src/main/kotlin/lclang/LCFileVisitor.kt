@@ -12,6 +12,7 @@ open class LCFileVisitor(
     val classes = HashMap<String, LCClass>()
     val libraries = ArrayList<Library>()
     val globals = HashMap<String, Value?>()
+    val files = HashMap<String, LCFileVisitor>()
 
     init {
         fileVisitor = this
@@ -45,9 +46,13 @@ open class LCFileVisitor(
         for(usage in ctx.use()){
             val requiredFile = File(File(fileVisitor.path).parent, usage.STRING().text
                 .substring(1).substringBeforeLast('"'))
+
+            var eval: LCFileVisitor? = null
             if(!requiredFile.exists())
                 throw LCLangException("File", "file "+requiredFile.name+" not found",
                     usage.start.line, usage.stop.line, fileVisitor.path)
+            else if(files[requiredFile.path]!=null)
+                eval = files[requiredFile.path]!!
             else if(requiredFile.length()!=0L){
                 val lexer = lclangLexer(CharStreams.fromString(read(requiredFile)))
                 val tokens = CommonTokenStream(lexer)
@@ -55,11 +60,15 @@ open class LCFileVisitor(
                 parser.removeErrorListeners()
                 parser.addErrorListener(ErrorListener(requiredFile.path.toString()))
 
-                val eval = LCFileVisitor(requiredFile.path.toString()).apply {
+                eval = LCFileVisitor(requiredFile.path.toString()).apply {
                     libraries.addAll(this@LCFileVisitor.libraries)
                     visitFile(parser.file())
                 }
 
+                files[requiredFile.path] = eval
+            }
+
+            if(eval!=null){
                 val name = Type.from(usage.type()).name
                 if(usage.useGlobal!=null){
                     if(eval.globals.containsKey(name))
