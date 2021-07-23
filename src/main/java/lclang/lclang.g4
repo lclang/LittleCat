@@ -54,7 +54,7 @@ whileStmt: 'while ' condition=expression ':' stmt;
 ifStmt: 'if ' condition=expression ':' ifT=stmt ('else' ifF=stmt)?;
 block: '{' stmt* '}';
 
-component: 'component' type '{' classExpr* '}';
+component: 'component' type '{' global* classExpr* '}';
 classExpr: 'class' ID '{' (method|field)* '}';
 field: ID ('=' expression)?;
 

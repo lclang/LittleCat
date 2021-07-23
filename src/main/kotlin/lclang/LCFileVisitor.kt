@@ -17,17 +17,13 @@ open class LCFileVisitor(
         fileVisitor = this
     }
 
-    override fun visitGlobal(ctx: lclangParser.GlobalContext?): Value? {
-        if(ctx==null) return null
-        globals[ctx.ID().text] = visitValue(ctx.value())
-
-        return null
-    }
-
     override fun visitComponent(ctx: lclangParser.ComponentContext?): Value? {
         val name = Type.from(ctx!!.type()).name + "\\"
+        for(global in ctx.global())
+            globals[name+global.ID().text] = visitValue(global.value())
+
         for(classExpr in ctx.classExpr())
-            classes[classExpr.ID().text] = LCClass.from(name,this, classExpr);
+            classes[name+classExpr.ID().text] = LCClass.from(name,this, classExpr)
 
         return null
     }
@@ -80,7 +76,7 @@ open class LCFileVisitor(
         }
 
         for(global in ctx.global())
-            visitGlobal(global)
+            globals[global.ID().text] = visitValue(global.value())
 
         for(method in ctx.method())
             visitMethod(method)
