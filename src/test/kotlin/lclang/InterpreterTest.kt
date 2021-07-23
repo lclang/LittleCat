@@ -43,6 +43,7 @@ class InterpreterTest {
                 }
 
                 assertEquals(needOutput, output.toString())
+                println(output)
             })
         }
 
