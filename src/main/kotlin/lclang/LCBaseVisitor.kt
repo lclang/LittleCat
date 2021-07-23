@@ -351,6 +351,6 @@ open class LCBaseVisitor(
         val argsList = ArrayList<Any?>()
         for(arg in args) argsList.add(arg.get())
 
-        return Value(method.returnType, { method.call(fileVisitor, argsList) })
+        return Value(method.returnType, method.call(fileVisitor, argsList))
     }
 }
