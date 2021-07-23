@@ -293,26 +293,32 @@ open class LCBaseVisitor(
                     val getValue = visitExpression(access.expression())!!
                     if (getValue.type().isAccept(Type.INT))
                         gettable.get(getValue.get() as Int)
-                    else throw Exception("error name (array get type not int)")
+                    else throw TypeErrorException("invalid index: excepted int",
+                        access.start.line, access.stop.line, fileVisitor.path)
                 }else Value({ Type.ANY }, { gettable.last().get() }, {
                     gettable.add(it!!)
                     orValue.set(Value({Type.ARRAY}, {gettable}, orValue.set))
                 })
             }else if(gettable is Map<*, *>){
-                if(access.expression()==null) throw Exception("damn")
+                if(access.expression()==null) throw TypeErrorException(
+                    "invalid index: map not can add and set value",
+                    access.start.line, access.stop.line, fileVisitor.path)
 
                 val getValue = visitExpression(access.expression())!!
                 gettable[getValue.get()] as Value
-            }else throw Exception("error name (array get)")
+            }else throw TypeErrorException("excepted array or map", access.start.line, access.stop.line,
+                    fileVisitor.path)
         }
 
         val operation = ctx.operation()
         if(operation?.access()!=null){
+            val access = operation.access()
             val classValue = value.get()
             if(classValue !is LCClass)
-                throw Exception()
+                throw TypeErrorException("excepted class", access.start.line, access.stop.line,
+                    fileVisitor.path)
 
-            value = classValue.visitExpression(operation.access().expression())!!
+            value = classValue.visitExpression(access.expression())!!
         }
 
         if(operation?.set()!=null){

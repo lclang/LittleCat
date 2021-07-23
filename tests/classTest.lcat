@@ -1,5 +1,5 @@
-/*clazz = Test();
-clazz.test();*/
+clazz = Test();
+clazz.test();
 
 class Test {
     method test() {
@@ -7,3 +7,4 @@ class Test {
     }
 }
 --OUTPUT--
+Hello, world!
