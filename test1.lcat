@@ -1,4 +1,6 @@
 global someNum = 123;
+
+println(123);
 export = [
 123, 456
 ];

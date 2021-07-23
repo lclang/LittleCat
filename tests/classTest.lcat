@@ -1,9 +1,9 @@
 /*clazz = Test();
-clazz.test();
+clazz.test();*/
 
 class Test {
     method test() {
         println("Hello, world!");
     }
-}*/
+}
 --OUTPUT--

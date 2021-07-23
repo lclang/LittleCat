@@ -60,7 +60,7 @@ open class LCFileVisitor(
                 parser.addErrorListener(ErrorListener(requiredFile.path.toString()))
 
                 val eval = LCFileVisitor(requiredFile.path.toString()).apply {
-                    libraries.addAll(fileVisitor.libraries)
+                    libraries.addAll(this@LCFileVisitor.libraries)
                     visitFile(parser.file())
                 }
 
