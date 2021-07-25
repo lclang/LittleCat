@@ -1,4 +1,0 @@
-a = ["Dave", "James", "Robert", "Michael", "David"]
-print(a.join(","))
---OUTPUT--
-Dave,James,Robert,Michael,David
