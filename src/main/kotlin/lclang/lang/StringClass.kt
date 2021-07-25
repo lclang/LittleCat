@@ -19,6 +19,16 @@ class StringClass(val string: String, fileVisitor: LCFileVisitor): LCClass("stri
             }
         }
 
+        methods["toArray"] = object: Method(listOf(Type.CHAR), Type.ARRAY) {
+            override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
+                val arr = ValueList(this@StringClass.fileVisitor)
+                for(el in string.split(args[0] as Char)){
+                    arr.add(Value(Type.STRING, el))
+                }
+                return arr
+            }
+        }
+
         methods["find"] = object: Method(listOf(Type.CHAR), Type.INT) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 for ((i, c) in string.withIndex()){
