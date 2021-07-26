@@ -9,7 +9,7 @@ import kotlin.math.sqrt
 class MathClass(fileVisitor: LCFileVisitor): LCClass("math", fileVisitor)  {
 
     init {
-        variables["sqrt"] = object: Method(listOf(Type.DOUBLE), Type.DOUBLE) {
+        globals["sqrt"] = object: Method(listOf(Type.DOUBLE), Type.DOUBLE) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
                 return sqrt(args[0] as Double)
             }

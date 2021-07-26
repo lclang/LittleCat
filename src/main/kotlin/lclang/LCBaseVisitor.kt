@@ -25,14 +25,18 @@ open class LCBaseVisitor(
     override fun visitVariable(ctx: lclangParser.VariableContext?): Value? {
         val variableName = ctx!!.ID().text
 
-        return Value({ variables[variableName]?.type?.invoke()?:
-            globals[variableName]?.type?.invoke()?: Type.ANY }, {
-            variables[variableName]?.get?.invoke()?:
-            globals[variableName]?.get?.invoke() ?:
-            throw VariableNotFoundException(variableName,
-                ctx.start.line, ctx.stop.line, fileVisitor.path
-            )
-        }, { variables[variableName] = it })
+        return variables[variableName] ?: globals[variableName] ?:
+            Value({ Type.ANY }, {
+                throw VariableNotFoundException(variableName,
+                    ctx.start.line, ctx.stop.line, fileVisitor.path
+                )
+            }, { setVariable(variableName, it!!) })
+    }
+
+    private fun setVariable(name: String, value: Value) {
+        variables[name] = value.apply {
+            set = { setVariable(name, it!!) }
+        }
     }
 
     override fun visitBlock(ctx: lclangParser.BlockContext?): Value? {
@@ -206,7 +210,7 @@ open class LCBaseVisitor(
                             it
                         })
 
-                    val method = value.get() as Method
+                    val method = value as Method
                     if(method.args.size!=argsTypes.size){
                         if(method.args.size>argsTypes.size)
                             throw TypeErrorException("Invalid arguments: few arguments",

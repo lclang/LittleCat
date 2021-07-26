@@ -87,7 +87,7 @@ open class LCFileVisitor(
             globals[global.ID().text] = visitValue(global.value())
 
         for(method in ctx.method())
-            variables[method.ID().text] = VisitorMethod(method)
+            globals[method.ID().text] = VisitorMethod(method)
 
         for(stmt in ctx.stmt())
             visitStmt(stmt)
