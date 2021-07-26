@@ -22,6 +22,7 @@ class Type(
         val CHAR = Type("char", true)
         val ARRAY = Type("array", true)
         val DOUBLE = Type("double", true)
+        val CALLABLE = Type("callable", true)
 
         fun from(ctx: lclangParser.TypeContext): Type {
             var stringName = ""
@@ -40,6 +41,7 @@ class Type(
                 "array" -> ARRAY
                 "bool" -> BOOL
                 "double" -> DOUBLE
+                "callable" -> CALLABLE
                 else -> Type(stringName)
             }
         }

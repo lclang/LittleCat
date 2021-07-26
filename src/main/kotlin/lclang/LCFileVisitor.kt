@@ -2,6 +2,7 @@ package lclang
 
 import lclang.exceptions.LCLangException
 import lclang.libs.Library
+import lclang.methods.VisitorMethod
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import java.io.File
@@ -11,7 +12,6 @@ open class LCFileVisitor(
 ): LCBaseVisitor() {
     val classes = HashMap<String, LCClass>()
     val libraries = ArrayList<Library>()
-    val globals = HashMap<String, Value?>()
     val files = HashMap<String, LCFileVisitor>()
 
     init {
@@ -38,8 +38,7 @@ open class LCFileVisitor(
         for(component in ctx.component())
             visitComponent(component)
 
-        for(library in libraries){
-            methods.putAll(library.methods)
+        for(library in libraries) {
             globals.putAll(library.globals)
         }
 
@@ -88,7 +87,7 @@ open class LCFileVisitor(
             globals[global.ID().text] = visitValue(global.value())
 
         for(method in ctx.method())
-            visitMethod(method)
+            variables[method.ID().text] = VisitorMethod(method)
 
         for(stmt in ctx.stmt())
             visitStmt(stmt)

@@ -11,12 +11,11 @@ import java.io.File
 import kotlin.system.exitProcess
 import java.util.*
 
-
 class StdLibrary: Library("std") {
 
     init {
         globals["math"] = Value({Type("math")}, { MathClass(this) })
-        methods["println"] = object: Method(listOf(Type.ANY), Type.VOID) {
+        globals["println"] = object: Method(listOf(Type.ANY), Type.VOID) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 println(args[0])
 
@@ -24,7 +23,7 @@ class StdLibrary: Library("std") {
             }
         }
 
-        methods["require"] = object: Method(listOf(Type.STRING), Type.ANY) {
+        globals["require"] = object: Method(listOf(Type.STRING), Type.ANY) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 val requiredFile = File(File(fileVisitor.path).parent, args[0].toString())
                 if(!requiredFile.exists())
@@ -48,7 +47,7 @@ class StdLibrary: Library("std") {
             }
         }
 
-        methods["print"] = object: Method(listOf(Type.ANY), Type.VOID) {
+        globals["print"] = object: Method(listOf(Type.ANY), Type.VOID) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 print(args[0])
 
@@ -56,27 +55,27 @@ class StdLibrary: Library("std") {
             }
         }
 
-        methods["readLine"] = object: Method(listOf(), Type.STRING) {
+        globals["readLine"] = object: Method(listOf(), Type.STRING) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 val scanner = Scanner(System.`in`)
                 return scanner.nextLine()
             }
         }
 
-        methods["printError"] = object: Method(listOf(Type.ANY), Type.VOID) {
+        globals["printError"] = object: Method(listOf(Type.ANY), Type.VOID) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 println("\u001B[31m${args[0]}")
                 return null
             }
         }
 
-        methods["exit"] = object: Method(listOf(Type.INT), Type.VOID) {
+        globals["exit"] = object: Method(listOf(Type.INT), Type.VOID) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 exitProcess(args[0] as Int)
             }
         }
 
-        methods["time"] = object: Method(listOf(), Type.VOID) {
+        globals["time"] = object: Method(listOf(), Type.VOID) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
                 return System.currentTimeMillis() / 1000
             }

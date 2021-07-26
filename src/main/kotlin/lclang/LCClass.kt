@@ -13,12 +13,9 @@ open class LCClass(
 
     open fun create(args: List<Any?>): LCClass {
         return LCClass(name, fileVisitor).apply {
-            methods.putAll(this.methods)
+            globals.putAll(this.globals)
+            variables.putAll(this.variables)
         }
-    }
-
-    override fun toString(): String {
-        return methods["toString"]?.call(fileVisitor, listOf())?.toString() ?: "$name@class"
     }
 
     companion object {
@@ -27,7 +24,7 @@ open class LCClass(
                  clazz: lclangParser.ClassExprContext): LCClass {
             return LCClass(componentName+clazz.ID().text, fileVisitor).apply {
                 for(method in clazz.method())
-                    methods[method.ID().text] = ClassMethod(this, method)
+                    globals[method.ID().text] = ClassMethod(this, method)
             }
         }
     }

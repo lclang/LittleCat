@@ -27,13 +27,13 @@ expression: '('expression')'
     | expression add='+' expression
     | expression minus='-' expression
     | expression pow='^' expression
+    | primitive (call='(' expression (',' expression)* ')'|call='()')
     | primitive;
 
-primitive: (ifExpr|returnExpr|call|fixedVariable
+primitive: (ifExpr|returnExpr|fixedVariable
                |stop|value|variable|array|typeGet|lambda|container) arrayAccess* operation?;
 
 value: HEX_LONG|BOOL|STRING|CHAR|DOUBLE|LONG|INTEGER;
-call: type ('(' expression (',' expression)* ')'|'()');
 returnExpr: 'return' expression?;
 typeGet: '*' expression;
 array: '[' expression (',' expression)* ']'|'[]';

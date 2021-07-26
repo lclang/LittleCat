@@ -7,12 +7,13 @@ import lclang.methods.Method
 
 class CharClass(val char: Char, fileVisitor: LCFileVisitor): LCClass("char", fileVisitor) {
     init {
-        methods["getValue"] = object: Method(listOf(), Type.INT) {
+        globals["getValue"] = object: Method(listOf(), Type.INT) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
                 return char.code
             }
         }
-        methods["upper"] = object: Method(listOf(), Type.CHAR) {
+
+        globals["upper"] = object: Method(listOf(), Type.CHAR) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
                 return char.uppercase()
             }
