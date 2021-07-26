@@ -49,7 +49,7 @@ method main() {
     println(require("test1.lcat"));
 
     // Class
-    println(Test());
+    //println(Test());
 
     printError(TEST);
     exit(1);

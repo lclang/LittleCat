@@ -25,17 +25,13 @@ open class LCBaseVisitor(
     override fun visitVariable(ctx: lclangParser.VariableContext?): Value? {
         val variableName = ctx!!.ID().text
 
-        return variables[variableName] ?: globals[variableName] ?:
+        return (variables[variableName] ?: globals[variableName] ?:
             Value({ Type.ANY }, {
                 throw VariableNotFoundException(variableName,
                     ctx.start.line, ctx.stop.line, fileVisitor.path
                 )
-            }, { setVariable(variableName, it!!) })
-    }
-
-    private fun setVariable(name: String, value: Value) {
-        variables[name] = value.apply {
-            set = { setVariable(name, it!!) }
+            })).apply {
+                set = { variables[variableName] = it}
         }
     }
 
@@ -128,7 +124,7 @@ open class LCBaseVisitor(
         }, {
             val array = it!!.get()
             if(array !is ValueList)
-                throw TypeErrorException("Value is not list", ctx!!.start.line, ctx.stop.line,
+                throw TypeErrorException("Value is not array", ctx!!.start.line, ctx.stop.line,
                     fileVisitor.path)
 
             for((i, expression) in ctx!!.expression().withIndex()){
