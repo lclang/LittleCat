@@ -193,7 +193,7 @@ open class LCBaseVisitor(
             ctx?.primitive()!=null -> {
                 val value = visitPrimitive(ctx.primitive())
                 if(ctx.call!=null){
-                    if(Type.CALLABLE.isAccept(value.type()))
+                    if(!Type.CALLABLE.isAccept(value.type()))
                         throw TypeErrorException("Value is not callable",
                             ctx.call.line, ctx.call.line,
                                 fileVisitor.path)
