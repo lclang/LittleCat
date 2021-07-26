@@ -26,9 +26,9 @@ open class LCBaseVisitor(
         val variableName = ctx!!.ID().text
 
         return Value({ variables[variableName]?.type?.invoke()?:
-        fileVisitor.globals[variableName]?.type?.invoke()?: Type.ANY }, {
+            globals[variableName]?.type?.invoke()?: Type.ANY }, {
             variables[variableName]?.get?.invoke()?:
-            fileVisitor.globals[variableName]?.get?.invoke() ?:
+            globals[variableName]?.get?.invoke() ?:
             throw VariableNotFoundException(variableName,
                 ctx.start.line, ctx.stop.line, fileVisitor.path
             )
@@ -193,7 +193,7 @@ open class LCBaseVisitor(
             ctx?.primitive()!=null -> {
                 val value = visitPrimitive(ctx.primitive())
                 if(ctx.call!=null){
-                    if(value.type().isAccept(Type.CALLABLE))
+                    if(Type.CALLABLE.isAccept(value.type()))
                         throw TypeErrorException("Value is not callable",
                             ctx.call.line, ctx.call.line,
                                 fileVisitor.path)
