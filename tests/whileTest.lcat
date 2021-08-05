@@ -1,14 +1,14 @@
-i = 0;
+i = 0
 
 while i<4: {
-    println(i);
-    i = i+1;
+    println(i)
+    i = i+1
 }
 
 while true: {
-    println(i);
-    if i==0: stop;
-    i = i-1;
+    println(i)
+    if i==0: stop
+    i = i-1
 }
 
 --OUTPUT--

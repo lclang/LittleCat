@@ -1,6 +1,6 @@
 grammar lclang;
 WS : ('//'(.+?)[\n\r]|'/*'(.+?)'*/'|([ \t\r\n])+) -> skip;
-METHOD: 'method';
+METHOD: 'm'|'method';
 BOOL: 'true'|'false';
 ID: [A-Za-z]+;
 STRING: '"'(.+?)?'"';
@@ -11,7 +11,11 @@ DOUBLE: [0-9]*'.'[0-9]+;
 INTEGER: [0-9]+;
 
 file: use* global* (stmt|method|component|classExpr)*;
-type: ID ('\\' ID)*;
+type:
+    | methodType
+    | baseType;
+methodType: ('(' type (',' type)* ')'|'()') '->' returnType=type;
+baseType: ID ('\\' baseType)?;
 
 expression: '('expression')'
     | expression or='||' expression
@@ -49,7 +53,7 @@ operation: access|set;
 set: '=' expression;
 access: '.' expression;
 
-stmt: block|whileStmt|ifStmt|expression ';';
+stmt: block|whileStmt|ifStmt|expression ';'?;
 whileStmt: 'while ' condition=expression ':' stmt;
 ifStmt: 'if ' condition=expression ':' ifT=stmt ('else' ifF=stmt)?;
 block: '{' stmt* '}';
@@ -58,11 +62,11 @@ component: 'component' type '{' global* classExpr* '}';
 classExpr: 'class' ID '{' (method|field)* '}';
 field: ID ('=' expression)?;
 
-arg: type? ID;
+arg: ID (':' type)?;
 args: '(' arg (',' arg)*')'|'()';
 attribute: '@' ID;
 method: attribute* METHOD ID args (':' type)? block;
 
 //File expressions
-use: 'use' useGlobal='global' type 'from' STRING ';';
-global: 'global' ID '=' value ';';
+use: 'use' useGlobal='global' baseType 'from' STRING ';'?;
+global: 'global' ID '=' value ';'?;

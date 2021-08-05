@@ -1,6 +1,6 @@
-use global TEST from "variablesTest.lcat";
+use global TEST from "variablesTest.lcat"
 
-println(TEST);
+println(TEST)
 --OUTPUT--
 123
 123

@@ -1,17 +1,21 @@
 package lclang.methods
 
 import lclang.*
+import lclang.types.BaseType
+import lclang.types.Type
+import lclang.types.Types
 
 open class VisitorMethod(private val methodContext: lclangParser.MethodContext): Method(
     run {
-        val args = ArrayList<Type>()
+        val args = ArrayList<BaseType>()
         for (arg in methodContext.args().arg())
-            args.add(Type.from(arg.type()))
+            args.add(Types.getType(arg.type()))
 
         return@run args
     },
+
     if(methodContext.type()!=null)
-        Type.from(methodContext.type())
+        Types.getType(methodContext.type())
     else Type.VOID
 ) {
     override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
@@ -27,7 +31,7 @@ open class VisitorMethod(private val methodContext: lclangParser.MethodContext):
         val value = lcContextVisitor.visitBlock(methodContext.block())
         val valueType = value?.type?.invoke()
         if(valueType!=null&&!returnType.isAccept(valueType)||
-                valueType==null&&returnType!=Type.VOID)
+                valueType==null&&returnType!= Type.VOID)
             throw Exception("invalid type of return")
 
         return value?.get?.invoke()

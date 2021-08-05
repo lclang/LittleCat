@@ -1,7 +1,7 @@
 test = {
-    return "Test string!";
-};
+    return "Test string!"
+}
 
-println(test);
+println(test)
 --OUTPUT--
 Test string!

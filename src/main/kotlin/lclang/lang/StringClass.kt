@@ -2,6 +2,7 @@ package lclang.lang
 
 import lclang.*
 import lclang.methods.Method
+import lclang.types.Type
 
 class StringClass(val string: String, fileVisitor: LCFileVisitor): LCClass("string", fileVisitor) {
     init {

@@ -1,11 +1,13 @@
 package lclang.methods
 
 import lclang.LCFileVisitor
-import lclang.Type
+import lclang.types.Type
 import lclang.Value
+import lclang.types.BaseType
 
-abstract class Method(val args: List<Type>,
-                      val returnType: Type): Value(Type.CALLABLE, null){
+abstract class Method(val args: List<BaseType>,
+                      val returnType: BaseType
+): Value(Type.CALLABLE, null){
 
     abstract fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any?
 }

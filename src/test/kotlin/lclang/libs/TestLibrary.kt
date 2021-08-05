@@ -1,7 +1,7 @@
 package lclang.libs
 
 import lclang.LCFileVisitor
-import lclang.Type
+import lclang.types.Type
 import lclang.methods.Method
 import java.lang.StringBuilder
 

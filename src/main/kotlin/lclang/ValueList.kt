@@ -1,6 +1,7 @@
 package lclang
 
 import lclang.methods.Method
+import lclang.types.Type
 
 class ValueList(file: LCFileVisitor): LCClass("array", file) {
     val list = ArrayList<Value>()

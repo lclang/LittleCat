@@ -62,6 +62,13 @@ method test(): string {
     return "Current time: ";
 }
 
+method fib(n: int): int {
+    return if n<=1: n
+    else fib(n-1) + fib(n-2);
+}
+
+println(fib(20));
+
 if "123"=="123": main();
 else println("What?!");
 

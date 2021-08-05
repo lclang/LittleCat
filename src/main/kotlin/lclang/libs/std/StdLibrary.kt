@@ -5,6 +5,7 @@ import lclang.exceptions.LCLangException
 import lclang.libs.Library
 import lclang.libs.std.classes.MathClass
 import lclang.methods.Method
+import lclang.types.Type
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import java.io.File
@@ -14,7 +15,7 @@ import java.util.*
 class StdLibrary: Library("std") {
 
     init {
-        globals["math"] = Value({Type("math")}, { MathClass(this) })
+        globals["math"] = Value({ Type("math") }, { MathClass(this) })
         globals["println"] = object: Method(listOf(Type.ANY), Type.VOID) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 println(args[0])

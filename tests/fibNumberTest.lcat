@@ -1,8 +1,8 @@
-method fib(int n): int {
+method fib(n: int): int {
     return if n<=1: n
-    else fib(n-1) + fib(n-2);
+    else fib(n-1) + fib(n-2)
 }
 
-println(fib(20));
+println(fib(20))
 --OUTPUT--
 6765

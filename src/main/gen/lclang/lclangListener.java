@@ -28,6 +28,26 @@ public interface lclangListener extends ParseTreeListener {
 	 */
 	void exitType(lclangParser.TypeContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link lclangParser#methodType}.
+	 * @param ctx the parse tree
+	 */
+	void enterMethodType(lclangParser.MethodTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link lclangParser#methodType}.
+	 * @param ctx the parse tree
+	 */
+	void exitMethodType(lclangParser.MethodTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link lclangParser#baseType}.
+	 * @param ctx the parse tree
+	 */
+	void enterBaseType(lclangParser.BaseTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link lclangParser#baseType}.
+	 * @param ctx the parse tree
+	 */
+	void exitBaseType(lclangParser.BaseTypeContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link lclangParser#expression}.
 	 * @param ctx the parse tree
 	 */

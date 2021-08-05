@@ -2,7 +2,7 @@ package lclang.lang
 
 import lclang.LCClass
 import lclang.LCFileVisitor
-import lclang.Type
+import lclang.types.Type
 import lclang.methods.Method
 
 class CharClass(val char: Char, fileVisitor: LCFileVisitor): LCClass("char", fileVisitor) {

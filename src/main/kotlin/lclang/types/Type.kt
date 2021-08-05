@@ -1,17 +1,11 @@
-package lclang
+package lclang.types
+
+import lclang.lclangParser
 
 class Type(
     val name: String,
     val primitive: Boolean = false
-){
-    fun isAccept(type: Type): Boolean {
-        if(this == ANY) return true
-        if(type.primitive&&primitive)
-            return type.name == name
-
-        return false
-    }
-
+): BaseType(name){
     companion object {
         val VOID = Type("void", true)
         val ANY = Type("any", true)
@@ -24,14 +18,8 @@ class Type(
         val DOUBLE = Type("double", true)
         val CALLABLE = Type("callable", true)
 
-        fun from(ctx: lclangParser.TypeContext): Type {
-            var stringName = ""
-            for(type in ctx.ID())
-                stringName += "\\"+type
-
-            stringName = stringName.substring(1)
-
-            return when(stringName){
+        fun from(ctx: lclangParser.BaseTypeContext): Type {
+            return when(val stringName: String = ctx.text){
                 "void" -> VOID
                 "any" -> ANY
                 "int" -> INT
@@ -45,5 +33,13 @@ class Type(
                 else -> Type(stringName)
             }
         }
+    }
+
+    override fun isAccept(another: BaseType): Boolean {
+        if(this == ANY) return true
+        if((another as Type).primitive&&primitive)
+            return another.name == name
+
+        return false
     }
 }

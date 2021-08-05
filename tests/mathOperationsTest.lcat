@@ -1,10 +1,10 @@
-println(2+2);
-println(2-2);
-println(2*2);
-println(2/2);
-println(2^2);
-println(2+2*2);
-println(2+2-2);
+println(2+2)
+println(2-2)
+println(2*2)
+println(2/2)
+println(2^2)
+println(2+2*2)
+println(2+2-2)
 --OUTPUT--
 4
 0

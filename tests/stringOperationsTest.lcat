@@ -1,5 +1,5 @@
-println("hi"*5);
-println("123"+456);
+println("hi"*5)
+println("123"+456)
 --OUTPUT--
 hihihihihi
 123456

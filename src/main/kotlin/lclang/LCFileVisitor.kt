@@ -3,6 +3,7 @@ package lclang
 import lclang.exceptions.LCLangException
 import lclang.libs.Library
 import lclang.methods.VisitorMethod
+import lclang.types.Types
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import java.io.File
@@ -19,7 +20,7 @@ open class LCFileVisitor(
     }
 
     override fun visitComponent(ctx: lclangParser.ComponentContext?): Value? {
-        val name = Type.from(ctx!!.type()).name + "\\"
+        val name = Types.getType(ctx!!.type()).name + "\\"
         for(global in ctx.global())
             globals[name+global.ID().text] = visitValue(global.value())
 
@@ -68,7 +69,7 @@ open class LCFileVisitor(
             }
 
             if(eval!=null){
-                val name = Type.from(usage.type()).name
+                val name = usage.baseType().text
                 if(usage.useGlobal!=null){
                     if(eval.globals.containsKey(name))
                         globals[name] = eval.globals[name]

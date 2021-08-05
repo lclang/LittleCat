@@ -6,6 +6,8 @@ import lclang.exceptions.VariableNotFoundException
 import lclang.lang.CharClass
 import lclang.lang.StringClass
 import lclang.methods.Method
+import lclang.types.BaseType
+import lclang.types.Type
 import kotlin.math.pow
 
 open class LCBaseVisitor(
@@ -78,7 +80,7 @@ open class LCBaseVisitor(
     override fun visitWhileStmt(ctx: lclangParser.WhileStmtContext?): Value? {
         while(visitExpression(ctx!!.condition)!!.apply {
                 if(!Type.BOOL.isAccept(type()))
-                    throw TypeErrorException("Value is not bool: "+type().name,
+                    throw TypeErrorException("Value is not bool: "+type().text,
                         ctx.condition.start.line, ctx.condition.stop.line, fileVisitor.path)
 
             }.get()==true){
@@ -95,7 +97,7 @@ open class LCBaseVisitor(
     override fun visitIfStmt(ctx: lclangParser.IfStmtContext?): Value? {
         val cond = visitExpression(ctx!!.condition)!!.apply {
             if(!Type.BOOL.isAccept(type()))
-                throw TypeErrorException("Value is not bool: "+type().name,
+                throw TypeErrorException("Value is not bool: "+type().text,
                     ctx.condition.start.line, ctx.condition.stop.line, fileVisitor.path)
         }
 
@@ -145,48 +147,8 @@ open class LCBaseVisitor(
 
     override fun visitTypeGet(ctx: lclangParser.TypeGetContext?): Value? {
         return Value({ Type.STRING },
-            {visitExpression(ctx!!.expression())!!.type().name})
+            {visitExpression(ctx!!.expression())!!.type().text})
     }
-
-//    override fun visitCall(ctx: lclangParser.CallContext?): Value? {
-//        if(ctx==null) return null
-//
-//        val subjectName = Type.from(ctx.type()).name
-//
-//        val argsTypes = ArrayList<Type>()
-//        val args = ArrayList<Value>()
-//        for(arg in ctx.expression())
-//            args.add(visitExpression(arg)!!.let {
-//                argsTypes.add(it.type())
-//                it
-//            })
-//
-//        if(this !is LCClass&&fileVisitor.classes.containsKey(subjectName)){
-//            val clazz = fileVisitor.classes[subjectName]!!
-//            return Value({ Type(clazz.name) },
-//                { clazz.create(args) })
-//        }
-//
-//        val notFoundException = MethodNotFoundException(subjectName,
-//            ctx.start.line, ctx.stop.line, fileVisitor.path)
-//
-//        val method = methods[subjectName] ?: throw notFoundException
-//        if(method.args.size!=argsTypes.size){
-//            if(method.args.size>argsTypes.size)
-//                throw TypeErrorException("Invalid arguments: few arguments",
-//                    ctx.start.line, ctx.stop.line, fileVisitor.path)
-//            else throw TypeErrorException("Invalid arguments: too many arguments",
-//                ctx.start.line, ctx.stop.line, fileVisitor.path)
-//        }
-//
-//        val notAcceptArg = method.args.isAccept(argsTypes)
-//        if(notAcceptArg!=-1)
-//            throw TypeErrorException("Invalid argument $notAcceptArg",
-//                ctx.expression(notAcceptArg).start.line, ctx.expression(notAcceptArg).stop.line,
-//                    fileVisitor.path)
-//
-//        return call(method, args)
-//    }
 
     override fun visitExpression(ctx: lclangParser.ExpressionContext?): Value? {
         when {
@@ -198,7 +160,7 @@ open class LCBaseVisitor(
                             ctx.call.line, ctx.call.line,
                                 fileVisitor.path)
 
-                    val argsTypes = ArrayList<Type>()
+                    val argsTypes = ArrayList<BaseType>()
                     val args = ArrayList<Value>()
                     for(arg in ctx.expression())
                         args.add(visitExpression(arg)!!.let {
@@ -220,7 +182,10 @@ open class LCBaseVisitor(
                             ctx.expression(notAcceptArg).start.line, ctx.expression(notAcceptArg).stop.line,
                                 fileVisitor.path)
 
-                    return call(method, args)
+                    val argsList = ArrayList<Any?>()
+                    for(arg in args) argsList.add(arg.get())
+
+                    return Value(method.returnType, method.call(fileVisitor, argsList))
                 }else return value
             }
             ctx?.expression()?.size==1 -> return visitExpression(ctx.expression(0))
@@ -244,10 +209,10 @@ open class LCBaseVisitor(
 
                         else -> {
                             val needType = when {
-                                leftType==Type.DOUBLE||
-                                        rightType==Type.DOUBLE -> Type.DOUBLE
-                                leftType==Type.LONG||
-                                        rightType==Type.LONG -> Type.LONG
+                                leftType== Type.DOUBLE||
+                                        rightType== Type.DOUBLE -> Type.DOUBLE
+                                leftType== Type.LONG||
+                                        rightType== Type.LONG -> Type.LONG
                                 else -> Type.INT
                             }
 
@@ -279,7 +244,8 @@ open class LCBaseVisitor(
                         ctx.add!=null -> return Value(Type.STRING, left.toString()+right)
                         ctx.multiplication!=null&&
                                 right is Int||left is Int ->
-                            return Value(Type.STRING, StringClass(if(right is Int)
+                            return Value(
+                                Type.STRING, StringClass(if(right is Int)
                                 left.toString().repeat(right)
                             else right.toString().repeat(left as Int), fileVisitor))
                     }
@@ -301,8 +267,8 @@ open class LCBaseVisitor(
                 return when {
                     ctx.equals!=null -> Value({ Type.BOOL }, { left == right })
                     ctx.notEquals!=null -> Value({ Type.BOOL }, { left != right })
-                    else -> throw TypeErrorException("Unsupported operand types: ${leftType.name} " +
-                            "${ctx.getChild(1)} ${rightType.name}",
+                    else -> throw TypeErrorException("Unsupported operand types: $leftType " +
+                            "${ctx.getChild(1)} $rightType",
                                 ctx.start.line, ctx.stop.line, fileVisitor.path)
                 }
             }
@@ -313,7 +279,7 @@ open class LCBaseVisitor(
     override fun visitIfExpr(ctx: lclangParser.IfExprContext?): Value? {
         val cond = visitExpression(ctx!!.condition)!!.apply {
             if(!Type.BOOL.isAccept(type()))
-                throw TypeErrorException("Value is not bool: "+type().name,
+                throw TypeErrorException("Value is not bool: ${type()}",
                 ctx.condition.start.line, ctx.condition.stop.line, fileVisitor.path)
         }
 
@@ -338,7 +304,7 @@ open class LCBaseVisitor(
                         access.start.line, access.stop.line, fileVisitor.path)
                 }else Value({ Type.ANY }, { gettable.last().get() }, {
                     gettable.add(it!!)
-                    orValue.set(Value({Type.ARRAY}, {gettable}, orValue.set))
+                    orValue.set(Value({ Type.ARRAY}, {gettable}, orValue.set))
                 })
             }else if(gettable is Map<*, *>){
                 if(access.expression()==null) throw TypeErrorException(
@@ -370,12 +336,5 @@ open class LCBaseVisitor(
         }
 
         return value
-    }
-
-    fun call(method: Method, args: List<Value>): Value {
-        val argsList = ArrayList<Any?>()
-        for(arg in args) argsList.add(arg.get())
-
-        return Value(method.returnType, method.call(fileVisitor, argsList))
     }
 }
