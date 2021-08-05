@@ -297,8 +297,8 @@ open class LCBaseVisitor(
         for(access in ctx.access()){
             val classValue = value.get()
             if(classValue !is LCClass)
-                throw TypeErrorException("excepted class", access.start.line, access.stop.line,
-                    fileVisitor.path)
+                throw TypeErrorException("excepted class",
+                    access.start.line, access.stop.line, fileVisitor.path)
 
             value = classValue.visitVariable(access.variable())
         }
@@ -306,8 +306,7 @@ open class LCBaseVisitor(
         if(ctx.call !=null){
             if(!Type.CALLABLE.isAccept(value.type()))
                 throw TypeErrorException("Value is not callable",
-                    ctx.call.line, ctx.call.line,
-                    fileVisitor.path)
+                    ctx.start.line, ctx.stop.line, fileVisitor.path)
 
             val argsTypes = ArrayList<BaseType>()
             val args = ArrayList<Value>()
