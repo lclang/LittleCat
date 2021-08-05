@@ -65,6 +65,12 @@ public interface lclangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTypeGet(lclangParser.TypeGetContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link lclangParser#access}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAccess(lclangParser.AccessContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link lclangParser#array}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -113,6 +119,12 @@ public interface lclangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIfExpr(lclangParser.IfExprContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link lclangParser#newClass}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNewClass(lclangParser.NewClassContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link lclangParser#operation}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -124,12 +136,6 @@ public interface lclangVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitSet(lclangParser.SetContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link lclangParser#access}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAccess(lclangParser.AccessContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link lclangParser#stmt}.
 	 * @param ctx the parse tree

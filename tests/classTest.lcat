@@ -1,4 +1,4 @@
-clazz = Test()
+clazz = :Test()
 clazz.test()
 
 class Test {

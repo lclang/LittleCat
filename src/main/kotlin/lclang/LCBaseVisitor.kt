@@ -1,6 +1,7 @@
 package lclang
 
 import lclang.exceptions.LCLangException
+import lclang.exceptions.MethodNotFoundException
 import lclang.exceptions.TypeErrorException
 import lclang.exceptions.VariableNotFoundException
 import lclang.lang.CharClass
@@ -24,7 +25,7 @@ open class LCBaseVisitor(
         }
     }
 
-    override fun visitVariable(ctx: lclangParser.VariableContext?): Value? {
+    override fun visitVariable(ctx: lclangParser.VariableContext?): Value {
         val variableName = ctx!!.ID().text
 
         return (variables[variableName] ?: globals[variableName] ?:
@@ -32,9 +33,7 @@ open class LCBaseVisitor(
                 throw VariableNotFoundException(variableName,
                     ctx.start.line, ctx.stop.line, fileVisitor.path
                 )
-            })).apply {
-                set = { variables[variableName] = it}
-        }
+            })).apply { set = { variables[variableName] = it } }
     }
 
     override fun visitBlock(ctx: lclangParser.BlockContext?): Value? {
@@ -78,7 +77,7 @@ open class LCBaseVisitor(
     }
 
     override fun visitWhileStmt(ctx: lclangParser.WhileStmtContext?): Value? {
-        while(visitExpression(ctx!!.condition)!!.apply {
+        while(visitExpression(ctx!!.condition).apply {
                 if(!Type.BOOL.isAccept(type()))
                     throw TypeErrorException("Value is not bool: "+type().text,
                         ctx.condition.start.line, ctx.condition.stop.line, fileVisitor.path)
@@ -95,7 +94,7 @@ open class LCBaseVisitor(
     }
 
     override fun visitIfStmt(ctx: lclangParser.IfStmtContext?): Value? {
-        val cond = visitExpression(ctx!!.condition)!!.apply {
+        val cond = visitExpression(ctx!!.condition).apply {
             if(!Type.BOOL.isAccept(type()))
                 throw TypeErrorException("Value is not bool: "+type().text,
                     ctx.condition.start.line, ctx.condition.stop.line, fileVisitor.path)
@@ -119,7 +118,7 @@ open class LCBaseVisitor(
         return Value({ Type.ARRAY }, {
             val array = ValueList(fileVisitor)
             for(expression in ctx!!.expression()){
-                array.add(visitExpression(expression)!!)
+                array.add(visitExpression(expression))
             }
 
             return@Value array
@@ -130,7 +129,7 @@ open class LCBaseVisitor(
                     fileVisitor.path)
 
             for((i, expression) in ctx!!.expression().withIndex()){
-                visitExpression(expression)!!.set(array.get(i))
+                visitExpression(expression).set(array.get(i))
             }
         })
     }
@@ -147,54 +146,19 @@ open class LCBaseVisitor(
 
     override fun visitTypeGet(ctx: lclangParser.TypeGetContext?): Value? {
         return Value({ Type.STRING },
-            {visitExpression(ctx!!.expression())!!.type().text})
+            { visitExpression(ctx!!.expression()).type().text})
     }
 
-    override fun visitExpression(ctx: lclangParser.ExpressionContext?): Value? {
+    override fun visitExpression(ctx: lclangParser.ExpressionContext?): Value {
         when {
-            ctx?.primitive()!=null -> {
-                val value = visitPrimitive(ctx.primitive())
-                if(ctx.call!=null){
-                    if(!Type.CALLABLE.isAccept(value.type()))
-                        throw TypeErrorException("Value is not callable",
-                            ctx.call.line, ctx.call.line,
-                                fileVisitor.path)
-
-                    val argsTypes = ArrayList<BaseType>()
-                    val args = ArrayList<Value>()
-                    for(arg in ctx.expression())
-                        args.add(visitExpression(arg)!!.let {
-                            argsTypes.add(it.type())
-                            it
-                        })
-
-                    val method = value as Method
-                    if(method.args.size!=argsTypes.size){
-                        if(method.args.size>argsTypes.size)
-                            throw TypeErrorException("Invalid arguments: few arguments",
-                                ctx.start.line, ctx.stop.line, fileVisitor.path)
-                        else throw TypeErrorException("Invalid arguments: too many arguments",
-                            ctx.start.line, ctx.stop.line, fileVisitor.path)
-                    }
-                    val notAcceptArg = method.args.isAccept(argsTypes)
-                    if(notAcceptArg!=-1)
-                        throw TypeErrorException("Invalid argument $notAcceptArg",
-                            ctx.expression(notAcceptArg).start.line, ctx.expression(notAcceptArg).stop.line,
-                                fileVisitor.path)
-
-                    val argsList = ArrayList<Any?>()
-                    for(arg in args) argsList.add(arg.get())
-
-                    return Value(method.returnType, method.call(fileVisitor, argsList))
-                }else return value
-            }
+            ctx?.primitive()!=null -> return visitPrimitive(ctx.primitive())
             ctx?.expression()?.size==1 -> return visitExpression(ctx.expression(0))
             ctx!=null -> {
-                val leftValue = visitExpression(ctx.expression(0))!!
+                val leftValue = visitExpression(ctx.expression(0))
                 val leftType = leftValue.type()
                 val left = leftValue.get()
 
-                val rightValue = visitExpression(ctx.expression(1))!!
+                val rightValue = visitExpression(ctx.expression(1))
                 val rightType = rightValue.type()
                 val right = rightValue.get()
 
@@ -276,8 +240,8 @@ open class LCBaseVisitor(
         }
     }
 
-    override fun visitIfExpr(ctx: lclangParser.IfExprContext?): Value? {
-        val cond = visitExpression(ctx!!.condition)!!.apply {
+    override fun visitIfExpr(ctx: lclangParser.IfExprContext?): Value {
+        val cond = visitExpression(ctx!!.condition).apply {
             if(!Type.BOOL.isAccept(type()))
                 throw TypeErrorException("Value is not bool: ${type()}",
                 ctx.condition.start.line, ctx.condition.stop.line, fileVisitor.path)
@@ -290,6 +254,19 @@ open class LCBaseVisitor(
         return visitExpression(ctx.ifF)
     }
 
+    override fun visitNewClass(ctx: lclangParser.NewClassContext?): Value {
+        fileVisitor.classes[ctx!!.className.text]?.apply {
+            val values = ArrayList<Any?>()
+            for(expression in ctx.expression())
+                values.add(visitExpression(expression).get())
+
+            return Value(Type(ctx.className.text), this.create(values))
+        }
+
+        throw MethodNotFoundException("class ${ctx.className.text}",
+            ctx.start.line, ctx.start.line, fileVisitor.path)
+    }
+
     override fun visitPrimitive(ctx: lclangParser.PrimitiveContext?): Value {
         var value = visit(ctx!!.children[0])!!
         for(access in ctx.arrayAccess()){
@@ -297,7 +274,7 @@ open class LCBaseVisitor(
             val orValue = value
             value = if(gettable is ValueList) {
                 if(access.expression()!=null) {
-                    val getValue = visitExpression(access.expression())!!
+                    val getValue = visitExpression(access.expression())
                     if (getValue.type().isAccept(Type.INT))
                         gettable.get(getValue.get() as Int)
                     else throw TypeErrorException("invalid index: excepted int",
@@ -311,25 +288,57 @@ open class LCBaseVisitor(
                     "invalid index: map not can add and set value",
                     access.start.line, access.stop.line, fileVisitor.path)
 
-                val getValue = visitExpression(access.expression())!!
+                val getValue = visitExpression(access.expression())
                 gettable[getValue.get()] as Value
             }else throw TypeErrorException("excepted array or map", access.start.line, access.stop.line,
                     fileVisitor.path)
         }
 
-        val operation = ctx.operation()
-        if(operation?.access()!=null){
-            val access = operation.access()
+        for(access in ctx.access()){
             val classValue = value.get()
             if(classValue !is LCClass)
                 throw TypeErrorException("excepted class", access.start.line, access.stop.line,
                     fileVisitor.path)
 
-            value = classValue.visitExpression(access.expression())!!
+            value = classValue.visitVariable(access.variable())
         }
 
-        if(operation?.set()!=null){
-            val expressionValue = visitExpression(operation.set().expression())!!
+        if(ctx.call !=null){
+            if(!Type.CALLABLE.isAccept(value.type()))
+                throw TypeErrorException("Value is not callable",
+                    ctx.call.line, ctx.call.line,
+                    fileVisitor.path)
+
+            val argsTypes = ArrayList<BaseType>()
+            val args = ArrayList<Value>()
+            for(arg in ctx.expression())
+                args.add(visitExpression(arg).let {
+                    argsTypes.add(it.type())
+                    it
+                })
+
+            val method = value as Method
+            if(method.args.size!=argsTypes.size){
+                if(method.args.size>argsTypes.size)
+                    throw TypeErrorException("Invalid arguments: few arguments",
+                        ctx.start.line, ctx.stop.line, fileVisitor.path)
+                else throw TypeErrorException("Invalid arguments: too many arguments",
+                    ctx.start.line, ctx.stop.line, fileVisitor.path)
+            }
+            val notAcceptArg = method.args.isAccept(argsTypes)
+            if(notAcceptArg!=-1)
+                throw TypeErrorException("Invalid argument $notAcceptArg",
+                    ctx.expression(notAcceptArg).start.line, ctx.expression(notAcceptArg).stop.line,
+                    fileVisitor.path)
+
+            val argsList = ArrayList<Any?>()
+            for(arg in args) argsList.add(arg.get())
+
+            return Value(method.returnType, method.call(fileVisitor, argsList))
+        }
+
+        if(ctx.operation()?.set()!=null){
+            val expressionValue = visitExpression(ctx.operation()!!.set().expression())
             value.set(expressionValue)
 
             return expressionValue

@@ -31,15 +31,18 @@ expression: '('expression')'
     | expression add='+' expression
     | expression minus='-' expression
     | expression pow='^' expression
-    | primitive (call='(' expression (',' expression)* ')'|call='()')
     | primitive;
 
 primitive: (ifExpr|returnExpr|fixedVariable
-               |stop|value|variable|array|typeGet|lambda|container) arrayAccess* operation?;
+               |stop|value|variable|array|typeGet|lambda|container|newClass) arrayAccess*
+                access*
+                (call='(' expression (',' expression)* ')'|call='()')?
+                operation?;
 
 value: HEX_LONG|BOOL|STRING|CHAR|DOUBLE|LONG|INTEGER;
 returnExpr: 'return' expression?;
 typeGet: '*' expression;
+access: '.' variable;
 array: '[' expression (',' expression)* ']'|'[]';
 arrayAccess: '[' expression ']'|'[]';
 stop: 'stop';
@@ -48,10 +51,10 @@ fixedVariable: 'fixed' ID;
 lambda: '->' args expression;
 container: '{' stmt* '}'|'{}';
 ifExpr: 'if ' condition=expression ':' ifT=expression 'else' ifF=expression;
+newClass: ':' className=baseType ('(' expression (',' expression)* ')'|'()');
 
-operation: access|set;
+operation: set;
 set: '=' expression;
-access: '.' expression;
 
 stmt: block|whileStmt|ifStmt|expression ';'?;
 whileStmt: 'while ' condition=expression ':' stmt;

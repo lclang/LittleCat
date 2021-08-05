@@ -26,20 +26,15 @@ class InterpreterTest {
                 val needOutput = contents[1]
                 val output = StringBuilder()
 
-                try {
-                    val lexer = lclangLexer(CharStreams.fromString(fileScript))
-                    val tokens = CommonTokenStream(lexer)
-                    val parser = lclangParser(tokens)
-                    parser.removeErrorListeners()
-                    parser.addErrorListener(ErrorListener(file.path.toString()))
+                val lexer = lclangLexer(CharStreams.fromString(fileScript))
+                val tokens = CommonTokenStream(lexer)
+                val parser = lclangParser(tokens)
+                parser.removeErrorListeners()
+                parser.addErrorListener(ErrorListener(file.path.toString()))
 
-                    LCFileVisitor(file.path.toString()).apply {
-                        libraries.add(TestLibrary(output))
-                        visitFile(parser.file())
-                    }
-
-                } catch (e: LCLangException) {
-                    output.append(e.message + "\n")
+                LCFileVisitor(file.path.toString()).apply {
+                    libraries.add(TestLibrary(output))
+                    visitFile(parser.file())
                 }
 
                 assertEquals(needOutput, output.toString())

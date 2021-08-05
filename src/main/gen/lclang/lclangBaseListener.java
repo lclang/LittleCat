@@ -124,6 +124,18 @@ public class lclangBaseListener implements lclangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterAccess(lclangParser.AccessContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAccess(lclangParser.AccessContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterArray(lclangParser.ArrayContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -220,6 +232,18 @@ public class lclangBaseListener implements lclangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterNewClass(lclangParser.NewClassContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNewClass(lclangParser.NewClassContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterOperation(lclangParser.OperationContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -239,18 +263,6 @@ public class lclangBaseListener implements lclangListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitSet(lclangParser.SetContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAccess(lclangParser.AccessContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAccess(lclangParser.AccessContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

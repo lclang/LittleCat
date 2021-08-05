@@ -98,6 +98,16 @@ public interface lclangListener extends ParseTreeListener {
 	 */
 	void exitTypeGet(lclangParser.TypeGetContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link lclangParser#access}.
+	 * @param ctx the parse tree
+	 */
+	void enterAccess(lclangParser.AccessContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link lclangParser#access}.
+	 * @param ctx the parse tree
+	 */
+	void exitAccess(lclangParser.AccessContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link lclangParser#array}.
 	 * @param ctx the parse tree
 	 */
@@ -178,6 +188,16 @@ public interface lclangListener extends ParseTreeListener {
 	 */
 	void exitIfExpr(lclangParser.IfExprContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link lclangParser#newClass}.
+	 * @param ctx the parse tree
+	 */
+	void enterNewClass(lclangParser.NewClassContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link lclangParser#newClass}.
+	 * @param ctx the parse tree
+	 */
+	void exitNewClass(lclangParser.NewClassContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link lclangParser#operation}.
 	 * @param ctx the parse tree
 	 */
@@ -197,16 +217,6 @@ public interface lclangListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitSet(lclangParser.SetContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link lclangParser#access}.
-	 * @param ctx the parse tree
-	 */
-	void enterAccess(lclangParser.AccessContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link lclangParser#access}.
-	 * @param ctx the parse tree
-	 */
-	void exitAccess(lclangParser.AccessContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link lclangParser#stmt}.
 	 * @param ctx the parse tree
