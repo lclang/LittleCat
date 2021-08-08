@@ -47,8 +47,9 @@ class InterpreterTest {
                 endTime = System.currentTimeMillis()
                 println("Execute time: "+(endTime-startTime)+"ms")
                 println(output)
-                
-                assertEquals(needOutput, output.toString())
+
+                assertEquals(needOutput.replace(Regex("\\R"), "\n"),
+                    output.toString().replace(Regex("\\R"), "\n"))
             })
         }
 
