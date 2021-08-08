@@ -45,10 +45,10 @@ class InterpreterTest {
                 }
 
                 endTime = System.currentTimeMillis()
-
-                assertEquals(needOutput, output.toString())
                 println("Execute time: "+(endTime-startTime)+"ms")
                 println(output)
+                
+                assertEquals(needOutput, output.toString())
             })
         }
 
