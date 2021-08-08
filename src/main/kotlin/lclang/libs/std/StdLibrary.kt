@@ -77,9 +77,23 @@ class StdLibrary: Library("std") {
             }
         }
 
-        globals["time"] = object: Method(listOf(), Types.VOID) {
+        globals["time"] = object: Method(listOf(), Types.LONG) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
                 return System.currentTimeMillis() / 1000
+            }
+        }
+
+        globals["millisTime"] = object: Method(listOf(), Types.LONG) {
+            override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
+                return System.currentTimeMillis()
+            }
+        }
+
+        globals["sleep"] = object: Method(listOf(Types.LONG), Types.VOID) {
+            override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
+                Thread.sleep(args[0] as Long)
+
+                return null
             }
         }
     }
