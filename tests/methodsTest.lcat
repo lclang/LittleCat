@@ -1,0 +1,8 @@
+method test(): string {
+    return "test";
+}
+
+alias = test
+println([test(), alias()].join(", "))
+--OUTPUT--
+test, test

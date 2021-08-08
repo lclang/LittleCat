@@ -6,6 +6,7 @@ import lclang.libs.Library
 import lclang.libs.std.classes.MathClass
 import lclang.methods.Method
 import lclang.types.Type
+import lclang.types.Types
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import java.io.File
@@ -16,7 +17,7 @@ class StdLibrary: Library("std") {
 
     init {
         globals["math"] = Value({ Type("math") }, { MathClass(this) })
-        globals["println"] = object: Method(listOf(Type.ANY), Type.VOID) {
+        globals["println"] = object: Method(listOf(Types.ANY), Types.VOID) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 println(args[0])
 
@@ -24,7 +25,7 @@ class StdLibrary: Library("std") {
             }
         }
 
-        globals["require"] = object: Method(listOf(Type.STRING), Type.ANY) {
+        globals["require"] = object: Method(listOf(Types.STRING), Types.ANY) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 val requiredFile = File(File(fileVisitor.path).parent, args[0].toString())
                 if(!requiredFile.exists())
@@ -33,7 +34,7 @@ class StdLibrary: Library("std") {
                 else if(requiredFile.length()==0L)
                     return null
 
-                val lexer = lclangLexer(CharStreams.fromString(read(requiredFile)))
+                val lexer = lclangLexer(CharStreams.fromString(requiredFile.readText()))
                 val tokens = CommonTokenStream(lexer)
                 val parser = lclangParser(tokens)
                 parser.removeErrorListeners()
@@ -41,14 +42,14 @@ class StdLibrary: Library("std") {
 
                 val eval = LCFileVisitor(requiredFile.path.toString()).apply {
                     libraries.addAll(fileVisitor.libraries)
-                    visitFile(parser.file())
+                    execute(parser.file())
                 }
 
                 return eval.variables["export"]?.get?.let { it() }
             }
         }
 
-        globals["print"] = object: Method(listOf(Type.ANY), Type.VOID) {
+        globals["print"] = object: Method(listOf(Types.ANY), Types.VOID) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 print(args[0])
 
@@ -56,27 +57,27 @@ class StdLibrary: Library("std") {
             }
         }
 
-        globals["readLine"] = object: Method(listOf(), Type.STRING) {
+        globals["readLine"] = object: Method(listOf(), Types.STRING) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 val scanner = Scanner(System.`in`)
                 return scanner.nextLine()
             }
         }
 
-        globals["printError"] = object: Method(listOf(Type.ANY), Type.VOID) {
+        globals["printError"] = object: Method(listOf(Types.ANY), Types.VOID) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 println("\u001B[31m${args[0]}")
                 return null
             }
         }
 
-        globals["exit"] = object: Method(listOf(Type.INT), Type.VOID) {
+        globals["exit"] = object: Method(listOf(Types.INT), Types.VOID) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 exitProcess(args[0] as Int)
             }
         }
 
-        globals["time"] = object: Method(listOf(), Type.VOID) {
+        globals["time"] = object: Method(listOf(), Types.VOID) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
                 return System.currentTimeMillis() / 1000
             }

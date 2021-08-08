@@ -2,18 +2,18 @@ package lclang.lang
 
 import lclang.LCClass
 import lclang.LCFileVisitor
-import lclang.types.Type
+import lclang.types.Types
 import lclang.methods.Method
 
 class CharClass(val char: Char, fileVisitor: LCFileVisitor): LCClass("char", fileVisitor) {
     init {
-        globals["getValue"] = object: Method(listOf(), Type.INT) {
+        globals["getValue"] = object: Method(listOf(), Types.INT) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
                 return char.code
             }
         }
 
-        globals["upper"] = object: Method(listOf(), Type.CHAR) {
+        globals["upper"] = object: Method(listOf(), Types.CHAR) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
                 return char.uppercase()
             }

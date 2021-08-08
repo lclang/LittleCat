@@ -2,6 +2,7 @@ package lclang
 
 import lclang.methods.Method
 import lclang.types.Type
+import lclang.types.Types
 
 class ValueList(file: LCFileVisitor): LCClass("array", file) {
     val list = ArrayList<Value>()
@@ -11,20 +12,24 @@ class ValueList(file: LCFileVisitor): LCClass("array", file) {
     fun last() = list.last()
 
     init{
-        variables["join"] = object: Method(listOf(Type.STRING), Type.ARRAY) {
+        variables["join"] = object: Method(listOf(Types.STRING), Types.ARRAY) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
-                return list.joinToString(args[0].toString())
+                return join(args[0].toString())
             }
         }
     }
 
-    override fun toString(): String {
+    fun join(spectator: String): String{
         var str = ""
         for((i, el) in list.withIndex()){
-            str += el.get().toString() + if(list.size != i+1) ", " else ""
+            str += "${el.get()}" + if(list.size != i+1) spectator else ""
         }
 
-        return "[$str]"
+        return str
+    }
+
+    override fun toString(): String {
+        return "[${join(", ")}]"
     }
 
     operator fun plus(a: ValueList): ValueList {

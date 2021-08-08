@@ -13,7 +13,6 @@ open class LCFileVisitor(
 ): LCBaseVisitor() {
     val classes = HashMap<String, LCClass>()
     val libraries = ArrayList<Library>()
-    val files = HashMap<String, LCFileVisitor>()
 
     init {
         fileVisitor = this
@@ -30,9 +29,7 @@ open class LCFileVisitor(
         return null
     }
 
-    override fun visitFile(ctx: lclangParser.FileContext?): Value? {
-        if(ctx===null) return null
-
+    fun execute(ctx: lclangParser.FileContext) {
         for(classExpr in ctx.classExpr())
             classes[classExpr.ID().text] = LCClass.from("",this, classExpr)
 
@@ -43,6 +40,7 @@ open class LCFileVisitor(
             globals.putAll(library.globals)
         }
 
+        val files = HashMap<String, LCFileVisitor>()
         for(usage in ctx.use()){
             val requiredFile = File(File(fileVisitor.path).parent, usage.STRING().text
                 .substring(1).substringBeforeLast('"'))
@@ -54,7 +52,7 @@ open class LCFileVisitor(
             else if(files[requiredFile.path]!=null)
                 eval = files[requiredFile.path]!!
             else if(requiredFile.length()!=0L){
-                val lexer = lclangLexer(CharStreams.fromString(read(requiredFile)))
+                val lexer = lclangLexer(CharStreams.fromString(requiredFile.readText()))
                 val tokens = CommonTokenStream(lexer)
                 val parser = lclangParser(tokens)
                 parser.removeErrorListeners()
@@ -62,7 +60,7 @@ open class LCFileVisitor(
 
                 eval = LCFileVisitor(requiredFile.path.toString()).apply {
                     libraries.addAll(this@LCFileVisitor.libraries)
-                    visitFile(parser.file())
+                    execute(parser.file())
                 }
 
                 files[requiredFile.path] = eval
@@ -84,15 +82,16 @@ open class LCFileVisitor(
             }
         }
 
+        files.clear()
+
         for(global in ctx.global())
             globals[global.ID().text] = visitValue(global.value())
 
-        for(method in ctx.method())
+        for(method in ctx.method()) {
             globals[method.ID().text] = VisitorMethod(method)
+        }
 
         for(stmt in ctx.stmt())
             visitStmt(stmt)
-
-        return null
     }
 }

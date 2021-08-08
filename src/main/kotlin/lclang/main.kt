@@ -6,15 +6,14 @@ import lclang.libs.std.StdLibrary
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import org.apache.commons.cli.*
-import org.mozilla.universalchardet.UniversalDetector
 import java.io.File
 import java.net.URL
 import java.net.URLClassLoader
 import java.nio.file.Paths
-import java.util.*
 import java.util.jar.JarFile
 import kotlin.system.exitProcess
 
+const val ERROR_COLOR = "\u001B[31m"
 
 fun main(args: Array<String>) {
     val options = Options().apply {
@@ -46,25 +45,20 @@ fun main(args: Array<String>) {
     )
 
     if(!executeFile.exists()){
-        println("File "+executeFile.name+" not exists")
+        println(ERROR_COLOR+"File "+executeFile.name+" not exists")
         exitProcess(1)
     }
 
-    if(executeFile.length()==0L) {
-        println(executeFile.path)
-        return
-    }
+    if(executeFile.length()==0L) return
 
     try {
-        val lexer = lclangLexer(CharStreams.fromString(read(executeFile)))
+        val lexer = lclangLexer(CharStreams.fromString(executeFile.readText()))
         val tokens = CommonTokenStream(lexer)
         val parser = lclangParser(tokens)
         parser.removeErrorListeners()
         parser.addErrorListener(ErrorListener(executeFile.path.toString()))
 
-        val tree = parser.file()
-
-        val eval = LCFileVisitor(executeFile.path.toString()).apply {
+        LCFileVisitor(executeFile.path.toString()).apply {
             libraries.add(StdLibrary())
 
             val libDir = File(System.getProperty("libsPath", "./libs"))
@@ -77,43 +71,30 @@ fun main(args: Array<String>) {
                     }
                 }
             }
+
+            execute(parser.file())
         }
-        eval.visit(tree)
     }catch (e: LCLangException){
-        println("\u001B[31m"+e.message)
+        println(ERROR_COLOR+e.message)
         exitProcess(1)
-    }
-}
-
-fun read(file: File): String {
-    Scanner(file, UniversalDetector.detectCharset(file)).use {
-        val value = StringBuilder()
-        while (it.hasNextLine()) {
-            value.append(it.nextLine()).append("\n")
-        }
-
-        value.replace(Regex("[\r\t]"), "").apply {
-            return if (startsWith("\uFEFF")) {
-                substring(1)
-            }else this
-        }
     }
 }
 
 private fun loadJarLibrary(executor: LCFileVisitor, file: File) {
     val jarFile = JarFile(file)
-    val e = jarFile.entries()
-    val urls = arrayOf(URL("jar:file:" + file.path + "!/"))
-    val cl = URLClassLoader.newInstance(urls)
-    while (e.hasMoreElements()) {
-        val je = e.nextElement()
+    val entries = jarFile.entries()
+    val classLoader = URLClassLoader.newInstance(arrayOf(URL("jar:file:" + file.path + "!/")))
+
+    while (entries.hasMoreElements()) {
+        val je = entries.nextElement()
         if (je.isDirectory || !je.name.endsWith(".class")) {
             continue
         }
 
         val className = je.name.substring(0, je.name.length - 6)
             .replace('/', '.')
-        val c = cl.loadClass(className)
-        if (Library::class.java.isAssignableFrom(c)) executor.libraries.add(c.newInstance() as Library)
+        val clazz = classLoader.loadClass(className)
+        if (Library::class.java.isAssignableFrom(clazz))
+            executor.libraries.add(clazz.newInstance() as Library)
     }
 }

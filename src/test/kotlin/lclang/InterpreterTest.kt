@@ -21,7 +21,7 @@ class InterpreterTest {
         val tests = ArrayList<DynamicTest>()
         for(file in testsFile.listFiles()!!){
             tests.add(DynamicTest.dynamicTest(file.name) {
-                val contents = read(file).split(Regex("--OUTPUT--\\R"))
+                val contents = file.readText().split(Regex("--OUTPUT--\\R"))
                 val fileScript = contents[0]
                 val needOutput = contents[1]
                 val output = StringBuilder()
@@ -32,12 +32,22 @@ class InterpreterTest {
                 parser.removeErrorListeners()
                 parser.addErrorListener(ErrorListener(file.path.toString()))
 
+                var startTime = System.currentTimeMillis()
+                val fileContext = parser.file()
+                var endTime = System.currentTimeMillis()
+                println("Parse time: "+(endTime-startTime)+"ms")
+
                 LCFileVisitor(file.path.toString()).apply {
                     libraries.add(TestLibrary(output))
-                    visitFile(parser.file())
+
+                    startTime = System.currentTimeMillis()
+                    execute(fileContext)
                 }
 
+                endTime = System.currentTimeMillis()
+
                 assertEquals(needOutput, output.toString())
+                println("Execute time: "+(endTime-startTime)+"ms")
                 println(output)
             })
         }

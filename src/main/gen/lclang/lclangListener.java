@@ -78,6 +78,16 @@ public interface lclangListener extends ParseTreeListener {
 	 */
 	void exitValue(lclangParser.ValueContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link lclangParser#parentnesesExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterParentnesesExpr(lclangParser.ParentnesesExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link lclangParser#parentnesesExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitParentnesesExpr(lclangParser.ParentnesesExprContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link lclangParser#returnExpr}.
 	 * @param ctx the parse tree
 	 */
@@ -147,16 +157,6 @@ public interface lclangListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitVariable(lclangParser.VariableContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link lclangParser#fixedVariable}.
-	 * @param ctx the parse tree
-	 */
-	void enterFixedVariable(lclangParser.FixedVariableContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link lclangParser#fixedVariable}.
-	 * @param ctx the parse tree
-	 */
-	void exitFixedVariable(lclangParser.FixedVariableContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link lclangParser#lambda}.
 	 * @param ctx the parse tree

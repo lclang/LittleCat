@@ -2,35 +2,35 @@ package lclang.lang
 
 import lclang.*
 import lclang.methods.Method
-import lclang.types.Type
+import lclang.types.Types
 
 class StringClass(val string: String, fileVisitor: LCFileVisitor): LCClass("string", fileVisitor) {
     init {
-        globals["charAt"] = object: Method(listOf(Type.INT), Type.STRING) {
+        globals["charAt"] = object: Method(listOf(Types.INT), Types.STRING) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
                 return string[args[0] as Int].toString()
             }
         }
 
-        globals["toArray"] = object: Method(listOf(), Type.ARRAY) {
+        globals["toArray"] = object: Method(listOf(), Types.ARRAY) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
                 val arr = ValueList(this@StringClass.fileVisitor)
-                for (c in string) arr.add(Value(Type.CHAR, c))
+                for (c in string) arr.add(Value(Types.CHAR, c))
                 return arr
             }
         }
 
-        globals["toArray"] = object: Method(listOf(Type.CHAR), Type.ARRAY) {
+        globals["toArray"] = object: Method(listOf(Types.CHAR), Types.ARRAY) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
                 val arr = ValueList(this@StringClass.fileVisitor)
                 for(el in string.split(args[0] as Char)){
-                    arr.add(Value(Type.STRING, el))
+                    arr.add(Value(Types.STRING, el))
                 }
                 return arr
             }
         }
 
-        globals["find"] = object: Method(listOf(Type.CHAR), Type.INT) {
+        globals["find"] = object: Method(listOf(Types.CHAR), Types.INT) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 for ((i, c) in string.withIndex()){
                     if(c == (args[0] as CharClass).char){

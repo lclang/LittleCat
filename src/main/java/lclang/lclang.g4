@@ -14,11 +14,11 @@ file: use* global* (stmt|method|component|classExpr)*;
 type:
     | methodType
     | baseType;
-methodType: ('(' type (',' type)* ')'|'()') '->' returnType=type;
+methodType: ('(' type (',' type)* ')')? '->' returnType=type;
 baseType: ID ('\\' baseType)?;
 
-expression: '('expression')'
-    | expression or='||' expression
+expression:
+      expression or='||' expression
     | expression and='&&' expression
     | expression equals='==' expression
     | expression notEquals='!=' expression
@@ -33,30 +33,50 @@ expression: '('expression')'
     | expression pow='^' expression
     | primitive;
 
-primitive: (ifExpr|returnExpr|fixedVariable
-               |stop|value|variable|array|typeGet|lambda|container|newClass) arrayAccess*
+primitive: (
+                  parentnesesExpr
+                | value
+                | stop
+                | ifExpr
+                | returnExpr
+                | newClass
+                | variable
+                | array
+                | typeGet
+                | lambda
+                | container
+           )
+
+                arrayAccess*
                 access*
                 (call='(' expression (',' expression)* ')'|call='()')?
                 operation?;
 
 value: HEX_LONG|BOOL|STRING|CHAR|DOUBLE|LONG|INTEGER;
+parentnesesExpr: '(' expression ')';
 returnExpr: 'return' expression?;
 typeGet: '*' expression;
 access: '.' variable;
-array: '[' expression (',' expression)* ']'|'[]';
-arrayAccess: '[' expression ']'|'[]';
+array: '[]'|'[' expression (',' expression)* ']';
+arrayAccess: '[]'|'[' expression ']';
 stop: 'stop';
 variable: ID;
-fixedVariable: 'fixed' ID;
 lambda: '->' args expression;
-container: '{' stmt* '}'|'{}';
+container: '{' stmt* '}';
 ifExpr: 'if ' condition=expression ':' ifT=expression 'else' ifF=expression;
-newClass: ':' className=baseType ('(' expression (',' expression)* ')'|'()');
+newClass: ':' className=baseType;
 
 operation: set;
 set: '=' expression;
 
-stmt: block|whileStmt|ifStmt|expression ';'?;
+stmt:
+          block
+        | whileStmt
+        | ifStmt
+        | expression ';'?
+
+;
+
 whileStmt: 'while ' condition=expression ':' stmt;
 ifStmt: 'if ' condition=expression ':' ifT=stmt ('else' ifF=stmt)?;
 block: '{' stmt* '}';

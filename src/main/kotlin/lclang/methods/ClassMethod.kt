@@ -2,6 +2,7 @@ package lclang.methods
 
 import lclang.*
 import lclang.types.Type
+import lclang.types.Types
 
 class ClassMethod(val clazz: LCClass, private val methodContext: lclangParser.MethodContext):
     VisitorMethod(methodContext) {
@@ -20,7 +21,7 @@ class ClassMethod(val clazz: LCClass, private val methodContext: lclangParser.Me
         val value = lcContextVisitor.visitBlock(methodContext.block())
         val valueType = value?.type?.invoke()
         if(valueType!=null&&!returnType.isAccept(valueType)||
-            valueType==null&&returnType!= Type.VOID)
+            valueType==null&&returnType!= Types.VOID)
             throw Exception("invalid type of return")
 
         return value?.get?.invoke()

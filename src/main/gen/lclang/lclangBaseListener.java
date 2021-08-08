@@ -100,6 +100,18 @@ public class lclangBaseListener implements lclangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterParentnesesExpr(lclangParser.ParentnesesExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitParentnesesExpr(lclangParser.ParentnesesExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterReturnExpr(lclangParser.ReturnExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -179,18 +191,6 @@ public class lclangBaseListener implements lclangListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitVariable(lclangParser.VariableContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterFixedVariable(lclangParser.FixedVariableContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitFixedVariable(lclangParser.FixedVariableContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
