@@ -14,8 +14,61 @@ import java.util.jar.JarFile
 import kotlin.system.exitProcess
 
 const val ERROR_COLOR = "\u001B[31m"
+const val RESET_COLOR = "\u001B[0m"
 
 fun main(args: Array<String>) {
+    val libDir = File(System.getProperty("libsPath", "./libs"))
+    val includeLibraries = ArrayList<Library>()
+    if (libDir.exists() || libDir.mkdir()) {
+        val files = libDir.listFiles()
+        if(files != null) {
+            for (libJar in files) {
+                if(libJar.name.endsWith(".jar"))
+                    includeLibraries.addAll(loadJarLibrary(libJar))
+            }
+        }
+    }
+
+    if(args.isEmpty()){
+        println("Little cat 0.1")
+        val file = LCFileVisitor("file.lcat").apply {
+            libraries.addAll(includeLibraries)
+            libraries.add(StdLibrary())
+        }
+
+        var data = ""
+        while (true) {
+            print("> ")
+            val line = readLine()
+            if(line==":reset"){
+                data = ""
+                file.classes.clear()
+                file.globals.clear()
+                file.variables.clear()
+
+                println("File reset")
+            } else if(line==":code"){
+                println(data)
+            } else if(line=="exit"){
+                exitProcess(0)
+            } else {
+                data += line
+
+                try {
+                    val lexer = lclangLexer(CharStreams.fromString(line))
+                    val tokens = CommonTokenStream(lexer)
+                    val parser = lclangParser(tokens)
+                    parser.removeErrorListeners()
+                    parser.addErrorListener(ErrorListener(file.path))
+
+                    file.execute(parser.file())
+                } catch (e: LCLangException){
+                    println(ERROR_COLOR+e.message+RESET_COLOR)
+                }
+            }
+        }
+    }
+
     val options = Options().apply {
         addOption(Option("f",
               "file",
@@ -59,28 +112,18 @@ fun main(args: Array<String>) {
         parser.addErrorListener(ErrorListener(executeFile.path.toString()))
 
         LCFileVisitor(executeFile.path.toString()).apply {
+            libraries.addAll(includeLibraries)
             libraries.add(StdLibrary())
-
-            val libDir = File(System.getProperty("libsPath", "./libs"))
-            if (libDir.exists() || libDir.mkdir()) {
-                val files = libDir.listFiles()
-                if(files != null) {
-                    for (libJar in files) {
-                        if(libJar.name.endsWith(".jar"))
-                            loadJarLibrary(this, libJar)
-                    }
-                }
-            }
-
             execute(parser.file())
         }
-    }catch (e: LCLangException){
+    } catch (e: LCLangException){
         println(ERROR_COLOR+e.message)
         exitProcess(1)
     }
 }
 
-private fun loadJarLibrary(executor: LCFileVisitor, file: File) {
+private fun loadJarLibrary(file: File): List<Library> {
+    val libraries = ArrayList<Library>()
     val jarFile = JarFile(file)
     val entries = jarFile.entries()
     val classLoader = URLClassLoader.newInstance(arrayOf(URL("jar:file:" + file.path + "!/")))
@@ -95,6 +138,8 @@ private fun loadJarLibrary(executor: LCFileVisitor, file: File) {
             .replace('/', '.')
         val clazz = classLoader.loadClass(className)
         if (Library::class.java.isAssignableFrom(clazz))
-            executor.libraries.add(clazz.newInstance() as Library)
+            libraries.add(clazz.newInstance() as Library)
     }
+
+    return libraries
 }
