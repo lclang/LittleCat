@@ -50,7 +50,7 @@ jobs:
             gradle jar
 
       - store_artifacts:
-          path: ~/build/libs/build.jar
+          path: ~/repo/build/libs/build.jar
           destination: build
 
       - discord/status:
@@ -61,6 +61,6 @@ jobs:
       - discord/notify:
           webhook: ${DISCORD_WEBHOOK_URL}
           color: '4052034'
-          message: ":green_circle: Все тесты успешно выполнены"
+          message: ":green_circle: Все тесты успешно выполнены (Артефакты обновлены)"
           include_job_number_field: false
           include_project_field: false
