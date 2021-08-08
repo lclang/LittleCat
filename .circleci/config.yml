@@ -63,7 +63,7 @@ jobs:
             gradle jar
 
       - store_artifacts:
-          path: ~/repo/build
+          path: ~/repo/build/libs
           destination: build
 
       - discord/status:
