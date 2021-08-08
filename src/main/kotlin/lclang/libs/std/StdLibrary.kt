@@ -85,7 +85,7 @@ class StdLibrary: Library("std") {
 
         globals["millisTime"] = object: Method(listOf(), Types.LONG) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
-                return System.currentTimeMillis()dfs
+                return System.currentTimeMillis()
             }
         }
 
