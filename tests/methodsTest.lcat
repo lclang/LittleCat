@@ -4,5 +4,15 @@ method test(): string {
 
 alias = test
 println([test(), alias()].join(", "))
+
+method lambdaMethodCall(lambda: () -> string) {
+    //println(lambda)
+    println("test")
+}
+
+lambdaMethodCall(test)
+lambdaMethodCall(alias)
 --OUTPUT--
 test, test
+test
+test

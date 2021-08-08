@@ -14,7 +14,7 @@ file: use* global* (stmt|method|component|classExpr)*;
 type:
     | methodType
     | baseType;
-methodType: ('(' type (',' type)* ')')? '->' returnType=type;
+methodType: ('(' type (',' type)* ')'|'()') '->' returnType=type;
 baseType: ID ('\\' baseType)?;
 
 expression:
