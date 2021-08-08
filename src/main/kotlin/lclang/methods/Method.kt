@@ -1,7 +1,6 @@
 package lclang.methods
 
 import lclang.LCFileVisitor
-import lclang.types.Type
 import lclang.Value
 import lclang.types.BaseType
 import lclang.types.CallableType

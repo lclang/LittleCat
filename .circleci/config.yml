@@ -44,6 +44,15 @@ jobs:
       # run tests!
       - run: gradle test
 
+      - run:
+          name: Artifacts
+          command: |
+            gradle jar
+
+      - store_artifacts:
+          path: ~/build/libs/build.jar
+          destination: build
+
       - discord/status:
           webhook: ${DISCORD_WEBHOOK_URL}
           fail_only: true

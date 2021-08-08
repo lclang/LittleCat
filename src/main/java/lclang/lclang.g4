@@ -1,6 +1,7 @@
 grammar lclang;
 WS : ('//'(.+?)[\n\r]|'/*'(.+?)'*/'|([ \t\r\n])+) -> skip;
 METHOD: 'm'|'method';
+NULL: 'null';
 BOOL: 'true'|'false';
 ID: [A-Za-z]+;
 STRING: '"'(.+?)?'"';
@@ -52,7 +53,7 @@ primitive: (
                 (call='(' expression (',' expression)* ')'|call='()')?
                 operation?;
 
-value: HEX_LONG|BOOL|STRING|CHAR|DOUBLE|LONG|INTEGER;
+value: HEX_LONG|BOOL|STRING|CHAR|DOUBLE|LONG|INTEGER|NULL;
 parentnesesExpr: '(' expression ')';
 returnExpr: 'return' expression?;
 typeGet: '*' expression;
