@@ -1,8 +1,10 @@
 package lclang.methods
 
-import lclang.*
+import lclang.LCBaseVisitor
+import lclang.LCFileVisitor
+import lclang.Value
+import lclang.lclangParser
 import lclang.types.BaseType
-import lclang.types.Type
 import lclang.types.Types
 
 open class VisitorMethod(private val methodContext: lclangParser.MethodContext): Method(
