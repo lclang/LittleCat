@@ -23,10 +23,8 @@ dependencies {
 }
 
 jar {
-    archivesBaseName= "build"
-    manifest {
-        attributes "Main-Class": "lclang.MainKt"
-    }
+    archivesBaseName = "build"
+    manifest.attributes "Main-Class": "lclang.MainKt"
 
     from {
         configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
