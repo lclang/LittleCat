@@ -1,32 +1,34 @@
 package lclang.libs.std
 
-import lclang.*
+import lclang.ErrorListener
+import lclang.LCFileVisitor
 import lclang.exceptions.LCLangException
+import lclang.lclangLexer
+import lclang.lclangParser
 import lclang.libs.Library
 import lclang.libs.std.classes.MathClass
-import lclang.methods.Method
-import lclang.types.Type
+import lclang.methods.LibraryMethod
 import lclang.types.Types
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import java.io.File
-import kotlin.system.exitProcess
 import java.util.*
+import kotlin.system.exitProcess
 
 class StdLibrary: Library("std") {
 
     init {
         globals["math"] = MathClass(this).create()
-        globals["println"] = object: Method(listOf(Types.ANY), Types.VOID) {
-            override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
+        globals["println"] = object: LibraryMethod(listOf(Types.ANY), Types.VOID) {
+            override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 println(args[0])
 
                 return null
             }
         }
 
-        globals["require"] = object: Method(listOf(Types.STRING), Types.ANY) {
-            override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
+        globals["require"] = object: LibraryMethod(listOf(Types.STRING), Types.ANY) {
+            override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 val requiredFile = File(File(fileVisitor.path).parent, args[0].toString())
                 if(!requiredFile.exists())
                     throw LCLangException("Require", "file "+args[0]+" not found", 0, 0,
@@ -49,48 +51,48 @@ class StdLibrary: Library("std") {
             }
         }
 
-        globals["print"] = object: Method(listOf(Types.ANY), Types.VOID) {
-            override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
+        globals["print"] = object: LibraryMethod(listOf(Types.ANY), Types.VOID) {
+            override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 print(args[0])
 
                 return null
             }
         }
 
-        globals["readLine"] = object: Method(listOf(), Types.STRING) {
-            override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
+        globals["readLine"] = object: LibraryMethod(listOf(), Types.STRING) {
+            override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 val scanner = Scanner(System.`in`)
                 return scanner.nextLine()
             }
         }
 
-        globals["printError"] = object: Method(listOf(Types.ANY), Types.VOID) {
-            override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
+        globals["printError"] = object: LibraryMethod(listOf(Types.ANY), Types.VOID) {
+            override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 println("\u001B[31m${args[0]}")
                 return null
             }
         }
 
-        globals["exit"] = object: Method(listOf(Types.INT), Types.VOID) {
-            override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
+        globals["exit"] = object: LibraryMethod(listOf(Types.INT), Types.VOID) {
+            override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 exitProcess(args[0] as Int)
             }
         }
 
-        globals["time"] = object: Method(listOf(), Types.LONG) {
-            override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
+        globals["time"] = object: LibraryMethod(listOf(), Types.LONG) {
+            override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
                 return System.currentTimeMillis() / 1000
             }
         }
 
-        globals["millisTime"] = object: Method(listOf(), Types.LONG) {
-            override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
+        globals["millisTime"] = object: LibraryMethod(listOf(), Types.LONG) {
+            override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
                 return System.currentTimeMillis()
             }
         }
 
-        globals["sleep"] = object: Method(listOf(Types.LONG), Types.VOID) {
-            override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
+        globals["sleep"] = object: LibraryMethod(listOf(Types.LONG), Types.VOID) {
+            override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 Thread.sleep(args[0] as Long)
 
                 return null

@@ -14,6 +14,6 @@ abstract class BaseType(val text: String) {
     }
 
     override fun toString(): String {
-        return text
+        return (if(nullable) "?" else "") + text
     }
 }

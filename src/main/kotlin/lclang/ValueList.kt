@@ -1,5 +1,6 @@
 package lclang
 
+import lclang.methods.LibraryMethod
 import lclang.methods.Method
 import lclang.types.Type
 import lclang.types.Types
@@ -12,8 +13,8 @@ class ValueList(file: LCFileVisitor): LCClass("array", file) {
     fun last() = list.last()
 
     init{
-        variables["join"] = object: Method(listOf(Types.STRING), Types.ARRAY) {
-            override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
+        variables["join"] = object: LibraryMethod(listOf(Types.STRING), Types.ARRAY) {
+            override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
                 return join(args[0].toString())
             }
         }

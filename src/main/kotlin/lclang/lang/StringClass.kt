@@ -1,27 +1,30 @@
 package lclang.lang
 
-import lclang.*
-import lclang.methods.Method
+import lclang.LCClass
+import lclang.LCFileVisitor
+import lclang.Value
+import lclang.ValueList
+import lclang.methods.LibraryMethod
 import lclang.types.Types
 
 class StringClass(val string: String, fileVisitor: LCFileVisitor): LCClass("string", fileVisitor) {
     init {
-        globals["charAt"] = object: Method(listOf(Types.INT), Types.STRING) {
-            override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
+        globals["charAt"] = object: LibraryMethod(listOf(Types.INT), Types.STRING) {
+            override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
                 return string[args[0] as Int].toString()
             }
         }
 
-        globals["toArray"] = object: Method(listOf(), Types.ARRAY) {
-            override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
+        globals["toArray"] = object: LibraryMethod(listOf(), Types.ARRAY) {
+            override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
                 val arr = ValueList(this@StringClass.fileVisitor)
                 for (c in string) arr.add(Value(Types.CHAR, c))
                 return arr
             }
         }
 
-        globals["toArray"] = object: Method(listOf(Types.CHAR), Types.ARRAY) {
-            override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
+        globals["toArray"] = object: LibraryMethod(listOf(Types.CHAR), Types.ARRAY) {
+            override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
                 val arr = ValueList(this@StringClass.fileVisitor)
                 for(el in string.split(args[0] as Char)){
                     arr.add(Value(Types.STRING, el))
@@ -30,8 +33,8 @@ class StringClass(val string: String, fileVisitor: LCFileVisitor): LCClass("stri
             }
         }
 
-        globals["find"] = object: Method(listOf(Types.CHAR), Types.INT) {
-            override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
+        globals["find"] = object: LibraryMethod(listOf(Types.CHAR), Types.INT) {
+            override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 for ((i, c) in string.withIndex()){
                     if(c == (args[0] as CharClass).char){
                         return i

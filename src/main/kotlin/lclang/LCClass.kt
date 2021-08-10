@@ -1,6 +1,7 @@
 package lclang
 
 import lclang.methods.ClassMethod
+import lclang.methods.LibraryMethod
 import lclang.methods.Method
 import lclang.types.Type
 
@@ -9,8 +10,8 @@ open class LCClass(
     fileVisitor: LCFileVisitor
 ): LCBaseVisitor(fileVisitor){
     val classType = Type("\\"+name)
-    val constructor: Method = object: Method(listOf(), classType) {
-        override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
+    val constructor: Method = object: LibraryMethod(listOf(), classType) {
+        override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
             return LCClass(name, fileVisitor).apply {
                 globals.putAll(this@LCClass.globals)
                 variables.putAll(this@LCClass.variables)
@@ -22,7 +23,7 @@ open class LCClass(
         this.fileVisitor = fileVisitor
     }
 
-    fun create(args: List<Any?> = listOf()): Value {
+    fun create(args: List<Value> = listOf()): Value {
         return Value(classType, constructor.call(this.fileVisitor, args) as LCClass)
     }
 

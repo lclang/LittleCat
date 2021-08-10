@@ -6,7 +6,9 @@ import lclang.lclangParser
 class CallableType(
     val args: List<BaseType>,
     val returnType: BaseType
-): BaseType("callable") {
+): BaseType(run {
+    return@run "("+ args.joinToString(",") { it.toString() } +") -> " + returnType.toString()
+}) {
 
     override fun isAccept(another: BaseType): Boolean {
         if(another == Types.CALLABLE) return true

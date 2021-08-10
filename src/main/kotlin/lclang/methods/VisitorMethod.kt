@@ -18,13 +18,11 @@ abstract class VisitorMethod(returnType: BaseType,
         return@run args
     }, returnType) {
 
-    override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
+    override fun call(fileVisitor: LCFileVisitor, args: List<Value>): Any? {
         val lcContextVisitor = LCBaseVisitor(fileVisitor)
 
         for((argNum, argName) in methodArgs.withIndex()){
-            lcContextVisitor.variables[argName.ID().text] = Value({
-               this.args[argNum]
-            }, { args[argNum] })
+            lcContextVisitor.variables[argName.ID().text] = args[argNum]
         }
 
         val value = execute(lcContextVisitor)

@@ -334,10 +334,7 @@ open class LCBaseVisitor(
                     ctx.expression(notAcceptArg).start.line, ctx.expression(notAcceptArg).stop.line,
                     fileVisitor.path)
 
-            val argsList = ArrayList<Any?>()
-            for(arg in args) argsList.add(arg.get())
-
-            return Value(method.returnType, method.call(fileVisitor, argsList))
+            return Value(method.returnType, method.call(fileVisitor, args))
         }
 
         if(ctx.operation()?.set()!=null){
