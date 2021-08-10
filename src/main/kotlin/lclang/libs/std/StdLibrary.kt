@@ -16,7 +16,7 @@ import java.util.*
 class StdLibrary: Library("std") {
 
     init {
-        globals["math"] = Value({ Type("math") }, { MathClass(this) })
+        globals["math"] = MathClass(this).create()
         globals["println"] = object: Method(listOf(Types.ANY), Types.VOID) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 println(args[0])

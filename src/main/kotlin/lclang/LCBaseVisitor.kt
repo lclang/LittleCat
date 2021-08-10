@@ -66,6 +66,7 @@ open class LCBaseVisitor(
                 .substringBeforeLast('"'), fileVisitor))
             ctx.CHAR()!=null -> Value(Types.CHAR, CharClass(ctx.CHAR().text.substring(1)
                 .substringBeforeLast('\'')[0], fileVisitor))
+            ctx.DOUBLE()!=null -> Value(Types.DOUBLE, ctx.DOUBLE().text.toDouble())
             ctx.INTEGER()!=null -> Value(Types.INT, ctx.INTEGER().text.toInt())
             ctx.LONG()!=null -> Value(Types.LONG, ctx.LONG().text
                 .substringBeforeLast('L').toLong())

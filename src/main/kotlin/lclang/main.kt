@@ -18,7 +18,7 @@ const val RESET_COLOR = "\u001B[0m"
 
 fun main(args: Array<String>) {
     val libDir = File(System.getProperty("libsPath", "./libs"))
-    val includeLibraries = ArrayList<Library>()
+    val includeLibraries = arrayListOf<Library>(StdLibrary())
     if (libDir.exists() || libDir.mkdir()) {
         val files = libDir.listFiles()
         if(files != null) {
@@ -33,37 +33,40 @@ fun main(args: Array<String>) {
         println("Little cat 0.1")
         val file = LCFileVisitor("file.lcat").apply {
             libraries.addAll(includeLibraries)
-            libraries.add(StdLibrary())
         }
 
         var data = ""
         while (true) {
             print("> ")
-            val line = readLine()
-            if(line==":reset"){
-                data = ""
-                file.classes.clear()
-                file.globals.clear()
-                file.variables.clear()
+            when (val line = readLine()) {
+                ":reset" -> {
+                    data = ""
+                    file.classes.clear()
+                    file.globals.clear()
+                    file.variables.clear()
 
-                println("File reset")
-            } else if(line==":code"){
-                println(data)
-            } else if(line=="exit"){
-                exitProcess(0)
-            } else {
-                data += line
+                    println("File reset")
+                }
+                ":code" -> {
+                    println(data)
+                }
+                "exit" -> {
+                    exitProcess(0)
+                }
+                else -> {
+                    data += line
 
-                try {
-                    val lexer = lclangLexer(CharStreams.fromString(line))
-                    val tokens = CommonTokenStream(lexer)
-                    val parser = lclangParser(tokens)
-                    parser.removeErrorListeners()
-                    parser.addErrorListener(ErrorListener(file.path))
+                    try {
+                        val lexer = lclangLexer(CharStreams.fromString(line))
+                        val tokens = CommonTokenStream(lexer)
+                        val parser = lclangParser(tokens)
+                        parser.removeErrorListeners()
+                        parser.addErrorListener(ErrorListener(file.path))
 
-                    file.execute(parser.file())
-                } catch (e: LCLangException){
-                    println(ERROR_COLOR+e.message+RESET_COLOR)
+                        file.execute(parser.file())
+                    } catch (e: LCLangException){
+                        println(ERROR_COLOR+e.message+RESET_COLOR)
+                    }
                 }
             }
         }
@@ -113,7 +116,6 @@ fun main(args: Array<String>) {
 
         LCFileVisitor(executeFile.path.toString()).apply {
             libraries.addAll(includeLibraries)
-            libraries.add(StdLibrary())
             execute(parser.file())
         }
     } catch (e: LCLangException){

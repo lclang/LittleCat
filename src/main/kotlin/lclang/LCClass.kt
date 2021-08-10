@@ -22,6 +22,10 @@ open class LCClass(
         this.fileVisitor = fileVisitor
     }
 
+    fun create(args: List<Any?> = listOf()): Value {
+        return Value(classType, constructor.call(this.fileVisitor, args) as LCClass)
+    }
+
     companion object {
         fun from(componentName: String,
                  fileVisitor: LCFileVisitor,
