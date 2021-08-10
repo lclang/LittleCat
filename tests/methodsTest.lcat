@@ -11,7 +11,7 @@ method lambdaMethodCall(lambda: () -> string) {
 
 lambdaMethodCall(test)
 lambdaMethodCall(alias)
-lambdaMethodCall(-> : string "lambda")
+lambdaMethodCall(-> : string "lambda") 
 
 --OUTPUT--
 test, test
