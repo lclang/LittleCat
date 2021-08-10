@@ -26,10 +26,10 @@ class Type(
     }
 
     override fun isAccept(another: BaseType): Boolean {
-        if(this == Types.ANY) return true
-        if((another as Type).primitive&&primitive)
-            return another.name == name
-
-        return false
+        return super.isAccept(another) ||
+                another is Type &&
+                (nullable || !another.nullable) &&
+                another.primitive && primitive &&
+                another.name == name
     }
 }

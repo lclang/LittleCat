@@ -20,6 +20,8 @@ object Types {
             type.baseType()!=null -> Type.from(type.baseType())
             type.methodType()!=null -> CallableType.from(type.methodType())
             else -> throw Exception("Future error")
+        }.apply {
+            this.nullable = type.nullable!=null
         }
     }
 }

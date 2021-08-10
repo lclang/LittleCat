@@ -7,31 +7,27 @@ import lclang.lclangParser
 import lclang.types.BaseType
 import lclang.types.Types
 
-open class VisitorMethod(private val methodContext: lclangParser.MethodContext): Method(
+abstract class VisitorMethod(returnType: BaseType,
+                         private val methodArgs: List<lclangParser.ArgContext>,
+                         private val execute: (LCBaseVisitor) -> Value?): Method(
     run {
         val args = ArrayList<BaseType>()
-        for (arg in methodContext.args().arg())
+        for (arg in methodArgs)
             args.add(Types.getType(arg.type()))
 
         return@run args
-    },
-
-    if(methodContext.type()!=null)
-        Types.getType(methodContext.type())
-    else Types.VOID
-) {
+    }, returnType) {
 
     override fun call(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
         val lcContextVisitor = LCBaseVisitor(fileVisitor)
 
-        val methodArgs = methodContext.args().arg()
-        for(argNum in 0 until methodArgs.size){
-            lcContextVisitor.variables[methodArgs[argNum].ID().text] = Value({
+        for((argNum, argName) in methodArgs.withIndex()){
+            lcContextVisitor.variables[argName.ID().text] = Value({
                this.args[argNum]
             }, { args[argNum] })
         }
 
-        val value = lcContextVisitor.visitBlock(methodContext.block())
+        val value = execute(lcContextVisitor)
         val valueType = value?.type?.invoke()
         if(valueType!=null&&!returnType.isAccept(valueType)||
                 valueType==null&&returnType!= Types.VOID)

@@ -13,8 +13,11 @@ INTEGER: [0-9]+;
 
 file: use* global* (stmt|method|component|classExpr)*;
 type:
-    | methodType
-    | baseType;
+    nullable='?'?
+    (
+      methodType
+    | baseType
+    );
 methodType: ('(' type (',' type)* ')'|'()') '->' returnType=type;
 baseType: ID ('\\' baseType)?;
 
@@ -62,7 +65,7 @@ array: '[]'|'[' expression (',' expression)* ']';
 arrayAccess: '[]'|'[' expression ']';
 stop: 'stop';
 variable: ID;
-lambda: '->' args expression;
+lambda: '->' args? (':' type)? expression;
 container: '{' stmt* '}';
 ifExpr: 'if ' condition=expression ':' ifT=expression 'else' ifF=expression;
 newClass: ':' className=baseType;

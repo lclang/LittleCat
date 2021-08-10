@@ -6,6 +6,7 @@ import lclang.exceptions.TypeErrorException
 import lclang.exceptions.VariableNotFoundException
 import lclang.lang.CharClass
 import lclang.lang.StringClass
+import lclang.methods.LambdaMethod
 import lclang.methods.Method
 import lclang.types.BaseType
 import lclang.types.CallableType
@@ -79,6 +80,7 @@ open class LCBaseVisitor(
         }
     }
 
+    override fun visitLambda(ctx: lclangParser.LambdaContext): Value = LambdaMethod(ctx)
     override fun visitWhileStmt(ctx: lclangParser.WhileStmtContext?): Value? {
         while(visitExpression(ctx!!.condition).apply {
                 if(!Types.BOOL.isAccept(type()))

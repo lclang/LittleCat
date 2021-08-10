@@ -2,6 +2,7 @@ package lclang
 
 import lclang.exceptions.LCLangException
 import lclang.libs.Library
+import lclang.methods.ContextMethod
 import lclang.methods.VisitorMethod
 import lclang.types.Type
 import org.antlr.v4.runtime.CharStreams
@@ -88,7 +89,7 @@ open class LCFileVisitor(
             globals[global.ID().text] = visitValue(global.value())
 
         for(method in ctx.method()) {
-            globals[method.ID().text] = VisitorMethod(method)
+            globals[method.ID().text] = ContextMethod(method)
         }
 
         for(stmt in ctx.stmt())

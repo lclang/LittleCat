@@ -9,11 +9,13 @@ class CallableType(
 ): BaseType("callable") {
 
     override fun isAccept(another: BaseType): Boolean {
-        if(another == Types.ANY) return true
         if(another == Types.CALLABLE) return true
-        if(another !is CallableType) return false
 
-        return args.isAccept(another.args)==-1&&returnType.isAccept(another.returnType)
+        return super.isAccept(another) ||
+                another is CallableType &&
+                (nullable || !another.nullable) &&
+                args.isAccept(another.args)==-1 &&
+                returnType.isAccept(another.returnType)
     }
 
     companion object {
