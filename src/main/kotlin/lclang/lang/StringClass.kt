@@ -53,5 +53,9 @@ class StringClass(val string: String, fileVisitor: LCFileVisitor): LCClass("stri
     }
 
     override fun toString(): String = string
+        .replace("\\n", "\n")
+        .replace("\\r", "\r")
+        .replace("\\b", "\b")
+        .replace("\\t", "\t")
     override fun hashCode(): Int = string.hashCode()
 }

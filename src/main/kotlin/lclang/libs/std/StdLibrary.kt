@@ -13,7 +13,6 @@ import lclang.types.Types
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import java.io.File
-import java.util.*
 import kotlin.system.exitProcess
 
 class StdLibrary: Library("std") {

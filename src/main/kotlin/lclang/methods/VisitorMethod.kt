@@ -5,6 +5,7 @@ import lclang.LCFileVisitor
 import lclang.Value
 import lclang.lclangParser
 import lclang.types.BaseType
+import lclang.types.Type
 import lclang.types.Types
 
 abstract class VisitorMethod(returnType: BaseType,
@@ -13,7 +14,7 @@ abstract class VisitorMethod(returnType: BaseType,
     run {
         val args = ArrayList<BaseType>()
         for (arg in methodArgs)
-            args.add(Types.getType(arg.type()))
+            args.add(if(arg.type()!=null) Types.getType(arg.type()) else Types.ANY)
 
         return@run args
     }, returnType) {
