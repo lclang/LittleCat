@@ -256,13 +256,13 @@ public class lclangBaseListener implements lclangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSet(lclangParser.SetContext ctx) { }
+	@Override public void enterAssign(lclangParser.AssignContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSet(lclangParser.SetContext ctx) { }
+	@Override public void exitAssign(lclangParser.AssignContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

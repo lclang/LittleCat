@@ -250,7 +250,7 @@ open class LCBaseVisitor(
                 ctx.condition.start.line, ctx.condition.stop.line, fileVisitor.path)
         }
 
-        if(cond.get()==true){
+        if(cond.get()!=false){
             return visitExpression(ctx.ifT)
         }
 
@@ -337,11 +337,11 @@ open class LCBaseVisitor(
             return Value(method.returnType, method.call(fileVisitor, args))
         }
 
-        if(ctx.operation()?.set()!=null){
-            val expressionValue = visitExpression(ctx.operation()!!.set().expression())
-            value.set(expressionValue)
-
-            return expressionValue
+        ctx.operation()?.assign()?.let { assign ->
+            visitExpression(assign.expression()).let {
+                value.set(it)
+                return it
+            }
         }
 
         return value

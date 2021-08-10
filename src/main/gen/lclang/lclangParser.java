@@ -30,7 +30,7 @@ public class lclangParser extends Parser {
 		RULE_returnExpr = 8, RULE_typeGet = 9, RULE_access = 10, RULE_array = 11, 
 		RULE_arrayAccess = 12, RULE_stop = 13, RULE_variable = 14, RULE_lambda = 15, 
 		RULE_container = 16, RULE_ifExpr = 17, RULE_newClass = 18, RULE_operation = 19, 
-		RULE_set = 20, RULE_stmt = 21, RULE_whileStmt = 22, RULE_ifStmt = 23, 
+		RULE_assign = 20, RULE_stmt = 21, RULE_whileStmt = 22, RULE_ifStmt = 23, 
 		RULE_block = 24, RULE_component = 25, RULE_classExpr = 26, RULE_field = 27, 
 		RULE_arg = 28, RULE_args = 29, RULE_attribute = 30, RULE_method = 31, 
 		RULE_use = 32, RULE_global = 33;
@@ -39,7 +39,7 @@ public class lclangParser extends Parser {
 			"file", "type", "methodType", "baseType", "expression", "primitive", 
 			"value", "parentnesesExpr", "returnExpr", "typeGet", "access", "array", 
 			"arrayAccess", "stop", "variable", "lambda", "container", "ifExpr", "newClass", 
-			"operation", "set", "stmt", "whileStmt", "ifStmt", "block", "component", 
+			"operation", "assign", "stmt", "whileStmt", "ifStmt", "block", "component", 
 			"classExpr", "field", "arg", "args", "attribute", "method", "use", "global"
 		};
 	}
@@ -1731,8 +1731,8 @@ public class lclangParser extends Parser {
 	}
 
 	public static class OperationContext extends ParserRuleContext {
-		public SetContext set() {
-			return getRuleContext(SetContext.class,0);
+		public AssignContext assign() {
+			return getRuleContext(AssignContext.class,0);
 		}
 		public OperationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1760,7 +1760,7 @@ public class lclangParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(277);
-			set();
+			assign();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1774,32 +1774,32 @@ public class lclangParser extends Parser {
 		return _localctx;
 	}
 
-	public static class SetContext extends ParserRuleContext {
+	public static class AssignContext extends ParserRuleContext {
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public SetContext(ParserRuleContext parent, int invokingState) {
+		public AssignContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_set; }
+		@Override public int getRuleIndex() { return RULE_assign; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof lclangListener ) ((lclangListener)listener).enterSet(this);
+			if ( listener instanceof lclangListener ) ((lclangListener)listener).enterAssign(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof lclangListener ) ((lclangListener)listener).exitSet(this);
+			if ( listener instanceof lclangListener ) ((lclangListener)listener).exitAssign(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof lclangVisitor ) return ((lclangVisitor<? extends T>)visitor).visitSet(this);
+			if ( visitor instanceof lclangVisitor ) return ((lclangVisitor<? extends T>)visitor).visitAssign(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final SetContext set() throws RecognitionException {
-		SetContext _localctx = new SetContext(_ctx, getState());
-		enterRule(_localctx, 40, RULE_set);
+	public final AssignContext assign() throws RecognitionException {
+		AssignContext _localctx = new AssignContext(_ctx, getState());
+		enterRule(_localctx, 40, RULE_assign);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{

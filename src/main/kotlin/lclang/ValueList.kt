@@ -13,10 +13,14 @@ class ValueList(file: LCFileVisitor): LCClass("array", file) {
     fun last() = list.last()
 
     init{
-        variables["join"] = object: LibraryMethod(listOf(Types.STRING), Types.ARRAY) {
+        globals["join"] = object: LibraryMethod(listOf(Types.STRING), Types.ARRAY) {
             override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
                 return join(args[0].toString())
             }
+        }
+
+        globals["size"] = object: LibraryMethod(listOf(), Types.INT) {
+            override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>) = list.size
         }
     }
 

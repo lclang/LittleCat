@@ -70,8 +70,8 @@ container: '{' stmt* '}';
 ifExpr: 'if ' condition=expression ':' ifT=expression 'else' ifF=expression;
 newClass: ':' className=baseType;
 
-operation: set;
-set: '=' expression;
+operation: assign;
+assign: '=' expression;
 
 stmt:
           block

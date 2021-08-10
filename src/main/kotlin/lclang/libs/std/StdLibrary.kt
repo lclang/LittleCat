@@ -6,6 +6,7 @@ import lclang.exceptions.LCLangException
 import lclang.lclangLexer
 import lclang.lclangParser
 import lclang.libs.Library
+import lclang.libs.std.classes.InputClass
 import lclang.libs.std.classes.MathClass
 import lclang.methods.LibraryMethod
 import lclang.types.Types
@@ -19,6 +20,7 @@ class StdLibrary: Library("std") {
 
     init {
         globals["math"] = MathClass(this).create()
+        globals["input"] = InputClass(System.`in`,this).create()
         globals["println"] = object: LibraryMethod(listOf(Types.ANY), Types.VOID) {
             override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 println(args[0])
@@ -56,13 +58,6 @@ class StdLibrary: Library("std") {
                 print(args[0])
 
                 return null
-            }
-        }
-
-        globals["readLine"] = object: LibraryMethod(listOf(), Types.STRING) {
-            override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
-                val scanner = Scanner(System.`in`)
-                return scanner.nextLine()
             }
         }
 
