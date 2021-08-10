@@ -35,6 +35,8 @@ expression:
     | expression add='+' expression
     | expression minus='-' expression
     | expression pow='^' expression
+    | expression unaryPlus='++'
+    | expression unaryMinus='--'
     | primitive;
 
 primitive: (

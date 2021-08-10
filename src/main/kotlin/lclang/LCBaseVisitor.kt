@@ -35,7 +35,7 @@ open class LCBaseVisitor(
                 throw VariableNotFoundException(variableName,
                     ctx.start.line, ctx.stop.line, fileVisitor.path
                 )
-            })).apply { set = { variables[variableName] = it } }
+            })).apply { set = { _, _, _, it -> variables[variableName] = it } }
     }
 
     override fun visitBlock(ctx: lclangParser.BlockContext?): Value? {
@@ -113,8 +113,8 @@ open class LCBaseVisitor(
             visitStmt(ctx.ifF) else null
     }
 
-    override fun visitStmt(ctx: lclangParser.StmtContext?): Value? {
-        return visit(ctx!!.children[0])
+    override fun visitStmt(ctx: lclangParser.StmtContext): Value? {
+        return visit(ctx.children[0])
     }
 
     override fun visitArray(ctx: lclangParser.ArrayContext?): Value? {
@@ -125,14 +125,14 @@ open class LCBaseVisitor(
             }
 
             return@Value array
-        }, {
+        }, { fileVisitor, start, column, it ->
             val array = it!!.get()
             if(array !is ValueList)
                 throw TypeErrorException("Value is not array", ctx!!.start.line, ctx.stop.line,
                     fileVisitor.path)
 
             for((i, expression) in ctx!!.expression().withIndex()){
-                visitExpression(expression).set(array.get(i))
+                visitExpression(expression).set(fileVisitor, start, column, array.get(i))
             }
         })
     }
@@ -152,14 +152,38 @@ open class LCBaseVisitor(
             { visitExpression(ctx!!.expression()).type().text})
     }
 
-    override fun visitExpression(ctx: lclangParser.ExpressionContext?): Value {
+    override fun visitExpression(ctx: lclangParser.ExpressionContext): Value {
         when {
-            ctx?.primitive()!=null -> return visitPrimitive(ctx.primitive())
-            ctx?.expression()?.size==1 -> return visitExpression(ctx.expression(0))
-            ctx!=null -> {
+            ctx.primitive()!=null -> return visitPrimitive(ctx.primitive())
+            else -> {
                 val leftValue = visitExpression(ctx.expression(0))
                 val leftType = leftValue.type()
                 val left = leftValue.get()
+
+                if(ctx.expression().size==1){
+                    val value =  when {
+                        ctx.unaryPlus != null -> when(left) {
+                            !is Number -> throw TypeErrorException("Operation not supported", ctx.unaryPlus.line,
+                                ctx.unaryPlus.line, fileVisitor.path)
+                            Types.DOUBLE -> Value(Types.DOUBLE, left.toDouble()+1)
+                            Types.LONG -> Value(Types.LONG, left.toLong()+1)
+                            else -> Value(Types.INT, left.toInt()+1)
+                        }
+
+                        ctx.unaryMinus != null -> when(left) {
+                            !is Number -> throw TypeErrorException("Operation not supported", ctx.unaryMinus.line,
+                                ctx.unaryMinus.line, fileVisitor.path)
+                            Types.DOUBLE -> Value(Types.DOUBLE, left.toDouble()-1)
+                            Types.LONG -> Value(Types.LONG, left.toLong()-1)
+                            else -> Value(Types.INT, left.toInt()-1)
+                        }
+
+                        else -> leftValue
+                    }
+
+                    leftValue.set(fileVisitor, ctx.start.line, ctx.stop.line, value)
+                    return value
+                }
 
                 val rightValue = visitExpression(ctx.expression(1))
                 val rightType = rightValue.type()
@@ -239,7 +263,6 @@ open class LCBaseVisitor(
                                 ctx.start.line, ctx.stop.line, fileVisitor.path)
                 }
             }
-            else -> throw Exception()
         }
     }
 
@@ -282,9 +305,9 @@ open class LCBaseVisitor(
                         gettable.get(getValue.get() as Int)
                     else throw TypeErrorException("invalid index: excepted int",
                         access.start.line, access.stop.line, fileVisitor.path)
-                }else Value({ Types.ANY }, { gettable.last().get() }, {
+                }else Value({ Types.ANY }, { gettable.last().get() }, {  fileVisitor, start, column, it ->
                     gettable.add(it!!)
-                    orValue.set(Value({ Types.ARRAY}, {gettable}, orValue.set))
+                    orValue.set(fileVisitor, start, column, Value({ Types.ARRAY }, { gettable }, orValue.set))
                 })
             }else if(gettable is Map<*, *>){
                 if(access.expression()==null) throw TypeErrorException(
@@ -339,7 +362,7 @@ open class LCBaseVisitor(
 
         ctx.operation()?.assign()?.let { assign ->
             visitExpression(assign.expression()).let {
-                value.set(it)
+                value.set(fileVisitor, assign.start.line, assign.stop.line, it)
                 return it
             }
         }
