@@ -25,17 +25,23 @@ dependencies {
     testImplementation('org.junit.jupiter:junit-jupiter')
 }
 
-//jar {
+configurations {
+    compile {
+        extendsFrom = extendsFrom.findAll { it != configurations.antlr }
+    }
+}
+
+jar {
 //    //manifest.attributes "Main-Class": "lclang.MainKt"
 //
-//    from {
-//        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-//    } {
-//        exclude "META-INF/*.SF"
-//        exclude "META-INF/*.DSA"
-//        exclude "META-INF/*.RSA"
-//    }
-//}
+    from {
+        configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    } {
+        exclude "META-INF/*.SF"
+        exclude "META-INF/*.DSA"
+        exclude "META-INF/*.RSA"
+    }
+}
 
 task sourcesJar(type: Jar, dependsOn: classes) {
     archiveClassifier.set("sources")
@@ -50,6 +56,48 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 artifacts {
     archives sourcesJar
     archives javadocJar
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = "com.github.lclang"
+            artifactId = project.archivesBaseName
+            version = project.version
+
+            pom {
+                name = 'Little Cat language'
+                description = 'Interpreter code'
+                url = 'https://github.com/lclang/littlecat'
+                licenses {
+                    license {
+                        name = 'Apache 2-0'
+                        url = 'https://www.gnu.org/licenses/gpl-3.0.html'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'levkopo'
+                        name = 'Lev Koporushkin'
+                        email = 'levkopoag@gmail.com'
+                    }
+                }
+
+                scm {
+                    connection = 'scm:git:git://github.com/lclang/littlecat.git'
+                    developerConnection = 'scm:git:ssh://github.com/lclang/littlecat.git'
+                    url = 'https://github.com/lclang/littlecat'
+                }
+            }
+
+            from components.java
+        }
+    }
+
+    repositories {
+        mavenLocal()
+    }
 }
 
 test {
