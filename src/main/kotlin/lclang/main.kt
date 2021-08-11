@@ -57,13 +57,7 @@ fun main(args: Array<String>) {
                     data += line
 
                     try {
-                        val lexer = lclangLexer(CharStreams.fromString(line))
-                        val tokens = CommonTokenStream(lexer)
-                        val parser = lclangParser(tokens)
-                        parser.removeErrorListeners()
-                        parser.addErrorListener(ErrorListener(file.path))
-
-                        file.execute(parser.file())
+                        runInput(file, line?:"")
                     } catch (e: LCLangException){
                         println(ERROR_COLOR+e.message+RESET_COLOR)
                     }
@@ -108,15 +102,9 @@ fun main(args: Array<String>) {
     if(executeFile.length()==0L) return
 
     try {
-        val lexer = lclangLexer(CharStreams.fromString(executeFile.readText()))
-        val tokens = CommonTokenStream(lexer)
-        val parser = lclangParser(tokens)
-        parser.removeErrorListeners()
-        parser.addErrorListener(ErrorListener(executeFile.path.toString()))
-
         LCFileVisitor(executeFile.path.toString()).apply {
             libraries.addAll(includeLibraries)
-            execute(parser.file())
+            runInput(this, executeFile.readText())
         }
     } catch (e: LCLangException){
         println(ERROR_COLOR+e.message)
