@@ -24,17 +24,17 @@ dependencies {
     testImplementation('org.junit.jupiter:junit-jupiter')
 }
 
-jar {
-    //manifest.attributes "Main-Class": "lclang.MainKt"
-
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    } {
-        exclude "META-INF/*.SF"
-        exclude "META-INF/*.DSA"
-        exclude "META-INF/*.RSA"
-    }
-}
+//jar {
+//    //manifest.attributes "Main-Class": "lclang.MainKt"
+//
+//    from {
+//        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+//    } {
+//        exclude "META-INF/*.SF"
+//        exclude "META-INF/*.DSA"
+//        exclude "META-INF/*.RSA"
+//    }
+//}
 
 task sourcesJar(type: Jar, dependsOn: classes) {
     archiveClassifier.set("sources")
