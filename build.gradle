@@ -25,7 +25,7 @@ dependencies {
 }
 
 jar {
-    manifest.attributes "Main-Class": "lclang.MainKt"
+    //manifest.attributes "Main-Class": "lclang.MainKt"
 
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
