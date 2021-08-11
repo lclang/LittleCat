@@ -23,9 +23,17 @@ dependencies {
     testImplementation('org.junit.jupiter:junit-jupiter')
 }
 
-jar {
-    archivesBaseName = "build"
+task executableJar(type: Jar) {
+    archivesBaseName = "executable"
     manifest.attributes "Main-Class": "lclang.MainKt"
+
+    from {
+        configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+task baseJar(type: Jar) {
+    archivesBaseName = "base"
 
     from {
         configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
