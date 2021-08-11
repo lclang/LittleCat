@@ -11,6 +11,7 @@ gradle-app.setting
 .gradletasknamecache
 test.lcat
 libs
+gradle.properties
 
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
 # gradle/wrapper/gradle-wrapper.properties

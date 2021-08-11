@@ -1,7 +1,9 @@
 plugins {
-    id 'java'
+    id 'java-library'
     id 'antlr'
     id 'org.jetbrains.kotlin.jvm' version '1.5.21'
+    id "maven-publish"
+    id "signing"
 }
 
 sourceSets.main.java.srcDirs 'src/main/gen'
@@ -23,20 +25,11 @@ dependencies {
     testImplementation('org.junit.jupiter:junit-jupiter')
 }
 
-task executableJar(type: Jar) {
-    archivesBaseName = "executable"
+jar {
     manifest.attributes "Main-Class": "lclang.MainKt"
 
     from {
-        configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-}
-
-task baseJar(type: Jar) {
-    archivesBaseName = "base"
-
-    from {
-        configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
 
@@ -49,4 +42,68 @@ test {
         showExceptions = true
         showCauses = true
     }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = "lclang"
+            artifactId = project.archivesBaseName
+            version = project.version
+
+            pom {
+                name = 'Little Cat'
+                description = ''
+                url = 'https://github.com/lclang/LittleCat'
+
+                licenses {
+                    license {
+                        name = 'GNU General Public License v3.0'
+                        url = 'https://www.gnu.org/licenses/gpl-3.0.html'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'levkopo'
+                        name = 'Lev Koporushkin'
+                        email = 'levkopoag@gmail.com'
+                    }
+
+                    developer {
+                        id = 'VitiaCat'
+                        name = 'Vitia Kulesh'
+                    }
+                }
+
+                scm {
+                    connection = 'scm:git:git://github.com/lclang/LittleCat.git'
+                    developerConnection = 'scm:git:ssh://github.com/lclang/LittleCat.git'
+                    url = 'https://github.com/lclang/LittleCat'
+                }
+            }
+
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/lclang/LittleCat")
+            credentials {
+                username = project.findProperty('githubUsername') ?: System.getenv('githubUsername')
+                password = project.findProperty('githubKey') ?: System.getenv('githubKey')
+            }
+        }
+    }
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+signing {
+    sign publishing.publications.mavenJava
 }
