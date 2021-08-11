@@ -1,6 +1,0 @@
-currentSecond = 0
-while true: {
-    currentSecond = currentSecond + 1
-    println(currentSecond)
-    sleep(1000L) // Wait 1 second (1000 milliseconds)
-}
