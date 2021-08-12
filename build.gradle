@@ -56,6 +56,20 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
+task createProperties(dependsOn: processResources) {
+    doLast {
+        new File("$buildDir/resources/main/build.properties").withWriter { w ->
+            Properties p = new Properties()
+            p.property('version',  project.version.toString())
+            p.store w, null
+        }
+    }
+}
+
+classes {
+    dependsOn createProperties
+}
+
 artifacts {
     archives sourcesJar
     archives javadocJar
@@ -83,7 +97,6 @@ publishing {
                     developer {
                         id = 'levkopo'
                         name = 'Lev Koporushkin'
-                        email = 'levkopoag@gmail.com'
                     }
                 }
 
