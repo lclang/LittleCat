@@ -96,7 +96,7 @@ publishing {
                 developers {
                     developer {
                         id = 'levkopo'
-                        name = 'Lev Koporushkin'
+                        name = 'Lev Koporushkin' 
                     }
                 }
 
