@@ -60,7 +60,7 @@ task createProperties(dependsOn: processResources) {
     doLast {
         new File("$buildDir/resources/main/build.properties").withWriter { w ->
             Properties p = new Properties()
-            p.property('version',  project.version.toString())
+            p['version'] = project.version.toString()
             p.store w, null
         }
     }
@@ -96,7 +96,7 @@ publishing {
                 developers {
                     developer {
                         id = 'levkopo'
-                        name = 'Lev Koporushkin' 
+                        name = 'Lev Koporushkin'
                     }
                 }
 
