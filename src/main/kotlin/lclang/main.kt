@@ -30,7 +30,7 @@ fun main(args: Array<String>) {
     }
 
     if(args.isEmpty()){
-        println("Little cat 0.1.1")
+        println("Little cat ${Info.version} (Build date: ${Info.buildTime})")
         val file = LCFileVisitor("file.lcat").apply {
             libraries.addAll(includeLibraries)
         }

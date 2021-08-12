@@ -1,10 +1,8 @@
 package lclang.libs.std
 
-import lclang.ErrorListener
-import lclang.LCFileVisitor
+import lclang.*
 import lclang.exceptions.LCLangException
-import lclang.lclangLexer
-import lclang.lclangParser
+import lclang.lang.StringClass
 import lclang.libs.Library
 import lclang.libs.std.classes.InputClass
 import lclang.libs.std.classes.MathClass
@@ -18,6 +16,7 @@ import kotlin.system.exitProcess
 class StdLibrary: Library("std") {
 
     init {
+        globals["LC_VERSION"] = Value(Types.STRING, StringClass(Info.version, fileVisitor))
         globals["math"] = MathClass(this).create()
         globals["input"] = InputClass(System.`in`,this).create()
         globals["println"] = object: LibraryMethod(listOf(Types.ANY), Types.VOID) {

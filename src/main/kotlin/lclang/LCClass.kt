@@ -10,7 +10,7 @@ open class LCClass(
     fileVisitor: LCFileVisitor
 ): LCBaseVisitor(fileVisitor){
     val classType = Type("\\"+name)
-    val constructor: Method = object: LibraryMethod(listOf(), classType) {
+    open val constructor: Method = object: LibraryMethod(listOf(), classType) {
         override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
             return LCClass(name, fileVisitor).apply {
                 globals.putAll(this@LCClass.globals)
@@ -24,7 +24,7 @@ open class LCClass(
     }
 
     fun create(args: List<Value> = listOf()): Value {
-        return Value(classType, constructor.call(this.fileVisitor, args) as LCClass)
+        return Value(constructor.returnType, constructor.call(this.fileVisitor, args) as LCClass)
     }
 
     companion object {

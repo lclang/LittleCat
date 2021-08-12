@@ -3,7 +3,7 @@ WS : ('//'(.+?)[\n\r]|'/*'(.+?)'*/'|([ \t\r\n])+) -> skip;
 METHOD: 'm'|'method';
 NULL: 'null';
 BOOL: 'true'|'false';
-ID: [A-Za-z]+;
+ID: [A-Za-z_-]+;
 STRING: '"'(.+?)?'"';
 CHAR: '\''.'\'';
 HEX_LONG: '#'[1-9ABCDEF]+;

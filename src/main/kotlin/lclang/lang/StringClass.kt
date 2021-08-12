@@ -1,14 +1,17 @@
 package lclang.lang
 
-import lclang.LCClass
-import lclang.LCFileVisitor
-import lclang.Value
-import lclang.ValueList
+import lclang.*
 import lclang.methods.LibraryMethod
+import lclang.methods.Method
 import lclang.types.Types
 
-class StringClass(val string: String, fileVisitor: LCFileVisitor): LCClass("string", fileVisitor) {
-    init {
+class StringClass(fileVisitor: LCFileVisitor): LCClass("string", fileVisitor) {
+    override val constructor: Method = method(returnType = Types.STRING) { list, file -> StringClass(list[0].toString(), file) }
+    lateinit var string: String
+
+    constructor(string: String, fileVisitor: LCFileVisitor): this(fileVisitor) {
+        this.string = string
+
         globals["charAt"] = object: LibraryMethod(listOf(Types.INT), Types.STRING) {
             override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
                 return string[args[0] as Int].toString()
