@@ -37,4 +37,13 @@ open class LCClass(
             }
         }
     }
+
+    override fun toString(): String {
+        return globals["toString"]?.let {
+            if(it is Method)
+                it.call(fileVisitor, listOf())
+
+            null
+        } ?: "$name@class"
+    }
 }

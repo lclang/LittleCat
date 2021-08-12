@@ -6,6 +6,7 @@ import lclang.lang.StringClass
 import lclang.libs.Library
 import lclang.libs.std.classes.InputClass
 import lclang.libs.std.classes.MathClass
+import lclang.libs.std.classes.OutputClass
 import lclang.methods.LibraryMethod
 import lclang.types.Types
 import org.antlr.v4.runtime.CharStreams
@@ -16,9 +17,14 @@ import kotlin.system.exitProcess
 class StdLibrary: Library("std") {
 
     init {
+        val output = OutputClass(System.out, this)
+        globals["output"] = output.create()
+        globals.putAll(output.globals)
+
         globals["LC_VERSION"] = Value(Types.STRING, StringClass(Info.version, fileVisitor))
         globals["math"] = MathClass(this).create()
         globals["input"] = InputClass(System.`in`,this).create()
+
         globals["println"] = object: LibraryMethod(listOf(Types.ANY), Types.VOID) {
             override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 println(args[0])
@@ -48,14 +54,6 @@ class StdLibrary: Library("std") {
                 }
 
                 return eval.variables["export"]?.get?.let { it() }
-            }
-        }
-
-        globals["print"] = object: LibraryMethod(listOf(Types.ANY), Types.VOID) {
-            override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
-                print(args[0])
-
-                return null
             }
         }
 
