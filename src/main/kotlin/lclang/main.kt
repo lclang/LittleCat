@@ -3,8 +3,6 @@ package lclang
 import lclang.exceptions.LCLangException
 import lclang.libs.Library
 import lclang.libs.std.StdLibrary
-import org.antlr.v4.runtime.CharStreams
-import org.antlr.v4.runtime.CommonTokenStream
 import org.apache.commons.cli.*
 import java.io.File
 import java.net.URL
