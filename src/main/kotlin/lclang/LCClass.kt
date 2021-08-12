@@ -21,6 +21,8 @@ open class LCClass(
 
     init {
         this.fileVisitor = fileVisitor
+        globals.clear()
+        variables.clear()
     }
 
     fun create(args: List<Value> = listOf()): Value {

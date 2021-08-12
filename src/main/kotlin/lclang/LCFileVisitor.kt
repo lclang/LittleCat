@@ -38,6 +38,7 @@ open class LCFileVisitor(
             visitComponent(component)
 
         for(library in libraries) {
+            classes.putAll(library.classes)
             globals.putAll(library.globals)
         }
 

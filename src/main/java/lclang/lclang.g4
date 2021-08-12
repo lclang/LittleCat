@@ -37,7 +37,7 @@ expression:
     | expression pow='^' expression
     | expression unaryPlus='++'
     | expression unaryMinus='--'
-    | primitive;
+    | primitive access*;
 
 primitive: (
                   parentnesesExpr
@@ -54,7 +54,6 @@ primitive: (
            )
 
                 arrayAccess*
-                access*
                 (call='(' expression (',' expression)* ')'|call='()')?
                 operation?;
 

@@ -24,18 +24,8 @@ class ValueList(file: LCFileVisitor): LCClass("array", file) {
         }
     }
 
-    fun join(spectator: String): String{
-        var str = ""
-        for((i, el) in list.withIndex()){
-            str += "${el.get()}" + if(list.size != i+1) spectator else ""
-        }
-
-        return str
-    }
-
-    override fun toString(): String {
-        return "[${join(", ")}]"
-    }
+    fun join(spectator: String) = list.joinToString(spectator) { it.get().toString() }
+    override fun toString(): String = "[${join(", ")}]"
 
     operator fun plus(a: ValueList): ValueList {
         for(el in a.list) list.add(el)

@@ -7,6 +7,7 @@ import lclang.libs.Library
 import lclang.libs.std.classes.InputClass
 import lclang.libs.std.classes.MathClass
 import lclang.libs.std.classes.OutputClass
+import lclang.libs.std.classes.SocketClass
 import lclang.methods.LibraryMethod
 import lclang.types.Types
 import org.antlr.v4.runtime.CharStreams
@@ -17,6 +18,8 @@ import kotlin.system.exitProcess
 class StdLibrary: Library("std") {
 
     init {
+        classes["Socket"] = SocketClass(this)
+
         val output = OutputClass(System.out, this)
         globals["output"] = output.create()
         globals.putAll(output.globals)

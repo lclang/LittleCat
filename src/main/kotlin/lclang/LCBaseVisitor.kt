@@ -11,6 +11,8 @@ import lclang.methods.Method
 import lclang.types.BaseType
 import lclang.types.CallableType
 import lclang.types.Types
+import org.antlr.v4.runtime.ParserRuleContext
+import org.antlr.v4.runtime.Token
 import kotlin.math.pow
 
 open class LCBaseVisitor(
@@ -82,13 +84,9 @@ open class LCBaseVisitor(
 
     override fun visitLambda(ctx: lclangParser.LambdaContext): Value = LambdaMethod(ctx)
     override fun visitWhileStmt(ctx: lclangParser.WhileStmtContext?): Value? {
-        while(visitExpression(ctx!!.condition).apply {
-                if(!Types.BOOL.isAccept(type()))
-                    throw TypeErrorException("Value is not bool: "+type().text,
-                        ctx.condition.start.line, ctx.condition.stop.line, fileVisitor.path)
-
-            }.get()==true){
+        while(visitExpression(ctx!!.condition).get()!=false){
             val value = visitStmt(ctx.stmt())
+
             if(value?.isReturn==true)
                 return value
             else if(value?.stop==true)
@@ -154,7 +152,26 @@ open class LCBaseVisitor(
 
     override fun visitExpression(ctx: lclangParser.ExpressionContext): Value {
         when {
-            ctx.primitive()!=null -> return visitPrimitive(ctx.primitive())
+            ctx.primitive()!=null ->
+                return visitPrimitive(ctx.primitive()).let {
+                    var value = it
+                    for(access in ctx.access()){
+                        val classValue = value.get()
+                        if(classValue !is LCClass)
+                            throw TypeErrorException("excepted class",
+                                access.start.line, access.stop.line, fileVisitor.path)
+
+                        val primitive = access.primitive()
+                        if(primitive.call!=null){
+                            primitive.call = null
+                            value = classValue.visitPrimitive(primitive)
+                            value = call(value, primitive.expression(), primitive)
+                        }else value = classValue.visitPrimitive(primitive)
+                    }
+
+                    value
+                }
+
             else -> {
                 val leftValue = visitExpression(ctx.expression(0))
                 val leftType = leftValue.type()
@@ -293,6 +310,37 @@ open class LCBaseVisitor(
         return visitExpression(ctx.expression())
     }
 
+    fun call(value: Value, expressions: List<lclangParser.ExpressionContext>, ctx: ParserRuleContext): Value {
+        if(value.type() !is CallableType)
+            throw TypeErrorException("Value is not callable (it is ${value.type()})",
+                ctx.start.line, ctx.stop.line, fileVisitor.path)
+
+        val argsTypes = ArrayList<BaseType>()
+        val args = ArrayList<Value>()
+        for(arg in expressions)
+            args.add(visitExpression(arg).let {
+                argsTypes.add(it.type())
+                it
+            })
+
+        val method = value as Method
+        if(method.args.size!=argsTypes.size){
+            if(method.args.size>argsTypes.size)
+                throw TypeErrorException("Invalid arguments: few arguments",
+                    ctx.start.line, ctx.stop.line, fileVisitor.path)
+            else throw TypeErrorException("Invalid arguments: too many arguments",
+                ctx.start.line, ctx.stop.line, fileVisitor.path)
+        }
+
+        val notAcceptArg = method.args.isAccept(argsTypes)
+        if(notAcceptArg!=-1)
+            throw TypeErrorException("Invalid argument $notAcceptArg",
+                expressions[notAcceptArg].start.line, expressions[notAcceptArg].stop.line,
+                fileVisitor.path)
+
+        return Value(method.returnType, method.call(fileVisitor, args))
+    }
+
     override fun visitPrimitive(ctx: lclangParser.PrimitiveContext): Value {
         var value = visit(ctx.children[0])!!
         for(access in ctx.arrayAccess()){
@@ -320,45 +368,7 @@ open class LCBaseVisitor(
                     fileVisitor.path)
         }
 
-        for(access in ctx.access()){
-            val classValue = value.get()
-            if(classValue !is LCClass)
-                throw TypeErrorException("excepted class",
-                    access.start.line, access.stop.line, fileVisitor.path)
-
-            value = classValue.visitPrimitive(access.primitive())
-        }
-
-        if(ctx.call !=null){
-            if(value.type() !is CallableType)
-                throw TypeErrorException("Value is not callable (it is ${value.type()})",
-                    ctx.start.line, ctx.stop.line, fileVisitor.path)
-
-            val argsTypes = ArrayList<BaseType>()
-            val args = ArrayList<Value>()
-            for(arg in ctx.expression())
-                args.add(visitExpression(arg).let {
-                    argsTypes.add(it.type())
-                    it
-                })
-
-            val method = value as Method
-            if(method.args.size!=argsTypes.size){
-                if(method.args.size>argsTypes.size)
-                    throw TypeErrorException("Invalid arguments: few arguments",
-                        ctx.start.line, ctx.stop.line, fileVisitor.path)
-                else throw TypeErrorException("Invalid arguments: too many arguments",
-                    ctx.start.line, ctx.stop.line, fileVisitor.path)
-            }
-
-            val notAcceptArg = method.args.isAccept(argsTypes)
-            if(notAcceptArg!=-1)
-                throw TypeErrorException("Invalid argument $notAcceptArg",
-                    ctx.expression(notAcceptArg).start.line, ctx.expression(notAcceptArg).stop.line,
-                    fileVisitor.path)
-
-            return Value(method.returnType, method.call(fileVisitor, args))
-        }
+        if(ctx.call!=null) value = call(value, ctx.expression(), ctx)
 
         ctx.operation()?.assign()?.let { assign ->
             visitExpression(assign.expression()).let {
