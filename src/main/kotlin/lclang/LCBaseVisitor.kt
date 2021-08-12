@@ -326,7 +326,7 @@ open class LCBaseVisitor(
                 throw TypeErrorException("excepted class",
                     access.start.line, access.stop.line, fileVisitor.path)
 
-            value = classValue.visitVariable(access.variable())
+            value = classValue.visitPrimitive(access.primitive())
         }
 
         if(ctx.call !=null){

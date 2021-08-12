@@ -62,7 +62,7 @@ value: HEX_LONG|BOOL|STRING|CHAR|DOUBLE|LONG|INTEGER|NULL;
 parentnesesExpr: '(' expression ')';
 returnExpr: 'return' expression?;
 typeGet: '*' expression;
-access: '.' variable;
+access: '.' primitive;
 array: '[]'|'[' expression (',' expression)* ']';
 arrayAccess: '[]'|'[' expression ']';
 stop: 'stop';
