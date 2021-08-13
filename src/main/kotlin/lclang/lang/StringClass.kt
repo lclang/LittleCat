@@ -36,6 +36,11 @@ class StringClass(fileVisitor: LCFileVisitor): LCClass("string", fileVisitor) {
             }
         }
 
+        globals["substring"] = object: LibraryMethod(listOf(Types.INT, Types.INT), Types.ARRAY) {
+            override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>) =
+                string.substring(args[0] as Int, args[1] as Int)
+        }
+
         globals["find"] = object: LibraryMethod(listOf(Types.CHAR), Types.INT) {
             override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 for ((i, c) in string.withIndex()){
