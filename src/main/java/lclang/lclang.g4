@@ -53,7 +53,7 @@ ELSE: 'else';
 NULL: 'null';
 BOOL: 'true'|'false';
 ID: [A-Za-z_]+;
-STRING: '"'(.+?)?'"';
+STRING: '""'|'"'(.+?)'"';
 CHAR: '\''.'\'';
 HEX_LONG: '#'[1-9ABCDEF]+;
 LONG: [0-9]+ 'L';

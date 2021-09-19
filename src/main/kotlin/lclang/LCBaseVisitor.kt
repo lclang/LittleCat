@@ -98,12 +98,7 @@ open class LCBaseVisitor(
     }
 
     override fun visitIfStmt(ctx: lclangParser.IfStmtContext?): Value? {
-        val cond = visitExpression(ctx!!.condition).apply {
-            if(!Types.BOOL.isAccept(type()))
-                throw TypeErrorException("Value is not bool: "+type().text,
-                    ctx.condition.start.line, ctx.condition.stop.line, fileVisitor.path)
-        }
-
+        val cond = visitExpression(ctx!!.condition)
         if(cond.get()==true){
             return visitStmt(ctx.ifT)
         }
@@ -285,12 +280,7 @@ open class LCBaseVisitor(
     }
 
     override fun visitIfExpr(ctx: lclangParser.IfExprContext): Value {
-        val cond = visitExpression(ctx.condition).apply {
-            if(!Types.BOOL.isAccept(type()))
-                throw TypeErrorException("Value is not bool: ${type()}",
-                ctx.condition.start.line, ctx.condition.stop.line, fileVisitor.path)
-        }
-
+        val cond = visitExpression(ctx.condition)
         if(cond.get()!=false){
             return visitExpression(ctx.ifT)
         }
