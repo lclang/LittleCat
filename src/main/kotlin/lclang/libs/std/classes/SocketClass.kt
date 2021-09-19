@@ -15,8 +15,8 @@ class SocketClass(fileVisitor: LCFileVisitor) : LCClass("Socket", fileVisitor){
     }
 
     constructor(socket: Socket, fileVisitor: LCFileVisitor): this(fileVisitor) {
-        globals["getInput"] = method(returnType = Type("\\Input")) { _, _ -> InputClass(socket.getInputStream(), fileVisitor) }
-        globals["getOutput"] = method(returnType = Type("\\Output")) { _, _ -> OutputClass(socket.getOutputStream(), fileVisitor) }
+        globals["input"] = InputClass(socket.getInputStream(), fileVisitor).asValue()
+        globals["output"] = OutputClass(socket.getOutputStream(), fileVisitor).asValue()
         globals["close"] = method { _, _ -> socket.close() }
         globals["isConnected"] = method(returnType = Types.BOOL) { _, _ -> socket.isConnected }
         globals["getPort"] = method(returnType = Types.INT) { _, _ -> socket.port }

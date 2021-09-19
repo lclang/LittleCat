@@ -9,6 +9,8 @@ import lclang.libs.std.classes.MathClass
 import lclang.libs.std.classes.OutputClass
 import lclang.libs.std.classes.SocketClass
 import lclang.methods.LibraryMethod
+import lclang.methods.Method
+import lclang.types.CallableType
 import lclang.types.Types
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
@@ -60,11 +62,24 @@ class StdLibrary: Library("std") {
             }
         }
 
+        globals["thread"] = object : Method(listOf(CallableType(listOf(), Types.VOID)), Types.VOID) {
+            override fun call(fileVisitor: LCFileVisitor, args: List<Value>): Any? {
+                val method = args[0] as Method
+                method.call(this@StdLibrary, listOf())
+
+                return null
+            }
+        }
+
         globals["printError"] = object: LibraryMethod(listOf(Types.ANY), Types.VOID) {
             override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 println("\u001B[31m${args[0]}")
                 return null
             }
+        }
+
+        globals["assert"] = method(listOf(Types.BOOL)) { args, file ->
+            if(args[0]==false) throw LCLangException("Assertion Error", "Value is false", 0, 0, file.path)
         }
 
         globals["exit"] = object: LibraryMethod(listOf(Types.INT), Types.VOID) {

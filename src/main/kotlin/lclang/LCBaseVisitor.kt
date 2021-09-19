@@ -42,7 +42,7 @@ open class LCBaseVisitor(
 
     override fun visitBlock(ctx: lclangParser.BlockContext?): Value? {
         for(stmt in ctx!!.stmt())
-            visit(stmt)?.let {
+            visitStmt(stmt)?.let {
                 if(it.isReturn||it.stop)
                     return@visitBlock it
                 else it.get()
@@ -53,7 +53,7 @@ open class LCBaseVisitor(
 
     override fun visitContainer(ctx: lclangParser.ContainerContext?): Value? {
         for(stmt in ctx!!.stmt())
-            visit(stmt)?.let {
+            visitStmt(stmt)?.let {
                 if(it.isReturn||it.stop)
                     return@visitContainer it
                 else it.get()
@@ -84,7 +84,8 @@ open class LCBaseVisitor(
 
     override fun visitLambda(ctx: lclangParser.LambdaContext): Value = LambdaMethod(ctx)
     override fun visitWhileStmt(ctx: lclangParser.WhileStmtContext?): Value? {
-        while(visitExpression(ctx!!.condition).get()!=false){
+        while(true) {
+            if(visitExpression(ctx!!.condition).get()==false) break
             val value = visitStmt(ctx.stmt())
 
             if(value?.isReturn==true)

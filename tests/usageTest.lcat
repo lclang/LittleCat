@@ -1,6 +1,0 @@
-use global TEST from "variablesTest.lcat"
-
-println(TEST)
---OUTPUT--
-123
-123

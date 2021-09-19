@@ -29,6 +29,10 @@ open class LCClass(
         return Value(constructor.returnType, constructor.call(this.fileVisitor, args) as LCClass)
     }
 
+    fun asValue(): Value {
+        return Value(constructor.returnType, this)
+    }
+
     companion object {
         fun from(componentName: String,
                  fileVisitor: LCFileVisitor,
