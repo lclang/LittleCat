@@ -1,6 +1,6 @@
 method readInput(input): string {
     lines = ""
-    while !input.hasNextLine(): lines = lines + input.readLine()
+    while input.hasNextLine(): lines = lines + input.readLine() + "\r\n"
 
     return lines
 }
