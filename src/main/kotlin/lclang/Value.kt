@@ -12,4 +12,5 @@ open class Value(
     var stop: Boolean = false
 ){
     constructor(type: BaseType, value: Any?): this({ type }, { value })
+    constructor(type: BaseType, value: () -> Any?): this({ type }, value)
 }

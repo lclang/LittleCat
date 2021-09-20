@@ -7,7 +7,8 @@ import lclang.types.Types
 import java.io.InputStream
 import java.util.*
 
-class InputClass(fileVisitor: LCFileVisitor): LCClass("Input", fileVisitor) {
+const val INPUT_CLASSNAME = "Input"
+class InputClass(fileVisitor: LCFileVisitor): LCClass(INPUT_CLASSNAME, fileVisitor) {
     constructor(input: InputStream, fileVisitor: LCFileVisitor) : this(fileVisitor) {
         val scanner = Scanner(input)
 

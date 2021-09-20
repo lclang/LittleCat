@@ -91,6 +91,9 @@ open class LCFileVisitor(
         }
 
         for(stmt in ctx.stmt())
-            visitStmt(stmt)
+            visitStmt(stmt)?.let {
+                if(it.stop||it.isReturn)
+                    return
+            }
     }
 }

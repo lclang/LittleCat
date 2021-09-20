@@ -10,12 +10,11 @@ class CallableType(
     return@run "("+ args.joinToString(",") { it.toString() } +") -> " + returnType.toString()
 }) {
 
-    override fun isAccept(another: BaseType): Boolean {
+    override fun isAcceptWithoutNullable(another: BaseType): Boolean {
         if(another == Types.CALLABLE) return true
 
-        return super.isAccept(another) ||
+        return super.isAcceptWithoutNullable(another) ||
                 another is CallableType &&
-                (nullable || !another.nullable) &&
                 args.isAccept(another.args)==-1 &&
                 returnType.isAccept(another.returnType)
     }

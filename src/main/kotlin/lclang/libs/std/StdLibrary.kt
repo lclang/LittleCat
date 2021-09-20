@@ -4,13 +4,12 @@ import lclang.*
 import lclang.exceptions.LCLangException
 import lclang.lang.StringClass
 import lclang.libs.Library
-import lclang.libs.std.classes.InputClass
-import lclang.libs.std.classes.MathClass
-import lclang.libs.std.classes.OutputClass
-import lclang.libs.std.classes.SocketClass
+import lclang.libs.std.classes.*
 import lclang.methods.LibraryMethod
 import lclang.methods.Method
+import lclang.types.BaseType
 import lclang.types.CallableType
+import lclang.types.Type
 import lclang.types.Types
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
@@ -65,7 +64,9 @@ class StdLibrary: Library("std") {
         globals["thread"] = object : Method(listOf(CallableType(listOf(), Types.VOID)), Types.VOID) {
             override fun call(fileVisitor: LCFileVisitor, args: List<Value>): Any? {
                 val method = args[0] as Method
-                method.call(this@StdLibrary, listOf())
+                Thread {
+                    method.call(this@StdLibrary, listOf())
+                }.start()
 
                 return null
             }
@@ -86,6 +87,10 @@ class StdLibrary: Library("std") {
             override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
                 exitProcess(args[0] as Int)
             }
+        }
+
+        globals["openFile"] = method(listOf(Types.STRING), Type(FILE_CLASSNAME)) { list, file ->
+            FileClass(File(list[0].toString()), file)
         }
 
         globals["time"] = object: LibraryMethod(listOf(), Types.LONG) {

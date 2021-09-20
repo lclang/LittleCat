@@ -25,10 +25,9 @@ class Type(
         }
     }
 
-    override fun isAccept(another: BaseType): Boolean {
-        return super.isAccept(another) ||
+    override fun isAcceptWithoutNullable(another: BaseType): Boolean {
+        return super.isAcceptWithoutNullable(another) ||
                 another is Type &&
-                (nullable || !another.nullable) &&
                 another.primitive && primitive &&
                 another.name == name
     }

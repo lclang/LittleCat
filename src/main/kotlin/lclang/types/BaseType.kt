@@ -3,10 +3,12 @@ package lclang.types
 abstract class BaseType(val text: String) {
     var nullable = false
 
-    open fun isAccept(another: BaseType): Boolean {
-        return Types.ANY==this||
-                Types.UNDEFINED==another && nullable
+    fun isAccept(another: BaseType): Boolean {
+        return isAcceptWithoutNullable(another) && (nullable || !another.nullable)
     }
+
+    open fun isAcceptWithoutNullable(another: BaseType):
+            Boolean = Types.ANY==this|| Types.UNDEFINED==another
 
     fun nullable(): BaseType {
         nullable = true

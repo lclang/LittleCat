@@ -19,6 +19,7 @@ LESS_EQUALS : '<=';
 LARGER_EQUALS : '>=';
 UNARY_ADD : '++';
 UNARY_MINUS : '--';
+NULLABLE_OR : '?:';
 NULLABLE : '?';
 
 TYPE_PREFIX : '\\';
@@ -86,6 +87,7 @@ expression:
     | expression add=ADD expression
     | expression minus=MINUS expression
     | expression pow=POW expression
+    | expression nullableOr=NULLABLE_OR expression
     | expression unaryPlus=UNARY_ADD
     | expression unaryMinus=UNARY_MINUS
     | not=NOT expression

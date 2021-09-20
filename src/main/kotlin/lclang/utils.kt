@@ -1,6 +1,8 @@
 package lclang
 
 import lclang.exceptions.LCLangException
+import lclang.lang.CharClass
+import lclang.lang.StringClass
 import lclang.libs.Library
 import lclang.methods.LibraryMethod
 import lclang.methods.Method

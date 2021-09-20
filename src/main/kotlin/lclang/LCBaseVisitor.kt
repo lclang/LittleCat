@@ -43,8 +43,8 @@ open class LCBaseVisitor(
         }
     }
 
-    override fun visitBlock(ctx: lclangParser.BlockContext?): Value? {
-        for(stmt in ctx!!.stmt())
+    override fun visitBlock(ctx: lclangParser.BlockContext): Value? {
+        for(stmt in ctx.stmt())
             visitStmt(stmt)?.let {
                 if(it.isReturn||it.stop)
                     return@visitBlock it
@@ -54,11 +54,13 @@ open class LCBaseVisitor(
         return null
     }
 
-    override fun visitContainer(ctx: lclangParser.ContainerContext?): Value? {
-        for(stmt in ctx!!.stmt())
+    override fun visitContainer(ctx: lclangParser.ContainerContext): Value? {
+        for(stmt in ctx.stmt())
             visitStmt(stmt)?.let {
                 if(it.isReturn||it.stop)
-                    return@visitContainer it
+                    return@visitContainer it.apply {
+                        it.isReturn = false
+                    }
                 else it.get()
             }
 
@@ -281,6 +283,12 @@ open class LCBaseVisitor(
                 }
 
                 return when {
+                    ctx.nullableOr!=null -> if(!rightType.isAcceptWithoutNullable(leftType))
+                        throw TypeErrorException("Unsupported operand types: $leftType " +
+                                "${ctx.getChild(1)} $rightType",
+                            ctx.start.line, ctx.stop.line, fileVisitor.path)
+                    else if(left==null) rightValue else leftValue
+
                     ctx.equals!=null -> Value({ Types.BOOL }, { left == right })
                     ctx.notEquals!=null -> Value({ Types.BOOL }, { left != right })
                     else -> throw TypeErrorException("Unsupported operand types: $leftType " +

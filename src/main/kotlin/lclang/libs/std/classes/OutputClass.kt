@@ -8,7 +8,8 @@ import lclang.types.Types
 import java.io.OutputStream
 import java.io.PrintStream
 
-class OutputClass(fileVisitor: LCFileVisitor): LCClass("Output", fileVisitor) {
+const val OUTPUT_CLASSNAME = "Output"
+class OutputClass(fileVisitor: LCFileVisitor): LCClass(OUTPUT_CLASSNAME, fileVisitor) {
     constructor(input: OutputStream, fileVisitor: LCFileVisitor) : this(fileVisitor) {
         val printer = PrintStream(input)
 
