@@ -69,18 +69,24 @@ open class LCBaseVisitor(
 
     override fun visitValue(ctx: lclangParser.ValueContext): Value {
         return when {
-            ctx.STRING()!=null -> Value(Types.STRING, StringClass(ctx.STRING().text.substring(1)
-                .substringBeforeLast('"'), fileVisitor))
-            ctx.CHAR()!=null -> Value(Types.CHAR, CharClass(ctx.CHAR().text.substring(1)
-                .substringBeforeLast('\'')[0], fileVisitor))
+            ctx.STRING()!=null -> StringClass(ctx.STRING().text.substring(1)
+                .substringBeforeLast('"'), fileVisitor).asValue()
+
+            ctx.CHAR()!=null -> CharClass(ctx.CHAR().text.substring(1)
+                .substringBeforeLast('\'')[0], fileVisitor).asValue()
+
             ctx.DOUBLE()!=null -> Value(Types.DOUBLE, ctx.DOUBLE().text.toDouble())
             ctx.INTEGER()!=null -> Value(Types.INT, ctx.INTEGER().text.toInt())
+
             ctx.LONG()!=null -> Value(Types.LONG, ctx.LONG().text
                 .substringBeforeLast('L').toLong())
+
             ctx.HEX_LONG()!=null -> Value(Types.LONG, ctx.HEX_LONG().text
                 .substring(1).toLong(radix=16))
-            ctx.BOOL()!=null -> Value(Types.BOOL, ctx.BOOL().text=="true")
+
+            ctx.BOOL()!=null -> Value(Types.BOOL, ctx.BOOL().text.startsWith('t'))
             ctx.NULL()!=null -> Value(Types.UNDEFINED, null)
+
             else -> throw LCLangException("Syntax error", "Invalid value "+ctx.text,
                 ctx.start.line, ctx.stop.line, fileVisitor.path)
         }

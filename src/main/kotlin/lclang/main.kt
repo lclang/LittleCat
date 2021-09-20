@@ -28,7 +28,7 @@ fun main(args: Array<String>) {
                 else if(file.name.endsWith(".lcat"))
                     runtimeFiles.add(LCFileVisitor(file.path.toString()).apply {
                         libraries.addAll(includeLibraries)
-                        runInput(this, file.readText())
+                        runInput(file.readText())
                     })
             }
         }
@@ -63,7 +63,7 @@ fun main(args: Array<String>) {
                     data += line
 
                     try {
-                        runInput(file, line?:"")
+                        file.runInput(line?:"")
                     } catch (e: LCLangException){
                         println(ERROR_COLOR+e.message+RESET_COLOR)
                     }
@@ -111,7 +111,7 @@ fun main(args: Array<String>) {
         LCFileVisitor(executeFile.path.toString()).apply {
             libraries.addAll(includeLibraries)
             runtimeFiles.forEach { includeFrom(it) }
-            runInput(this, executeFile.readText())
+            runInput(executeFile.readText())
         }
     } catch (e: LCLangException){
         println(ERROR_COLOR+e.message)

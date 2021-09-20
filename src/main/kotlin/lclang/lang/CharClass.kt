@@ -2,23 +2,22 @@ package lclang.lang
 
 import lclang.LCClass
 import lclang.LCFileVisitor
-import lclang.methods.LibraryMethod
-import lclang.types.Types
+import lclang.method
 import lclang.methods.Method
+import lclang.types.Types
 
-class CharClass(val char: Char, fileVisitor: LCFileVisitor): LCClass("char", fileVisitor) {
-    init {
-        globals["getValue"] = object: LibraryMethod(listOf(), Types.INT) {
-            override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
-                return char.code
-            }
-        }
+class CharClass(fileVisitor: LCFileVisitor): LCClass("char", fileVisitor) {
+    var char: Char = '!'
 
-        globals["upper"] = object: LibraryMethod(listOf(), Types.CHAR) {
-            override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
-                return char.uppercase()
-            }
-        }
+    override val constructor: Method = method(returnType = Types.CHAR) { list ->
+        CharClass(list[0].toString().toCharArray().first(), this)
+    }
+
+    constructor(char: Char, fileVisitor: LCFileVisitor) : this(fileVisitor) {
+        this.char = char
+
+        globals["getValue"] = method(returnType = Types.INT) { char.code }
+        globals["upper"] = method(listOf(), Types.CHAR) { char.uppercase() }
     }
 
     override fun equals(other: Any?): Boolean {

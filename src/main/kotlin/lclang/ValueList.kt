@@ -1,8 +1,6 @@
 package lclang
 
 import lclang.methods.LibraryMethod
-import lclang.methods.Method
-import lclang.types.Type
 import lclang.types.Types
 
 class ValueList(file: LCFileVisitor): LCClass("array", file) {
@@ -19,16 +17,14 @@ class ValueList(file: LCFileVisitor): LCClass("array", file) {
             }
         }
 
-        globals["size"] = object: LibraryMethod(listOf(), Types.INT) {
-            override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>) = list.size
-        }
+        globals["size"] = Value(Types.INT) { list.size }
     }
 
     fun join(spectator: String) = list.joinToString(spectator) { it.get().toString() }
     override fun toString(): String = "[${join(", ")}]"
 
     operator fun plus(a: ValueList): ValueList {
-        for(el in a.list) list.add(el)
+        list.addAll(a.list)
         return this
     }
 }

@@ -21,12 +21,7 @@ class FileClass(fileVisitor: LCFileVisitor): LCClass(FILE_CLASSNAME, fileVisitor
             }
         }
 
-        globals["openInput"] = method (returnType = Type(INPUT_CLASSNAME)) { _, _ ->
-            return@method InputClass(file.inputStream(), fileVisitor)
-        }
-
-        globals["openOutput"] = method (returnType = Type(OUTPUT_CLASSNAME)) { _, _ ->
-            return@method OutputClass(file.outputStream(), fileVisitor)
-        }
+        globals["openInput"] = method (returnType = Type(INPUT_CLASSNAME)) { file.inputStream() }
+        globals["openOutput"] = method (returnType = Type(OUTPUT_CLASSNAME)) { file.outputStream() }
     }
 }

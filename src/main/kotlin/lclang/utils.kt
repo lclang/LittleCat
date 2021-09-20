@@ -1,9 +1,5 @@
 package lclang
 
-import lclang.exceptions.LCLangException
-import lclang.lang.CharClass
-import lclang.lang.StringClass
-import lclang.libs.Library
 import lclang.methods.LibraryMethod
 import lclang.methods.Method
 import lclang.types.BaseType
@@ -20,19 +16,19 @@ fun List<BaseType>.isAccept(array: List<BaseType>): Int {
     return -1
 }
 
-fun method(args: List<BaseType> = listOf(), returnType: BaseType = Types.VOID,
-           run: (List<Any?>, LCFileVisitor) -> Any?): Method {
+inline fun method(args: List<BaseType> = listOf(), returnType: BaseType = Types.VOID,
+                  crossinline run: LCFileVisitor.(List<Any?>) -> Any?): Method {
     return object: LibraryMethod(args, returnType){
-        override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>) = run(args, fileVisitor)
+        override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>) = fileVisitor.run(args)
     }
 }
 
-fun runInput(file: LCFileVisitor, input: String) {
+fun LCFileVisitor.runInput(input: String) {
     val lexer = lclangLexer(CharStreams.fromString(input))
     val tokens = CommonTokenStream(lexer)
     val parser = lclangParser(tokens)
     parser.removeErrorListeners()
-    parser.addErrorListener(ErrorListener(file.path))
+    parser.addErrorListener(ErrorListener(path))
 
-    file.execute(parser.file())
+    execute(parser.file())
 }
