@@ -88,6 +88,7 @@ expression:
     | expression pow=POW expression
     | expression unaryPlus=UNARY_ADD
     | expression unaryMinus=UNARY_MINUS
+    | not=NOT expression
     | primitive access*;
 
 primitive: (
@@ -133,7 +134,7 @@ stmt:
 
 ;
 
-whileStmt: WHILE condition=expression COLON stmt;
+whileStmt: WHILE condition=expression (COLON stmt)?;
 ifStmt: IF condition=expression COLON ifT=stmt (ELSE ifF=stmt)?;
 block: OPEN_BRACE stmt* CLOSE_BRACE;
 

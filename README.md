@@ -30,6 +30,27 @@ println(a)
 println(b)
 ```
 
+### HTTP client on Sockets
+```
+url = "info.cern.ch"
+path = "/"
+requestMethod = "GET"
+
+socket = :Socket(url, 80)
+
+output = socket.output
+output.println(requestMethod+" "+path+" HTTP/1.1")
+output.println("Host: " + url)
+output.println("")
+output.flush()
+
+input = socket.input
+while {
+    if !input.hasNextLine(): return false
+    println(input.readLine())
+}
+```
+
 ## Install
 Download the [latest release in JAR](https://github.com/lclang/LittleCat/releases/latest).
-Start jar with `java -jar app.jar`
+Start jar with `java -jar app.jar`.

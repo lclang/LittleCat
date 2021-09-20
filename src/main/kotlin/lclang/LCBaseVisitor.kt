@@ -12,14 +12,13 @@ import lclang.types.BaseType
 import lclang.types.CallableType
 import lclang.types.Types
 import org.antlr.v4.runtime.ParserRuleContext
-import org.antlr.v4.runtime.Token
 import kotlin.math.pow
 
 open class LCBaseVisitor(
     parent: LCBaseVisitor? = null, importVars: Boolean = false): lclangBaseVisitor<Value?>() {
     lateinit var fileVisitor: LCFileVisitor
-    val globals = HashMap<String, Value?>()
-    val variables = HashMap<String, Value?>()
+    val globals = HashMap<String, Value>()
+    val variables = HashMap<String, Value>()
 
     init {
         if(parent!=null) {
@@ -29,15 +28,19 @@ open class LCBaseVisitor(
         }
     }
 
-    override fun visitVariable(ctx: lclangParser.VariableContext?): Value {
-        val variableName = ctx!!.ID().text
+    override fun visitVariable(ctx: lclangParser.VariableContext): Value {
+        val variableName = ctx.ID().text
 
         return (variables[variableName] ?: globals[variableName] ?:
             Value({ Types.UNDEFINED }, {
                 throw VariableNotFoundException(variableName,
                     ctx.start.line, ctx.stop.line, fileVisitor.path
                 )
-            })).apply { set = { _, _, _, it -> variables[variableName] = it } }
+            })).apply {
+                set = { _, _, _, value ->
+                    variables[variableName] = value
+                }
+        }
     }
 
     override fun visitBlock(ctx: lclangParser.BlockContext?): Value? {
@@ -62,8 +65,7 @@ open class LCBaseVisitor(
         return Value({ Types.VOID }, { null })
     }
 
-    override fun visitValue(ctx: lclangParser.ValueContext?): Value? {
-        if(ctx==null) return null
+    override fun visitValue(ctx: lclangParser.ValueContext): Value {
         return when {
             ctx.STRING()!=null -> Value(Types.STRING, StringClass(ctx.STRING().text.substring(1)
                 .substringBeforeLast('"'), fileVisitor))
@@ -83,15 +85,20 @@ open class LCBaseVisitor(
     }
 
     override fun visitLambda(ctx: lclangParser.LambdaContext): Value = LambdaMethod(ctx)
-    override fun visitWhileStmt(ctx: lclangParser.WhileStmtContext?): Value? {
-        while(true) {
-            if(visitExpression(ctx!!.condition).get()==false) break
-            val value = visitStmt(ctx.stmt())
+    override fun visitWhileStmt(ctx: lclangParser.WhileStmtContext): Value? {
+        val condition = ctx.condition
+        val stmt = ctx.stmt()
 
-            if(value?.isReturn==true)
-                return value
-            else if(value?.stop==true)
-                break
+        while(true) {
+            if(visitExpression(condition).get()==false) break
+            if(stmt!=null){
+                val value = visitStmt(ctx.stmt())
+
+                if(value?.isReturn==true)
+                    return value
+                else if(value?.stop==true)
+                    break
+            }
         }
 
         return null
@@ -120,7 +127,7 @@ open class LCBaseVisitor(
 
             return@Value array
         }, { fileVisitor, start, column, it ->
-            val array = it!!.get()
+            val array = it.get()
             if(array !is ValueList)
                 throw TypeErrorException("Value is not array", ctx!!.start.line, ctx.stop.line,
                     fileVisitor.path)
@@ -159,9 +166,13 @@ open class LCBaseVisitor(
 
                         val primitive = access.primitive()
                         if(primitive.call!=null){
+                            val prevCall = primitive.call
                             primitive.call = null
+
                             value = classValue.visitPrimitive(primitive)
                             value = call(value, primitive.expression(), primitive)
+
+                            primitive.call = prevCall
                         }else value = classValue.visitPrimitive(primitive)
                     }
 
@@ -175,6 +186,7 @@ open class LCBaseVisitor(
 
                 if(ctx.expression().size==1){
                     val value =  when {
+                        ctx.not != null -> return Value(Types.BOOL, left==false)
                         ctx.unaryPlus != null -> when(left) {
                             !is Number -> throw TypeErrorException("Operation not supported", ctx.unaryPlus.line,
                                 ctx.unaryPlus.line, fileVisitor.path)
@@ -301,7 +313,7 @@ open class LCBaseVisitor(
         return visitExpression(ctx.expression())
     }
 
-    fun call(value: Value, expressions: List<lclangParser.ExpressionContext>, ctx: ParserRuleContext): Value {
+    private fun call(value: Value, expressions: List<lclangParser.ExpressionContext>, ctx: ParserRuleContext): Value {
         if(value.type() !is CallableType)
             throw TypeErrorException("Value is not callable (it is ${value.type()})",
                 ctx.start.line, ctx.stop.line, fileVisitor.path)
@@ -345,7 +357,7 @@ open class LCBaseVisitor(
                     else throw TypeErrorException("invalid index: excepted int",
                         access.start.line, access.stop.line, fileVisitor.path)
                 }else Value({ Types.ANY }, { gettable.last().get() }, {  fileVisitor, start, column, it ->
-                    gettable.add(it!!)
+                    gettable.add(it)
                     orValue.set(fileVisitor, start, column, Value({ Types.ARRAY }, { gettable }, orValue.set))
                 })
             }else if(gettable is Map<*, *>){

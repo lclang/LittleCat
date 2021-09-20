@@ -3,7 +3,6 @@ package lclang
 import lclang.exceptions.LCLangException
 import lclang.libs.Library
 import lclang.methods.ContextMethod
-import lclang.methods.VisitorMethod
 import lclang.types.Type
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
@@ -14,10 +13,6 @@ open class LCFileVisitor(
 ): LCBaseVisitor() {
     val classes = HashMap<String, LCClass>()
     val libraries = ArrayList<Library>()
-
-    init {
-        fileVisitor = this
-    }
 
     override fun visitComponent(ctx: lclangParser.ComponentContext): Value? {
         val name = Type.from(ctx.type().baseType()).name + "\\"
@@ -31,6 +26,8 @@ open class LCFileVisitor(
     }
 
     fun execute(ctx: lclangParser.FileContext) {
+        fileVisitor = this
+
         for(classExpr in ctx.classExpr())
             classes[classExpr.ID().text] = LCClass.from("",this, classExpr)
 
@@ -72,7 +69,7 @@ open class LCFileVisitor(
                 val name = usage.baseType().text
                 if(usage.useGlobal!=null){
                     if(eval.globals.containsKey(name))
-                        globals[name] = eval.globals[name]
+                        globals[name] = eval.globals[name]!!
                     else throw LCLangException("File", "global "+requiredFile.name+" not found",
                         usage.start.line, usage.stop.line, fileVisitor.path)
                 }else{

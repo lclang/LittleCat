@@ -4,4 +4,8 @@ import lclang.LCFileVisitor
 
 abstract class Library(
     libraryName: String
-): LCFileVisitor(libraryName)
+): LCFileVisitor(libraryName) {
+    init {
+        fileVisitor = this
+    }
+}
