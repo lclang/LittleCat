@@ -10,6 +10,5 @@ gradle-app.setting
 # Cache of project
 .gradletasknamecache
 test.lcat
-/libs
 gradle.properties
 

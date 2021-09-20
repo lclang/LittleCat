@@ -23,7 +23,6 @@ class StdLibrary: Library("std") {
 
         val output = OutputClass(System.out, this)
         globals["output"] = output.create()
-        globals.putAll(output.globals)
 
         globals["LC_VERSION"] = Value(Types.STRING, StringClass(Info.version, fileVisitor))
         globals["math"] = MathClass(this).create()
@@ -74,7 +73,7 @@ class StdLibrary: Library("std") {
 
         globals["printError"] = object: LibraryMethod(listOf(Types.ANY), Types.VOID) {
             override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any? {
-                println("\u001B[31m${args[0]}")
+                println("$ERROR_COLOR${args[0]}")
                 return null
             }
         }

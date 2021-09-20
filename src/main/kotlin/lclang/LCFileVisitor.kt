@@ -25,6 +25,11 @@ open class LCFileVisitor(
         return null
     }
 
+    fun includeFrom(fileVisitor: LCFileVisitor) {
+        classes.putAll(fileVisitor.classes)
+        globals.putAll(fileVisitor.globals)
+    }
+
     fun execute(ctx: lclangParser.FileContext) {
         fileVisitor = this
 

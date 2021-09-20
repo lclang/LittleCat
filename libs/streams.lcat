@@ -1,0 +1,14 @@
+method readInput(input): string {
+    lines = ""
+    while !input.hasNextLine(): lines = lines + input.readLine()
+
+    return lines
+}
+
+method print(value): void {
+    output.print(value)
+}
+
+method println(value): void {
+    output.println(value)
+}
