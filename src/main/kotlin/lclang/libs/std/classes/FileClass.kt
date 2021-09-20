@@ -1,10 +1,8 @@
 package lclang.libs.std.classes
 
-import lclang.LCClass
-import lclang.LCFileVisitor
-import lclang.Value
-import lclang.ValueList
+import lclang.*
 import lclang.lang.StringClass
+import lclang.types.Type
 import lclang.types.Types
 import java.io.File
 
@@ -21,6 +19,14 @@ class FileClass(fileVisitor: LCFileVisitor): LCClass(FILE_CLASSNAME, fileVisitor
                     add(FileClass(it, fileVisitor).asValue())
                 }
             }
+        }
+
+        globals["openInput"] = method (returnType = Type(INPUT_CLASSNAME)) { _, _ ->
+            return@method InputClass(file.inputStream(), fileVisitor)
+        }
+
+        globals["openOutput"] = method (returnType = Type(OUTPUT_CLASSNAME)) { _, _ ->
+            return@method OutputClass(file.outputStream(), fileVisitor)
         }
     }
 }

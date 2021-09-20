@@ -336,16 +336,14 @@ open class LCBaseVisitor(
 
         val method = value as Method
         if(method.args.size!=argsTypes.size){
-            if(method.args.size>argsTypes.size)
-                throw TypeErrorException("Invalid arguments: few arguments",
+            throw TypeErrorException(if(method.args.size>argsTypes.size)
+                    "Invalid arguments: few arguments" else "Invalid arguments: too many arguments",
                     ctx.start.line, ctx.stop.line, fileVisitor.path)
-            else throw TypeErrorException("Invalid arguments: too many arguments",
-                ctx.start.line, ctx.stop.line, fileVisitor.path)
         }
 
         val notAcceptArg = method.args.isAccept(argsTypes)
         if(notAcceptArg!=-1)
-            throw TypeErrorException("Invalid argument $notAcceptArg",
+            throw TypeErrorException("Invalid argument $notAcceptArg: excepted ${method.args[notAcceptArg]}",
                 expressions[notAcceptArg].start.line, expressions[notAcceptArg].stop.line,
                 fileVisitor.path)
 
