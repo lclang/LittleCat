@@ -3,6 +3,13 @@ plugins {
     id 'antlr'
     id 'maven-publish'
     id 'org.jetbrains.kotlin.jvm' version '1.5.21'
+    id "com.github.langmo.gradlensis" version "0.1.0"
+}
+
+nsis {
+    configuration = file("${rootProject.projectDir}/installer_configuration.nsi")
+    runIn =  file("${rootProject.projectDir}")
+    extractTo = file("${rootProject.buildDir}/tmp/nsis/")
 }
 
 sourceSets.main.java.srcDirs 'src/main/gen'
