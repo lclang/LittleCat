@@ -48,7 +48,7 @@ Section
   SetOutPath "$INSTDIR\bin"
   File lclang.jar
 
-  SetOutPath "WINDIR"
+  SetOutPath "$WINDIR"
   File lclang.bat
 
   SetOutPath "$INSTDIR\libs"
