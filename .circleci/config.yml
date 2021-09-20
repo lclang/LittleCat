@@ -6,10 +6,6 @@ version: 2.1
 orbs:
   discord: teka23/discord@0.0.1
 
-executor:
-  name: win/default # executor type
-  size: "medium"
-
 jobs:
   build:
     docker:
