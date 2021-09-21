@@ -68,9 +68,10 @@ jobs:
           command: |
             cp ./build/libs/app* ./lclang.jar
 
-      - run: |
-        docker pull binfalse/nsis
-        docker pull busybox
+      - run:
+          command: |
+            docker pull binfalse/nsis
+            docker pull busybox
 
       - run:
           name: NSIS
