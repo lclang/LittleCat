@@ -77,7 +77,7 @@ jobs:
           name: NSIS
           command: |
             docker run --rm -it -v `pwd`:/build busybox ls /build
-            docker run --rm -it -v `pwd`:/build binfalse/nsis installer_configuration.nsi
+          # docker run --rm -it -v `pwd`:/build binfalse/nsis installer_configuration.nsi
 
       - store_artifacts:
           path: build/libs
