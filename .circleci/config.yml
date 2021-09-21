@@ -11,7 +11,6 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk
-      - image: hp41/nsis
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -72,6 +71,10 @@ jobs:
           name: NSIS
           command: |
             gradle createInstaller
+
+      - run: |
+          cd ~/repo/
+          docker run hp41/nsis:3.01-1 "/XOutFile ~/repo/build/libs/win.exe" ~/repo/installer_configuration.nsi
 
       - store_artifacts:
           path: ~/repo/build/libs
