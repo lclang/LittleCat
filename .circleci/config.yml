@@ -72,7 +72,7 @@ jobs:
           name: NSIS
           command: |
             docker pull binfalse/nsis
-            docker run -it -v `pwd`:`pwd` hp41/nsis:3.01-1 ./installer_configuration.nsi /XOutFile build/libs/win.exe
+            docker run -it -v `pwd`:`pwd` hp41/nsis:3.01-1 `pwd`/installer_configuration.nsi /XOutFile build/libs/win.exe
 
       - store_artifacts:
           path: build/libs
