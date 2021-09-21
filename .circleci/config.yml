@@ -71,18 +71,10 @@ jobs:
       - run:
           name: NSIS
           command: |
-            mkdir ./nsis
-            cp ./build/libs/app* ./nsis/lclang.jar
-            cp ./*.nsi ./nsis/script.nsi
-            cp ./lclang.bat ./nsis/lclang.bat
-            cp -r ./libs ./nsis/libs
+            cp ./build/libs/app* ./lclang.jar
+            makensis ./nsis/installer_configuration.nsi
 
-            chmod  755 ./nsis
-            chmod -R 755 ./nsis
-            chmod -R 755 ./nsis/libs
-
-            makensis ./nsis/script.nsi
-            cp ./nsis/*.exe ./build/libs/windows.exe
+            cp ./*.exe ./build/libs/windows.exe
 
       - store_artifacts:
           path: build/libs
