@@ -77,15 +77,18 @@ jobs:
       - run:
           name: Create artifacts folder
           command: |
-            cp ./build/libs/app* ./nsis/lclang.jar
             mkdir ./nsis
+            cp ./build/libs/app* ./nsis/lclang.jar
+            cp ./*.nsi ./nsis/script.nsi
+            cp ./lclang.bat ./nsis/lclang.bat
+            cp ./libs ./nsis/libs
             ls ./nsis
 
       - run:
           name: NSIS
           command: |
             docker run --rm -it --mount type=volume,source=`pwd`/nsis/,target=/build \
-                                    binfalse/nsis installer_configuration.nsi /XOutFile win.exe
+                                    binfalse/nsis script.nsi /XOutFile win.exe
 
       - store_artifacts:
           path: build/libs
