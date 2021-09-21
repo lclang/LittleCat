@@ -35,12 +35,22 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
+      - run:
+          command: |
+            docker pull binfalse/nsis
+            docker pull busybox
+
       - run: gradle dependencies
 
       - save_cache:
           paths:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
+
+      - run:
+          name: NSIS
+          command: |
+            docker run --rm -it -v `pwd`:/build/ busybox ls /build
 
       # run tests!
       - run: gradle test
@@ -69,15 +79,9 @@ jobs:
             cp ./build/libs/app* ./lclang.jar
 
       - run:
-          command: |
-            docker pull binfalse/nsis
-            docker pull busybox
-
-      - run:
           name: NSIS
           command: |
-            docker run --rm -it -v `pwd`/:/build busybox ls /build
-          # docker run --rm -it -v `pwd`/:/build binfalse/nsis installer_configuration.nsi
+            docker run --rm -it -v `pwd`/:/build binfalse/nsis installer_configuration.nsi
 
       - store_artifacts:
           path: build/libs
