@@ -77,17 +77,17 @@ jobs:
       - run:
           name: NSIS
           command: |
-            mkdir /nsis
-            cp ./build/libs/app* /nsis/lclang.jar
-            cp ./*.nsi /nsis/script.nsi
-            cp ./lclang.bat /nsis/lclang.bat
-            cp -r ./libs /nsis/libs
+            mkdir ./nsis
+            cp ./build/libs/app* ./nsis/lclang.jar
+            cp ./*.nsi ./nsis/script.nsi
+            cp ./lclang.bat ./nsis/lclang.bat
+            cp -r ./libs ./nsis/libs
 
-            chmod  755 /nsis
-            chmod -R 755 /nsis
-            chmod -R 755 /nsis/libs
+            chmod  755 ./nsis
+            chmod -R 755 ./nsis
+            chmod -R 755 ./nsis/libs
 
-            docker run -it -v /nsis/:/build \
+            docker run -it -v ./nsis/:/build \
                   hp41/nsis "/build/script.nsi /XOutFile win.exe"
             cp ./nsis/*.exe ./build/libs/windows.exe
 
