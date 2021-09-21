@@ -73,7 +73,7 @@ jobs:
           name: NSIS
           command: |
             ls ./
-            docker run --rm -v `pwd`:`pwd`/build/libs/ binfalse/nsis installer_configuration.nsi
+            docker run --rm -v `pwd`:`pwd` binfalse/nsis installer_configuration.nsi
 
       - store_artifacts:
           path: build/libs
