@@ -29,8 +29,6 @@ jobs:
       - checkout
       - setup_remote_docker
 
-      - run: ls ./
-
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -75,10 +73,10 @@ jobs:
           name: NSIS
           command: |
             cd ~/repo/
-            docker run hp41/nsis:3.01-1 ~/repo/installer_configuration.nsi /XOutFile ~/repo/build/libs/win.exe
+            docker run hp41/nsis:3.01-1 installer_configuration.nsi /XOutFile build/libs/win.exe
 
       - store_artifacts:
-          path: ~/repo/build/libs
+          path: build/libs
           destination: build
 
       - discord/status:
