@@ -47,6 +47,12 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
+      - run:
+          name: NSIS
+          command: |
+            docker run --rm -it --mount type=volume,source=~/repo/,target=/build \
+                                busybox cd /build & ls ./
+
       # run tests!
       #- run: gradle test
 #
@@ -77,8 +83,8 @@ jobs:
             cp ./lclang.bat ./nsis/lclang.bat
             cp -r ./libs ./nsis/libs
 
-            docker run --rm -it -v ~/repo/nsis:/build \
-                     busybox sh "ls /"
+            docker run -it -v "$(realpath ./nsis/)":/build \
+                  hp41/nsis /build/script.nsi /XOutFile win.exe
             cp ./nsis/*.exe ./build/libs/windows.exe
 
       - store_artifacts:
