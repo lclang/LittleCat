@@ -54,7 +54,7 @@ jobs:
                                 busybox cd /build & ls ./
 
       # run tests!
-      - run: gradle test
+      #- run: gradle test
 
       - run:
           name: Save test results
@@ -75,18 +75,15 @@ jobs:
             gradle appJar
 
       - run:
-          name: Create artifacts folder
+          name: NSIS
           command: |
             mkdir ./nsis
             cp ./build/libs/app* ./nsis/lclang.jar
             cp ./*.nsi ./nsis/script.nsi
             cp ./lclang.bat ./nsis/lclang.bat
             cp -r ./libs ./nsis/libs
-            ls ./nsis
 
-      - run:
-          name: NSIS
-          command: |
+            ls "$(realpath ./nsis/)"
             docker run --rm -it -v "$(realpath ./nsis/)":/build \
                   hp41/nsis /build/script.nsi /XOutFile win.exe
             cp ./nsis/*.exe ./build/libs/windows.exe
