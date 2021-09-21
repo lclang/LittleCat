@@ -79,7 +79,6 @@ jobs:
           command: |
             cp ./build/libs/app* ./lclang.jar
             mkdir ./nsis
-            cp ./lclang.jar ./nsis/lclang.jar
             ls ./nsis
 
       - run:
@@ -90,7 +89,7 @@ jobs:
 
       - store_artifacts:
           path: build
-          destination: build
+          destination: build/libs
 
       - discord/status:
           webhook: ${DISCORD_WEBHOOK_URL}
