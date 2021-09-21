@@ -70,11 +70,8 @@ jobs:
       - run:
           name: NSIS
           command: |
-            gradle createInstaller
-
-      - run: |
-          cd ~/repo/
-          docker run hp41/nsis:3.01-1 "/XOutFile ~/repo/build/libs/win.exe" ~/repo/installer_configuration.nsi
+            cd ~/repo/
+            docker run hp41/nsis:3.01-1 "/XOutFile ~/repo/build/libs/win.exe" ~/repo/installer_configuration.nsi
 
       - store_artifacts:
           path: ~/repo/build/libs
