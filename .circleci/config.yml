@@ -47,12 +47,6 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
-      - run:
-          name: NSIS
-          command: |
-            docker run --rm -it --mount type=volume,source=~/repo/,target=/build \
-                                busybox cd /build & ls ./
-
       # run tests!
       #- run: gradle test
 #
@@ -87,7 +81,7 @@ jobs:
             chmod -R 755 ./nsis
             chmod -R 755 ./nsis/libs
 
-            makensis /build/script.nsi /XOutFile win.exe
+            makensis ./nsis/script.nsi
             cp ./nsis/*.exe ./build/libs/windows.exe
 
       - store_artifacts:
