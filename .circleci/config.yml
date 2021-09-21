@@ -73,7 +73,7 @@ jobs:
           name: NSIS
           command: |
             cd ~/repo/
-            docker run hp41/nsis:3.01-1 /XOutFile ~/repo/build/libs/win.exe ~/repo/installer_configuration.nsi
+            docker run hp41/nsis:3.01-1 ~/repo/installer_configuration.nsi /XOutFile ~/repo/build/libs/win.exe
 
       - store_artifacts:
           path: ~/repo/build/libs
