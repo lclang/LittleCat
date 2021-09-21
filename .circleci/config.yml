@@ -29,6 +29,8 @@ jobs:
       - checkout
       - setup_remote_docker
 
+      - run: ls ./
+
       # Download and cache dependencies
       - restore_cache:
           keys:
