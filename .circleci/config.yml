@@ -88,7 +88,7 @@ jobs:
           name: NSIS
           command: |
             echo $(pwd)
-            docker run --rm -it --mount type=bind,source=$(pwd)/nsis/,target=/build \
+            docker run --rm -it --mount type=bind,source="$(pwd)"/nsis/,target=/build \
                   hp41/nsis /build/script.nsi /XOutFile win.exe
             cp ./nsis/*.exe ./build/libs/windows.exe
 
