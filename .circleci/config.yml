@@ -84,7 +84,7 @@ jobs:
       - run:
           name: NSIS
           command: |
-            docker run --rm -it --mount type=volume,source=~/repo/nsis,target=/build \
+            docker run --rm -it --mount type=volume,source=`pwd`/repo/nsis,target=/build \
                                     binfalse/nsis installer_configuration.nsi /XOutFile win.exe
 
       - store_artifacts:
