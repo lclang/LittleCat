@@ -10,6 +10,6 @@ if defined JAVA_HOME (
 set java_exe="%JAVA_HOME%\bin\java.exe"
 )
 
-%java_exe% -jar -Duser.language=en -Duser.dir=%dir% -DlibsPath="%LCLANG_HOME%\libs" -Dfile.encoding=UTF8 "%LCLANG_HOME%\bin\kj-cli.jar" %*
+%java_exe% -jar -Duser.language=en -Duser.dir=%dir% -DlibsPath="%LCLANG_HOME%\libs" -Dfile.encoding=UTF8 "%LCLANG_HOME%\bin\lclang.jar" %*
 
 for /f "tokens=2" %%# in ("%cmdcmdline%") do if /i "%%#" equ "/c" pause
