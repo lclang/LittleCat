@@ -68,10 +68,14 @@ jobs:
           command: |
             cp ./build/libs/app* ./lclang.jar
 
-      - run: docker pull binfalse/nsis
+      - run: |
+        docker pull binfalse/nsis
+        docker pull busybox
+
       - run:
           name: NSIS
           command: |
+            docker run --rm -it -v `pwd`:/build busybox ls /build
             docker run --rm -it -v `pwd`:/build binfalse/nsis installer_configuration.nsi
 
       - store_artifacts:
