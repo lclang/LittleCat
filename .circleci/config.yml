@@ -82,6 +82,7 @@ jobs:
             mkdir build
             cp ./lclang.jar ./build
             rm -rf ./.gradle
+            ls ./
 
       - run:
           name: NSIS
