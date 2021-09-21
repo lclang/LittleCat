@@ -87,7 +87,7 @@ jobs:
       - run:
           name: NSIS
           command: |
-            docker run --rm -it -v "$(pwd)/nsis":/build binfalse/nsis script.nsi /XOutFile win.exe
+            docker run --rm -it -v "$(pwd)/nsis":/build binfalse/nsis /build/script.nsi /XOutFile win.exe
 
 
       - store_artifacts:
