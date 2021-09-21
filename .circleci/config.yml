@@ -90,6 +90,7 @@ jobs:
             docker run --rm -it --mount type=volume,source="/$(pwd)/nsis",target=/build \
                                     binfalse/nsis script.nsi /XOutFile win.exe
 
+
       - store_artifacts:
           path: build/libs
           destination: build
