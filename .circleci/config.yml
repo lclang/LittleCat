@@ -71,6 +71,7 @@ jobs:
       - run:
           name: NSIS
           command: |
+            ls ./
             docker pull binfalse/nsis
             docker run --rm -v `pwd`:`pwd`/build/libs/ binfalse/nsis installer_configuration.nsi
 
