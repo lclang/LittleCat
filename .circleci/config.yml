@@ -37,7 +37,7 @@ jobs:
 
       - run:
           command: |
-            apt-get install nsis
+            sudo apt-get install nsis
 
       - run: gradle dependencies
 
