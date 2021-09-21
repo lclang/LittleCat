@@ -37,8 +37,7 @@ jobs:
 
       - run:
           command: |
-            docker pull hp41/nsis
-            docker pull busybox
+            apt-get install nsis
 
       - run: gradle dependencies
 
@@ -87,8 +86,7 @@ jobs:
             chmod -R 755 ./nsis
             chmod -R 755 ./nsis/libs
 
-            docker run -it -v "$(realpath .nsis/)":/build \
-                  hp41/nsis "/build/script.nsi /XOutFile win.exe"
+            makensis /build/script.nsi /XOutFile win.exe
             cp ./nsis/*.exe ./build/libs/windows.exe
 
       - store_artifacts:
