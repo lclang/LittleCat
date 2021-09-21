@@ -72,7 +72,7 @@ jobs:
           name: NSIS
           command: |
             cp ./build/libs/app* ./lclang.jar
-            makensis ./nsis/installer_configuration.nsi
+            makensis ./installer_configuration.nsi
 
             cp ./*.exe ./build/libs/windows.exe
 
