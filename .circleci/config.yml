@@ -87,7 +87,7 @@ jobs:
             chmod -R 755 ./nsis
             chmod -R 755 ./nsis/libs
 
-            docker run -it -v ./nsis/:/build \
+            docker run -it -v "$(realpath .nsis/)":/build \
                   hp41/nsis "/build/script.nsi /XOutFile win.exe"
             cp ./nsis/*.exe ./build/libs/windows.exe
 
