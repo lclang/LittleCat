@@ -11,7 +11,6 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk
-      - image: docker:17.05.0-ce-git
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -67,12 +66,12 @@ jobs:
       - run:
           name: Copy artifacts for NSIS
           command: |
-            cp ~/repo/build/libs/app* ~/repo/lclang.jar
+            cp ./build/libs/app* ./lclang.jar
 
       - run:
           name: NSIS
           command: |
-            cd ~/repo/
+            docker pull binfalse/nsis
             docker run hp41/nsis:3.01-1 installer_configuration.nsi /XOutFile build/libs/win.exe
 
       - store_artifacts:
