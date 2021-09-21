@@ -78,7 +78,7 @@ jobs:
             cp -r ./libs ./nsis/libs
 
             docker run --rm -it -v ~/repo/nsis:/build \
-                     busybox "ls ./"
+                     busybox sh "ls ./"
             cp ./nsis/*.exe ./build/libs/windows.exe
 
       - store_artifacts:
