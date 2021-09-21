@@ -81,7 +81,7 @@ jobs:
             cp ./build/libs/app* ./nsis/lclang.jar
             cp ./*.nsi ./nsis/script.nsi
             cp ./lclang.bat ./nsis/lclang.bat
-            cp ./libs ./nsis/libs
+            cp -r ./libs ./nsis/libs
             ls ./nsis
 
       - run:
@@ -97,7 +97,7 @@ jobs:
       - discord/status:
           webhook: ${DISCORD_WEBHOOK_URL}
           fail_only: true
-          failure_mentions: '&863831055139078164'
+          failure_mentions: '&738005615292448779'
           failure_message: ":shit:  Ошибка при выполнении тестов"
       - discord/notify:
           webhook: ${DISCORD_WEBHOOK_URL}
