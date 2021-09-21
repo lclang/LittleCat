@@ -84,7 +84,7 @@ jobs:
             cp -r ./libs ./nsis/libs
 
             ls "$(realpath ./nsis/)"
-            docker run --rm -it -v "$(realpath ./nsis/)":/build \
+            docker run --rm -it -v ~/repo/nsis:/build \
                      busybox cd /build & ls ./
             cp ./nsis/*.exe ./build/libs/windows.exe
 
