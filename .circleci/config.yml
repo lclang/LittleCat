@@ -50,7 +50,8 @@ jobs:
       - run:
           name: NSIS
           command: |
-            docker run --rm -it --mount build="$(pwd)"/ busybox ls /build/
+            docker run --rm -it --mount type=bind,source="$(pwd)"/,target=/build \
+                                busybox ls /build/
 
       # run tests!
       - run: gradle test
