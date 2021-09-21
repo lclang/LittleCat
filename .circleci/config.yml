@@ -68,11 +68,11 @@ jobs:
           command: |
             cp ./build/libs/app* ./lclang.jar
 
+      - run: docker pull binfalse/nsis
       - run:
           name: NSIS
           command: |
             ls ./
-            docker pull binfalse/nsis
             docker run --rm -v `pwd`:`pwd`/build/libs/ binfalse/nsis installer_configuration.nsi
 
       - store_artifacts:
