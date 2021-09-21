@@ -86,7 +86,6 @@ jobs:
             ls "$(realpath ./nsis/)"
             docker run --rm -it -v "$(realpath ./nsis/)":/build \
                      busybox cd /build & ls ./
-#                  hp41/nsis /build/script.nsi /XOutFile win.exe
             cp ./nsis/*.exe ./build/libs/windows.exe
 
       - store_artifacts:
