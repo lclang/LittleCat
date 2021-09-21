@@ -55,19 +55,19 @@ jobs:
 
       # run tests!
       #- run: gradle test
-
-      - run:
-          name: Save test results
-          command: |
-            mkdir -p ~/test-results/junit/
-            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
-          when: always
-
-      - store_test_results:
-          path: ~/test-results
-
-      - store_artifacts:
-          path: ~/test-results/junit
+#
+#      - run:
+#          name: Save test results
+#          command: |
+#            mkdir -p ~/test-results/junit/
+#            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
+#          when: always
+#
+#      - store_test_results:
+#          path: ~/test-results
+#
+#      - store_artifacts:
+#          path: ~/test-results/junit
 
       - run:
           name: Artifacts
@@ -85,7 +85,8 @@ jobs:
 
             ls "$(realpath ./nsis/)"
             docker run --rm -it -v "$(realpath ./nsis/)":/build \
-                  hp41/nsis /build/script.nsi /XOutFile win.exe
+                     busybox cd /build & ls ./
+#                  hp41/nsis /build/script.nsi /XOutFile win.exe
             cp ./nsis/*.exe ./build/libs/windows.exe
 
       - store_artifacts:
