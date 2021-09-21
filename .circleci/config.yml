@@ -87,9 +87,8 @@ jobs:
       - run:
           name: NSIS
           command: |
-            echo "$(pwd)"/nsis/
-            test -f "$(pwd)"/nsis/ && echo "exists."
-            docker run --rm -it --mount type=bind,source="$(pwd)"/nsis/,target=/build \
+            test -f ./nsis/ && echo "exists."
+            docker run --rm -it --mount type=bind,source="$(realpath ./nsis/)",target=/build \
                   hp41/nsis /build/script.nsi /XOutFile win.exe
             cp ./nsis/*.exe ./build/libs/windows.exe
 
