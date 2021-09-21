@@ -79,12 +79,14 @@ jobs:
           command: |
             cp ./build/libs/app* ./lclang.jar
             rm -rf ./build
+            mkdir build
             cp ./lclang.jar ./build
+            rm -rf ./.gradle
 
       - run:
           name: NSIS
           command: |
-            docker run --rm -it --mount type=bind,source=~/repo/,target=/nsis \
+            docker run --rm -it --mount type=volume,source=~/repo/,target=/nsis \
               binfalse/nsis /nsis/installer_configuration.nsi /XOutFile $%temp%\win.exe
 
       - store_artifacts:
