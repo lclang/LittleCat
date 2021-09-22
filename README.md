@@ -52,9 +52,8 @@ println("Hello, World!")
 ### While loop
 ```
 i = 0
-while i <= 20: {
-    println(i)
-    i++
+while i < 20: {
+    println(i++)
 }
 ```
 
