@@ -126,3 +126,9 @@ test {
         showCauses = true
     }
 }
+
+task lclangVersion {
+    doLast {
+        println project.version
+    }
+}
