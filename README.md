@@ -4,6 +4,34 @@ Little Cat is a modern dynamic typed interpreted language that allows you to wri
 It was influenced by Java, Kotlin, Python, PHP.
 Language abbreviation `lclang`. File extension - `lcat`.
 
+## Install
+
+### Windows
+Download the [latest release of EXE](https://github.com/lclang/LittleCat/releases/latest).
+
+### Debian (Ubuntu and others)
+```
+apt update & apt install wget
+wget https://github.com/lclang/LittleCat/releases/download/0.1.2/debian.deb
+dpkg -i debian.deb
+```
+
+## Starting
+
+### CLI
+Open terminal and write:
+```
+lclang
+```
+
+Output:
+![image](https://user-images.githubusercontent.com/40952805/134337779-b566f354-d822-4d03-b606-35b5e1d55ea6.png)
+
+### File execute
+```
+lclang -f <relative or absolute path>
+```
+
 ## Code examples
 
 ### Hello, World!
@@ -50,7 +78,3 @@ while {
     println(input.readLine())
 }
 ```
-
-## Install
-Download the [latest release in JAR](https://github.com/lclang/LittleCat/releases/latest).
-Start jar with `java -jar app.jar`.
