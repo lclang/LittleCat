@@ -93,7 +93,7 @@ jobs:
             cp build/libs/app* lclang/usr/share/lclang/bin/lclang.jar
             cp lclang.sh lclang/usr/bin/lclang
 
-            "Version: $(./gradlew properties | grep ^version: )" > lclang/DEBIAN/control
+            "Version: $(gradle properties | grep ^version: )" > lclang/DEBIAN/control
 
             md5deep -r lclang/usr > lclang/DEBIAN/md5sums
 
