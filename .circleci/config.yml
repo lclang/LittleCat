@@ -36,9 +36,9 @@ jobs:
             - v1-dependencies-
 
       - run:
+          name: Update APT
           command: |
             sudo apt update
-            sudo apt-get install nsis
 
       - run: gradle dependencies
 
@@ -71,11 +71,39 @@ jobs:
       - run:
           name: NSIS
           command: |
+            sudo apt-get install nsis
             cp ./build/libs/app* ./lclang.jar
             makensis ./installer_configuration.nsi
 
             cp ./*.exe ./build/libs/windows.exe
 
+      - run:
+          name: Debian Package
+          command: |
+            sudo apt-get install dpkg debconf debhelper lintian hashdeep
+
+            mkdir -p lclang/DEBIAN
+            mkdir -p lclang/usr/bin
+            mkdir -p lclang/usr/share/lclang/bin
+
+            cp debian.conf lclang/DEBIAN/control
+            cp LICENSE lclang/DEBIAN/copyright
+            cp -R libs lclang/usr/share/lclang/libs
+            cp ./build/libs/app* lclang/usr/share/lclang/bin/lclang.jar
+            cp .lclang lclang/usr/bin/lclang
+
+            "Version: $(./gradlew properties | grep ^version: )" > lclang/DEBIAN/control
+
+            md5deep -r lclang/usr > lclang/DEBIAN/md5sums
+
+            STAGING_DIR=$(readlink --canonicalize "./lclang")
+
+            find "${STAGING_DIR}" -type d -exec chmod 0755 {} \;  #set directory attributes
+            find "${STAGING_DIR}" -type f -exec chmod 0644 {} \;  #set data file attributes
+            find "${STAGING_DIR}/usr/bin" -type f -exec chmod 0755 {} \;  #set executable attributes
+
+            fakeroot dpkg-deb --build lclang
+            cp ./*.deb ./build/libs/debian.deb
       - store_artifacts:
           path: build/libs
           destination: build
