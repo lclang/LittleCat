@@ -92,9 +92,6 @@ jobs:
             cp -R libs lclang/usr/share/lclang/libs
             cp build/libs/app* lclang/usr/share/lclang/bin/lclang.jar
             cp lclang.sh lclang/usr/bin/lclang
-
-            echo "Version: 0.1.2" > lclang/DEBIAN/control
-
             md5deep -r lclang/usr > lclang/DEBIAN/md5sums
 
             STAGING_DIR=$(readlink --canonicalize "./lclang")
