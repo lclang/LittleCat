@@ -82,6 +82,7 @@ jobs:
           command: |
             sudo apt-get install dpkg debconf debhelper lintian hashdeep
 
+            mkdir lclang
             mkdir -p lclang/DEBIAN
             mkdir -p lclang/usr/bin
             mkdir -p lclang/usr/share/lclang/bin
