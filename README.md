@@ -58,6 +58,16 @@ while i <= 20: {
 }
 ```
 
+OR
+
+```
+i = 0 
+while { 
+    println(i++) 
+    return i<20
+}
+```
+
 ### Arrays 
 ```
 array = [1]
