@@ -1,4 +1,4 @@
-# Little Cat Language (lclang)
+# Little Cat Language
 
 Little Cat is a modern dynamic typed interpreted language that allows you to write programs quickly and easily.
 It was influenced by Java, Kotlin, Python, PHP.
