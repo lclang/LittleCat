@@ -1,12 +1,15 @@
 package lclang.lang
 
-import lclang.*
+import lclang.LCClass
+import lclang.LCFileVisitor
+import lclang.Value
+import lclang.method
 import lclang.methods.Method
 import lclang.types.Types
 
 class StringClass(fileVisitor: LCFileVisitor): LCClass("string", fileVisitor) {
     override val constructor: Method = method(returnType = Types.STRING) { list ->
-        StringClass(list[0].toString(), this)
+        StringClass(list[0].toString(), file)
     }
 
     lateinit var string: String
@@ -19,14 +22,14 @@ class StringClass(fileVisitor: LCFileVisitor): LCClass("string", fileVisitor) {
         }
 
         globals["toArray"] = method(listOf(), Types.ARRAY) {
-            ValueList(this@StringClass.fileVisitor).apply {
+            ArrayClass(this@StringClass.fileVisitor).apply {
                 for (c in string) add(Value(Types.CHAR, c))
             }
         }
 
         globals["toArray"] = method(listOf(Types.CHAR), Types.ARRAY) { args ->
             val parts = string.split(args[0] as Char)
-            ValueList(this@StringClass.fileVisitor).apply {
+            ArrayClass(this@StringClass.fileVisitor).apply {
                 for(part in parts){
                     add(Value(Types.STRING, part))
                 }

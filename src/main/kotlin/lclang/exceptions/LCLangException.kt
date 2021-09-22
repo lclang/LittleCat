@@ -1,4 +1,6 @@
 package lclang.exceptions
 
-open class LCLangException(exceptionName: String, message: String, line: Int, column: Int, path: String):
-    Exception("$exceptionName: $message at line $line, column $column in $path:$line")
+import lclang.Caller
+
+open class LCLangException(exceptionName: String, message: String, caller: Caller):
+    Exception("$exceptionName: $message at line ${caller.line}, column ${caller.column} in ${caller.file.path}:${caller.line}")

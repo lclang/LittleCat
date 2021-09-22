@@ -28,7 +28,6 @@ class InterpreterTest {
                 val tokens = CommonTokenStream(lexer)
                 val parser = lclangParser(tokens)
                 parser.removeErrorListeners()
-                parser.addErrorListener(ErrorListener(file.path.toString()))
 
                 var startTime = System.currentTimeMillis()
                 val fileContext = parser.file()
@@ -36,6 +35,7 @@ class InterpreterTest {
                 println("Parse time: "+(endTime-startTime)+"ms")
 
                 LCFileVisitor(file.path.toString()).apply {
+                    parser.addErrorListener(ErrorListener(this))
                     libraries.add(TestLibrary(output))
 
                     startTime = System.currentTimeMillis()

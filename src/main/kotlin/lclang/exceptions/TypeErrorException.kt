@@ -1,4 +1,6 @@
 package lclang.exceptions
 
-class TypeErrorException(message: String, line: Int, column: Int, path: String):
-    LCLangException("Type Error", message, line, column, path)
+import lclang.Caller
+
+class TypeErrorException(message: String, caller: Caller):
+    LCLangException("Type Error", message, caller)

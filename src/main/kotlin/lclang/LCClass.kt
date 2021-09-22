@@ -1,21 +1,18 @@
 package lclang
 
 import lclang.methods.ClassMethod
-import lclang.methods.LibraryMethod
 import lclang.methods.Method
-import lclang.types.Type
+import lclang.types.NamedType
 
 open class LCClass(
-    val name: String,
+    private val name: String,
     fileVisitor: LCFileVisitor
 ): LCBaseVisitor(fileVisitor){
-    val classType = Type("\\"+name)
-    open val constructor: Method = object: LibraryMethod(listOf(), classType) {
-        override fun callMethod(fileVisitor: LCFileVisitor, args: List<Any?>): Any {
-            return LCClass(name, fileVisitor).apply {
-                globals.putAll(this@LCClass.globals)
-                variables.putAll(this@LCClass.variables)
-            }
+    val classType = NamedType("\\"+name)
+    open val constructor: Method = method(listOf(), classType) {
+        LCClass(name, fileVisitor).apply {
+            globals.putAll(this@LCClass.globals)
+            variables.putAll(this@LCClass.variables)
         }
     }
 
@@ -25,8 +22,8 @@ open class LCClass(
         variables.clear()
     }
 
-    fun create(args: List<Value> = listOf()): Value {
-        return Value(constructor.returnType, constructor.call(this.fileVisitor, args) as LCClass)
+    fun create(caller: Caller, args: List<Value> = listOf()): Value {
+        return Value(constructor.returnType, constructor.call(caller, args) as LCClass)
     }
 
     fun asValue(): Value {
@@ -47,7 +44,7 @@ open class LCClass(
     override fun toString(): String {
         return globals["toString"]?.let {
             if(it is Method)
-                it.call(fileVisitor, listOf())
+                it.call(Caller(fileVisitor, 0, 0), listOf())
 
             null
         } ?: "$name@class"

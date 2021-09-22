@@ -10,7 +10,7 @@ class CharClass(fileVisitor: LCFileVisitor): LCClass("char", fileVisitor) {
     var char: Char = '!'
 
     override val constructor: Method = method(returnType = Types.CHAR) { list ->
-        CharClass(list[0].toString().toCharArray().first(), this)
+        CharClass(list[0].toString().toCharArray().first(), file)
     }
 
     constructor(char: Char, fileVisitor: LCFileVisitor) : this(fileVisitor) {

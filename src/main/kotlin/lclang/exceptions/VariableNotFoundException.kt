@@ -1,4 +1,6 @@
 package lclang.exceptions
 
-class VariableNotFoundException(variable: String, line: Int, column: Int, path: String):
-    LCLangException("Uncaught Error", "Variable $variable not found", line, column, path)
+import lclang.Caller
+
+class VariableNotFoundException(variable: String, caller: Caller):
+    LCLangException("Uncaught Error", "Variable $variable not found", caller)

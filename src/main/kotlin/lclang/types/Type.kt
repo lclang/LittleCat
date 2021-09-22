@@ -1,34 +1,21 @@
 package lclang.types
 
-import lclang.lclangParser
+abstract class Type(val text: String) {
+    var nullable = false
 
-class Type(
-    val name: String,
-    val primitive: Boolean = false
-): BaseType(name){
-    companion object {
-
-        fun from(ctx: lclangParser.BaseTypeContext): Type {
-            return when(val stringName: String = ctx.text){
-                "void" -> Types.VOID
-                "any" -> Types.ANY
-                "int" -> Types.INT
-                "long" -> Types.LONG
-                "char" -> Types.CHAR
-                "string" -> Types.STRING
-                "array" -> Types.ARRAY
-                "bool" -> Types.BOOL
-                "double" -> Types.DOUBLE
-                "callable" -> Types.CALLABLE
-                else -> Type(stringName)
-            }
-        }
+    fun isAccept(another: Type): Boolean {
+        return isAcceptWithoutNullable(another) && (nullable || !another.nullable)
     }
 
-    override fun isAcceptWithoutNullable(another: BaseType): Boolean {
-        return super.isAcceptWithoutNullable(another) ||
-                another is Type &&
-                another.primitive && primitive &&
-                another.name == name
+    open fun isAcceptWithoutNullable(another: Type):
+            Boolean = Types.ANY==this|| Types.UNDEFINED==another
+
+    fun nullable(): Type {
+        nullable = true
+        return this
+    }
+
+    override fun toString(): String {
+        return (if(nullable) "?" else "") + text
     }
 }

@@ -17,7 +17,6 @@ const val RESET_COLOR = "\u001B[0m"
 fun main(args: Array<String>) {
     val libDir = File(System.getProperty("libsPath", "./libs"))
     val includeLibraries = arrayListOf<Library>(StdLibrary())
-    val runtimeFiles = arrayListOf<LCFileVisitor>()
 
     if (libDir.exists() || libDir.mkdir()) {
         val files = libDir.listFiles()
@@ -26,7 +25,7 @@ fun main(args: Array<String>) {
                 if(file.name.endsWith(".jar"))
                     includeLibraries.addAll(loadJarLibrary(file))
                 else if(file.name.endsWith(".lcat"))
-                    runtimeFiles.add(LCFileVisitor(file.path.toString()).apply {
+                    Global.libraries.add(LCFileVisitor(file.path.toString()).apply {
                         libraries.addAll(includeLibraries)
                         runInput(file.readText())
                     })
@@ -35,10 +34,9 @@ fun main(args: Array<String>) {
     }
 
     if(args.isEmpty()){
-        println("Little cat ${Info.version} (Build date: ${Info.buildTime})")
+        println("Little cat ${Global.version} (Build date: ${Global.buildTime})")
         val file = LCFileVisitor("file.lcat").apply {
             libraries.addAll(includeLibraries)
-            runtimeFiles.forEach { includeFrom(it) }
         }
 
         var data = ""
@@ -110,7 +108,6 @@ fun main(args: Array<String>) {
     try {
         LCFileVisitor(executeFile.path.toString()).apply {
             libraries.addAll(includeLibraries)
-            runtimeFiles.forEach { includeFrom(it) }
             runInput(executeFile.readText())
         }
     } catch (e: LCLangException){

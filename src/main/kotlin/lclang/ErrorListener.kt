@@ -9,7 +9,7 @@ import org.antlr.v4.runtime.atn.ATNConfigSet
 import org.antlr.v4.runtime.dfa.DFA
 import java.util.*
 
-class ErrorListener(val filePath: String): ANTLRErrorListener {
+class ErrorListener(val file: LCFileVisitor): ANTLRErrorListener {
     override fun syntaxError(
         recognizer: Recognizer<*, *>?,
         offendingSymbol: Any?,
@@ -18,7 +18,7 @@ class ErrorListener(val filePath: String): ANTLRErrorListener {
         msg: String?,
         e: RecognitionException?
     ) {
-        throw LCLangException("Syntax Error", msg!!, line+1, line+1, filePath)
+        throw LCLangException("Syntax Error", msg?:"Unknown error", Caller(file, line+1, line+1))
     }
 
     override fun reportAmbiguity(

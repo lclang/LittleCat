@@ -1,16 +1,15 @@
 package lclang
 
 import lclang.exceptions.LCLangException
-import lclang.types.BaseType
+import lclang.types.Type
 
 open class Value(
-    val type: () -> BaseType,
-    var get: () -> Any?,
-    var set: (LCFileVisitor, Int, Int, Value) -> Unit = { fileVisitor, start, column, _ ->
-        throw LCLangException("Invalid operation", "Value is not settable", start, column, fileVisitor.path) },
+    val type: Type,
+    var get: (Caller) -> Any?,
+    var set: (Caller, Value) -> Unit = { caller, _ ->
+        throw LCLangException("Invalid operation", "Value is not settable", caller) },
     var isReturn: Boolean = false,
     var stop: Boolean = false
 ){
-    constructor(type: BaseType, value: Any?): this({ type }, { value })
-    constructor(type: BaseType, value: () -> Any?): this({ type }, value)
+    constructor(type: Type, value: Any?): this(type, { value })
 }

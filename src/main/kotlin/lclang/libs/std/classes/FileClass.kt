@@ -1,8 +1,12 @@
 package lclang.libs.std.classes
 
-import lclang.*
+import lclang.LCClass
+import lclang.LCFileVisitor
+import lclang.Value
+import lclang.lang.ArrayClass
 import lclang.lang.StringClass
-import lclang.types.Type
+import lclang.method
+import lclang.types.NamedType
 import lclang.types.Types
 import java.io.File
 
@@ -14,14 +18,14 @@ class FileClass(fileVisitor: LCFileVisitor): LCClass(FILE_CLASSNAME, fileVisitor
         globals["absolutePath"] = StringClass(file.absolutePath, fileVisitor).asValue()
         globals["canonicalPath"] = StringClass(file.canonicalPath, fileVisitor).asValue()
         globals["files"] = Value(Types.ARRAY) {
-            ValueList(fileVisitor).apply {
+            ArrayClass(fileVisitor).apply {
                 file.listFiles()?.forEach {
                     add(FileClass(it, fileVisitor).asValue())
                 }
             }
         }
 
-        globals["openInput"] = method (returnType = Type(INPUT_CLASSNAME)) { file.inputStream() }
-        globals["openOutput"] = method (returnType = Type(OUTPUT_CLASSNAME)) { file.outputStream() }
+        globals["openInput"] = method (returnType = NamedType(INPUT_CLASSNAME)) { file.inputStream() }
+        globals["openOutput"] = method (returnType = NamedType(OUTPUT_CLASSNAME)) { file.outputStream() }
     }
 }

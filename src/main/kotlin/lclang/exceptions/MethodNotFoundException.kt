@@ -1,4 +1,6 @@
 package lclang.exceptions
 
-class MethodNotFoundException(method: String, line: Int, column: Int, path: String):
-    LCLangException("Uncaught Error", "Method $method not found", line, column, path)
+import lclang.Caller
+
+class MethodNotFoundException(method: String, caller: Caller):
+    LCLangException("Uncaught Error", "Method $method not found", caller)
