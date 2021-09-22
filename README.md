@@ -46,15 +46,24 @@ lclang -f <relative or absolute path>
 
 ### Hello, World!
 ```
-println(123)
+println("Hello, World!")
 ```
 
 ### While loop
 ```
 i = 0
-while i <= 20: {
-    println(i)
-    i++
+while i < 20: {
+    println(i++)
+}
+```
+
+OR
+
+```
+i = 0 
+while { 
+    println(i++) 
+    return i<20
 }
 ```
 
