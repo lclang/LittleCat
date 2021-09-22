@@ -91,7 +91,7 @@ jobs:
             cp LICENSE lclang/DEBIAN/copyright
             cp -R libs lclang/usr/share/lclang/libs
             cp ./build/libs/app* lclang/usr/share/lclang/bin/lclang.jar
-            cp .lclang lclang/usr/bin/lclang
+            cp .lclang.sh lclang/usr/bin/lclang
 
             "Version: $(./gradlew properties | grep ^version: )" > lclang/DEBIAN/control
 
