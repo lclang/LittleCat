@@ -46,7 +46,7 @@ lclang -f <relative or absolute path>
 
 ### Hello, World!
 ```
-println(123)
+println("Hello, World!")
 ```
 
 ### While loop
