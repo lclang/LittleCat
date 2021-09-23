@@ -7,7 +7,7 @@ class NamedType(
     override fun isAcceptWithoutNullable(another: Type): Boolean {
         return super.isAcceptWithoutNullable(another) ||
                 another is NamedType &&
-                another.primitive && primitive &&
+                another.primitive == primitive &&
                 another.name == name
     }
 }

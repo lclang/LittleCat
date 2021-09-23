@@ -125,18 +125,6 @@ public interface lclangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitNewClass(lclangParser.NewClassContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link lclangParser#operation}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitOperation(lclangParser.OperationContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link lclangParser#assign}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAssign(lclangParser.AssignContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link lclangParser#stmt}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

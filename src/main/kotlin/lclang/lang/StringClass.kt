@@ -8,6 +8,7 @@ import lclang.methods.Method
 import lclang.types.Types
 
 class StringClass(fileVisitor: LCFileVisitor): LCClass("string", fileVisitor) {
+
     override val constructor: Method = method(returnType = Types.STRING) { list ->
         StringClass(list[0].toString(), file)
     }
@@ -17,10 +18,7 @@ class StringClass(fileVisitor: LCFileVisitor): LCClass("string", fileVisitor) {
     constructor(string: String, fileVisitor: LCFileVisitor): this(fileVisitor) {
         this.string = string
 
-        globals["charAt"] = method(listOf(Types.INT), Types.STRING) { args ->
-            string[args[0] as Int].toString()
-        }
-
+        globals["charAt"] = method(listOf(Types.INT), Types.STRING) { string[it[0] as Int].toString() }
         globals["toArray"] = method(listOf(), Types.ARRAY) {
             ArrayClass(this@StringClass.fileVisitor).apply {
                 for (c in string) add(Value(Types.CHAR, c))
@@ -36,8 +34,8 @@ class StringClass(fileVisitor: LCFileVisitor): LCClass("string", fileVisitor) {
             }
         }
 
-        globals["substring"] = method(listOf(Types.INT, Types.INT), Types.ARRAY) { args ->
-            string.substring(args[0] as Int, args[1] as Int)
+        globals["substring"] = method(listOf(Types.INT, Types.INT), Types.ARRAY) {
+            string.substring(it[0] as Int, it[1] as Int)
         }
 
         globals["find"] = method(listOf(Types.CHAR), Types.INT) { args ->

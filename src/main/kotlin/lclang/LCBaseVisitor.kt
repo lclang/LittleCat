@@ -95,7 +95,7 @@ open class LCBaseVisitor(
         }
     }
 
-    override fun visitLambda(ctx: lclangParser.LambdaContext): Value = LambdaMethod(ctx)
+    override fun visitLambda(ctx: lclangParser.LambdaContext): Value = LambdaMethod(this, ctx)
     override fun visitWhileStmt(ctx: lclangParser.WhileStmtContext): Value? {
         val condition = ctx.condition
         val stmt = ctx.stmt()
@@ -189,6 +189,14 @@ open class LCBaseVisitor(
                         primitive.call = prevCall
                     }else value = classValue.visitPrimitive(primitive)
                 }
+
+                return value
+            }
+
+            ctx.assign!=null -> {
+                val target = visitExpression(ctx.expression(0))
+                val value = visitExpression(ctx.expression(1))
+                target.set(Caller(fileVisitor, ctx.start.line, ctx.stop.line), value)
 
                 return value
             }
@@ -390,14 +398,6 @@ open class LCBaseVisitor(
         }
 
         if(ctx.call!=null) value = call(Caller(fileVisitor, ctx.call.line, ctx.call.line), value, ctx.expression())
-
-        val assignContext = ctx.operation()?.assign()
-        if(assignContext!=null){
-            val expression = visitExpression(assignContext.expression())
-            value.set(Caller(fileVisitor, assignContext.start.line, assignContext.stop.line), expression)
-
-            return expression
-        }
 
         return value
     }

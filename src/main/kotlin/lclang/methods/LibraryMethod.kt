@@ -14,7 +14,11 @@ import java.io.OutputStream
 
 abstract class LibraryMethod(args: List<Type>, returnType: Type) : Method(args, returnType) {
     override fun call(caller: Caller, args: List<Value>): Any? {
-        val value = callMethod(caller, args.map { it.get(caller) })
+        val value = callMethod(caller, args.map {
+            if(it !is Method) it.get(caller)
+            else it
+        })
+
         if(value is Unit) return null
 
         return when(value) {

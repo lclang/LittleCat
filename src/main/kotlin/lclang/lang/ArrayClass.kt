@@ -1,6 +1,8 @@
 package lclang.lang
 
 import lclang.*
+import lclang.methods.Method
+import lclang.types.CallableType
 import lclang.types.Types
 
 class ArrayClass(file: LCFileVisitor): LCClass("array", file) {
@@ -11,6 +13,13 @@ class ArrayClass(file: LCFileVisitor): LCClass("array", file) {
     fun last() = list.last()
 
     init {
+        globals["filter"] = method(listOf(CallableType(listOf(Types.ANY), Types.BOOL)), Types.ARRAY) {
+            val filter = it[0] as Method
+            list.filter { value ->
+                filter.call(this, listOf(value)) == true
+            }
+        }
+
         globals["join"] = method(listOf(Types.STRING), Types.ARRAY) { join(this, it[0].toString()) }
         globals["size"] = Value(Types.INT) { list.size }
     }

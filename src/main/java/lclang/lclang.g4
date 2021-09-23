@@ -21,6 +21,7 @@ UNARY_ADD : '++';
 UNARY_MINUS : '--';
 NULLABLE_OR : '?:';
 NULLABLE : '?';
+LAMBDA_PREFIX : '->';
 
 TYPE_PREFIX : '\\';
 COMMA : ',';
@@ -57,9 +58,9 @@ ID: [A-Za-z_]+;
 STRING: '""'|'"'(.+?)'"';
 CHAR: '\''.'\'';
 HEX_LONG: '#'[1-9ABCDEF]+;
-LONG: [0-9]+ 'L';
+LONG: ([0-9]|[1-9]+) 'L';
 DOUBLE: [0-9]*'.'[0-9]+;
-INTEGER: [0-9]+;
+INTEGER: [0-9]|[1-9]+;
 
 WS : [ \t\r\n]+ -> skip;
 
@@ -70,7 +71,7 @@ type:
       methodType
     | baseType
     );
-methodType: OPEN (type COMMA)* type? CLOSE MINUS LARGER returnType=type;
+methodType: OPEN (type COMMA)* type? CLOSE LAMBDA_PREFIX returnType=type;
 baseType: ID (TYPE_PREFIX baseType)?;
 
 expression:
@@ -87,6 +88,7 @@ expression:
     | expression add=ADD expression
     | expression minus=MINUS expression
     | expression pow=POW expression
+    | expression assign=ASSIGN expression
     | expression nullableOr=NULLABLE_OR expression
     | expression unaryPlus=UNARY_ADD
     | expression unaryMinus=UNARY_MINUS
@@ -108,8 +110,7 @@ primitive: (
            )
 
                 arrayAccess*
-                (call=OPEN (expression COMMA)* expression? CLOSE)?
-                operation?;
+                (call=OPEN (expression COMMA)* expression? CLOSE)?;
 
 value: HEX_LONG|BOOL|STRING|CHAR|DOUBLE|LONG|INTEGER|NULL;
 parentnesesExpr: OPEN expression CLOSE;
@@ -120,13 +121,10 @@ array: OPEN_BRACKET (expression COMMA)* expression? CLOSE_BRACKET;
 arrayAccess: OPEN_BRACKET expression CLOSE_BRACKET;
 stop: STOP;
 variable: ID;
-lambda: MINUS LARGER args? (COLON type)? expression;
+lambda: LAMBDA_PREFIX args? (COLON type)? expression;
 container: OPEN_BRACE stmt* CLOSE_BRACE;
 ifExpr: IF condition=expression COLON ifT=expression ELSE ifF=expression;
 newClass: COLON className=baseType;
-
-operation: assign;
-assign: ASSIGN expression;
 
 stmt:
           block

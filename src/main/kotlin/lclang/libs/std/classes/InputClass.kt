@@ -9,8 +9,10 @@ import java.util.*
 
 const val INPUT_CLASSNAME = "Input"
 class InputClass(fileVisitor: LCFileVisitor): LCClass(INPUT_CLASSNAME, fileVisitor) {
+    lateinit var scanner: Scanner
+
     constructor(input: InputStream, fileVisitor: LCFileVisitor) : this(fileVisitor) {
-        val scanner = Scanner(input)
+        scanner = Scanner(input)
 
         globals["hasNextLine"] = method(returnType = Types.BOOL) { scanner.hasNextLine() }
         globals["hasNextInt"] = method(returnType = Types.BOOL) { scanner.hasNextInt() }

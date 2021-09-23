@@ -8,7 +8,7 @@ open class LCClass(
     private val name: String,
     fileVisitor: LCFileVisitor
 ): LCBaseVisitor(fileVisitor){
-    val classType = NamedType("\\"+name)
+    val classType = NamedType(name)
     open val constructor: Method = method(listOf(), classType) {
         LCClass(name, fileVisitor).apply {
             globals.putAll(this@LCClass.globals)

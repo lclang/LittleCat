@@ -1,7 +1,6 @@
 package lclang
 
 import lclang.exceptions.LCLangException
-import lclang.libs.Library
 import lclang.methods.ContextMethod
 import lclang.types.Types
 import java.io.File
@@ -10,15 +9,14 @@ open class LCFileVisitor(
     val path: String
 ): LCBaseVisitor() {
     val classes = HashMap<String, LCClass>()
-    val libraries = ArrayList<Library>()
+    val libraries = Global.javaLibraries
 
     fun execute(ctx: lclangParser.FileContext) {
+        fileVisitor = this
         Global.libraries.forEach {
             classes.putAll(it.classes)
             globals.putAll(it.globals)
         }
-
-        fileVisitor = this
 
         for(classExpr in ctx.classExpr())
             classes[classExpr.ID().text] = LCClass.from("",this, classExpr)

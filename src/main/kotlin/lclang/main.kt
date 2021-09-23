@@ -2,7 +2,6 @@ package lclang
 
 import lclang.exceptions.LCLangException
 import lclang.libs.Library
-import lclang.libs.std.StdLibrary
 import org.apache.commons.cli.*
 import java.io.File
 import java.net.URL
@@ -11,22 +10,21 @@ import java.nio.file.Paths
 import java.util.jar.JarFile
 import kotlin.system.exitProcess
 
+
 const val ERROR_COLOR = "\u001B[31m"
 const val RESET_COLOR = "\u001B[0m"
 
 fun main(args: Array<String>) {
     val libDir = File(System.getProperty("libsPath", "./libs"))
-    val includeLibraries = arrayListOf<Library>(StdLibrary())
 
     if (libDir.exists() || libDir.mkdir()) {
         val files = libDir.listFiles()
         if(files != null) {
             for (file in files) {
                 if(file.name.endsWith(".jar"))
-                    includeLibraries.addAll(loadJarLibrary(file))
+                    Global.javaLibraries.addAll(loadJarLibrary(file))
                 else if(file.name.endsWith(".lcat"))
                     Global.libraries.add(LCFileVisitor(file.path.toString()).apply {
-                        libraries.addAll(includeLibraries)
                         runInput(file.readText())
                     })
             }
@@ -35,33 +33,33 @@ fun main(args: Array<String>) {
 
     if(args.isEmpty()){
         println("Little cat ${Global.version} (Build date: ${Global.buildTime})")
-        val file = LCFileVisitor("file.lcat").apply {
-            libraries.addAll(includeLibraries)
-        }
+        val file = LCFileVisitor("file.lcat")
+        file.runInput("")
 
         var data = ""
+
         while (true) {
             print("> ")
-            when (val line = readLine()) {
+
+            when (val code = readLine()?:"") {
                 ":reset" -> {
                     data = ""
                     file.classes.clear()
                     file.globals.clear()
                     file.variables.clear()
 
-                    println("File reset")
+                    print("File reset")
                 }
-                ":code" -> {
-                    println(data)
-                }
+
                 "exit" -> {
                     exitProcess(0)
                 }
+
                 else -> {
-                    data += line
+                    data += code
 
                     try {
-                        file.runInput(line?:"")
+                        file.runInput(code)
                     } catch (e: LCLangException){
                         println(ERROR_COLOR+e.message+RESET_COLOR)
                     }
@@ -107,7 +105,6 @@ fun main(args: Array<String>) {
 
     try {
         LCFileVisitor(executeFile.path.toString()).apply {
-            libraries.addAll(includeLibraries)
             runInput(executeFile.readText())
         }
     } catch (e: LCLangException){

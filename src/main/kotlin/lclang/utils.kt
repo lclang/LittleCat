@@ -32,3 +32,13 @@ fun LCFileVisitor.runInput(input: String) {
 
     execute(parser.file())
 }
+
+fun LCFileVisitor.runExpression(input: String) {
+    val lexer = lclangLexer(CharStreams.fromString(input))
+    val tokens = CommonTokenStream(lexer)
+    val parser = lclangParser(tokens)
+    parser.removeErrorListeners()
+    parser.addErrorListener(ErrorListener(this))
+
+    visitExpression(parser.expression())
+}

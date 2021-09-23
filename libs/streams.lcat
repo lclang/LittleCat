@@ -6,9 +6,23 @@ method readInput(input): string {
 }
 
 method print(value): void {
-    output.print(value)
+    std.output.print(value)
 }
 
 method println(value): void {
-    output.println(value)
+    std.output.println(value)
 }
+
+method parseUrl(url: string): URL {
+    urlRegex = regexMatch("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?", url)
+
+    url = :URL()
+    url.scheme = urlRegex[2]
+    url.host = urlRegex[4]
+    url.path = urlRegex[5]
+    url.hash = urlRegex[9]
+
+    return url
+}
+
+class URL {}

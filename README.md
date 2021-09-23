@@ -77,6 +77,18 @@ println(a)
 println(b)
 ```
 
+### Wait data from other thread
+```
+data = null
+thread(-> {
+  sleep(5000L)
+  data = "New data!"
+})
+
+while data==null
+println(data)
+```
+
 ### HTTP client on Sockets
 ```
 url = "info.cern.ch"
