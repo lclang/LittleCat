@@ -110,10 +110,10 @@ jobs:
           webhook: ${DISCORD_WEBHOOK_URL}
           fail_only: true
           failure_mentions: '&863831055139078164'
-          failure_message: ":shit:  Ошибка при выполнении тестов"
+          failure_message: ":pensive:  Job failed"
       - discord/notify:
           webhook: ${DISCORD_WEBHOOK_URL}
           color: '4052034'
-          message: ":clap:  Все тесты успешно выполнены (артефакты и бинарники обновлены)"
+          message: ":clap:  All done"
           include_job_number_field: false
           include_project_field: false
