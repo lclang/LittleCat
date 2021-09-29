@@ -1,6 +1,12 @@
+/***
+    Stream module
+    From: 0.1.1
+    Minimal version: 0.1.2
+**/
+
 method readInput(input): string {
     lines = ""
-    while input.hasNextLine(): lines = lines + input.readLine() + "\r\n"
+    while input.hasNextLine(): lines += input.readLine() + "\r\n"
 
     return lines
 }
@@ -12,17 +18,3 @@ method print(value): void {
 method println(value): void {
     std.output.println(value)
 }
-
-method parseUrl(url: string): URL {
-    urlRegex = regexMatch("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?", url)
-
-    url = :URL()
-    url.scheme = urlRegex[2]
-    url.host = urlRegex[4]
-    url.path = urlRegex[5]
-    url.hash = urlRegex[9]
-
-    return url
-}
-
-class URL {}

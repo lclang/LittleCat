@@ -1,13 +1,11 @@
 package lclang.libs.std.classes
 
 import lclang.LCClass
-import lclang.LCFileVisitor
 import lclang.method
-import lclang.methods.LibraryMethod
 import lclang.types.Types
 import kotlin.math.*
 
-class MathClass(fileVisitor: LCFileVisitor): LCClass("math", fileVisitor)  {
+class MathClass : LCClass("math")  {
 
     init {
         globals["sqrt"] = method(listOf(Types.DOUBLE), Types.DOUBLE) { sqrt(it[0] as Double) }

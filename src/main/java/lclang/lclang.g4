@@ -1,7 +1,7 @@
 grammar lclang;
 
 COMMENT : '/*'(.+?)'*/' -> skip;
-LINE_COMMENT : '//'(.+?)[\n\r] -> skip;
+LINE_COMMENT : '//'(.+?)([\n\r]|EOF) -> skip;
 
 OPEN : '(';
 CLOSE : ')';
@@ -55,13 +55,12 @@ ELSE: 'else';
 NULL: 'null';
 BOOL: 'true'|'false';
 ID: [A-Za-z_]+;
-STRING: '""'|'"'(.+?)'"';
-CHAR: '\''.'\'';
+STRING: '"' (~["])* '"';
+CHAR: '\''(.)'\'';
 HEX_LONG: '#'[1-9ABCDEF]+;
 LONG: ([0-9]|[1-9][0-9]+) 'L';
 DOUBLE: ([0-9]|[1-9][0-9]*)'.'[0-9]+;
 INTEGER: [0-9]|[1-9][0-9]+;
-
 WS : [ \t\r\n]+ -> skip;
 
 file: use* global* (stmt|method|component|classExpr)* EOF;
@@ -89,6 +88,11 @@ expression:
     | expression minus=MINUS expression
     | expression pow=POW expression
     | expression assign=ASSIGN expression
+    | expression add=ADD operationAssign=ASSIGN expression
+    | expression minus=ADD operationAssign=ASSIGN expression
+    | expression div=DIVISION operationAssign=ASSIGN expression
+    | expression multiplication=MULTYPLICATION operationAssign=ASSIGN expression
+    | expression pow=POW operationAssign=ASSIGN expression
     | expression nullableOr=NULLABLE_OR expression
     | expression unaryPlus=UNARY_ADD
     | expression unaryMinus=UNARY_MINUS
@@ -139,8 +143,7 @@ ifStmt: IF condition=expression COLON ifT=stmt (ELSE ifF=stmt)?;
 block: OPEN_BRACE stmt* CLOSE_BRACE;
 
 component: COMPONENT type OPEN_BRACE global* classExpr* CLOSE_BRACE;
-classExpr: CLASS ID OPEN_BRACE (method|field)* CLOSE_BRACE;
-field: ID (ASSIGN expression)?;
+classExpr: CLASS ID args? OPEN_BRACE (method|stmt)* CLOSE_BRACE;
 
 arg: ID (COLON type)?;
 args: OPEN (arg COMMA)* arg? CLOSE;

@@ -1,17 +1,25 @@
 package lclang.libs.std.classes
 
 import lclang.LCClass
-import lclang.LCFileVisitor
+import lclang.constructor
 import lclang.method
+import lclang.methods.Method
+import lclang.types.CallableType
 import lclang.types.Types
 import java.io.InputStream
 import java.util.*
 
 const val INPUT_CLASSNAME = "Input"
-class InputClass(fileVisitor: LCFileVisitor): LCClass(INPUT_CLASSNAME, fileVisitor) {
+class InputClass(): LCClass(INPUT_CLASSNAME) {
     lateinit var scanner: Scanner
+    override var constructor: Method = constructor(listOf(CallableType(listOf(), Types.INT)), classType) {
+        val method = it[0] as Method
+        InputClass(object : InputStream() {
+            override fun read(): Int = method.call(this@constructor, listOf()) as Int
+        })
+    }
 
-    constructor(input: InputStream, fileVisitor: LCFileVisitor) : this(fileVisitor) {
+    constructor(input: InputStream) : this() {
         scanner = Scanner(input)
 
         globals["hasNextLine"] = method(returnType = Types.BOOL) { scanner.hasNextLine() }

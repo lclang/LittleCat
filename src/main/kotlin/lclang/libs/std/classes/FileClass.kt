@@ -1,8 +1,8 @@
 package lclang.libs.std.classes
 
 import lclang.LCClass
-import lclang.LCFileVisitor
 import lclang.Value
+import lclang.constructor
 import lclang.lang.ArrayClass
 import lclang.lang.StringClass
 import lclang.method
@@ -12,23 +12,23 @@ import lclang.types.Types
 import java.io.File
 
 const val FILE_CLASSNAME = "File"
-class FileClass(fileVisitor: LCFileVisitor): LCClass(FILE_CLASSNAME, fileVisitor) {
-    override val constructor: Method = method(listOf(Types.STRING), classType) {
-        return@method FileClass(File(it[0].toString()), file)
+class FileClass(): LCClass(FILE_CLASSNAME) {
+    override var constructor: Method = constructor(listOf(Types.STRING), classType) {
+        FileClass(File(it[0].toString()))
     }
 
-    constructor(file: File, fileVisitor: LCFileVisitor) : this(fileVisitor) {
-        globals["name"] = StringClass(file.name, fileVisitor).asValue()
-        globals["path"] = StringClass(file.path, fileVisitor).asValue()
-        globals["absolutePath"] = StringClass(file.absolutePath, fileVisitor).asValue()
-        globals["canonicalPath"] = StringClass(file.canonicalPath, fileVisitor).asValue()
+    constructor(file: File) : this() {
+        globals["name"] = StringClass(file.name).asValue()
+        globals["path"] = StringClass(file.path).asValue()
+        globals["absolutePath"] = StringClass(file.absolutePath).asValue()
+        globals["canonicalPath"] = StringClass(file.canonicalPath).asValue()
         globals["exists"] = Value(Types.BOOL) { file.exists() }
         globals["isDirectory"] = Value(Types.BOOL) { file.isDirectory }
         globals["isFile"] = Value(Types.BOOL) { file.isFile }
         globals["files"] = Value(Types.ARRAY) {
-            ArrayClass(fileVisitor).apply {
+            ArrayClass().apply {
                 file.listFiles()?.forEach {
-                    add(FileClass(it, fileVisitor).asValue())
+                    add(FileClass(it).asValue())
                 }
             }
         }

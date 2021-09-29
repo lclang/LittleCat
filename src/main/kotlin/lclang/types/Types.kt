@@ -18,7 +18,7 @@ object Types {
     fun getType(context: lclangParser.TypeContext): Type {
         val type = when{
             context.baseType()!=null -> getNamedType(context.baseType())
-            context.methodType()!=null -> getCallbackType(context.methodType())
+            context.methodType()!=null -> getCallType(context.methodType())
             else -> throw Exception("Future error")
         }
 
@@ -42,9 +42,9 @@ object Types {
         }
     }
 
-    fun getCallbackType(ctx: lclangParser.MethodTypeContext): CallableType {
+    fun getCallType(ctx: lclangParser.MethodTypeContext): CallableType {
         val args = ArrayList<Type>()
-        for(argType in ctx.type())
+        for(argType in ctx.type().dropLast(1))
             args.add(getType(argType))
 
         return CallableType(args, getType(ctx.returnType))

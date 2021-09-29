@@ -1,25 +1,28 @@
 package lclang.methods
 
 import lclang.Caller
-import lclang.LCBaseVisitor
+import lclang.LCBaseExecutor
 import lclang.Value
+import lclang.exceptions.TypeErrorException
 import lclang.lclangParser
 import lclang.types.Type
 import lclang.types.Types
 
-abstract class VisitorMethod(returnType: Type,
-                             private val methodArgs: List<lclangParser.ArgContext>,
-                             private val execute: (LCBaseVisitor) -> Value): Method(
-    run {
-        val args = ArrayList<Type>()
-        for (arg in methodArgs)
-            args.add(if(arg.type()!=null) Types.getType(arg.type()) else Types.ANY)
-
-        return@run args
-    }, returnType) {
+open class VisitorMethod(
+    val executor: LCBaseExecutor,
+    returnType: Type,
+    private val methodArgs: List<lclangParser.ArgContext>,
+    private val execute: (LCBaseExecutor) -> Value): Method(
+        executor.root,
+        methodArgs.map {
+            val argType = it.type()
+            if (argType != null)
+                Types.getType(argType)
+            else Types.ANY
+        }, returnType) {
 
     override fun call(caller: Caller, args: List<Value>): Any? {
-        val lcContextVisitor = LCBaseVisitor(caller.file)
+        val lcContextVisitor = LCBaseExecutor(executor)
 
         for((argNum, argName) in methodArgs.withIndex()){
             lcContextVisitor.variables[argName.ID().text] = args[argNum]
@@ -28,7 +31,7 @@ abstract class VisitorMethod(returnType: Type,
         val value = execute(lcContextVisitor)
         val valueType = value.type
         if(!returnType.isAccept(valueType))
-            throw Exception("invalid type of return")
+            throw TypeErrorException("invalid type of return", caller)
 
         return value.get(caller)
     }

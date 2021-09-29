@@ -4,9 +4,9 @@ import lclang.isAccept
 
 class CallableType(
     val args: List<Type>,
-    val returnType: Type
+    val returnType: Type = Types.VOID
 ): Type(run {
-    return@run "("+ args.joinToString(",") { it.toString() } +") -> " + returnType.toString()
+    return@run "("+ args.joinToString(", ") { it.toString() } +") -> " + returnType.toString()
 }) {
 
     override fun isAcceptWithoutNullable(another: Type): Boolean {

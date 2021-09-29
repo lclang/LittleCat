@@ -1,17 +1,29 @@
 package lclang.libs.std.classes
 
 import lclang.LCClass
-import lclang.LCFileVisitor
+import lclang.Value
+import lclang.constructor
 import lclang.lang.ArrayClass
 import lclang.method
+import lclang.methods.Method
+import lclang.types.CallableType
 import lclang.types.NamedType
 import lclang.types.Types
 import java.io.OutputStream
 import java.io.PrintStream
 
 const val OUTPUT_CLASSNAME = "Output"
-class OutputClass(fileVisitor: LCFileVisitor): LCClass(OUTPUT_CLASSNAME, fileVisitor) {
-    constructor(output: OutputStream, fileVisitor: LCFileVisitor) : this(fileVisitor) {
+class OutputClass(): LCClass(OUTPUT_CLASSNAME) {
+    override var constructor: Method = constructor(listOf(CallableType(listOf(Types.INT))), classType) {
+        val method = it[0] as Method
+        OutputClass(object : OutputStream() {
+            override fun write(b: Int) {
+                method.call(this@constructor, listOf(Value(Types.INT, b)))
+            }
+        })
+    }
+
+    constructor(output: OutputStream) : this() {
         val printer = PrintStream(output)
 
         globals["println"] = method(listOf(Types.ANY)) { printer.println(it[0]) }

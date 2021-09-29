@@ -7,7 +7,7 @@ import java.util.*
 object Global {
     val version: String
     val buildTime: String
-    val libraries = ArrayList<LCFileVisitor>()
+    val libraries = ArrayList<LCRootExecutor>()
     val javaLibraries = arrayListOf<Library>()
 
     init {

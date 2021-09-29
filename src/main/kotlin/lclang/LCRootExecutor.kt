@@ -5,49 +5,45 @@ import lclang.methods.ContextMethod
 import lclang.types.Types
 import java.io.File
 
-open class LCFileVisitor(
+open class LCRootExecutor(
     val path: String
-): LCBaseVisitor() {
+) {
+    val executor = LCBaseExecutor(this)
+    val globals = HashMap<String, Value>()
     val classes = HashMap<String, LCClass>()
-    val libraries = Global.javaLibraries
+
+    fun accept(root: LCRootExecutor){
+        classes.putAll(root.classes)
+        globals.putAll(root.globals)
+    }
 
     fun execute(ctx: lclangParser.FileContext) {
-        fileVisitor = this
-        Global.libraries.forEach {
-            classes.putAll(it.classes)
-            globals.putAll(it.globals)
-        }
-
+        for(library in Global.libraries+Global.javaLibraries) accept(library)
         for(classExpr in ctx.classExpr())
             classes[classExpr.ID().text] = LCClass.from("",this, classExpr)
 
         for(component in ctx.component()){
             val name = Types.getNamedType(component.type().baseType()).name + "\\"
             for(global in ctx.global())
-                globals[name+global.ID().text] = visitValue(global.value())
+                globals[name+global.ID().text] = executor.visitValue(global.value())
 
             for(classExpr in ctx.classExpr())
                 classes[name+classExpr.ID().text] = LCClass.from(name,this, classExpr)
         }
 
-        for(library in libraries) {
-            classes.putAll(library.classes)
-            globals.putAll(library.globals)
-        }
-
-        val files = HashMap<String, LCFileVisitor>()
+        val files = HashMap<String, LCRootExecutor>()
         for(usage in ctx.use()){
-            val requiredFile = File(File(fileVisitor.path).parent, usage.STRING().text
+            val requiredFile = File(File(path).parent, usage.STRING().text
                 .substring(1).substringBeforeLast('"'))
 
-            var eval: LCFileVisitor? = null
+            var eval: LCRootExecutor? = null
             if(!requiredFile.exists())
                 throw LCLangException("File", "file "+requiredFile.name+" not found",
                     Caller(this, usage.start.line, usage.stop.line))
             else if(files[requiredFile.path]!=null)
                 eval = files[requiredFile.path]!!
             else if(requiredFile.length()!=0L){
-                eval = LCFileVisitor(requiredFile.path.toString())
+                eval = LCRootExecutor(requiredFile.path.toString())
                 eval.runInput(requiredFile.readText())
 
                 files[requiredFile.path] = eval
@@ -72,19 +68,21 @@ open class LCFileVisitor(
         files.clear()
 
         for(global in ctx.global())
-            globals[global.ID().text] = visitValue(global.value())
+            globals[global.ID().text] = executor.visitValue(global.value())
 
         for(method in ctx.method()) {
-            globals[method.ID().text] = ContextMethod(method)
+            globals[method.ID().text] = ContextMethod(this.executor, method).asValue()
         }
 
-        for(stmt in ctx.stmt()) {
-            val value = visitStmt(stmt)
-            if(value!=null) {
-                value.get(Caller(this, stmt.start.line, stmt.stop.line))
-                if(value.stop || value.isReturn)
-                    return
-            }
+        for(stmt in ctx.stmt()) execute(stmt)
+    }
+
+    fun execute(stmt: lclangParser.StmtContext) {
+        val value = executor.visitStmt(stmt)
+        if(value!=null) {
+            value.get(Caller(this, stmt.start.line, stmt.stop.line))
+            if(value.stop || value.isReturn)
+                return
         }
     }
 }

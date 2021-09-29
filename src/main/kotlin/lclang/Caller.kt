@@ -1,7 +1,7 @@
 package lclang
 
 class Caller(
-    val file: LCFileVisitor,
+    val root: LCRootExecutor,
     val line: Int,
     val column: Int
 )

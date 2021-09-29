@@ -2,9 +2,13 @@ clazz = :Test()
 clazz.test()
 
 class Test {
+    :OtherTest()
+
     method test() {
         println("Hello, world!")
     }
 }
+
+class OtherTest {}
 --OUTPUT--
 Hello, world!

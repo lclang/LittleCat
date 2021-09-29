@@ -2,51 +2,58 @@ package lclang
 
 import lclang.methods.ClassMethod
 import lclang.methods.Method
+import lclang.methods.VisitorMethod
 import lclang.types.NamedType
+import lclang.types.Type
 
 open class LCClass(
     private val name: String,
-    fileVisitor: LCFileVisitor
-): LCBaseVisitor(fileVisitor){
-    val classType = NamedType(name)
-    open val constructor: Method = method(listOf(), classType) {
-        LCClass(name, fileVisitor).apply {
-            globals.putAll(this@LCClass.globals)
-            variables.putAll(this@LCClass.variables)
-        }
-    }
+    path: String = name
+): LCRootExecutor(path){
+    constructor(name: String, root: LCRootExecutor): this(name, root.path)
 
-    init {
-        this.fileVisitor = fileVisitor
-        globals.clear()
-        variables.clear()
-    }
+    open val classType: Type = NamedType(name)
+    open var constructor: Method = constructor {}
 
     fun create(caller: Caller, args: List<Value> = listOf()): Value {
         return Value(constructor.returnType, constructor.call(caller, args) as LCClass)
     }
 
-    fun asValue(): Value {
+    open fun asValue(): Value {
         return Value(constructor.returnType, this)
     }
 
     companion object {
         fun from(componentName: String,
-                 fileVisitor: LCFileVisitor,
-                 clazz: lclangParser.ClassExprContext): LCClass {
-            return LCClass(componentName+clazz.ID().text, fileVisitor).apply {
-                for(method in clazz.method())
-                    globals[method.ID().text] = ClassMethod(this, method)
+                 root: LCRootExecutor,
+                 fromClass: lclangParser.ClassExprContext): LCClass {
+            val staticClass = LCClass(componentName+fromClass.ID().text, root)
+            staticClass.constructor = VisitorMethod(root.executor, staticClass.classType,
+                fromClass.args()?.arg()?:listOf()) {
+                val clazz = LCClass(staticClass.name, root)
+                clazz.executor.variables.putAll(it.variables)
+                clazz.accept(root)
+
+                for(method in fromClass.method())
+                    clazz.globals[method.ID().text] = ClassMethod(clazz, method).asValue()
+
+                for (stmt in fromClass.stmt()) clazz.execute(stmt)
+                return@VisitorMethod Value(staticClass.classType, clazz)
             }
+
+            return staticClass
         }
     }
 
     override fun toString(): String {
-        return globals["toString"]?.let {
-            if(it is Method)
-                it.call(Caller(fileVisitor, 0, 0), listOf())
+        val toStringMethod = globals["toString"]
+        if(toStringMethod!=null) {
+            val caller = Caller(this, 0, 0)
+            val method = toStringMethod.get(caller)
+            if(method is Method)
+                return method.call(caller, listOf()).toString()
+        }
 
-            null
-        } ?: "$name@class"
+        return "$name@class"
     }
 }

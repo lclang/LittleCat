@@ -9,7 +9,7 @@ import org.antlr.v4.runtime.atn.ATNConfigSet
 import org.antlr.v4.runtime.dfa.DFA
 import java.util.*
 
-class ErrorListener(val file: LCFileVisitor): ANTLRErrorListener {
+class ErrorListener(val file: LCRootExecutor): ANTLRErrorListener {
     override fun syntaxError(
         recognizer: Recognizer<*, *>?,
         offendingSymbol: Any?,

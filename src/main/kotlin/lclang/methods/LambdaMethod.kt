@@ -1,13 +1,17 @@
 package lclang.methods
 
-import lclang.LCBaseVisitor
+import lclang.LCBaseExecutor
 import lclang.lclangParser
 import lclang.types.Types
 
-class LambdaMethod(executor: LCBaseVisitor, lambdaContext: lclangParser.LambdaContext): VisitorMethod(
+class LambdaMethod(executor: LCBaseExecutor, lambdaContext: lclangParser.LambdaContext): VisitorMethod(
+    executor,
     if(lambdaContext.type()!=null)
         Types.getType(lambdaContext.type())
     else Types.VOID,
     lambdaContext.args()?.arg()?: listOf(),
-    { executor.visitExpression(lambdaContext.expression()) }
+    {
+        it.variables.putAll(executor.variables.filterKeys { key -> !it.variables.containsKey(key) })
+        it.visitExpression(lambdaContext.expression())
+    }
 )

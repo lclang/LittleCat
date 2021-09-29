@@ -16,14 +16,28 @@ fun List<Type>.isAccept(array: List<Type>): Int {
     return -1
 }
 
-inline fun method(args: List<Type> = listOf(), returnType: Type = Types.VOID,
+inline fun LCRootExecutor.method(args: List<Type> = listOf(), returnType: Type = Types.VOID,
+                  crossinline run: Caller.(List<Any?>) -> Any?): Value {
+    return object: LibraryMethod(this@method, args, returnType){
+        override fun callMethod(caller: Caller, args: List<Any?>) = caller.run(args)
+    }.asValue()
+}
+
+inline fun LCRootExecutor.constructor(args: List<Type> = listOf(), returnType: Type = Types.VOID,
                   crossinline run: Caller.(List<Any?>) -> Any?): Method {
-    return object: LibraryMethod(args, returnType){
+    return object: LibraryMethod(this@constructor, args, returnType){
         override fun callMethod(caller: Caller, args: List<Any?>) = caller.run(args)
     }
 }
 
-fun LCFileVisitor.runInput(input: String) {
+inline fun LCClass.constructor(args: List<Type> = listOf(),
+                       crossinline run: Caller.(List<Any?>) -> Any?): Method {
+    return object: LibraryMethod(this@constructor, args, classType){
+        override fun callMethod(caller: Caller, args: List<Any?>) = caller.run(args)
+    }
+}
+
+fun LCRootExecutor.runInput(input: String) {
     val lexer = lclangLexer(CharStreams.fromString(input))
     val tokens = CommonTokenStream(lexer)
     val parser = lclangParser(tokens)
@@ -33,12 +47,12 @@ fun LCFileVisitor.runInput(input: String) {
     execute(parser.file())
 }
 
-fun LCFileVisitor.runExpression(input: String) {
+fun LCRootExecutor.runExpression(input: String): Value {
     val lexer = lclangLexer(CharStreams.fromString(input))
     val tokens = CommonTokenStream(lexer)
     val parser = lclangParser(tokens)
     parser.removeErrorListeners()
     parser.addErrorListener(ErrorListener(this))
 
-    visitExpression(parser.expression())
+    return executor.visitExpression(parser.expression())
 }

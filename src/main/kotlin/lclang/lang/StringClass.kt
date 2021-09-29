@@ -1,37 +1,41 @@
 package lclang.lang
 
 import lclang.LCClass
-import lclang.LCFileVisitor
 import lclang.Value
+import lclang.constructor
 import lclang.method
 import lclang.methods.Method
 import lclang.types.Types
 
-class StringClass(fileVisitor: LCFileVisitor): LCClass("string", fileVisitor) {
-
-    override val constructor: Method = method(returnType = Types.STRING) { list ->
-        StringClass(list[0].toString(), file)
+class StringClass(): LCClass("string") {
+    override var constructor: Method = constructor(listOf(Types.ANY), returnType = Types.STRING) { list ->
+        StringClass(list[0].toString())
     }
 
     lateinit var string: String
 
-    constructor(string: String, fileVisitor: LCFileVisitor): this(fileVisitor) {
+    constructor(string: String): this() {
         this.string = string
 
+        globals["length"] = Value(Types.INT, string.length)
         globals["charAt"] = method(listOf(Types.INT), Types.STRING) { string[it[0] as Int].toString() }
         globals["toArray"] = method(listOf(), Types.ARRAY) {
-            ArrayClass(this@StringClass.fileVisitor).apply {
+            ArrayClass().apply {
                 for (c in string) add(Value(Types.CHAR, c))
             }
         }
 
         globals["toArray"] = method(listOf(Types.CHAR), Types.ARRAY) { args ->
             val parts = string.split(args[0] as Char)
-            ArrayClass(this@StringClass.fileVisitor).apply {
+            ArrayClass().apply {
                 for(part in parts){
                     add(Value(Types.STRING, part))
                 }
             }
+        }
+
+        globals["substring"] = method(listOf(Types.INT, Types.INT), Types.ARRAY) {
+            string.substring(it[0] as Int, it[1] as Int)
         }
 
         globals["substring"] = method(listOf(Types.INT, Types.INT), Types.ARRAY) {

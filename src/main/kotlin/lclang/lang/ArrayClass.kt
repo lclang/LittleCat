@@ -5,8 +5,13 @@ import lclang.methods.Method
 import lclang.types.CallableType
 import lclang.types.Types
 
-class ArrayClass(file: LCFileVisitor): LCClass("array", file) {
+class ArrayClass : LCClass("array") {
     val list = ArrayList<Value>()
+
+    override var constructor: Method = constructor(listOf(Types.ARRAY)) {
+        val clazz = ArrayClass()
+        clazz.list.addAll((it[0] as ArrayClass).list)
+    }
 
     fun add(value: Value) = list.add(value)
     operator fun get(index: Int) = list[index]
@@ -25,7 +30,7 @@ class ArrayClass(file: LCFileVisitor): LCClass("array", file) {
     }
 
     fun join(caller: Caller, spectator: String) = list.joinToString(spectator) { it.get(caller).toString() }
-    override fun toString(): String = "[${join(Caller(fileVisitor, 0, 0), ", ")}]"
+    override fun toString(): String = "[${join(Caller(this, 0, 0), ", ")}]"
 
     operator fun plus(a: ArrayClass): ArrayClass {
         list.addAll(a.list)

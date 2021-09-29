@@ -161,12 +161,6 @@ public interface lclangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitClassExpr(lclangParser.ClassExprContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link lclangParser#field}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitField(lclangParser.FieldContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link lclangParser#arg}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

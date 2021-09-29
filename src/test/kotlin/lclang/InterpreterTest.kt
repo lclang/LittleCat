@@ -32,18 +32,24 @@ class InterpreterTest {
                 var startTime = System.currentTimeMillis()
                 val fileContext = parser.file()
                 var endTime = System.currentTimeMillis()
-                println("Parse time: "+(endTime-startTime)+"ms")
+                val parseTime = endTime-startTime
 
-                LCFileVisitor(file.path.toString()).apply {
-                    parser.addErrorListener(ErrorListener(this))
-                    libraries.add(TestLibrary(output))
+                val visitor = LCRootExecutor(file.path.toString())
+                parser.addErrorListener(ErrorListener(visitor))
 
-                    startTime = System.currentTimeMillis()
-                    execute(fileContext)
-                }
+                Global.javaLibraries.clear()
+                Global.javaLibraries.add(TestLibrary(output))
 
+                startTime = System.currentTimeMillis()
+                visitor.execute(fileContext)
                 endTime = System.currentTimeMillis()
-                println("Execute time: "+(endTime-startTime)+"ms")
+
+                val executeTime = endTime-startTime
+
+                println("All time: ${parseTime+executeTime}ms")
+                println("Execute time: ${executeTime}ms")
+                println("Parse time: ${parseTime}ms")
+                println()
                 println(output)
 
                 assertEquals(needOutput.replace(Regex("\\R"), "\n"),

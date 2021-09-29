@@ -89,6 +89,14 @@ while data==null
 println(data)
 ```
 
+### HTTP client on Connection and url
+```
+connection = parseUrl("https://github.com").openConnection()
+connection.connect()
+
+println(readInput(connection.input))
+```
+
 ### HTTP client on Sockets
 ```
 url = "info.cern.ch"
@@ -103,9 +111,5 @@ output.println("Host: " + url)
 output.println("")
 output.flush()
 
-input = socket.input
-while {
-    if !input.hasNextLine(): return false
-    println(input.readLine())
-}
+println(readInput(socket.input))
 ```

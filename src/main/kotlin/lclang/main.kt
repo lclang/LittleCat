@@ -4,9 +4,11 @@ import lclang.exceptions.LCLangException
 import lclang.libs.Library
 import org.apache.commons.cli.*
 import java.io.File
+import java.io.PrintStream
 import java.net.URL
 import java.net.URLClassLoader
 import java.nio.file.Paths
+import java.util.*
 import java.util.jar.JarFile
 import kotlin.system.exitProcess
 
@@ -15,7 +17,10 @@ const val ERROR_COLOR = "\u001B[31m"
 const val RESET_COLOR = "\u001B[0m"
 
 fun main(args: Array<String>) {
+    val consoleCharset = System.getProperty("sun.jnu.encoding")
     val libDir = File(System.getProperty("libsPath", "./libs"))
+
+    System.setOut(PrintStream(System.out, true, consoleCharset))
 
     if (libDir.exists() || libDir.mkdir()) {
         val files = libDir.listFiles()
@@ -24,7 +29,7 @@ fun main(args: Array<String>) {
                 if(file.name.endsWith(".jar"))
                     Global.javaLibraries.addAll(loadJarLibrary(file))
                 else if(file.name.endsWith(".lcat"))
-                    Global.libraries.add(LCFileVisitor(file.path.toString()).apply {
+                    Global.libraries.add(LCRootExecutor(file.absolutePath.toString()).apply {
                         runInput(file.readText())
                     })
             }
@@ -32,31 +37,30 @@ fun main(args: Array<String>) {
     }
 
     if(args.isEmpty()){
-        println("Little cat ${Global.version} (Build date: ${Global.buildTime})")
-        val file = LCFileVisitor("file.lcat")
+        println("Little cat ${Global.version} (Build date: ${Global.buildTime}; " +
+                "Console encoding: ${consoleCharset})")
+        val file = LCRootExecutor("file.lcat")
         file.runInput("")
 
         var data = ""
 
+        val scanner = Scanner(System.`in`, "UTF-8")
         while (true) {
             print("> ")
 
-            when (val code = readLine()?:"") {
+            when (val code = scanner.nextLine() ?: exitProcess(0)) {
+                ":code" -> println(data)
                 ":reset" -> {
                     data = ""
                     file.classes.clear()
                     file.globals.clear()
-                    file.variables.clear()
+                    file.executor.variables.clear()
 
                     print("File reset")
                 }
 
-                "exit" -> {
-                    exitProcess(0)
-                }
-
                 else -> {
-                    data += code
+                    data += code + "\n\r"
 
                     try {
                         file.runInput(code)
@@ -89,12 +93,13 @@ fun main(args: Array<String>) {
         exitProcess(1)
     }
 
-    val executeFile = File(
-        Paths.get(
+    var filePath = Paths.get(cmd.getOptionValue("file"))
+    if(!filePath.isAbsolute) filePath = Paths.get(
             System.getProperty("user.dir"),
             cmd.getOptionValue("file")
-        ).normalize().toString()
-    )
+            ).normalize()
+
+    val executeFile = File(filePath.toString())
 
     if(!executeFile.exists()){
         println(ERROR_COLOR+"File "+executeFile.name+" not exists")
@@ -104,7 +109,7 @@ fun main(args: Array<String>) {
     if(executeFile.length()==0L) return
 
     try {
-        LCFileVisitor(executeFile.path.toString()).apply {
+        LCRootExecutor(executeFile.absolutePath.toString()).apply {
             runInput(executeFile.readText())
         }
     } catch (e: LCLangException){

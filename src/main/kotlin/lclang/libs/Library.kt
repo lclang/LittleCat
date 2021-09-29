@@ -1,11 +1,7 @@
 package lclang.libs
 
-import lclang.LCFileVisitor
+import lclang.LCRootExecutor
 
 abstract class Library(
     libraryName: String
-): LCFileVisitor(libraryName) {
-    init {
-        fileVisitor = this
-    }
-}
+): LCRootExecutor(libraryName)

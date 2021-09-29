@@ -1,22 +1,23 @@
 package lclang.lang
 
 import lclang.LCClass
-import lclang.LCFileVisitor
+import lclang.Value
+import lclang.constructor
 import lclang.method
 import lclang.methods.Method
 import lclang.types.Types
 
-class CharClass(fileVisitor: LCFileVisitor): LCClass("char", fileVisitor) {
+class CharClass(): LCClass("char") {
     var char: Char = '!'
 
-    override val constructor: Method = method(returnType = Types.CHAR) { list ->
-        CharClass(list[0].toString().toCharArray().first(), file)
+    override var constructor: Method = constructor(returnType = Types.CHAR) { list ->
+        CharClass(list[0].toString().toCharArray().first())
     }
 
-    constructor(char: Char, fileVisitor: LCFileVisitor) : this(fileVisitor) {
+    constructor(char: Char): this() {
         this.char = char
 
-        globals["getValue"] = method(returnType = Types.INT) { char.code }
+        globals["getValue"] = Value(Types.INT) { char.code }
         globals["upper"] = method(listOf(), Types.CHAR) { char.uppercase() }
     }
 

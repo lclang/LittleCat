@@ -1,6 +1,7 @@
 package lclang.methods
 
 import lclang.Caller
+import lclang.LCRootExecutor
 import lclang.Value
 import lclang.lang.CharClass
 import lclang.lang.StringClass
@@ -12,7 +13,7 @@ import java.io.File
 import java.io.InputStream
 import java.io.OutputStream
 
-abstract class LibraryMethod(args: List<Type>, returnType: Type) : Method(args, returnType) {
+abstract class LibraryMethod(root: LCRootExecutor, args: List<Type>, returnType: Type) : Method(root, args, returnType) {
     override fun call(caller: Caller, args: List<Value>): Any? {
         val value = callMethod(caller, args.map {
             if(it !is Method) it.get(caller)
@@ -22,11 +23,11 @@ abstract class LibraryMethod(args: List<Type>, returnType: Type) : Method(args, 
         if(value is Unit) return null
 
         return when(value) {
-            is Char -> CharClass(value, caller.file)
-            is String -> StringClass(value, caller.file)
-            is File -> FileClass(value, caller.file)
-            is InputStream -> InputClass(value, caller.file)
-            is OutputStream -> OutputClass(value, caller.file)
+            is Char -> CharClass(value)
+            is String -> StringClass(value)
+            is File -> FileClass(value)
+            is InputStream -> InputClass(value)
+            is OutputStream -> OutputClass(value)
             else -> value
         }
     }
