@@ -3,12 +3,12 @@ package lclang
 import lclang.exceptions.LCLangException
 import lclang.libs.Library
 import org.apache.commons.cli.*
+import org.mozilla.universalchardet.UniversalDetector
 import java.io.File
-import java.io.PrintStream
 import java.net.URL
 import java.net.URLClassLoader
+import java.nio.charset.Charset
 import java.nio.file.Paths
-import java.util.*
 import java.util.jar.JarFile
 import kotlin.system.exitProcess
 
@@ -17,11 +17,7 @@ const val ERROR_COLOR = "\u001B[31m"
 const val RESET_COLOR = "\u001B[0m"
 
 fun main(args: Array<String>) {
-    val consoleCharset = System.getProperty("sun.jnu.encoding")
     val libDir = File(System.getProperty("libsPath", "./libs"))
-
-    System.setOut(PrintStream(System.out, true, consoleCharset))
-
     if (libDir.exists() || libDir.mkdir()) {
         val files = libDir.listFiles()
         if(files != null) {
@@ -37,18 +33,16 @@ fun main(args: Array<String>) {
     }
 
     if(args.isEmpty()){
-        println("Little cat ${Global.version} (Build date: ${Global.buildTime}; " +
-                "Console encoding: ${consoleCharset})")
+        println("Little cat ${Global.version} (Build date: ${Global.buildTime})")
         val file = LCRootExecutor("file.lcat")
         file.runInput("")
 
         var data = ""
 
-        val scanner = Scanner(System.`in`, "UTF-8")
         while (true) {
             print("> ")
 
-            when (val code = scanner.nextLine() ?: exitProcess(0)) {
+            when (val code = readLine()) {
                 ":code" -> println(data)
                 ":reset" -> {
                     data = ""
@@ -59,6 +53,7 @@ fun main(args: Array<String>) {
                     print("File reset")
                 }
 
+                null -> {}
                 else -> {
                     data += code + "\n\r"
 
@@ -102,18 +97,17 @@ fun main(args: Array<String>) {
     val executeFile = File(filePath.toString())
 
     if(!executeFile.exists()){
-        println(ERROR_COLOR+"File "+executeFile.name+" not exists")
+        println(ERROR_COLOR+"File "+executeFile.name+" not exists"+RESET_COLOR)
         exitProcess(1)
     }
 
     if(executeFile.length()==0L) return
 
     try {
-        LCRootExecutor(executeFile.absolutePath.toString()).apply {
-            runInput(executeFile.readText())
-        }
+        val executor = LCRootExecutor(executeFile.absolutePath.toString())
+        executor.runInput(executeFile.readText(Charset.forName(UniversalDetector.detectCharset(executeFile))))
     } catch (e: LCLangException){
-        println(ERROR_COLOR+e.message)
+        println(ERROR_COLOR+e.message+RESET_COLOR)
         exitProcess(1)
     }
 }
