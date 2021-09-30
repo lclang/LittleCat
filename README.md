@@ -1,4 +1,5 @@
 # Little Cat Language
+[![Discord][DiscordBadge]][DiscordUrl]
 
 Little Cat is a modern dynamic typed interpreted language that allows you to write programs quickly and easily.
 It was influenced by Java, Kotlin, Python, PHP.
@@ -113,3 +114,7 @@ output.flush()
 
 println(readInput(socket.input))
 ```
+
+[DiscordBadge]: https://img.shields.io/discord/892491030375591977?label=Discord&logo=discord&logoColor=white
+
+[DiscordUrl]: https://discord.gg/vBDkWUdMtx
