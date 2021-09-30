@@ -1,0 +1,76 @@
+/***
+    URL module
+    From: 0.1.2
+    Minimal version: 0.1.2
+**/
+
+
+method parseUrl(url: string): URL {
+    urlRegex = regexMatch("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?", url)
+    return :URL(urlRegex[2], urlRegex[4], urlRegex[5], urlRegex[7], urlRegex[9])
+}
+
+class URL(scheme  : string,
+            host  : string,
+            path  : string,
+            query : string,
+            hash  : string) {
+
+    method openConnection(): ?Connection {
+        if scheme=="http": {
+            return :Connection(-> (connection: Connection) {
+                socket = :Socket(host, 80)
+                socket.output.println("GET "+getFullPath()+" HTTP/1.1")
+                socket.output.println(this.toString())
+                socket.output.println("")
+                socket.output.flush()
+
+                connection.output = socket.output
+                connection.input = socket.input
+            })
+        }else if scheme=="https": {
+            return :Connection(-> (connection: Connection) {
+                socket = :Socket(host, 443)
+                socket.output.println("GET "+getFullPath()+" HTTP/1.1")
+                socket.output.println(this.toString())
+                socket.output.println("")
+                socket.output.flush()
+
+                connection.output = socket.output
+                connection.input = socket.input
+            })
+        }else if scheme=="file": {
+            return :Connection(-> (connection: Connection) {
+                file = :File(path)
+                connection.output = file.openOutput()
+                connection.input = file.openInput()
+            })
+        }
+
+        return null
+    }
+
+    method getFullPath(): string {
+        fullPath = ""
+        if path!=null: fullPath += path
+        if query!=null: fullPath += "?" + query
+        if hash!=null: fullPath += "#" + hash
+
+        return fullPath
+    }
+
+    method toString(): string {
+        return scheme + "://" + host + getFullPath()
+    }
+}
+
+class Connection(
+    _connect: (Connection) -> void
+) {
+    output = null
+    input = null
+
+    method connect() {
+        _connect(this)
+    }
+}
