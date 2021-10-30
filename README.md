@@ -22,8 +22,8 @@ Download the [latest release of EXE](https://ft.vitiacat.xyz/view/lclang).
 ### Debian (Ubuntu and others)
 ```
 apt update & apt install wget
-wget https://ft.vitiacat.xyz/download.php?id=lcdeb
-dpkg -i debian.deb
+wget https://ft.vitiacat.xyz/download.php?id=lcdeb -O lclang.deb
+dpkg -i lclang.deb
 ```
 
 ## Executing
