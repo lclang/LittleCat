@@ -1,0 +1,23 @@
+array = [1, 2, 3]
+println(array[0]==1)
+println(array[1]==2)
+println(array[2]==3)
+
+[one, two, three] = array
+println(one)
+println(two)
+println(three)
+test()[0](test()[1])
+
+method test(): array {
+    return [println, 4]
+}
+
+--OUTPUT--
+true
+true
+true
+1
+2
+3
+4

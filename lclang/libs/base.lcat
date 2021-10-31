@@ -1,0 +1,31 @@
+/***
+    Base module
+    From: 0.1.2
+    Minimal version: 0.1
+**/
+
+class object {}
+
+class Map {
+  entries = []
+
+  method put(key, value): Map {
+    remove(key)
+    entries[] = :Entry(key, value)
+    return this
+  }
+
+  method get(key): any {
+    return entries.filter(-> (it): bool it.key==key )[0]
+  }
+
+  method remove(key) {
+    entries.filter(-> (it): bool it.key!=key )
+  }
+}
+
+class Entry(key, value)
+
+class JSON {
+
+}

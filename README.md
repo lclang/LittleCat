@@ -40,7 +40,7 @@ Output:
 
 ### File
 ```
-lclang -f <relative or absolute path>
+lclang <relative or absolute path>
 ```
 
 ## Code examples
@@ -113,6 +113,18 @@ output.println("")
 output.flush()
 
 println(readInput(socket.input))
+```
+
+### Reflection
+```
+obj = :object()
+obj.test = "This is string in object"
+
+variable = reflection.getVariable(obj, "test")
+println(variable.get()) // Prints: This is string in object
+
+variable.set(123)
+println(variable.get()) // Prints: 123
 ```
 
 [DiscordBadge]: https://img.shields.io/discord/892491030375591977?label=Discord&logo=discord&logoColor=white

@@ -1,0 +1,40 @@
+lclang/lclangVisitor.java
+ lclang.lclangVisitor
+lclang/lclangBaseListener.java
+ lclang.lclangBaseListener
+lclang/lclangLexer.java
+ lclang.lclangLexer
+lclang/lclangBaseVisitor.java
+ lclang.lclangBaseVisitor
+lclang/lclangListener.java
+ lclang.lclangListener
+lclang/lclangParser.java
+ lclang.lclangParser
+ lclang.lclangParser$ArgContext
+ lclang.lclangParser$ArrayContext
+ lclang.lclangParser$AttributeContext
+ lclang.lclangParser$BlockContext
+ lclang.lclangParser$ClassExprContext
+ lclang.lclangParser$ComponentContext
+ lclang.lclangParser$ContainerContext
+ lclang.lclangParser$ExpressionContext
+ lclang.lclangParser$FileContext
+ lclang.lclangParser$GlobalContext
+ lclang.lclangParser$IfExprContext
+ lclang.lclangParser$IfStmtContext
+ lclang.lclangParser$LambdaContext
+ lclang.lclangParser$MethodContext
+ lclang.lclangParser$MethodTypeContext
+ lclang.lclangParser$NamedTypeContext
+ lclang.lclangParser$NewClassContext
+ lclang.lclangParser$ParentnesesExprContext
+ lclang.lclangParser$PrimitiveContext
+ lclang.lclangParser$ReturnExprContext
+ lclang.lclangParser$StmtContext
+ lclang.lclangParser$StopContext
+ lclang.lclangParser$TypeContext
+ lclang.lclangParser$TypeGetContext
+ lclang.lclangParser$UseContext
+ lclang.lclangParser$ValueContext
+ lclang.lclangParser$VariableContext
+ lclang.lclangParser$WhileStmtContext

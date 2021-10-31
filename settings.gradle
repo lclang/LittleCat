@@ -1,2 +1,3 @@
 rootProject.name = 'lclang'
+include 'lclang'
 

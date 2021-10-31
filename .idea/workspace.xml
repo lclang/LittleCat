@@ -1,0 +1,737 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="eb2edc7a-653c-417d-86ce-2db3142e1174" name="Changes" comment="Discord">
+      <change afterPath="$PROJECT_DIR$/lclang/src/main/kotlin/lclang/statements/WhileStatement.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lclang/tests/fibNumberTest.lcat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.circleci/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.circleci/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries-with-intellij-classes.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/LittleCat.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/core.test.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/streams.lcat" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/libs/streams.lcat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/url.lcat" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/libs/url.lcat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/gen/lclang/lclang.interp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/gen/lclang/lclang.tokens" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/gen/lclang/lclangBaseListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/gen/lclang/lclangBaseVisitor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/gen/lclang/lclangLexer.interp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/gen/lclang/lclangLexer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/gen/lclang/lclangLexer.tokens" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/gen/lclang/lclangListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/gen/lclang/lclangParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/gen/lclang/lclangVisitor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lclang/lclang.g4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/Caller.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/ErrorListener.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/Global.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/LCBaseExecutor.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/LCClass.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/LCRootExecutor.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/Value.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/exceptions/ClassNotFoundException.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/exceptions/LCLangException.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/exceptions/MethodNotFoundException.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/exceptions/TypeErrorException.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/exceptions/VariableNotFoundException.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/lang/ArrayClass.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/lang/CharClass.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/lang/StringClass.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/libs/Library.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/libs/std/StdLibrary.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/libs/std/classes/FileClass.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/libs/std/classes/InputClass.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/libs/std/classes/MathClass.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/libs/std/classes/OutputClass.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/libs/std/classes/SocketClass.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/main.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/methods/ClassMethod.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/methods/ContextMethod.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/methods/LambdaMethod.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/methods/LibraryMethod.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/methods/Method.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/methods/VisitorMethod.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/types/CallableType.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/types/NamedType.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/types/Type.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/types/Types.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lclang/utils.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/build.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/lclang/InterpreterTest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/lclang/libs/TestLibrary.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/arrayTest.lcat" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/tests/arrayTest.lcat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/boolOperationsTest.lcat" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/tests/boolOperationsTest.lcat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/classTest.lcat" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/tests/classTest.lcat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/containerTest.lcat" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/tests/containerTest.lcat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fibNumberTest.lcat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/mathOperationsTest.lcat" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/tests/mathOperationsTest.lcat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/methodsTest.lcat" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/tests/methodsTest.lcat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/stringMethodsTest.lcat" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/tests/stringMethodsTest.lcat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/stringOperationsTest.lcat" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/tests/stringOperationsTest.lcat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/variablesTest.lcat" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/tests/variablesTest.lcat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/whileTest.lcat" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/tests/whileTest.lcat" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+    <projectState path="$PROJECT_DIR$/main">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$/postvm">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Kotlin File" />
+        <option value="Kotlin Interface" />
+        <option value="Kotlin Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="ProjectId" id="1wV21LdiQUjI65cWetPMC4xtx8m" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lclang/tests" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.50491804" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\IdeaProjects\LittleCat\lclang\tests" />
+      <recent name="C:\IdeaProjects\LittleCat\main" />
+      <recent name="C:\IdeaProjects\LittleCat" />
+      <recent name="C:\IdeaProjects\LittleCat\libs" />
+      <recent name="C:\IdeaProjects\LittleCat\gradle" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\IdeaProjects\LittleCat\lclang" />
+      <recent name="C:\IdeaProjects\LittleCat\libs" />
+      <recent name="C:\IdeaProjects\LittleCat" />
+    </key>
+    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="postvm.stmt.expression" />
+      <recent name="postvm.methods" />
+      <recent name="lclang.lang" />
+      <recent name="lclang.libs.std.classes" />
+      <recent name="lclang.libs.std" />
+    </key>
+    <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="lclang.statements" />
+      <recent name="postvm.classes" />
+      <recent name="postvm.stmt.expressions" />
+      <recent name="postvm.stmt" />
+      <recent name="postvm.types" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Gradle.Build jar">
+    <configuration name="Build jar" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/main" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="appJar" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="Publish" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/main" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="publish" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="Run lclang tests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <selectedOptions>
+        <option name="environmentVariables" visible="false" />
+      </selectedOptions>
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="lclang:test -i" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>true</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="Run postvm tests" type="GradleRunConfiguration" factoryName="Gradle">
+      <selectedOptions>
+        <option name="environmentVariables" visible="false" />
+      </selectedOptions>
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="postvm:test -i" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>true</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="Tests" type="JUnit" factoryName="JUnit">
+      <module name="core" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="corretto-1.8" />
+      <option name="PACKAGE_NAME" value="lclang" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="app-0.1.1.jar" type="JarApplication" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/build/libs/app-0.1.1.jar" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Run CLI" type="JetRunConfigurationType" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="lclang.MainKt" />
+      <module name="lclang.lclang.main" />
+      <shortenClasspath name="NONE" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Run test file" type="JetRunConfigurationType">
+      <option name="MAIN_CLASS_NAME" value="lclang.MainKt" />
+      <module name="lclang.lclang.main" />
+      <option name="PROGRAM_PARAMETERS" value="C:\IdeaProjects\LittleCat\test.lcat http://localhost:3000/" />
+      <shortenClasspath name="NONE" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="LittleCat" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="LittleCat" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Gradle.Build jar" />
+      <item itemvalue="Gradle.Publish" />
+      <item itemvalue="Gradle.Run postvm tests" />
+      <item itemvalue="Gradle.Run lclang tests" />
+      <item itemvalue="JAR Application.app-0.1.1.jar" />
+      <item itemvalue="JUnit.Tests" />
+      <item itemvalue="Kotlin.Run test file" />
+      <item itemvalue="Kotlin.Run CLI" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.Run lclang tests" />
+        <item itemvalue="Kotlin.Run CLI" />
+        <item itemvalue="JAR Application.app-0.1.1.jar" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="eb2edc7a-653c-417d-86ce-2db3142e1174" name="Changes" comment="" />
+      <created>1628529223618</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1628529223618</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Last fix?">
+      <created>1632238443119</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1632238443119</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Last fix?">
+      <created>1632238667326</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1632238667326</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Last fix?">
+      <created>1632238858499</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1632238858499</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Last fix?">
+      <created>1632239296944</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1632239296944</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Last fix?">
+      <created>1632239656785</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1632239656785</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Last fix?">
+      <created>1632239858297</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1632239858297</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Last fix?">
+      <created>1632240087233</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1632240087233</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Last fix?">
+      <created>1632240151813</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1632240151813</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Last fix?">
+      <created>1632240260074</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1632240260074</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Last fix?">
+      <created>1632240370807</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1632240370807</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Last fix?">
+      <created>1632240527394</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1632240527394</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Last fix?">
+      <created>1632240792317</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1632240792317</updated>
+    </task>
+    <task id="LOCAL-00038" summary="Last fix?">
+      <created>1632241373755</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1632241373755</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Last fix?">
+      <created>1632241642261</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1632241642261</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Last fix?">
+      <created>1632241790551</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1632241790551</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Last fix?">
+      <created>1632241967950</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1632241967950</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Last fix?">
+      <created>1632242192964</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1632242192964</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Last fix?">
+      <created>1632242719230</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1632242719230</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Last fix?">
+      <created>1632243129654</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1632243129655</updated>
+    </task>
+    <task id="LOCAL-00045" summary="Last fix?">
+      <created>1632243242804</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1632243242804</updated>
+    </task>
+    <task id="LOCAL-00046" summary="Last fix?">
+      <created>1632243443116</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1632243443116</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Last fix?">
+      <created>1632243927114</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1632243927114</updated>
+    </task>
+    <task id="LOCAL-00048" summary="Last fix?">
+      <created>1632244032099</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1632244032099</updated>
+    </task>
+    <task id="LOCAL-00049" summary="Last fix?">
+      <created>1632244332638</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1632244332638</updated>
+    </task>
+    <task id="LOCAL-00050" summary="Last fix?">
+      <created>1632244450656</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1632244450658</updated>
+    </task>
+    <task id="LOCAL-00051" summary="Last fix?!">
+      <created>1632244617696</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1632244617696</updated>
+    </task>
+    <task id="LOCAL-00052" summary="Last fix?!!!!">
+      <created>1632244741727</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1632244741727</updated>
+    </task>
+    <task id="LOCAL-00053" summary="Yay">
+      <created>1632245130617</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1632245130617</updated>
+    </task>
+    <task id="LOCAL-00054" summary="Fix">
+      <created>1632292595248</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1632292595249</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Debian package autobuild">
+      <created>1632303480714</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1632303480714</updated>
+    </task>
+    <task id="LOCAL-00056" summary="Debian package autobuild">
+      <created>1632303802417</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1632303802418</updated>
+    </task>
+    <task id="LOCAL-00057" summary="Debian package autobuild">
+      <created>1632304105821</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1632304105821</updated>
+    </task>
+    <task id="LOCAL-00058" summary="Debian package autobuild">
+      <created>1632304443045</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1632304443045</updated>
+    </task>
+    <task id="LOCAL-00059" summary="Debian package autobuild">
+      <created>1632305033088</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1632305033088</updated>
+    </task>
+    <task id="LOCAL-00060" summary="Debian package autobuild">
+      <created>1632305271778</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1632305271778</updated>
+    </task>
+    <task id="LOCAL-00061" summary="Debian package autobuild">
+      <created>1632305668006</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1632305668006</updated>
+    </task>
+    <task id="LOCAL-00062" summary="Debian package autobuild">
+      <created>1632305884132</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1632305884132</updated>
+    </task>
+    <task id="LOCAL-00063" summary="Debian package autobuild">
+      <created>1632306163830</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1632306163830</updated>
+    </task>
+    <task id="LOCAL-00064" summary="Debian package autobuild">
+      <created>1632307127123</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1632307127123</updated>
+    </task>
+    <task id="LOCAL-00065" summary="Debian package autobuild">
+      <created>1632313215979</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1632313215980</updated>
+    </task>
+    <task id="LOCAL-00066" summary="Clean up">
+      <created>1632319950719</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1632319950719</updated>
+    </task>
+    <task id="LOCAL-00067" summary="Clean up">
+      <created>1632319987653</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1632319987653</updated>
+    </task>
+    <task id="LOCAL-00068" summary="Lexer fixes and new functions">
+      <created>1632414687804</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1632414687804</updated>
+    </task>
+    <task id="LOCAL-00069" summary="Lexer fixes">
+      <created>1632415066471</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1632415066471</updated>
+    </task>
+    <task id="LOCAL-00070" summary="config.yml">
+      <created>1632415421344</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1632415421344</updated>
+    </task>
+    <task id="LOCAL-00071" summary="0.1.2">
+      <created>1632937629983</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1632937629983</updated>
+    </task>
+    <task id="LOCAL-00072" summary="Fix">
+      <created>1633000940927</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1633000940927</updated>
+    </task>
+    <task id="LOCAL-00073" summary="Support universal charsets">
+      <created>1633008362162</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1633008362162</updated>
+    </task>
+    <task id="LOCAL-00074" summary="Discord">
+      <created>1633010206811</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1633010206812</updated>
+    </task>
+    <option name="localTasksCounter" value="75" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="cci" />
+    <MESSAGE value="ci" />
+    <MESSAGE value="Last fix?" />
+    <MESSAGE value="Last fix?!" />
+    <MESSAGE value="Last fix?!!!!" />
+    <MESSAGE value="Yay" />
+    <MESSAGE value="Debian package autobuild" />
+    <MESSAGE value="Clean up" />
+    <MESSAGE value="Lexer fixes and new functions" />
+    <MESSAGE value="Lexer fixes" />
+    <MESSAGE value="config.yml" />
+    <MESSAGE value="0.1.2" />
+    <MESSAGE value="Fix" />
+    <MESSAGE value="Support universal charsets" />
+    <MESSAGE value="Discord" />
+    <option name="LAST_COMMIT_MESSAGE" value="Discord" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/lclang/libs/reflection/ReflectionLibrary.kt</url>
+          <line>22</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/lclang/LCBaseExecutor.kt</url>
+          <line>305</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/core$Run_tests.ic" NAME="Run tests Coverage Results" MODIFIED="1628579542508" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="true" />
+  </component>
+</project>

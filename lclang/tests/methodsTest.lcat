@@ -1,0 +1,18 @@
+method test(): string = "test"
+
+alias = test
+println([test(), alias()].join(", "))
+
+method lambdaMethodCall(lambda: () -> string) {
+    println(lambda())
+}
+
+lambdaMethodCall(test)
+lambdaMethodCall(alias)
+lambdaMethodCall(-> : string "lambda")
+
+--OUTPUT--
+test, test
+test
+test
+lambda
