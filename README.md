@@ -17,13 +17,13 @@ Language abbreviation `lclang`. File extension - `lcat`.
 ## Install
 
 ### Windows
-Download the [latest release of EXE](https://github.com/lclang/LittleCat/releases/latest).
+Download the [latest release of EXE](https://ft.vitiacat.xyz/view/lclang).
 
 ### Debian (Ubuntu and others)
 ```
 apt update & apt install wget
-wget https://github.com/lclang/LittleCat/releases/download/0.1.2/debian.deb
-dpkg -i debian.deb
+wget https://ft.vitiacat.xyz/download.php?id=lcdeb -O lclang.deb
+dpkg -i lclang.deb
 ```
 
 ## Executing
