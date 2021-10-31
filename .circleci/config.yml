@@ -48,62 +48,62 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
       # run tests!
-      - run: gradle test
+      - run: gradle lclang:test
 
       - run:
           name: Save test results
           command: |
-            mkdir -p ~/test-results/junit/
-            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
+            mkdir -p ~/lclang/test-results/junit/
+            find . -type f -regex ".*/lclang/build/test-results/.*xml" -exec cp {} ~/lclang/test-results/junit/ \;
           when: always
 
       - store_test_results:
-          path: ~/test-results
+          path: ~/lclang/test-results
 
       - store_artifacts:
-          path: ~/test-results/junit
+          path: ~/lclang/test-results/junit
 
       - run:
           name: Artifacts
           command: |
-            gradle appJar
+            gradle lclang:appJar
 
       - run:
           name: NSIS
           command: |
             sudo apt-get install nsis
-            cp ./build/libs/app* ./lclang.jar
+            cp ./lclang/build/libs/app* ./lclang.jar
             makensis ./installer_configuration.nsi
 
-            cp ./*.exe ./build/libs/windows.exe
+            cp ./*.exe ./lclang/build/libs/windows.exe
 
       - run:
           name: Debian Package
           command: |
             sudo apt-get install dpkg debconf debhelper lintian hashdeep
 
-            mkdir lclang
-            mkdir -p lclang/DEBIAN
-            mkdir -p lclang/usr/bin
-            mkdir -p lclang/usr/share/lclang/bin
+            mkdir deb
+            mkdir -p deb/DEBIAN
+            mkdir -p deb/usr/bin
+            mkdir -p deb/usr/share/lclang/bin
 
-            cp debian.conf lclang/DEBIAN/control
-            cp LICENSE lclang/DEBIAN/copyright
-            cp -R libs lclang/usr/share/lclang/libs
-            cp build/libs/app* lclang/usr/share/lclang/bin/lclang.jar
-            cp lclang.sh lclang/usr/bin/lclang
-            md5deep -r lclang/usr > lclang/DEBIAN/md5sums
+            cp debian.conf deb/DEBIAN/control
+            cp LICENSE deb/DEBIAN/copyright
+            cp -R lclang/libs deb/usr/share/lclang/libs
+            cp lclang/build/libs/app* deb/usr/share/lclang/bin/lclang.jar
+            cp lclang.sh deb/usr/bin/lclang
+            md5deep -r deb/usr > deb/DEBIAN/md5sums
 
-            STAGING_DIR=$(readlink --canonicalize "./lclang")
+            STAGING_DIR=$(readlink --canonicalize "./deb")
 
             find "${STAGING_DIR}" -type d -exec chmod 0755 {} \;  #set directory attributes
             find "${STAGING_DIR}" -type f -exec chmod 0644 {} \;  #set data file attributes
             find "${STAGING_DIR}/usr/bin" -type f -exec chmod 0755 {} \;  #set executable attributes
 
-            fakeroot dpkg-deb --build lclang
-            cp ./*.deb ./build/libs/debian.deb
+            fakeroot dpkg-deb --build deb
+            cp ./*.deb ./lclang/build/libs/debian.deb
       - store_artifacts:
-          path: build/libs
+          path: lclang/build/libs
           destination: build
 
       - discord/status:
