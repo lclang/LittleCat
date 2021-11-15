@@ -73,6 +73,7 @@ jobs:
           command: |
             sudo apt-get install nsis
             cp ./lclang/build/libs/app* ./lclang.jar
+            cp -R lclang/libs libs
             makensis ./installer_configuration.nsi
 
             cp ./*.exe ./lclang/build/libs/windows.exe
