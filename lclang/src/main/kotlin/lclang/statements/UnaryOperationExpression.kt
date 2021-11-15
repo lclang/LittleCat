@@ -8,6 +8,7 @@ import lclang.exceptions.TypeErrorException
 import lclang.libs.lang.BoolClass
 import lclang.libs.lang.IntClass
 import lclang.libs.lang.NumberClass
+import lclang.statements.expressions.Expression
 
 class UnaryOperationExpression(
     val expression: Expression,

@@ -12,3 +12,4 @@ gradle-app.setting
 test.lcat
 gradle.properties
 
+/lclang/build/

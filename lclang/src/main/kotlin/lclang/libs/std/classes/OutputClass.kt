@@ -13,15 +13,6 @@ import java.io.PrintStream
 
 const val OUTPUT_CLASSNAME = "Output"
 class OutputClass(): LCClass(OUTPUT_CLASSNAME) {
-    override var constructor: Method? = constructor(listOf(CallableType(arrayOf(Types.INT)))) {
-        val method = it[0] as Method
-        OutputClass(object : OutputStream() {
-            override fun write(b: Int) {
-                method.call(this@constructor, listOf(IntClass(b).asValue()))
-            }
-        })
-    }
-
     constructor(output: OutputStream) : this() {
         val printer = PrintStream(output)
 
@@ -35,6 +26,17 @@ class OutputClass(): LCClass(OUTPUT_CLASSNAME) {
             val input = it[0] as InputClass
             while (input.scanner.hasNextLine())
                 printer.println(input.scanner.nextLine())
+        }
+    }
+
+    init {
+        constructor = constructor(listOf(CallableType(arrayOf(Types.INT)))) {
+            val method = it[0] as Method
+            OutputClass(object : OutputStream() {
+                override fun write(b: Int) {
+                    method.call(this@constructor, listOf(IntClass(b).asValue()))
+                }
+            })
         }
     }
 }

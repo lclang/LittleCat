@@ -1,19 +1,20 @@
 package lclang.libs.lang
 
 import lclang.constructor
-import lclang.methods.Method
 import lclang.types.Types
 
 class DoubleClass: NumberClass {
-    override var constructor: Method? = constructor(listOf(Types.ANY)) { list ->
-        DoubleClass(list[0].toString().toDouble())
-    }
-
     var double: Double = 0.0
     constructor(): super("double")
     constructor(double: Double): super("double", double) {
         this.double = double
 
+    }
+
+    init {
+        constructor = constructor(listOf(Types.ANY)) { list ->
+            DoubleClass(list[0].toString().toDouble())
+        }
     }
 
     override fun equals(other: Any?): Boolean {

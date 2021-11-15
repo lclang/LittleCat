@@ -69,7 +69,7 @@ fragment ESC: '\\' (["'\\/bnrt] | UNICODE);
 fragment UNICODE: 'u' HEX HEX HEX HEX;
 fragment HEX: [0-9A-f];
 /** FILE STRUCTURE **/
-file: use*              // Usages
+file:
       global*           // Globals
       (                 // Body:
         stmt        |       // Statements
@@ -90,7 +90,7 @@ type:
     );
 
 
-methodType: OPEN (type COMMA)* type? CLOSE LAMBDA_PREFIX returnType=type;
+methodType: OPEN (args=type COMMA)* args=type? CLOSE LAMBDA_PREFIX returnType=type;
 namedType: ID (TYPE_PREFIX namedType)?;
 
 expression:
@@ -169,5 +169,4 @@ attribute: AS_ATTR ID;
 method: attribute* METHOD ID OPEN (arg COMMA)* arg? CLOSE (COLON returnType=type)? (block|ASSIGN expression);
 
 //File expressions
-use: USE useGlobal=GLOBAL namedType FROM STRING SEMICOLON?;
 global: GLOBAL ID ASSIGN value SEMICOLON?;

@@ -1,14 +1,9 @@
 package lclang.libs.lang
 
 import lclang.*
-import lclang.methods.Method
 import lclang.types.Types
 
 class StringClass(): LCClass("string") {
-    override var constructor: Method? = constructor(listOf(Types.ANY)) { list ->
-        StringClass(list[0].toString())
-    }
-
     lateinit var string: String
 
     constructor(string: String): this() {
@@ -36,6 +31,12 @@ class StringClass(): LCClass("string") {
 
         globals["find"] = method(listOf(Types.CHAR), Types.INT) { args ->
             IntClass(string.indexOf(args[0].char().char))
+        }
+    }
+
+    init {
+        constructor = constructor(listOf(Types.ANY)) { list ->
+            StringClass(list[0].toString())
         }
     }
 

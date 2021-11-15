@@ -1,11 +1,16 @@
 plugins {
-    id 'java-library'
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.5.21'
     id 'antlr'
     id 'maven-publish'
-    id 'org.jetbrains.kotlin.jvm' version '1.5.21'
 }
 
-sourceSets.main.java.srcDirs 'src/main/gen'
+sourceSets {
+    main.java.srcDirs = []
+    main.java.srcDirs += 'src/main/java/'
+    main.java.srcDirs += 'src/main/gen/'
+    main.java.srcDirs += 'src/main/kotlin/'
+}
 
 group 'lclang'
 version '0.2'
@@ -23,6 +28,15 @@ dependencies {
 
     testImplementation(platform('org.junit:junit-bom:5.7.2'))
     testImplementation('org.junit.jupiter:junit-jupiter')
+}
+
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
 }
 
 configurations {

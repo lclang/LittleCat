@@ -3,15 +3,10 @@ package lclang.libs.lang
 import lclang.LCClass
 import lclang.constructor
 import lclang.method
-import lclang.methods.Method
 import lclang.types.Types
 
 class CharClass(): LCClass("char") {
     var char: Char = '!'
-
-    override var constructor: Method? = constructor { list ->
-        CharClass(list[0].toString().toCharArray().first())
-    }
 
     constructor(char: Char): this() {
         this.char = char
@@ -19,6 +14,12 @@ class CharClass(): LCClass("char") {
         globals["getValue"] = IntClass(char.code).asValue()
         globals["upper"] = method(listOf(), Types.CHAR) {
             CharClass(char.uppercaseChar())
+        }
+    }
+
+    init {
+        constructor = constructor { list ->
+            CharClass(list[0].toString().toCharArray().first())
         }
     }
 

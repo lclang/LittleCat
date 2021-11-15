@@ -12,28 +12,30 @@ class ClassStatement(
     column: Int
 ): Statement(line, column) {
     override fun visit(prevCaller: Caller, visitor: LCBaseExecutor): Value {
-        return object: LCClass(name, prevCaller.root) {
-//            override var constructor: Method? = constructor {
-//                val clazz = LCClass(name, caller.root)
-//                if(extends!=null) {
-//                    clazz.extends = caller.root.classes[extends] ?: throw ClassNotFoundException(
-//                        name,
-//                        caller
-//                    )
+        return object: LCClass(name, prevCaller.root.path) {
+//            init {
+//                constructor = constructor {
+//                    val clazz = LCClass(name, prevCaller.root.path)
+//                    if(extends!=null) {
+//                        clazz.extendsClass = prevCaller.root.classes[extends] ?: throw ClassNotFoundException(
+//                            name,
+//                            prevCaller
+//                        )
 //
-//                    clazz.accept(clazz.extends!!)
+//                        clazz.accept(clazz.extendsClass!!)
+//                    }
+//
+//                    clazz.executor.variables.putAll(executor.variables)
+//                    clazz.accept(prevCaller.root)
+//
+//                    for(method in fromClass.method())
+//                        clazz.globals[method.ID().text] = ClassMethod(clazz, method).asValue()
+//
+//                    for (stmt in fromClass.stmt()) clazz.compiler.visitStmt(stmt)
+//                        .visit(Caller(clazz, 0, 0), clazz.executor)
+//
+//                    return@VisitorMethod Value(clazzType, clazz)
 //                }
-//
-//                clazz.executor.variables.putAll(executor.variables)
-//                clazz.accept(caller.root)
-//
-//                for(method in fromClass.method())
-//                    clazz.globals[method.ID().text] = ClassMethod(clazz, method).asValue()
-//
-//                for (stmt in fromClass.stmt()) clazz.compiler.visitStmt(stmt)
-//                    .visit(Caller(clazz, 0, 0), clazz.executor)
-//
-//                return@VisitorMethod Value(clazzType, clazz)
 //            }
         }.asValue()
     }

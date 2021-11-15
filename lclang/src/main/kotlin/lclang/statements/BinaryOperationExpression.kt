@@ -5,6 +5,7 @@ import lclang.LCBaseExecutor
 import lclang.Value
 import lclang.exceptions.TypeErrorException
 import lclang.libs.lang.*
+import lclang.statements.expressions.Expression
 
 open class BinaryOperationExpression(
     val left: Expression,

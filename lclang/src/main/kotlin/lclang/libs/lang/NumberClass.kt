@@ -6,9 +6,8 @@ import lclang.types.Types
 import kotlin.math.pow
 
 open class NumberClass(name: String = "number", val number: Number = 0): LCClass(name) {
-    override var extends: LCClass? = if(name!="number") NumberClass() else null
-
     init {
+        extendsClass = if(name!="number") NumberClass() else null
         globals["toInt"] = method(returnType = Types.INT) { IntClass(number.toInt()) }
         globals["toDouble"] = method(returnType = Types.DOUBLE) { DoubleClass(number.toDouble()) }
         globals["toLong"] = method(returnType = Types.LONG) { LongClass(number.toLong()) }

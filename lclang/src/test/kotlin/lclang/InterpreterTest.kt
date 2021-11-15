@@ -55,10 +55,10 @@ class InterpreterTest {
 
                 val executeTime = endTime-startTime
 
-                println("All time: ${parseTime+executeTime+compileTime}ns")
-                println("Execute time: ${executeTime}ns")
-                println("Compile time: ${compileTime}ns")
-                println("Parse time: ${parseTime}ns")
+                println("All time: ${parseTime+executeTime+compileTime}ns / ${(parseTime+executeTime+compileTime)/1000000}ms")
+                println("Execute time: ${executeTime}ns / ${(executeTime)/1000000}ms")
+                println("Compile time: ${compileTime}ns / ${(compileTime)/1000000}ms")
+                println("Parse time: ${parseTime}ns/  ${(parseTime)/1000000}ms")
                 println()
                 println(output)
 

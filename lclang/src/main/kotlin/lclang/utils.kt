@@ -10,14 +10,6 @@ import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.ParserRuleContext
 import org.antlr.v4.runtime.Token
 
-val VOID_VALUE = Value(Types.VOID, null)
-fun Array<out Type>.isAccept(array: Array<out Type>): Int {
-    if(size!=array.size) return array.size-1
-    return indexOfFirst {
-        !it.isAccept(array[indexOf(it)])
-    }
-}
-
 fun ParserRuleContext.asCaller(root: LCRootExecutor) = Caller(root, start.line, stop.line)
 fun ParserRuleContext.asCaller(executor: LCBaseExecutor) = Caller(executor.root, start.line, stop.line)
 fun Token.asCaller(root: LCRootExecutor) = Caller(root, line, line)

@@ -1,107 +1,0 @@
-All time: 457016200ns
-Execute time: 347655300ns
-Compile time: 40373400ns
-Parse time: 68987500ns
-
-true
-true
-true
-1
-2
-3
-4
-
-All time: 85518700ns
-Execute time: 174100ns
-Compile time: 1230800ns
-Parse time: 84113800ns
-
-false
-true
-false
-true
-true
-false
-true
-false
-
-All time: 90382700ns
-Execute time: 67600ns
-Compile time: 74657800ns
-Parse time: 15657300ns
-
-Test string!
-
-All time: 581019700ns
-Execute time: 527590300ns
-Compile time: 28838900ns
-Parse time: 24590500ns
-
-6765
-
-All time: 1383700ns
-Execute time: 29600ns
-Compile time: 169100ns
-Parse time: 1185000ns
-
-Hello, World!
-
-All time: 14537400ns
-Execute time: 2597200ns
-Compile time: 386100ns
-Parse time: 11554100ns
-
-4
-0
-4
-1.0
-4.0
-6
-2
-
-
-All time: 8530900ns
-
-Execute time: 105600ns
-
-Compile time: 3589500ns
-
-Parse time: 4835800ns
-
-
-
-2
-
--1
-
-
-All time: 3434300ns
-Execute time: 180100ns
-Compile time: 236700ns
-Parse time: 3017500ns
-
-hihihihihi
-123456
-
-All time: 1452700ns
-Execute time: 23300ns
-Compile time: 262100ns
-Parse time: 1167300ns
-
-123
-
-All time: 28261300ns
-Execute time: 267200ns
-Compile time: 9717900ns
-Parse time: 18276200ns
-
-0
-1
-2
-3
-4
-3
-2
-1
-0
-

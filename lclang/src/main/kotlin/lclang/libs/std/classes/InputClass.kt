@@ -14,12 +14,6 @@ import java.util.*
 const val INPUT_CLASSNAME = "Input"
 class InputClass(): LCClass(INPUT_CLASSNAME) {
     lateinit var scanner: Scanner
-    override var constructor: Method? = constructor(listOf(CallableType(arrayOf(), Types.INT))) {
-        val method = it[0] as Method
-        InputClass(object : InputStream() {
-            override fun read(): Int = (method.call(this@constructor, listOf()) as IntClass).int
-        })
-    }
 
     constructor(input: InputStream) : this() {
         scanner = Scanner(input)
@@ -36,5 +30,14 @@ class InputClass(): LCClass(INPUT_CLASSNAME) {
         globals["readDouble"] = method(returnType = Types.DOUBLE) { DoubleClass(scanner.nextDouble()) }
         globals["read"] = method(returnType = Types.STRING) { StringClass(scanner.next()) }
         globals["close"] = void { scanner.close() }
+    }
+
+    init {
+        constructor = constructor(listOf(CallableType(arrayOf(), Types.INT))) {
+            val method = it[0] as Method
+            InputClass(object : InputStream() {
+                override fun read(): Int = (method.call(this@constructor, listOf()) as IntClass).int
+            })
+        }
     }
 }

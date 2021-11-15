@@ -11,7 +11,6 @@ object Global {
     val buildTime: Int
     val libraries = ArrayList<LCRootExecutor>()
     val javaLibraries = arrayListOf<Library>()
-    var classIndex = 0
 
     init {
         val prop = ResourceBundle.getBundle("build")

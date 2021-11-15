@@ -25,10 +25,10 @@ fun main(cliArgs: Array<String>) {
             for (file in files) {
                 if(file.name.endsWith(".jar"))
                     Global.javaLibraries.addAll(loadJarLibrary(file))
-//                else if(file.name.endsWith(".lcat"))
-//                    Global.libraries.add(LCRootExecutor(file.absolutePath.toString()).apply {
-//                        runInput(file.readText())
-//                    })
+                else if(file.name.endsWith(".lcat"))
+                    Global.libraries.add(LCRootExecutor(file.absolutePath.toString()).apply {
+                        runInput(file.readText())
+                    })
             }
         }
     }
