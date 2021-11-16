@@ -12,8 +12,8 @@ public class IfExpression extends Expression {
     public final Expression ifTrue;
     public final Expression ifFalse;
 
-    public IfExpression(Expression condition, Expression ifTrue, Expression ifFalse, int line, int column) {
-        super(line, column);
+    public IfExpression(Expression condition, Expression ifTrue, Expression ifFalse) {
+        super(0, 0);
         this.condition = condition;
         this.ifTrue = ifTrue;
         this.ifFalse = ifFalse;
@@ -21,12 +21,11 @@ public class IfExpression extends Expression {
 
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangException {
-        Caller caller = getCaller(prevCaller);
-        LCClass cond = condition.visit(caller, visitor).get.invoke(caller);
+        LCClass cond = condition.visit(prevCaller, visitor).get.invoke(prevCaller);
         if(!cond.equals(BoolClass.FALSE)){
-            return ifTrue.visit(caller, visitor);
+            return ifTrue.visit(prevCaller, visitor);
         }
 
-        return ifFalse.visit(caller, visitor);
+        return ifFalse.visit(prevCaller, visitor);
     }
 }

@@ -1,31 +1,37 @@
 package lclang.statements
 
 import lclang.Caller
+import lclang.LCRootExecutor
 import lclang.exceptions.ClassNotFoundException
 import lclang.types.CallableType
 import lclang.types.NamedType
 import lclang.types.Type
 import lclang.types.Types
 
-interface TypeStatement {
-    fun toType(caller: Caller): Type
+abstract class TypeStatement(val line: Int, val column: Int) {
+    abstract fun toType(root: LCRootExecutor): Type
+    fun getCaller(root: LCRootExecutor): Caller = Caller(root, line, column)
+
+    companion object {
+        val ANY = MagicTypeStatement(Types.ANY)
+        val VOID = MagicTypeStatement(Types.VOID)
+    }
 }
 
-class NamedTypeStatement(val name: String): TypeStatement {
-    override fun toType(caller: Caller): Type =
-        when(name) {
-            "any" -> Types.ANY
-            "void" -> Types.VOID
-            "callable" -> Types.CALLABLE
-            else -> NamedType(caller.root.classes[name]?: throw ClassNotFoundException(name, caller))
-        }
+class NamedTypeStatement(val name: String, line: Int, column: Int): TypeStatement(line, column) {
+    override fun toType(root: LCRootExecutor): NamedType = NamedType(root.classes[name]?:
+                throw ClassNotFoundException(name, getCaller(root)))
+}
+
+class MagicTypeStatement(val type: Type): TypeStatement(0, 0) {
+    override fun toType(root: LCRootExecutor): Type = type
 }
 
 class CallableTypeStatement(
     val args: Array<TypeStatement>,
-    val returnType: TypeStatement
-): TypeStatement {
-    override fun toType(caller: Caller): CallableType = CallableType(args.map {
-        it.toType(caller)
-    }.toTypedArray(), returnType.toType(caller))
+    val returnType: TypeStatement, line: Int, column: Int
+): TypeStatement(line, column) {
+    override fun toType(root: LCRootExecutor): CallableType = CallableType(args.map {
+        it.toType(root)
+    }.toTypedArray(), returnType.toType(root))
 }

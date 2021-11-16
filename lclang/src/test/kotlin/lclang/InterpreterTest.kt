@@ -58,7 +58,7 @@ class InterpreterTest {
                 println("All time: ${parseTime+executeTime+compileTime}ns / ${(parseTime+executeTime+compileTime)/1000000}ms")
                 println("Execute time: ${executeTime}ns / ${(executeTime)/1000000}ms")
                 println("Compile time: ${compileTime}ns / ${(compileTime)/1000000}ms")
-                println("Parse time: ${parseTime}ns/  ${(parseTime)/1000000}ms")
+                println("Parse time: ${parseTime}ns /  ${(parseTime)/1000000}ms")
                 println()
                 println(output)
 

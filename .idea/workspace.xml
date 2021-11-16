@@ -4,8 +4,51 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb2edc7a-653c-417d-86ce-2db3142e1174" name="Changes" comment="Kotlin -&gt; Java">
-      <change beforePath="$PROJECT_DIR$/.circleci/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.circleci/config.yml" afterDir="false" />
+    <list default="true" id="eb2edc7a-653c-417d-86ce-2db3142e1174" name="Changes" comment="NSIS Build Fix">
+      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclang.interp" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclang.interp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclang.tokens" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclang.tokens" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangBaseListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangBaseListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangBaseVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangBaseVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangLexer.interp" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangLexer.interp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangLexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangLexer.tokens" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangLexer.tokens" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/LCClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/LCClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/LCRootExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/LCRootExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/Value.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/Value.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/lclang.g4" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/lclang.g4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/BoolClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/BoolClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/methods/Method.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/methods/Method.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/methods/MethodImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/methods/MethodImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/BlockStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/BlockStatement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/IfStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/IfStatement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/WhileStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/WhileStatement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/ArrayExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/ArrayExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/AssignExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/AssignExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/CallExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/CallExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/ContainerExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/ContainerExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/IfExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/IfExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/LambdaExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/LambdaExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/ReturnExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/ReturnExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/ValueExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/ValueExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/types/Types.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/types/Types.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/kotlin/lclang/Global.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/kotlin/lclang/LCCompiler.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/kotlin/lclang/exceptions/LCLangException.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/kotlin/lclang/exceptions/LCLangException.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/kotlin/lclang/libs/reflection/ReflectionValue.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/kotlin/lclang/libs/reflection/ReflectionValue.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/kotlin/lclang/libs/std/StdLibrary.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/kotlin/lclang/libs/std/StdLibrary.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/kotlin/lclang/libs/std/classes/MathClass.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/kotlin/lclang/libs/std/classes/MathClass.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/kotlin/lclang/main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/kotlin/lclang/main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/kotlin/lclang/statements/BinaryOperationExpression.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/kotlin/lclang/statements/BinaryOperationExpression.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/kotlin/lclang/statements/ClassStatement.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/kotlin/lclang/statements/MethodStatement.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/kotlin/lclang/statements/types.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/kotlin/lclang/statements/types.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/kotlin/lclang/utils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/kotlin/lclang/utils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/test/kotlin/lclang/InterpreterTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/test/kotlin/lclang/InterpreterTest.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +113,6 @@
     <setting file="file://$PROJECT_DIR$/build.gradle" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/StopExpression.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/lclang/src/main/java/lclang/types/Types.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/lclang/src/main/kotlin/lclang/LCCompiler.kt" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/lclang/src/main/java/lclang/LCBaseExecutor.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/lclang/src/main/java/lclang/Value.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/lclang/src/test/kotlin/lclang/libs/TestLibrary.kt" root0="FORCE_HIGHLIGHTING" />
@@ -115,8 +157,8 @@
       <recent name="lclang.libs.std" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="lclang.libs.lang" />
       <recent name="lclang.statements" />
+      <recent name="lclang.libs.lang" />
       <recent name="lclang" />
       <recent name="lclang.types" />
       <recent name="lclang.methods" />
@@ -129,6 +171,7 @@
       <recent name="postvm.types" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="lclang" />
       <recent name="lclang.statements" />
       <recent name="lclang.utils" />
     </key>
@@ -246,6 +289,7 @@
       <module name="lclang.lclang.main" />
       <option name="PROGRAM_PARAMETERS" value="C:\IdeaProjects\LittleCat\test.lcat http://localhost:3000/" />
       <shortenClasspath name="NONE" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/lclang" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -289,13 +333,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1628529223618</updated>
-    </task>
-    <task id="LOCAL-00030" summary="Last fix?">
-      <created>1632239656785</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1632239656785</updated>
     </task>
     <task id="LOCAL-00031" summary="Last fix?">
       <created>1632239858297</created>
@@ -633,7 +670,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636988890601</updated>
     </task>
-    <option name="localTasksCounter" value="79" />
+    <task id="LOCAL-00079" summary="NSIS Build Fix">
+      <created>1636989112696</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1636989112696</updated>
+    </task>
+    <option name="localTasksCounter" value="80" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -666,7 +710,8 @@
     <MESSAGE value="Discord" />
     <MESSAGE value="Precompiler" />
     <MESSAGE value="Kotlin -&gt; Java" />
-    <option name="LAST_COMMIT_MESSAGE" value="Kotlin -&gt; Java" />
+    <MESSAGE value="NSIS Build Fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="NSIS Build Fix" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -681,21 +726,6 @@
           <url>file://$PROJECT_DIR$/src/main/kotlin/lclang/LCBaseExecutor.kt</url>
           <line>305</line>
           <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/lclang/src/main/kotlin/lclang/LCCompiler.kt</url>
-          <line>121</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/lclang/src/main/kotlin/lclang/LCCompiler.kt</url>
-          <line>123</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/lclang/src/main/kotlin/lclang/LCCompiler.kt</url>
-          <line>122</line>
-          <option name="timeStamp" value="14" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

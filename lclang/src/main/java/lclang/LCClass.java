@@ -65,7 +65,7 @@ public class LCClass extends LCRootExecutor {
                         .append(",");
             }
 
-            return "$name@class$classId: {" + parameters + "}";
+            return "$name@class"+classId+": {" + parameters + "}";
         }catch (Exception e){
             throw new RuntimeException(e);
         }

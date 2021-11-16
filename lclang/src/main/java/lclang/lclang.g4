@@ -85,12 +85,14 @@ file:
 type:
     nullable=NULLABLE?   // Nullable prefix
     (
+      magicType  |
       methodType |       // Lambda method type
       namedType          // Named type
     );
 
 
 methodType: OPEN (args=type COMMA)* args=type? CLOSE LAMBDA_PREFIX returnType=type;
+magicType: 'any'|'void'|'callable';
 namedType: ID (TYPE_PREFIX namedType)?;
 
 expression:
@@ -162,7 +164,7 @@ ifStmt: IF condition=expression COLON ifT=stmt (ELSE ifF=stmt)?;
 block: OPEN_BRACE stmt* CLOSE_BRACE;
 
 component: COMPONENT type OPEN_BRACE global* classExpr* CLOSE_BRACE;
-classExpr: CLASS name=ID (OPEN (arg COMMA)* arg? CLOSE)? (EXTENDS classExtends=ID)? (OPEN_BRACE (method|stmt)* CLOSE_BRACE)?;
+classExpr: CLASS name=ID (OPEN (arg COMMA)* arg? CLOSE)? (EXTENDS classExtends=namedType)? (OPEN_BRACE (method|stmt)* CLOSE_BRACE)?;
 
 arg: ID (COLON type)?;
 attribute: AS_ATTR ID;

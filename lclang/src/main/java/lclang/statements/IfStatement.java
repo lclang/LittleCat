@@ -13,8 +13,8 @@ public class IfStatement extends Statement {
     public final Statement ifTrue;
     public final Statement ifFalse;
 
-    public IfStatement(Expression condition, Statement ifTrue, Statement ifFalse, int line, int column) {
-        super(line, column);
+    public IfStatement(Expression condition, Statement ifTrue, Statement ifFalse) {
+        super(0, 0);
         this.condition = condition;
         this.ifTrue = ifTrue;
         this.ifFalse = ifFalse;
@@ -22,14 +22,13 @@ public class IfStatement extends Statement {
 
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangException {
-        Caller caller = getCaller(prevCaller);
-        LCClass cond = condition.visit(caller, visitor).get.invoke(caller);
+        LCClass cond = condition.visit(prevCaller, visitor).get.invoke(prevCaller);
         if(!cond.equals(BoolClass.FALSE)) {
-            return ifTrue.visit(caller, visitor);
+            return ifTrue.visit(prevCaller, visitor);
         }
 
         if(ifFalse!=null){
-            return ifFalse.visit(caller, visitor);
+            return ifFalse.visit(prevCaller, visitor);
         }
 
         return Value.VOID;

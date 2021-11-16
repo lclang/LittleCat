@@ -20,10 +20,11 @@ class MathClass : LCClass("math")  {
         }
 
         globals["abs"] = method(listOf(Types.DOUBLE), Types.DOUBLE) {
-            DoubleClass(abs(it[0].double().double)) }
+            DoubleClass(abs(it[0].double().double))
+        }
 
         globals["acos"] = method(listOf(Types.DOUBLE), Types.DOUBLE) {
-            DoubleClass(acos(it[0].double().double) )
+            DoubleClass(acos(it[0].double().double))
         }
 
         globals["asin"] = method(listOf(Types.DOUBLE), Types.DOUBLE) {

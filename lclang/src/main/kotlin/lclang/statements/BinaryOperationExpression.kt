@@ -90,7 +90,6 @@ open class BinaryOperationExpression(
     enum class Operation {
         ARRAY_ACCESS,
         IS,
-        ACCESS,
         OR,
         AND,
         EQUALS,
@@ -105,6 +104,5 @@ open class BinaryOperationExpression(
         MINUS,
         POW,
         NULLABLE_OR,
-        NOTHING
     }
 }

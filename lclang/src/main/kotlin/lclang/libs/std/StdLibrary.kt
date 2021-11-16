@@ -69,6 +69,7 @@ class StdLibrary: Library("std") {
         init {
             executor.variables["output"] = OutputClass(System.out).asValue()
             executor.variables["input"] = InputClass(System.`in`).asValue()
+            globals["classesCount"] = Value(Types.INT) { IntClass(classesCount) }
             globals["getProperty"] = method(listOf(Types.STRING), Types.STRING) {
                 StringClass(System.getProperty(it[0].string().string, ""))
             }

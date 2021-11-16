@@ -24,7 +24,7 @@ public abstract class Method extends LCClass{
         this.type = new CallableType(args, returnType);
     }
 
-    public abstract LCClass call(Caller caller, List<Value> args) throws LCLangException;
+    public abstract Value call(Caller caller, List<Value> args) throws LCLangException;
 
     @Override
     public Value asValue() {

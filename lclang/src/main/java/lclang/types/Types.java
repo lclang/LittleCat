@@ -1,5 +1,6 @@
 package lclang.types;
 
+import lclang.libs.lang.BoolClass;
 import org.jetbrains.annotations.NotNull;
 
 public class Types {
@@ -10,7 +11,7 @@ public class Types {
 
     public static MagicType INT = new MagicType("int");
     public static MagicType LONG = new MagicType("long");
-    public static MagicType BOOL = new MagicType("bool");
+    public static MagicType BOOL = BoolClass.getType();
     public static MagicType STRING = new MagicType("string");
     public static MagicType CHAR = new MagicType("char");
     public static MagicType ARRAY = new MagicType("array");

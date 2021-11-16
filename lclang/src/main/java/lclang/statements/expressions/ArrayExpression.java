@@ -9,27 +9,26 @@ import lclang.exceptions.TypeErrorException;
 import lclang.libs.lang.ArrayClass;
 import lclang.utils.ValueUtils;
 
-import java.util.List;
+import java.util.Arrays;
 
 public class ArrayExpression extends Expression {
-    public final List<Expression> array;
+    public final Expression[] array;
 
-    public ArrayExpression(List<Expression> array, int line, int column) {
-        super(line, column);
+    public ArrayExpression(Expression[] array) {
+        super(0, 0);
         this.array = array;
     }
 
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor executor) throws LCLangException {
-        Caller caller = getCaller(prevCaller);
-        ArrayClass arrayClass = new ArrayClass(ValueUtils.fromExpression(caller, executor, array));
+        ArrayClass arrayClass = new ArrayClass(ValueUtils.fromExpression(prevCaller, executor, Arrays.asList(array)));
 
         Value value = arrayClass.asValue();
         value.set = (setCaller, newValue) -> {
             LCClass valueClass = newValue.get.invoke(setCaller);
             if(valueClass instanceof ArrayClass) {
                 ArrayClass otherArray = (ArrayClass) valueClass;
-                for (int i = 0; i < array.size(); i++) {
+                for (int i = 0; i < array.length; i++) {
                     arrayClass.list.get(i).set
                             .invoke(setCaller, otherArray.get(i));
                 }

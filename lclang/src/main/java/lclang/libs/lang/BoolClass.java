@@ -1,17 +1,13 @@
 package lclang.libs.lang;
 
-import lclang.LCClass;
-
-public class BoolClass extends LCClass {
+public class BoolClass extends LibraryClass {
+    public static String name = "bool";
     public static final BoolClass TRUE = new BoolClass(true);
-    public static final BoolClass FALSE = new BoolClass();
-    public BoolClass() {
-        super("bool");
-    }
+    public static final BoolClass FALSE = new BoolClass(false);
 
     public boolean bool;
+    public BoolClass() {}
     public BoolClass(boolean bool) {
-        this();
         this.bool = bool;
     }
 

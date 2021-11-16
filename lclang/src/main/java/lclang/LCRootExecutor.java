@@ -27,7 +27,7 @@ public class LCRootExecutor {
             Caller caller = new Caller(this, statement.line, statement.column);
             Value value = statement.visit(caller, executor);
 
-            LCClass clazz = value.get.invoke(caller);
+            LCClass clazz = value.get.invoke(null);
             if(value.state!=Value.State.NOTHING)
                 return clazz;
         }

@@ -9,8 +9,8 @@ public class AssignExpression extends Expression {
     public final Expression left;
     public final Expression right;
 
-    public AssignExpression(Expression left, Expression right, int line, int column) {
-        super(line, column);
+    public AssignExpression(Expression left, Expression right) {
+        super(0, 0);
         this.left = left;
         this.right = right;
     }

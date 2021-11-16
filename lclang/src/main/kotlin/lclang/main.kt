@@ -27,7 +27,13 @@ fun main(cliArgs: Array<String>) {
                     Global.javaLibraries.addAll(loadJarLibrary(file))
                 else if(file.name.endsWith(".lcat"))
                     Global.libraries.add(LCRootExecutor(file.absolutePath.toString()).apply {
-                        runInput(file.readText())
+                        try {
+                            runInput(file.readText())
+                        } catch (e: LCLangException){
+                            println(ERROR_COLOR+e.message+RESET_COLOR)
+                        } catch (e: Exception){
+                            println(ERROR_COLOR+e::class.java.simpleName+": "+e.message+RESET_COLOR)
+                        }
                     })
             }
         }
@@ -62,6 +68,8 @@ fun main(cliArgs: Array<String>) {
                         file.runInput(code)
                     } catch (e: LCLangException){
                         println(ERROR_COLOR+e.message+RESET_COLOR)
+                    } catch (e: Exception){
+                        println(ERROR_COLOR+e::class.java.simpleName+": "+e.message+RESET_COLOR)
                     }
                 }
             }

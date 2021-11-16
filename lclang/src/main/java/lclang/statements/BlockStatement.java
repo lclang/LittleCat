@@ -8,14 +8,13 @@ import lclang.exceptions.LCLangException;
 public class BlockStatement extends Statement {
     public final Statement[] statements;
 
-    public BlockStatement(Statement[] statements, int line, int column) {
-        super(line, column);
+    public BlockStatement(Statement[] statements) {
+        super(0, 0);
         this.statements = statements;
     }
 
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangException {
-
         for(Statement stmt: statements) {
             Caller caller = stmt.getCaller(prevCaller);
             Value value = stmt.visit(caller, visitor);

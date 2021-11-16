@@ -8,8 +8,8 @@ import lclang.exceptions.LCLangException;
 public class ValueExpression extends Expression {
     public final Value value;
 
-    public ValueExpression(Value value, int line, int column) {
-        super(line, column);
+    public ValueExpression(Value value) {
+        super(0, 0);
         this.value = value;
     }
 

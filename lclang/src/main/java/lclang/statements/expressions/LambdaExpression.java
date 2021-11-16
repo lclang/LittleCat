@@ -30,9 +30,9 @@ public class LambdaExpression extends Expression {
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangException {
         Map<String, Type> argsResolved = new HashMap<>();
         for(Map.Entry<String, TypeStatement> arg: args.entrySet())
-            argsResolved.put(arg.getKey(), arg.getValue().toType(prevCaller));
+            argsResolved.put(arg.getKey(), arg.getValue().toType(prevCaller.root));
 
         return new MethodImpl(visitor, argsResolved,
-                returnType.toType(prevCaller), expression).asValue();
+                returnType.toType(prevCaller.root), expression).asValue();
     }
 }

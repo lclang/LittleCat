@@ -58,6 +58,10 @@ public class Value {
         this(type, caller -> value, state);
     }
 
+    public Value recreate(Caller caller) throws LCLangException {
+        return new Value(type, get.invoke(caller), State.NOTHING);
+    }
+
     public enum State {
         RETURN,
         STOP,

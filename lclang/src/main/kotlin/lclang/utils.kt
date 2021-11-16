@@ -25,25 +25,25 @@ fun LCClass?.bool(): BoolClass = cast()
 fun LCClass?.number(): Number = cast()
 
 inline fun LCRootExecutor.method(args: List<Type> = listOf(), returnType: Type,
-                               crossinline run: Caller.(List<LCClass?>) -> LCClass?): Value {
+                               crossinline run: Caller.(List<LCClass>) -> LCClass): Value {
     return object: Method(this@method, args.toTypedArray(), returnType){
-        override fun call(caller: Caller, args: List<Value>)= caller.run(args.map { it.get(caller) })
+        override fun call(caller: Caller, args: List<Value>) = caller.run(args.map { it.get(caller) }).asValue()
     }.asValue()
 }
 
-inline fun LCRootExecutor.void(vararg args: Type, crossinline run: Caller.(List<LCClass?>) -> Unit): Value {
+inline fun LCRootExecutor.void(vararg args: Type, crossinline run: Caller.(List<LCClass>) -> Unit): Value {
     return object: Method(this@void, args, Types.VOID){
-        override fun call(caller: Caller, args: List<Value>): LCClass? {
+        override fun call(caller: Caller, args: List<Value>): Value {
             caller.run(args.map { it.get(caller) })
-            return null
+            return NullClass.NULL.asValue()
         }
     }.asValue()
 }
 
 inline fun LCClass.constructor(args: List<Type> = listOf(),
-                       crossinline run: Caller.(List<LCClass?>) -> LCClass?): Method {
+                       crossinline run: Caller.(List<LCClass>) -> LCClass): Method {
     return object: Method(this@constructor, args.toTypedArray(), NamedType(this@constructor)){
-        override fun call(caller: Caller, args: List<Value>)= caller.run(args.map { it.get(caller) })
+        override fun call(caller: Caller, args: List<Value>) = caller.run(args.map { it.get(caller) }).asValue()
     }
 }
 

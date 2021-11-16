@@ -38,6 +38,16 @@ public interface lclangListener extends ParseTreeListener {
 	 */
 	void exitMethodType(lclangParser.MethodTypeContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link lclangParser#magicType}.
+	 * @param ctx the parse tree
+	 */
+	void enterMagicType(lclangParser.MagicTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link lclangParser#magicType}.
+	 * @param ctx the parse tree
+	 */
+	void exitMagicType(lclangParser.MagicTypeContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link lclangParser#namedType}.
 	 * @param ctx the parse tree
 	 */

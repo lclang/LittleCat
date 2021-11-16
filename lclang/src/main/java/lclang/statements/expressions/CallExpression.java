@@ -25,32 +25,34 @@ public class CallExpression extends Expression {
 
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangException {
-        Caller caller = getCaller(prevCaller);
-        Value value = expression.visit(caller, visitor);
+        Caller expressionCaller = expression.getCaller(prevCaller);
+        Value value = expression.visit(prevCaller, visitor);
         if(!(value.type instanceof CallableType))
-            throw new TypeErrorException("Value is not callable (it is "+value.type+")", caller);
+            throw new TypeErrorException("Value is not callable (it is "+value.type+")", expressionCaller);
 
         ArrayList<Type> argsTypes = new ArrayList<>();
         ArrayList<Value> args = new ArrayList<>();
         for(Expression argument: arguments) {
-            Value argumentValue = argument.visit(caller, visitor);
+            Value argumentValue = argument.visit(prevCaller, visitor);
             argsTypes.add(argumentValue.type);
 
             args.add(argumentValue);
         }
 
-        Method method = (Method) value.get.invoke(caller);
+        Method method = (Method) value.get.invoke(expressionCaller);
         if(method.args.length!=argsTypes.size()){
-            throw new TypeErrorException(method.args.length>argsTypes.size() ?
-                    "Invalid arguments: few arguments":
-                    "Invalid arguments: too many arguments", caller);
+            throw method.args.length>argsTypes.size() ?
+                    new TypeErrorException("Invalid arguments: few arguments",
+                            getCaller(prevCaller)):
+                    new TypeErrorException("Invalid arguments: too many arguments",
+                            arguments.get(method.args.length).getCaller(prevCaller));
         }
 
         int notAcceptArg = TypeUtils.isAccept(method.args, argsTypes.toArray(new Type[0]));
         if(notAcceptArg!=-1)
             throw new TypeErrorException("Invalid argument "+notAcceptArg+
-                    ": excepted "+method.args[notAcceptArg], arguments.get(notAcceptArg).getCaller(caller));
+                    ": excepted "+method.args[notAcceptArg], arguments.get(notAcceptArg).getCaller(prevCaller));
 
-        return new Value(method.returnType, method.call(caller, args), Value.State.NOTHING);
+        return method.call(getCaller(prevCaller), args);
     }
 }

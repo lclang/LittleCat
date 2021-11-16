@@ -2,7 +2,6 @@ package lclang.methods;
 
 import lclang.Caller;
 import lclang.LCBaseExecutor;
-import lclang.LCClass;
 import lclang.Value;
 import lclang.exceptions.LCLangException;
 import lclang.exceptions.TypeErrorException;
@@ -25,19 +24,19 @@ public class MethodImpl extends Method {
     }
 
     @Override
-    public LCClass call(Caller caller, List<Value> args) throws LCLangException {
+    public Value call(Caller caller, List<Value> args) throws LCLangException {
         LCBaseExecutor executor = new LCBaseExecutor(outExecutor);
 
         String[] keys = argsMap.keySet().toArray(new String[0]);
         for (int i = 0; i < argsMap.size(); i++) {
-            executor.variables.put(keys[i], args.get(i));
+            executor.variables.put(keys[i], args.get(i).recreate(caller));
         }
 
         Value value = statement.visit(caller, executor);
         if(!returnType.isAccept(value.type))
             throw new TypeErrorException("invalid type of return (excepted "+returnType+
-                    ", but returned "+value.type+")", caller);
+                    ", but returned "+value.type+")", statement.getCaller(caller));
 
-        return value.get.invoke(caller);
+        return value.recreate(caller);
     }
 }
