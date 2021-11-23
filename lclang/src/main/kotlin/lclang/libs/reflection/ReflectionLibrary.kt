@@ -16,15 +16,17 @@ class ReflectionLibrary: Library("refLib") {
     class ReflectionClass: LCClass("Reflection") {
         init {
             globals["getLink"] = method(listOf(Types.ANY, Types.STRING), Types.ANY) {
-                ReflectionValue(it[0]!!.executor.getLink(it[1].string().string))
+                ReflectionValue(it[0].executor.getLink(it[1].string().string))
             }
 
             globals["getVariables"] = method(listOf(Types.ANY), Types.ARRAY) {
-                ArrayClass(it[0]!!.executor.variables.values.toList())
+                ArrayClass(it[0].executor.variables.values.toList().map { value ->
+                    ReflectionValue(value)
+                })
             }
 
             globals["getLibraries"] = method(returnType = Types.ARRAY) {
-                ArrayClass(Global.javaLibraries.map { it.asValue() })
+                ArrayClass(Global.javaLibraries.map { it })
             }
         }
     }

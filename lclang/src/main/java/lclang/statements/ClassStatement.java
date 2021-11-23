@@ -51,7 +51,7 @@ public class ClassStatement {
 
             @Override
             public Value call(Caller caller, List<Value> args) throws LCLangException {
-                LCClass clazz = new LCClass(name, root.path);
+                LCClass clazz = new LCClass(ClassStatement.this.name, root.path);
                 if(extendsClass!=null) {
                     clazz.extendsClass = classExtends.toType(clazz).clazz;
                     clazz.accept(clazz.extendsClass);

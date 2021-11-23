@@ -29,8 +29,7 @@ public class ArrayExpression extends Expression {
             if(valueClass instanceof ArrayClass) {
                 ArrayClass otherArray = (ArrayClass) valueClass;
                 for (int i = 0; i < array.length; i++) {
-                    arrayClass.list.get(i).set
-                            .invoke(setCaller, otherArray.get(i));
+                    arrayClass.list.set(i, otherArray.get(i));
                 }
             }else throw new TypeErrorException("Value is not array", setCaller);
         };

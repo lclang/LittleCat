@@ -54,7 +54,6 @@ IF: 'if';
 IS: 'is';
 ELSE: 'else';
 
-NULL: 'null';
 BOOL: 'true'|'false';
 ID: [A-Za-z_]+;
 STRING: '"' (ESC| ~["\\])* '"';
@@ -140,7 +139,7 @@ primitive: (
                   container
            );
 
-value: HEX_LONG|BOOL|STRING|CHAR|DOUBLE|LONG|INTEGER|NULL;
+value: HEX_LONG|BOOL|STRING|CHAR|DOUBLE|LONG|INTEGER;
 parentnesesExpr: OPEN expression CLOSE;
 returnExpr: RETURN expression?;
 typeGet: MULTIPLICATION expression;

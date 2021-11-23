@@ -1,10 +1,11 @@
 package lclang.libs.lang;
 
-import lclang.LCClass;
-
-public class NullClass extends LCClass {
+public class NullClass extends LibraryClass {
     public static final NullClass NULL = new NullClass();
-    private NullClass() {
-        super("null");
+    public static String name = "null";
+
+    @Override
+    public String toString() {
+        return "null";
     }
 }

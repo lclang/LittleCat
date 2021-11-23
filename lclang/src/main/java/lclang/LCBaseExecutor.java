@@ -15,6 +15,7 @@ public class LCBaseExecutor {
 
     public LCBaseExecutor(LCBaseExecutor executor) {
         this(executor.root);
+        variables.putAll(executor.variables);
     }
 
     public Value getLink(String name) {

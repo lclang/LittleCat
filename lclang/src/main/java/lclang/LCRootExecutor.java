@@ -24,7 +24,7 @@ public class LCRootExecutor {
 
     public LCClass execute() throws LCLangException {
         for (Statement statement: statements) {
-            Caller caller = new Caller(this, statement.line, statement.column);
+            Caller caller = statement.getCaller(this);
             Value value = statement.visit(caller, executor);
 
             LCClass clazz = value.get.invoke(null);

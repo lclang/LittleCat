@@ -17,5 +17,6 @@ class LangLibrary: Library("lang") {
         classes["long"] = LongClass()
         classes["number"] = NumberClass()
         classes["string"] = StringClass()
+        classes["null"] = NullClass()
     }
 }

@@ -32,10 +32,12 @@ public class MethodImpl extends Method {
             executor.variables.put(keys[i], args.get(i).recreate(caller));
         }
 
-        Value value = statement.visit(caller, executor);
+        Value value = statement.visit(new Caller(outExecutor.root,
+                statement.line, statement.column), executor);
         if(!returnType.isAccept(value.type))
             throw new TypeErrorException("invalid type of return (excepted "+returnType+
-                    ", but returned "+value.type+")", statement.getCaller(caller));
+                    ", but returned "+value.type+")", new Caller(outExecutor.root,
+                    statement.line, statement.column));
 
         return value.recreate(caller);
     }

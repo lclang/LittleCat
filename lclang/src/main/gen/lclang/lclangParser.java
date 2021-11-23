@@ -24,9 +24,8 @@ public class lclangParser extends Parser {
 		COMMA=25, SEMICOLON=26, ASSIGN=27, OR=28, AND=29, NOT=30, LESS=31, LARGER=32, 
 		MULTIPLICATION=33, DIVISION=34, ADD=35, MINUS=36, COLON=37, DOT=38, AS_ATTR=39, 
 		GLOBAL=40, METHOD=41, USE=42, CLASS=43, FROM=44, EXTENDS=45, COMPONENT=46, 
-		STOP=47, RETURN=48, WHILE=49, IF=50, IS=51, ELSE=52, NULL=53, BOOL=54, 
-		ID=55, STRING=56, CHAR=57, HEX_LONG=58, LONG=59, DOUBLE=60, INTEGER=61, 
-		WS=62;
+		STOP=47, RETURN=48, WHILE=49, IF=50, IS=51, ELSE=52, BOOL=53, ID=54, STRING=55, 
+		CHAR=56, HEX_LONG=57, LONG=58, DOUBLE=59, INTEGER=60, WS=61;
 	public static final int
 		RULE_file = 0, RULE_type = 1, RULE_methodType = 2, RULE_magicType = 3, 
 		RULE_namedType = 4, RULE_expression = 5, RULE_primitive = 6, RULE_value = 7, 
@@ -54,7 +53,7 @@ public class lclangParser extends Parser {
 			"'='", "'|'", "'&'", "'!'", "'<'", "'>'", "'*'", "'/'", "'+'", "'-'", 
 			"':'", "'.'", "'@'", "'global'", "'method'", "'use'", "'class'", "'from'", 
 			"'extends'", "'component'", "'stop'", "'return'", "'while'", "'if'", 
-			"'is'", "'else'", "'null'"
+			"'is'", "'else'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -67,8 +66,8 @@ public class lclangParser extends Parser {
 			"ASSIGN", "OR", "AND", "NOT", "LESS", "LARGER", "MULTIPLICATION", "DIVISION", 
 			"ADD", "MINUS", "COLON", "DOT", "AS_ATTR", "GLOBAL", "METHOD", "USE", 
 			"CLASS", "FROM", "EXTENDS", "COMPONENT", "STOP", "RETURN", "WHILE", "IF", 
-			"IS", "ELSE", "NULL", "BOOL", "ID", "STRING", "CHAR", "HEX_LONG", "LONG", 
-			"DOUBLE", "INTEGER", "WS"
+			"IS", "ELSE", "BOOL", "ID", "STRING", "CHAR", "HEX_LONG", "LONG", "DOUBLE", 
+			"INTEGER", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -197,7 +196,7 @@ public class lclangParser extends Parser {
 			setState(68);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << OPEN) | (1L << OPEN_BRACE) | (1L << OPEN_BRACKET) | (1L << LAMBDA_PREFIX) | (1L << NOT) | (1L << MULTIPLICATION) | (1L << COLON) | (1L << AS_ATTR) | (1L << METHOD) | (1L << CLASS) | (1L << COMPONENT) | (1L << STOP) | (1L << RETURN) | (1L << WHILE) | (1L << IF) | (1L << NULL) | (1L << BOOL) | (1L << ID) | (1L << STRING) | (1L << CHAR) | (1L << HEX_LONG) | (1L << LONG) | (1L << DOUBLE) | (1L << INTEGER))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << OPEN) | (1L << OPEN_BRACE) | (1L << OPEN_BRACKET) | (1L << LAMBDA_PREFIX) | (1L << NOT) | (1L << MULTIPLICATION) | (1L << COLON) | (1L << AS_ATTR) | (1L << METHOD) | (1L << CLASS) | (1L << COMPONENT) | (1L << STOP) | (1L << RETURN) | (1L << WHILE) | (1L << IF) | (1L << BOOL) | (1L << ID) | (1L << STRING) | (1L << CHAR) | (1L << HEX_LONG) | (1L << LONG) | (1L << DOUBLE) | (1L << INTEGER))) != 0)) {
 				{
 				setState(66);
 				_errHandler.sync(this);
@@ -213,7 +212,6 @@ public class lclangParser extends Parser {
 				case RETURN:
 				case WHILE:
 				case IF:
-				case NULL:
 				case BOOL:
 				case ID:
 				case STRING:
@@ -681,7 +679,6 @@ public class lclangParser extends Parser {
 			case STOP:
 			case RETURN:
 			case IF:
-			case NULL:
 			case BOOL:
 			case ID:
 			case STRING:
@@ -1027,7 +1024,7 @@ public class lclangParser extends Parser {
 						setState(197);
 						_errHandler.sync(this);
 						_la = _input.LA(1);
-						if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << OPEN) | (1L << OPEN_BRACE) | (1L << OPEN_BRACKET) | (1L << LAMBDA_PREFIX) | (1L << NOT) | (1L << MULTIPLICATION) | (1L << COLON) | (1L << STOP) | (1L << RETURN) | (1L << IF) | (1L << NULL) | (1L << BOOL) | (1L << ID) | (1L << STRING) | (1L << CHAR) | (1L << HEX_LONG) | (1L << LONG) | (1L << DOUBLE) | (1L << INTEGER))) != 0)) {
+						if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << OPEN) | (1L << OPEN_BRACE) | (1L << OPEN_BRACKET) | (1L << LAMBDA_PREFIX) | (1L << NOT) | (1L << MULTIPLICATION) | (1L << COLON) | (1L << STOP) | (1L << RETURN) | (1L << IF) | (1L << BOOL) | (1L << ID) | (1L << STRING) | (1L << CHAR) | (1L << HEX_LONG) | (1L << LONG) | (1L << DOUBLE) | (1L << INTEGER))) != 0)) {
 							{
 							setState(196);
 							expression(0);
@@ -1158,7 +1155,6 @@ public class lclangParser extends Parser {
 				parentnesesExpr();
 				}
 				break;
-			case NULL:
 			case BOOL:
 			case STRING:
 			case CHAR:
@@ -1249,7 +1245,6 @@ public class lclangParser extends Parser {
 		public TerminalNode DOUBLE() { return getToken(lclangParser.DOUBLE, 0); }
 		public TerminalNode LONG() { return getToken(lclangParser.LONG, 0); }
 		public TerminalNode INTEGER() { return getToken(lclangParser.INTEGER, 0); }
-		public TerminalNode NULL() { return getToken(lclangParser.NULL, 0); }
 		public ValueContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1278,7 +1273,7 @@ public class lclangParser extends Parser {
 			{
 			setState(225);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << NULL) | (1L << BOOL) | (1L << STRING) | (1L << CHAR) | (1L << HEX_LONG) | (1L << LONG) | (1L << DOUBLE) | (1L << INTEGER))) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOL) | (1L << STRING) | (1L << CHAR) | (1L << HEX_LONG) | (1L << LONG) | (1L << DOUBLE) | (1L << INTEGER))) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -1514,7 +1509,7 @@ public class lclangParser extends Parser {
 			setState(248);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << OPEN) | (1L << OPEN_BRACE) | (1L << OPEN_BRACKET) | (1L << LAMBDA_PREFIX) | (1L << NOT) | (1L << MULTIPLICATION) | (1L << COLON) | (1L << STOP) | (1L << RETURN) | (1L << IF) | (1L << NULL) | (1L << BOOL) | (1L << ID) | (1L << STRING) | (1L << CHAR) | (1L << HEX_LONG) | (1L << LONG) | (1L << DOUBLE) | (1L << INTEGER))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << OPEN) | (1L << OPEN_BRACE) | (1L << OPEN_BRACKET) | (1L << LAMBDA_PREFIX) | (1L << NOT) | (1L << MULTIPLICATION) | (1L << COLON) | (1L << STOP) | (1L << RETURN) | (1L << IF) | (1L << BOOL) | (1L << ID) | (1L << STRING) | (1L << CHAR) | (1L << HEX_LONG) | (1L << LONG) | (1L << DOUBLE) | (1L << INTEGER))) != 0)) {
 				{
 				setState(247);
 				expression(0);
@@ -1777,7 +1772,7 @@ public class lclangParser extends Parser {
 			setState(282);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << OPEN) | (1L << OPEN_BRACE) | (1L << OPEN_BRACKET) | (1L << LAMBDA_PREFIX) | (1L << NOT) | (1L << MULTIPLICATION) | (1L << COLON) | (1L << STOP) | (1L << RETURN) | (1L << WHILE) | (1L << IF) | (1L << NULL) | (1L << BOOL) | (1L << ID) | (1L << STRING) | (1L << CHAR) | (1L << HEX_LONG) | (1L << LONG) | (1L << DOUBLE) | (1L << INTEGER))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << OPEN) | (1L << OPEN_BRACE) | (1L << OPEN_BRACKET) | (1L << LAMBDA_PREFIX) | (1L << NOT) | (1L << MULTIPLICATION) | (1L << COLON) | (1L << STOP) | (1L << RETURN) | (1L << WHILE) | (1L << IF) | (1L << BOOL) | (1L << ID) | (1L << STRING) | (1L << CHAR) | (1L << HEX_LONG) | (1L << LONG) | (1L << DOUBLE) | (1L << INTEGER))) != 0)) {
 				{
 				{
 				setState(279);
@@ -2184,7 +2179,7 @@ public class lclangParser extends Parser {
 			setState(324);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << OPEN) | (1L << OPEN_BRACE) | (1L << OPEN_BRACKET) | (1L << LAMBDA_PREFIX) | (1L << NOT) | (1L << MULTIPLICATION) | (1L << COLON) | (1L << STOP) | (1L << RETURN) | (1L << WHILE) | (1L << IF) | (1L << NULL) | (1L << BOOL) | (1L << ID) | (1L << STRING) | (1L << CHAR) | (1L << HEX_LONG) | (1L << LONG) | (1L << DOUBLE) | (1L << INTEGER))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << OPEN) | (1L << OPEN_BRACE) | (1L << OPEN_BRACKET) | (1L << LAMBDA_PREFIX) | (1L << NOT) | (1L << MULTIPLICATION) | (1L << COLON) | (1L << STOP) | (1L << RETURN) | (1L << WHILE) | (1L << IF) | (1L << BOOL) | (1L << ID) | (1L << STRING) | (1L << CHAR) | (1L << HEX_LONG) | (1L << LONG) | (1L << DOUBLE) | (1L << INTEGER))) != 0)) {
 				{
 				{
 				setState(321);
@@ -2432,7 +2427,7 @@ public class lclangParser extends Parser {
 				setState(372);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << OPEN) | (1L << OPEN_BRACE) | (1L << OPEN_BRACKET) | (1L << LAMBDA_PREFIX) | (1L << NOT) | (1L << MULTIPLICATION) | (1L << COLON) | (1L << AS_ATTR) | (1L << METHOD) | (1L << STOP) | (1L << RETURN) | (1L << WHILE) | (1L << IF) | (1L << NULL) | (1L << BOOL) | (1L << ID) | (1L << STRING) | (1L << CHAR) | (1L << HEX_LONG) | (1L << LONG) | (1L << DOUBLE) | (1L << INTEGER))) != 0)) {
+				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << OPEN) | (1L << OPEN_BRACE) | (1L << OPEN_BRACKET) | (1L << LAMBDA_PREFIX) | (1L << NOT) | (1L << MULTIPLICATION) | (1L << COLON) | (1L << AS_ATTR) | (1L << METHOD) | (1L << STOP) | (1L << RETURN) | (1L << WHILE) | (1L << IF) | (1L << BOOL) | (1L << ID) | (1L << STRING) | (1L << CHAR) | (1L << HEX_LONG) | (1L << LONG) | (1L << DOUBLE) | (1L << INTEGER))) != 0)) {
 					{
 					setState(370);
 					_errHandler.sync(this);
@@ -2455,7 +2450,6 @@ public class lclangParser extends Parser {
 					case RETURN:
 					case WHILE:
 					case IF:
-					case NULL:
 					case BOOL:
 					case ID:
 					case STRING:
@@ -2887,7 +2881,7 @@ public class lclangParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3@\u01aa\4\2\t\2\4"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3?\u01aa\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
@@ -2920,11 +2914,11 @@ public class lclangParser extends Parser {
 		"\34\3\34\7\34\u0191\n\34\f\34\16\34\u0194\13\34\3\34\5\34\u0197\n\34\3"+
 		"\34\3\34\3\34\5\34\u019c\n\34\3\34\3\34\3\34\5\34\u01a1\n\34\3\35\3\35"+
 		"\3\35\3\35\3\35\5\35\u01a8\n\35\3\35\2\3\f\36\2\4\6\b\n\f\16\20\22\24"+
-		"\26\30\32\34\36 \"$&(*,.\60\62\64\668\2\4\3\2\3\5\4\2\678:?\2\u01df\2"+
-		"=\3\2\2\2\4L\3\2\2\2\6S\3\2\2\2\bc\3\2\2\2\ne\3\2\2\2\fn\3\2\2\2\16\u00e1"+
-		"\3\2\2\2\20\u00e3\3\2\2\2\22\u00e5\3\2\2\2\24\u00e9\3\2\2\2\26\u00ed\3"+
-		"\2\2\2\30\u00f0\3\2\2\2\32\u00fe\3\2\2\2\34\u0100\3\2\2\2\36\u0102\3\2"+
-		"\2\2 \u0118\3\2\2\2\"\u0121\3\2\2\2$\u0128\3\2\2\2&\u0132\3\2\2\2(\u0134"+
+		"\26\30\32\34\36 \"$&(*,.\60\62\64\668\2\4\3\2\3\5\4\2\67\679>\2\u01df"+
+		"\2=\3\2\2\2\4L\3\2\2\2\6S\3\2\2\2\bc\3\2\2\2\ne\3\2\2\2\fn\3\2\2\2\16"+
+		"\u00e1\3\2\2\2\20\u00e3\3\2\2\2\22\u00e5\3\2\2\2\24\u00e9\3\2\2\2\26\u00ed"+
+		"\3\2\2\2\30\u00f0\3\2\2\2\32\u00fe\3\2\2\2\34\u0100\3\2\2\2\36\u0102\3"+
+		"\2\2\2 \u0118\3\2\2\2\"\u0121\3\2\2\2$\u0128\3\2\2\2&\u0132\3\2\2\2(\u0134"+
 		"\3\2\2\2*\u013a\3\2\2\2,\u0142\3\2\2\2.\u014b\3\2\2\2\60\u015c\3\2\2\2"+
 		"\62\u017c\3\2\2\2\64\u0181\3\2\2\2\66\u0187\3\2\2\28\u01a2\3\2\2\2:<\5"+
 		"8\35\2;:\3\2\2\2<?\3\2\2\2=;\3\2\2\2=>\3\2\2\2>F\3\2\2\2?=\3\2\2\2@E\5"+
@@ -2934,7 +2928,7 @@ public class lclangParser extends Parser {
 		"\2PR\5\n\6\2QN\3\2\2\2QO\3\2\2\2QP\3\2\2\2R\5\3\2\2\2SY\7\b\2\2TU\5\4"+
 		"\3\2UV\7\33\2\2VX\3\2\2\2WT\3\2\2\2X[\3\2\2\2YW\3\2\2\2YZ\3\2\2\2Z]\3"+
 		"\2\2\2[Y\3\2\2\2\\^\5\4\3\2]\\\3\2\2\2]^\3\2\2\2^_\3\2\2\2_`\7\t\2\2`"+
-		"a\7\31\2\2ab\5\4\3\2b\7\3\2\2\2cd\t\2\2\2d\t\3\2\2\2eh\79\2\2fg\7\32\2"+
+		"a\7\31\2\2ab\5\4\3\2b\7\3\2\2\2cd\t\2\2\2d\t\3\2\2\2eh\78\2\2fg\7\32\2"+
 		"\2gi\5\n\6\2hf\3\2\2\2hi\3\2\2\2i\13\3\2\2\2jk\b\7\1\2kl\7 \2\2lo\5\f"+
 		"\7\4mo\5\16\b\2nj\3\2\2\2nm\3\2\2\2o\u00d3\3\2\2\2pq\f\33\2\2qr\7\22\2"+
 		"\2r\u00d2\5\f\7\34st\f\32\2\2tu\7\21\2\2u\u00d2\5\f\7\33vw\f\31\2\2wx"+
@@ -2987,7 +2981,7 @@ public class lclangParser extends Parser {
 		"\u00f5\u00f8\3\2\2\2\u00f6\u00f4\3\2\2\2\u00f6\u00f7\3\2\2\2\u00f7\u00fa"+
 		"\3\2\2\2\u00f8\u00f6\3\2\2\2\u00f9\u00fb\5\f\7\2\u00fa\u00f9\3\2\2\2\u00fa"+
 		"\u00fb\3\2\2\2\u00fb\u00fc\3\2\2\2\u00fc\u00fd\7\r\2\2\u00fd\31\3\2\2"+
-		"\2\u00fe\u00ff\7\61\2\2\u00ff\33\3\2\2\2\u0100\u0101\79\2\2\u0101\35\3"+
+		"\2\u00fe\u00ff\7\61\2\2\u00ff\33\3\2\2\2\u0100\u0101\78\2\2\u0101\35\3"+
 		"\2\2\2\u0102\u0110\7\31\2\2\u0103\u0109\7\b\2\2\u0104\u0105\5\62\32\2"+
 		"\u0105\u0106\7\33\2\2\u0106\u0108\3\2\2\2\u0107\u0104\3\2\2\2\u0108\u010b"+
 		"\3\2\2\2\u0109\u0107\3\2\2\2\u0109\u010a\3\2\2\2\u010a\u010d\3\2\2\2\u010b"+
@@ -3017,7 +3011,7 @@ public class lclangParser extends Parser {
 		"\u0157\3\2\2\2\u0153\u0151\3\2\2\2\u0154\u0156\5\60\31\2\u0155\u0154\3"+
 		"\2\2\2\u0156\u0159\3\2\2\2\u0157\u0155\3\2\2\2\u0157\u0158\3\2\2\2\u0158"+
 		"\u015a\3\2\2\2\u0159\u0157\3\2\2\2\u015a\u015b\7\13\2\2\u015b/\3\2\2\2"+
-		"\u015c\u015d\7-\2\2\u015d\u016b\79\2\2\u015e\u0164\7\b\2\2\u015f\u0160"+
+		"\u015c\u015d\7-\2\2\u015d\u016b\78\2\2\u015e\u0164\7\b\2\2\u015f\u0160"+
 		"\5\62\32\2\u0160\u0161\7\33\2\2\u0161\u0163\3\2\2\2\u0162\u015f\3\2\2"+
 		"\2\u0163\u0166\3\2\2\2\u0164\u0162\3\2\2\2\u0164\u0165\3\2\2\2\u0165\u0168"+
 		"\3\2\2\2\u0166\u0164\3\2\2\2\u0167\u0169\5\62\32\2\u0168\u0167\3\2\2\2"+
@@ -3028,11 +3022,11 @@ public class lclangParser extends Parser {
 		"\u0172\3\2\2\2\u0174\u0173\3\2\2\2\u0175\u0178\3\2\2\2\u0176\u0174\3\2"+
 		"\2\2\u0176\u0177\3\2\2\2\u0177\u0179\3\2\2\2\u0178\u0176\3\2\2\2\u0179"+
 		"\u017b\7\13\2\2\u017a\u0171\3\2\2\2\u017a\u017b\3\2\2\2\u017b\61\3\2\2"+
-		"\2\u017c\u017f\79\2\2\u017d\u017e\7\'\2\2\u017e\u0180\5\4\3\2\u017f\u017d"+
+		"\2\u017c\u017f\78\2\2\u017d\u017e\7\'\2\2\u017e\u0180\5\4\3\2\u017f\u017d"+
 		"\3\2\2\2\u017f\u0180\3\2\2\2\u0180\63\3\2\2\2\u0181\u0182\7)\2\2\u0182"+
-		"\u0183\79\2\2\u0183\65\3\2\2\2\u0184\u0186\5\64\33\2\u0185\u0184\3\2\2"+
+		"\u0183\78\2\2\u0183\65\3\2\2\2\u0184\u0186\5\64\33\2\u0185\u0184\3\2\2"+
 		"\2\u0186\u0189\3\2\2\2\u0187\u0185\3\2\2\2\u0187\u0188\3\2\2\2\u0188\u018a"+
-		"\3\2\2\2\u0189\u0187\3\2\2\2\u018a\u018b\7+\2\2\u018b\u018c\79\2\2\u018c"+
+		"\3\2\2\2\u0189\u0187\3\2\2\2\u018a\u018b\7+\2\2\u018b\u018c\78\2\2\u018c"+
 		"\u0192\7\b\2\2\u018d\u018e\5\62\32\2\u018e\u018f\7\33\2\2\u018f\u0191"+
 		"\3\2\2\2\u0190\u018d\3\2\2\2\u0191\u0194\3\2\2\2\u0192\u0190\3\2\2\2\u0192"+
 		"\u0193\3\2\2\2\u0193\u0196\3\2\2\2\u0194\u0192\3\2\2\2\u0195\u0197\5\62"+
@@ -3040,7 +3034,7 @@ public class lclangParser extends Parser {
 		"\u019b\7\t\2\2\u0199\u019a\7\'\2\2\u019a\u019c\5\4\3\2\u019b\u0199\3\2"+
 		"\2\2\u019b\u019c\3\2\2\2\u019c\u01a0\3\2\2\2\u019d\u01a1\5,\27\2\u019e"+
 		"\u019f\7\35\2\2\u019f\u01a1\5\f\7\2\u01a0\u019d\3\2\2\2\u01a0\u019e\3"+
-		"\2\2\2\u01a1\67\3\2\2\2\u01a2\u01a3\7*\2\2\u01a3\u01a4\79\2\2\u01a4\u01a5"+
+		"\2\2\2\u01a1\67\3\2\2\2\u01a2\u01a3\7*\2\2\u01a3\u01a4\78\2\2\u01a4\u01a5"+
 		"\7\35\2\2\u01a5\u01a7\5\20\t\2\u01a6\u01a8\7\34\2\2\u01a7\u01a6\3\2\2"+
 		"\2\u01a7\u01a8\3\2\2\2\u01a89\3\2\2\2-=DFLQY]hn\u00c3\u00c7\u00d1\u00d3"+
 		"\u00e1\u00eb\u00f6\u00fa\u0109\u010d\u0110\u0114\u011c\u0130\u0132\u0138"+

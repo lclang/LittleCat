@@ -1,43 +1,44 @@
 package lclang.libs.lang
 
-import lclang.*
+import lclang.LCClass
+import lclang.method
 import lclang.methods.Method
 import lclang.types.CallableType
 import lclang.types.Types
+import lclang.void
 
 class ArrayClass() : LCClass("array") {
-    lateinit var list: MutableList<Value>
+    lateinit var list: MutableList<LCClass>
 
-    fun add(value: Value) = list.add(value)
-    operator fun get(index: Int) = list.getOrNull(index) ?: Value(Types.UNDEFINED, null)
-
-    constructor(l: List<Value>): this() {
+    fun add(clazz: LCClass) = list.add(clazz)
+    operator fun get(index: Int) = list.getOrNull(index) ?: NullClass.NULL
+    constructor(l: List<LCClass>): this() {
         list = l.toMutableList()
         globals["filter"] = method(listOf(CallableType(arrayOf(Types.ANY), Types.BOOL)), Types.ARRAY) {
             val filter = it[0] as Method
             ArrayClass(list.filter { value ->
-                filter.call(this, listOf(value)) == BoolClass.TRUE
+                filter.call(this, listOf(value.asValue())) == BoolClass.TRUE
             })
         }
 
         globals["forEach"] = void(CallableType(arrayOf(Types.ANY))) {
             val forEach = it[0] as Method
-            list.forEach { value -> forEach.call(this, listOf(value)) }
+            list.forEach { value -> forEach.call(this, listOf(value.asValue())) }
         }
 
         globals["join"] = method(listOf(Types.STRING), Types.ARRAY) {
-            StringClass(join(this, it[0].toString()))
+            StringClass(join(it[0].toString()))
         }
 
         globals["add"] = void(Types.ANY) {
-            add(it[0]!!.asValue())
+            add(it[0])
         }
 
         globals["size"] = void { IntClass(list.size) }
     }
 
-    fun join(caller: Caller, spectator: String) = list.joinToString(spectator) { it.get(caller).toString() }
-    override fun toString(): String = "[${join(Caller(this, 0, 0), ", ")}]"
+    fun join(spectator: String) = list.joinToString(spectator) { it.toString() }
+    override fun toString(): String = "[${join(", ")}]"
 
     operator fun plus(a: ArrayClass): ArrayClass {
         val list = ArrayClass(this.list)

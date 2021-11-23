@@ -11,11 +11,10 @@ method parseUrl(url: string): URL {
 }
 
 class URL(scheme  : string,
-            host  : string,
-            path  : string,
-            query : string,
-            hash  : string) {
-
+            host  : ?string,
+            path  : ?string,
+            query : ?string,
+            hash  : ?string) {
     method openConnection(): ?Connection {
         hostParts = []
         if host!=null: hostParts = host.split(':')

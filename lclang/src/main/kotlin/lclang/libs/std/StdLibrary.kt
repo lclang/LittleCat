@@ -53,12 +53,12 @@ class StdLibrary: Library("std") {
 
             if (!matcher.find()) return@method BoolClass.FALSE
 
-            val array = ArrayClass(listOf(StringClass(matcher.group(0)).asValue()))
+            val array = ArrayClass(listOf(StringClass(matcher.group(0))))
             for (i in 0 until matcher.groupCount()) {
                 val group = matcher.group(i+1)
                 array.add(if(group!=null)
-                    StringClass(group).asValue()
-                else Value(Types.UNDEFINED, null))
+                    StringClass(group)
+                else NullClass.NULL)
             }
 
             return@method array

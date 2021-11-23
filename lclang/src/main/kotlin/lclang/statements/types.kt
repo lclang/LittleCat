@@ -9,6 +9,8 @@ import lclang.types.Type
 import lclang.types.Types
 
 abstract class TypeStatement(val line: Int, val column: Int) {
+    var nullable = false
+
     abstract fun toType(root: LCRootExecutor): Type
     fun getCaller(root: LCRootExecutor): Caller = Caller(root, line, column)
 
@@ -20,7 +22,9 @@ abstract class TypeStatement(val line: Int, val column: Int) {
 
 class NamedTypeStatement(val name: String, line: Int, column: Int): TypeStatement(line, column) {
     override fun toType(root: LCRootExecutor): NamedType = NamedType(root.classes[name]?:
-                throw ClassNotFoundException(name, getCaller(root)))
+                throw ClassNotFoundException(name, getCaller(root))).apply {
+        nullable = this@NamedTypeStatement.nullable
+    }
 }
 
 class MagicTypeStatement(val type: Type): TypeStatement(0, 0) {
@@ -33,5 +37,7 @@ class CallableTypeStatement(
 ): TypeStatement(line, column) {
     override fun toType(root: LCRootExecutor): CallableType = CallableType(args.map {
         it.toType(root)
-    }.toTypedArray(), returnType.toType(root))
+    }.toTypedArray(), returnType.toType(root)).apply {
+        nullable = this@CallableTypeStatement.nullable
+    }
 }

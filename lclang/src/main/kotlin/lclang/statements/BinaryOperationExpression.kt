@@ -70,7 +70,7 @@ open class BinaryOperationExpression(
             Operation.ARRAY_ACCESS -> {
                 return if(left is ArrayClass) {
                     if (right is IntClass)
-                        left[right.int]
+                        left[right.int].asValue()
                     else throw TypeErrorException("invalid index: excepted int", caller)
                 }else if(left is Map<*, *>){
                     left[right] as Value
@@ -89,7 +89,6 @@ open class BinaryOperationExpression(
 
     enum class Operation {
         ARRAY_ACCESS,
-        IS,
         OR,
         AND,
         EQUALS,

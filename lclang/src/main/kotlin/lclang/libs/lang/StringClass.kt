@@ -12,12 +12,12 @@ class StringClass(): LCClass("string") {
         globals["length"] = IntClass(string.length).asValue()
         globals["charAt"] = method(listOf(Types.INT), Types.CHAR) { CharClass(string[it[0].int().int]) }
         globals["toArray"] = method(listOf(), Types.ARRAY) {
-            ArrayClass(string.map { CharClass(it).asValue() })
+            ArrayClass(string.map { CharClass(it) })
         }
 
         globals["split"] = method(listOf(Types.CHAR), Types.ARRAY) { args ->
             ArrayClass(string.split(args[0].char().char).map {
-                StringClass(it).asValue()
+                StringClass(it)
             })
         }
 

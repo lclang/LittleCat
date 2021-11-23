@@ -1,17 +1,19 @@
 package lclang;
 
 import lclang.exceptions.LCLangException;
+import lclang.libs.lang.NullClass;
 import lclang.types.Type;
 import lclang.types.Types;
 import lclang.utils.Function;
 import lclang.utils.Method2;
+import org.jetbrains.annotations.NotNull;
 
 public class Value {
     public final Type type;
     public final Function<Caller, LCClass> get;
     public Method2<Caller, Value> set;
     public State state;
-    public static Value VOID = new Value(Types.VOID, (LCClass) null, State.NOTHING);
+    public static Value VOID = new Value(Types.VOID, State.NOTHING);
 
     public Value(
             Type type,
@@ -40,6 +42,13 @@ public class Value {
 
     public Value(
             Type type,
+            State state
+    ) {
+        this(type, caller -> NullClass.NULL, state);
+    }
+
+    public Value(
+            Type type,
             Function<Caller, LCClass> get
     ) {
         this(type, get, (caller, value) -> {
@@ -52,7 +61,7 @@ public class Value {
 
     public Value(
             Type type,
-            LCClass value,
+            @NotNull LCClass value,
             State state
     ) {
         this(type, caller -> value, state);

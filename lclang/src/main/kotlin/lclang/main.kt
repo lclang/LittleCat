@@ -97,7 +97,7 @@ fun main(cliArgs: Array<String>) {
 
     try {
         val executor = LCRootExecutor(executeFile.absolutePath.toString())
-        executor.executor.variables["args"] = ArrayClass(args.map { StringClass(it).asValue() }).asValue()
+        executor.executor.variables["args"] = ArrayClass(args.map { StringClass(it) }).asValue()
         executor.runInput(executeFile.readText(Charset.forName(UniversalDetector.detectCharset(executeFile))))
     } catch (e: LCLangException){
         println(ERROR_COLOR+e.message+RESET_COLOR)

@@ -72,8 +72,6 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
                 lcClass = new LongClass(Long.parseLong(text));
             else if (ctx.HEX_LONG() != null)
                 lcClass = new LongClass(Long.parseLong(text, 16));
-            else if (ctx.NULL() != null)
-                lcClass = NullClass.NULL;
             else if (ctx.BOOL() != null)
                 lcClass = text.length() == 4 ? BoolClass.TRUE : BoolClass.FALSE;
 
@@ -190,6 +188,11 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
                     ctx.getStart().getLine(),
                     ctx.getStop().getLine()
             );
+        }else if(ctx.is!=null) {
+            return new IsExpression(
+                    expressions.get(0),
+                    getType(ctx.type())
+            );
         }else if(expressions.size()==1){
             UnaryOperationExpression.Operation operation = null;
             if(ctx.unaryPlus!=null)
@@ -210,9 +213,7 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
         }
 
         BinaryOperationExpression.Operation operation = null;
-        if(ctx.is!=null)
-            operation = BinaryOperationExpression.Operation.IS;
-        else if(ctx.add!=null)
+        if(ctx.add!=null)
             operation = BinaryOperationExpression.Operation.ADD;
         else if(ctx.minus!=null)
             operation = BinaryOperationExpression.Operation.MINUS;
@@ -298,6 +299,8 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
     }
 
     public void fillFile(LCRootExecutor root, lclangParser.FileContext ctx){
+        root.globals.put("null", NullClass.NULL.asValue());
+
         ArrayList<LCRootExecutor> libraries = new ArrayList<>();
         libraries.addAll(Global.libraries);
         libraries.addAll(Global.javaLibraries);
@@ -371,12 +374,16 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
     public TypeStatement getType(lclangParser.TypeContext ctx) {
         lclangParser.MethodTypeContext typeContext = ctx.methodType();
         lclangParser.MagicTypeContext magicTypeContext = ctx.magicType();
-        if(typeContext!=null)
-            return getMethodType(typeContext);
-        else if(magicTypeContext!=null)
-            return getMagicType(magicTypeContext);
 
-        return getNamedType(ctx.namedType());
+        TypeStatement type;
+        if(typeContext!=null)
+            type = getMethodType(typeContext);
+        else if(magicTypeContext!=null)
+            type = getMagicType(magicTypeContext);
+        else type = getNamedType(ctx.namedType());
+
+        type.setNullable(ctx.nullable!=null);
+        return type;
     }
 
     private NamedTypeStatement getNamedType(lclangParser.NamedTypeContext namedTypeContext) {

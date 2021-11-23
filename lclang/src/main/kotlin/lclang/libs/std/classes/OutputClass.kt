@@ -19,7 +19,7 @@ class OutputClass(): LCClass(OUTPUT_CLASSNAME) {
         globals["println"] = void(Types.ANY) { printer.println(it[0]) }
         globals["print"] = void(Types.ANY) { printer.print(it[0]) }
         globals["printf"] = void(Types.ANY, Types.ARRAY) { list -> printer.printf(list[0].toString(),
-            * (list[1] as ArrayClass).list.map { it.get(this) }.toTypedArray())}
+            * (list[1] as ArrayClass).list.toTypedArray())}
         globals["flush"] = void { printer.flush() }
         globals["close"] = void { printer.close() }
         globals["accept"] = void(Types.MagicType(INPUT_CLASSNAME)) {

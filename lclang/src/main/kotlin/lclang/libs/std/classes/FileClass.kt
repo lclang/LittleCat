@@ -18,13 +18,13 @@ class FileClass(): LCClass(FILE_CLASSNAME) {
         globals["absolutePath"] = StringClass(file.absolutePath).asValue()
         globals["canonicalPath"] = StringClass(file.canonicalPath).asValue()
         globals["exists"] = Value(Types.BOOL) { BoolClass(file.exists()) }
-        globals["isDirectory"] = Value(Types.BOOL, { BoolClass(file.isDirectory) })
-        globals["isFile"] = Value(Types.BOOL, { BoolClass(file.isFile) })
-        globals["files"] = Value(Types.ARRAY, {
+        globals["isDirectory"] = Value(Types.BOOL) { BoolClass(file.isDirectory) }
+        globals["isFile"] = Value(Types.BOOL) { BoolClass(file.isFile) }
+        globals["files"] = Value(Types.ARRAY) {
             ArrayClass(file.listFiles()?.map {
-                FileClass(it).asValue()
-            }?: listOf())
-        })
+                FileClass(it)
+            } ?: listOf())
+        }
 
         globals["openInput"] = method (returnType = Types.MagicType(INPUT_CLASSNAME)) {
             InputClass(file.inputStream() )

@@ -1,6 +1,7 @@
 package lclang.types;
 
 import lclang.libs.lang.BoolClass;
+import lclang.libs.lang.NullClass;
 import org.jetbrains.annotations.NotNull;
 
 public class Types {
@@ -8,6 +9,7 @@ public class Types {
     public static MagicType ANY = new MagicType("any");
     public static MagicType CALLABLE = new MagicType("callable");
     public static MagicType UNDEFINED = new MagicType("undefined");
+    public static MagicType NULL = NullClass.getType();
 
     public static MagicType INT = new MagicType("int");
     public static MagicType LONG = new MagicType("long");
