@@ -19,7 +19,7 @@ public abstract class Type implements Cloneable {
                 Objects.equals(another.text, text)
         ) return true;
 
-        if(another.equals(Types.NULL))
+        if(another.isAccept(Types.NULL))
             return nullable;
 
         return isAcceptWithoutNullable(another) && (nullable || !another.nullable);

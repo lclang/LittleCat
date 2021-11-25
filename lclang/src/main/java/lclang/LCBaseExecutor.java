@@ -1,5 +1,6 @@
 package lclang;
 
+import lclang.exceptions.LCLangException;
 import lclang.exceptions.VariableNotFoundException;
 import lclang.types.Types;
 
@@ -13,20 +14,22 @@ public class LCBaseExecutor {
         this.root = root;
     }
 
-    public LCBaseExecutor(LCBaseExecutor executor) {
+    public LCBaseExecutor(LCBaseExecutor executor, boolean importVariables) {
         this(executor.root);
-        variables.putAll(executor.variables);
+        if(importVariables) variables.putAll(executor.variables);
     }
 
-    public Value getLink(String name) {
+    public Value getLink(Caller c, String name) throws LCLangException {
         Value value = new Value(Types.UNDEFINED, caller -> {
             throw new VariableNotFoundException(name, caller);
         }, Value.State.NOTHING);
 
         if(variables.containsKey(name))
             value = variables.get(name);
-        else if(root.globals.containsKey(name))
-            value = root.globals.get(name);
+        else {
+            Value link = root.getLink(c, name);
+            if(link!=null) value = link;
+        }
 
         value.set = (caller, newValue) -> variables.put(name, newValue);
 

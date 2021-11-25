@@ -12,8 +12,7 @@ open class BinaryOperationExpression(
     val right: Expression,
     val operation: Operation,
     line: Int,
-    column: Int
-): Expression(line, column) {
+): Expression(line) {
     override fun visit(prevCaller: Caller, visitor: LCBaseExecutor): Value {
         val caller = getCaller(prevCaller)
         val rightValue = right.visit(caller, visitor)
@@ -42,31 +41,31 @@ open class BinaryOperationExpression(
 
         if(left is StringClass || right is StringClass){
             when {
-                operation== Operation.ADD -> return StringClass(left.toString()+right).asValue()
+                operation== Operation.ADD -> return StringClass.get(left.toString(caller)+right).asValue()
                 operation== Operation.MULTIPLICATION &&right is IntClass ||left is IntClass ->
-                    return StringClass(if(right is IntClass)
-                        left.toString().repeat(right.int)
-                    else right.toString().repeat((left as IntClass).int)).asValue()
+                    return StringClass.get(if(right is IntClass)
+                        left.toString(caller).repeat(right.int)
+                    else right.toString(caller).repeat((left as IntClass).int)).asValue()
             }
         }
 
         if(right is ArrayClass &&left is ArrayClass){
             when(operation) {
-                Operation.ADD -> return left.plus(right).asValue()
+                Operation.ADD -> return left.merge(right).asValue()
                 else -> Unit
             }
         }
 
         if(right is BoolClass &&left is BoolClass){
             when (operation) {
-                Operation.OR -> return BoolClass(left.bool||right.bool).asValue()
-                Operation.AND -> return BoolClass(left.bool&&right.bool).asValue()
+                Operation.OR -> return BoolClass.get(left.bool||right.bool).asValue()
+                Operation.AND -> return BoolClass.get(left.bool&&right.bool).asValue()
                 else -> Unit
             }
         }
 
         return when (operation) {
-            Operation.NULLABLE_OR -> if(left==null) rightValue else leftValue
+            Operation.NULLABLE_OR -> if(left==NullClass.NULL) rightValue else leftValue
             Operation.ARRAY_ACCESS -> {
                 return if(left is ArrayClass) {
                     if (right is IntClass)
@@ -77,8 +76,8 @@ open class BinaryOperationExpression(
                 }else throw TypeErrorException("excepted array or map", caller)
             }
 
-            Operation.EQUALS -> BoolClass(left == right).asValue()
-            Operation.NOT_EQUALS -> BoolClass(left != right).asValue()
+            Operation.EQUALS -> BoolClass.get(left == right).asValue()
+            Operation.NOT_EQUALS -> BoolClass.get(left != right).asValue()
 
             else -> {
                 throw TypeErrorException("Unsupported operand types: $leftType " +

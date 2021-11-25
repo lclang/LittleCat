@@ -12,8 +12,8 @@ public class AccessExpression extends Expression {
     public final Expression expression;
     public final VariableExpression variable;
 
-    public AccessExpression(Expression expression, VariableExpression variable, int line, int column) {
-        super(line, column);
+    public AccessExpression(Expression expression, VariableExpression variable, int line) {
+        super(line);
         this.expression = expression;
         this.variable = variable;
     }
@@ -22,7 +22,7 @@ public class AccessExpression extends Expression {
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangException {
         Caller caller = getCaller(prevCaller);
         LCClass value = expression.visit(caller, visitor).get.invoke(caller);
-        if(value==NullClass.NULL) throw new LCLangNullPointerException(expression, caller);
+        if(value==NullClass.NULL) throw new LCLangNullPointerException(caller);
 
         return variable.visit(caller, value.executor);
     }

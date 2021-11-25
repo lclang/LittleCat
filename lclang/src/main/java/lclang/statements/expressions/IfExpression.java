@@ -13,7 +13,7 @@ public class IfExpression extends Expression {
     public final Expression ifFalse;
 
     public IfExpression(Expression condition, Expression ifTrue, Expression ifFalse) {
-        super(0, 0);
+        super(0);
         this.condition = condition;
         this.ifTrue = ifTrue;
         this.ifFalse = ifFalse;

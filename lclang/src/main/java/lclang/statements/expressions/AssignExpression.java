@@ -10,18 +10,17 @@ public class AssignExpression extends Expression {
     public final Expression right;
 
     public AssignExpression(Expression left, Expression right) {
-        super(0, 0);
+        super(0);
         this.left = left;
         this.right = right;
     }
 
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangException {
-        Caller caller = getCaller(prevCaller);
-        Value settableValue = left.visit(caller, visitor);
-        Value value = right.visit(caller, visitor);
+        Value settableValue = left.visit(prevCaller, visitor);
+        Value value = right.visit(prevCaller, visitor);
 
-        settableValue.set.invoke(caller, value);
+        settableValue.set.invoke(prevCaller, value);
         return value;
     }
 }

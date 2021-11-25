@@ -7,13 +7,6 @@ import lclang.types.Type
 import lclang.types.Types
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
-import org.antlr.v4.runtime.ParserRuleContext
-import org.antlr.v4.runtime.Token
-
-fun ParserRuleContext.asCaller(root: LCRootExecutor) = Caller(root, start.line, stop.line)
-fun ParserRuleContext.asCaller(executor: LCBaseExecutor) = Caller(executor.root, start.line, stop.line)
-fun Token.asCaller(root: LCRootExecutor) = Caller(root, line, line)
-fun Token.asCaller(executor: LCBaseExecutor) = Caller(executor.root, line, line)
 
 inline fun <reified T: Any> Any?.cast(): T = this as T
 fun LCClass?.char(): CharClass = cast()
@@ -26,23 +19,23 @@ fun LCClass?.number(): Number = cast()
 
 inline fun LCRootExecutor.method(args: List<Type> = listOf(), returnType: Type,
                                crossinline run: Caller.(List<LCClass>) -> LCClass): Value {
-    return object: Method(this@method, args.toTypedArray(), returnType){
+    return object: Method(this@method, args, returnType){
         override fun call(caller: Caller, args: List<Value>) = caller.run(args.map { it.get(caller) }).asValue()
     }.asValue()
 }
 
 inline fun LCRootExecutor.void(vararg args: Type, crossinline run: Caller.(List<LCClass>) -> Unit): Value {
-    return object: Method(this@void, args, Types.VOID){
+    return object: Method(this@void, args.asList(), Types.VOID){
         override fun call(caller: Caller, args: List<Value>): Value {
             caller.run(args.map { it.get(caller) })
-            return NullClass.NULL.asValue()
+            return Value.VOID
         }
     }.asValue()
 }
 
 inline fun LCClass.constructor(args: List<Type> = listOf(),
                        crossinline run: Caller.(List<LCClass>) -> LCClass): Method {
-    return object: Method(this@constructor, args.toTypedArray(), NamedType(this@constructor)){
+    return object: Method(this@constructor, args, NamedType(this@constructor)){
         override fun call(caller: Caller, args: List<Value>) = caller.run(args.map { it.get(caller) }).asValue()
     }
 }
@@ -83,5 +76,5 @@ fun LCRootExecutor.runExpression(input: String): Value {
 
     val compiler = LCCompiler()
     return compiler.visitExpression(parser.expression())
-        .visit(Caller(this, 0, 0), executor)
+        .visit(Caller(this,0), executor)
 }

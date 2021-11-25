@@ -1,5 +1,6 @@
 package lclang.libs.lang
 
+import lclang.Caller
 import lclang.constructor
 import lclang.types.Types
 
@@ -12,7 +13,7 @@ class LongClass: NumberClass {
 
     init {
         constructor = constructor(listOf(Types.ANY)) { list ->
-            LongClass(list[0].toString().toLong())
+            LongClass(list[0].toString(this).toLong())
         }
     }
 
@@ -23,6 +24,6 @@ class LongClass: NumberClass {
         return false
     }
 
-    override fun toString(): String = long.toString()
+    override fun toString(caller: Caller): String = long.toString()
     override fun hashCode(): Int = long.hashCode()
 }

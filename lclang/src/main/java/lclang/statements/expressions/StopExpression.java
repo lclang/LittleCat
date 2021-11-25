@@ -6,12 +6,14 @@ import lclang.Value;
 import lclang.types.Types;
 
 public class StopExpression extends Expression {
-    public StopExpression(int line, int column) {
-        super(line, column);
+    public static final Value STOP_VALUE = new Value(Types.VOID, Value.State.STOP);
+
+    public StopExpression(int line) {
+        super(line);
     }
 
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) {
-        return new Value(Types.VOID, Value.State.STOP);
+        return STOP_VALUE;
     }
 }

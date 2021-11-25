@@ -3,24 +3,26 @@ package lclang.types;
 import lclang.utils.TypeUtils;
 import lclang.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class CallableType extends Type {
-    public final Type[] args;
+    public final List<Type> args;
     public final Type returnType;
 
-    public CallableType(Type[] args, Type returnType) {
-        super("("+ Utils.joinToString(", ", Arrays.asList(args), Type::toString)+") -> "+returnType);
+    public CallableType(List<Type> args, Type returnType) {
+        super("("+ Utils.joinToString(", ", args, Type::toString)+") -> "+returnType);
         this.args = args;
         this.returnType = returnType;
     }
 
-    public CallableType(Type[] args) {
+    public CallableType(List<Type> args) {
         this(args, Types.VOID);
     }
 
     public CallableType() {
-        this(new Type[0]);
+        this(new ArrayList<>());
     }
 
     @Override
@@ -34,5 +36,13 @@ public class CallableType extends Type {
         }
 
         return result;
+    }
+
+    public static CallableType get(Type... args) {
+        Type returnType = args[args.length-1];
+        List<Type> arguments = new ArrayList<>(Arrays.asList(args));
+        arguments.remove(args.length-1);
+
+        return new CallableType(arguments, returnType);
     }
 }

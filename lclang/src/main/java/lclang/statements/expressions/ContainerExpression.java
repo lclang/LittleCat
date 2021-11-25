@@ -10,20 +10,21 @@ public class ContainerExpression extends Expression {
     private final Statement[] statements;
 
     public ContainerExpression(Statement[] statements) {
-        super(0, 0);
+        super(0);
         this.statements = statements;
     }
 
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangException {
         for(Statement stmt: statements) {
-            Value value = stmt.visit(prevCaller, visitor);
+            Caller caller = stmt.getCaller(prevCaller);
+            Value value = stmt.visit(caller, visitor);
             if(value.state!= Value.State.NOTHING) {
                 if(value.state== Value.State.RETURN)
                     value.state = Value.State.NOTHING;
 
                 return value;
-            }else value.get.invoke(prevCaller);
+            }else value.get.invoke(caller);
         }
 
         return Value.VOID;

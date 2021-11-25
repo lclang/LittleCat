@@ -1,12 +1,12 @@
 package lclang;
 
+import lclang.exceptions.LCLangException;
+import lclang.libs.lang.StringClass;
 import lclang.methods.Method;
 import lclang.types.NamedType;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class LCClass extends LCRootExecutor {
     public static int classesCount = 0;
@@ -25,6 +25,16 @@ public class LCClass extends LCRootExecutor {
         this.name = name;
     }
 
+    @Nullable
+    @Override
+    public Value getLink(Caller caller, String name) throws LCLangException {
+        Value value = super.getLink(caller, name);
+        if(value==null&&extendsClass!=null)
+            return extendsClass.executor.getLink(caller, name);
+
+        return value;
+    }
+
     public Value asValue(){
         return new Value(new NamedType(this), this, Value.State.NOTHING);
     }
@@ -39,33 +49,31 @@ public class LCClass extends LCRootExecutor {
         return other instanceof LCClass && classId == other.hashCode();
     }
 
+    public String toString(Caller caller) throws LCLangException {
+        Value toStringMethod = globals.get("toString");
+        if(toStringMethod!=null) {
+            LCClass clazz = toStringMethod.get.invoke(caller);
+            if(clazz instanceof Method) {
+                Method method = (Method) clazz;
+                return ((StringClass) method.call(caller, Collections.emptyList()).get.invoke(caller)).string;
+            }
+        }
+
+        List<String> parameters = new ArrayList<>();
+        Set<Map.Entry<String, Value>> entries = executor.variables.entrySet();
+        for (Map.Entry<String, Value> entry : entries) {
+            parameters.add(entry.getKey()+": "+entry.getValue().type+" = "+
+                    entry.getValue().get.invoke(caller));
+        }
+
+        return name+"@class"+classId+": { " + String.join(", ", parameters) + " }";
+    }
+
     @Override
+    @Deprecated
     public String toString() {
         try {
-            Caller caller = new Caller(this, 0, 0, null);
-
-            Value toStringMethod = globals.get("toString");
-            if(toStringMethod!=null) {
-                LCClass clazz = toStringMethod.get.invoke(caller);
-                if(clazz instanceof Method) {
-                    Method method = (Method) clazz;
-                    return String.valueOf(method.call(caller, Collections.emptyList()));
-                }
-            }
-
-            StringBuilder parameters = new StringBuilder();
-            Set<Map.Entry<String, Value>> entries = executor.variables.entrySet();
-            for (Map.Entry<String, Value> entry : entries) {
-                parameters
-                        .append(entry.getKey())
-                        .append(": ")
-                        .append(entry.getValue().type)
-                        .append(" = ")
-                        .append(entry.getValue().get.invoke(caller))
-                        .append(",");
-            }
-
-            return "$name@class"+classId+": {" + parameters + "}";
+            return toString(new Caller(this, 0, null));
         }catch (Exception e){
             throw new RuntimeException(e);
         }

@@ -22,10 +22,10 @@ class Map {
   method remove(key) {
     entries.filter(-> (it): bool it.key!=key )
   }
+
+  method toString(): string = entries.toString()
 }
 
-class Entry(key, value)
-
-class JSON {
-
+class Entry(key, value) {
+    method toString(): string = key.toString() + " => " + value.toString()
 }

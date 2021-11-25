@@ -12,11 +12,11 @@ import java.util.List;
 
 public abstract class Method extends LCClass{
     public final LCRootExecutor root;
-    public final Type[] args;
+    public final List<Type> args;
     public final Type returnType;
     private final Type type;
 
-    public Method(LCRootExecutor root, Type[] args, Type returnType) {
+    public Method(LCRootExecutor root, List<Type> args, Type returnType) {
         super("callable");
         this.root = root;
         this.args = args;
@@ -32,7 +32,7 @@ public abstract class Method extends LCClass{
     }
 
     @Override
-    public String toString() {
+    public String toString(Caller caller) throws LCLangException {
         return type.toString();
     }
 }

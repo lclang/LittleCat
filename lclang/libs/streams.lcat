@@ -4,17 +4,14 @@
     Minimal version: 0.1.2
 **/
 
-method readInput(input): string {
+method readInput(input: Input): string {
     lines = ""
     while input.hasNextLine(): lines += input.readLine() + "\r\n"
 
     return lines
 }
 
-method print(value): void {
-    std.output.print(value)
-}
-
-method println(value): void {
-    std.output.println(value)
-}
+method readLine(): string = std.input.readLine()
+method print(value) = std.output.print(value)
+method println(value) = std.output.println(value)
+method printError(message) = std.output.println("\u001B[31m"+message+"\u001B[0m")

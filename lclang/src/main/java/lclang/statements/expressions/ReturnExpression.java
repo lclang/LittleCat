@@ -9,7 +9,7 @@ public class ReturnExpression extends Expression {
     public final Expression expression;
 
     public ReturnExpression(Expression expression) {
-        super(0, 0);
+        super(0);
         this.expression = expression;
     }
 

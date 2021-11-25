@@ -18,7 +18,8 @@ class ErrorListener(val file: LCRootExecutor): ANTLRErrorListener {
         msg: String?,
         e: RecognitionException?
     ) {
-        throw LCLangException("Syntax Error", msg?:"Unknown error", Caller(file, line+1, line+1))
+        throw LCLangException("Syntax Error", msg ?: "Unknown error",
+            Caller(file,line+1))
     }
 
     override fun reportAmbiguity(

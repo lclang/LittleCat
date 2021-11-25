@@ -1,13 +1,16 @@
 package lclang.libs.std
 
-import lclang.*
+import lclang.LCClass
+import lclang.Value
 import lclang.exceptions.LCLangException
 import lclang.libs.Library
 import lclang.libs.lang.*
 import lclang.libs.std.classes.*
+import lclang.method
 import lclang.methods.Method
 import lclang.types.CallableType
 import lclang.types.Types
+import lclang.void
 import java.util.regex.Pattern
 import kotlin.system.exitProcess
 
@@ -15,9 +18,9 @@ import kotlin.system.exitProcess
 class StdLibrary: Library("std") {
 
     init {
-        classes["Socket"] = SocketClass()
-        classes["Output"] = SocketClass()
-        classes["Input"] = SocketClass()
+        classes["Socket"] = SocketClass.instance
+        classes["Output"] = OutputClass()
+        classes["Input"] = InputClass()
         classes["File"] = FileClass()
 
         globals["math"] = MathClass().asValue()
@@ -28,11 +31,6 @@ class StdLibrary: Library("std") {
             Thread {
                 method.call(this, listOf())
             }.start()
-        }
-
-        // DEPRECATED: NEED TRANSFER TO STREAMS.LCAT LIB
-        globals["printError"] = void(Types.ANY) {
-            println("$ERROR_COLOR${it[0]}")
         }
 
         globals["assert"] = void(Types.BOOL) { args ->
@@ -48,16 +46,16 @@ class StdLibrary: Library("std") {
         }
 
         globals["regexMatch"] = method(listOf(Types.STRING, Types.STRING), Types.ARRAY) {
-            val matcher = Pattern.compile(it[0].toString())
-                .matcher(it[1].toString())
+            val matcher = Pattern.compile(it[0].toString(this))
+                .matcher(it[1].toString(this))
 
             if (!matcher.find()) return@method BoolClass.FALSE
 
-            val array = ArrayClass(listOf(StringClass(matcher.group(0))))
+            val array = ArrayClass(listOf(StringClass.get(matcher.group(0))))
             for (i in 0 until matcher.groupCount()) {
                 val group = matcher.group(i+1)
                 array.add(if(group!=null)
-                    StringClass(group)
+                    StringClass.get(group)
                 else NullClass.NULL)
             }
 
@@ -69,9 +67,9 @@ class StdLibrary: Library("std") {
         init {
             executor.variables["output"] = OutputClass(System.out).asValue()
             executor.variables["input"] = InputClass(System.`in`).asValue()
-            globals["classesCount"] = Value(Types.INT) { IntClass(classesCount) }
+            globals["classesCount"] = Value(Types.INT) { IntClass.get(classesCount) }
             globals["getProperty"] = method(listOf(Types.STRING), Types.STRING) {
-                StringClass(System.getProperty(it[0].string().string, ""))
+                StringClass.get(System.getProperty(it[0].toString(this), ""))
             }
         }
     }

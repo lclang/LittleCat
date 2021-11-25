@@ -9,13 +9,13 @@ import lclang.libs.lang.StringClass;
 public class GetTypeExpression extends Expression {
     public final Expression expression;
 
-    public GetTypeExpression(Expression expression, int line, int column) {
-        super(line, column);
+    public GetTypeExpression(Expression expression) {
+        super(0);
         this.expression = expression;
     }
 
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangException {
-        return new StringClass(expression.visit(getCaller(prevCaller), visitor).type.text).asValue();
+        return StringClass.get(expression.visit(prevCaller, visitor).type.text).asValue();
     }
 }

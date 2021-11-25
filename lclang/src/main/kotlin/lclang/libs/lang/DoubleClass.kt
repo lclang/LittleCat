@@ -1,5 +1,6 @@
 package lclang.libs.lang
 
+import lclang.Caller
 import lclang.constructor
 import lclang.types.Types
 
@@ -13,7 +14,7 @@ class DoubleClass: NumberClass {
 
     init {
         constructor = constructor(listOf(Types.ANY)) { list ->
-            DoubleClass(list[0].toString().toDouble())
+            DoubleClass(list[0].toString(this).toDouble())
         }
     }
 
@@ -24,6 +25,6 @@ class DoubleClass: NumberClass {
         return false
     }
 
-    override fun toString(): String = double.toString()
+    override fun toString(caller: Caller): String = double.toString()
     override fun hashCode(): Int = double.hashCode()
 }

@@ -16,7 +16,7 @@ class ReflectionLibrary: Library("refLib") {
     class ReflectionClass: LCClass("Reflection") {
         init {
             globals["getLink"] = method(listOf(Types.ANY, Types.STRING), Types.ANY) {
-                ReflectionValue(it[0].executor.getLink(it[1].string().string))
+                ReflectionValue(it[0].executor.getLink(this, it[1].string().string))
             }
 
             globals["getVariables"] = method(listOf(Types.ANY), Types.ARRAY) {

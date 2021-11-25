@@ -1,19 +1,19 @@
 package lclang.libs.lang
 
+import lclang.Caller
 import lclang.constructor
 import lclang.types.Types
 
 class IntClass: NumberClass {
     var int: Int = 0
-    constructor(): super("int")
-    constructor(int: Int): super("int", int) {
+    private constructor(): super("int")
+    private constructor(int: Int): super("int", int) {
         this.int = int
-
     }
 
     init {
         constructor = constructor(listOf(Types.ANY)) { list ->
-            IntClass(list[0].toString().toInt())
+            get(list[0].toString(this).toInt())
         }
     }
 
@@ -24,6 +24,20 @@ class IntClass: NumberClass {
         return false
     }
 
-    override fun toString(): String = int.toString()
+    override fun toString(caller: Caller): String = int.toString()
     override fun hashCode(): Int = int.hashCode()
+
+    companion object {
+        val instance = IntClass()
+        val integers = HashMap<Int, IntClass>()
+
+        fun get(int: Int): IntClass {
+            if(integers.containsKey(int))
+                return integers[int]!!
+
+            val intClazz = IntClass(int)
+            integers[int] = intClazz
+            return intClazz
+        }
+    }
 }

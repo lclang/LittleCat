@@ -11,7 +11,7 @@ import lclang.types.Types
 class ReflectionValue(value: Value): LCClass("ReflectionValue") {
     init {
         globals["get"] = method(returnType = value.type) { value.get(this) }
-        globals["set"] = object : Method(this@ReflectionValue, arrayOf(Types.ANY), Types.VOID) {
+        globals["set"] = object : Method(this@ReflectionValue, listOf(Types.ANY), Types.VOID) {
             override fun call(caller: Caller, args: List<Value>): Value {
                 value.set(caller, args[0])
                 return NullClass.NULL.asValue()

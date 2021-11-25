@@ -4,18 +4,18 @@ import lclang.LCRootExecutor;
 import lclang.methods.MethodImpl;
 import lclang.types.Type;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MethodStatement {
     public final String name;
-    public final Map<String, TypeStatement> args;
+    public final List<Argument> args;
     public final TypeStatement returnType;
     public final Statement statement;
 
     public MethodStatement(
             String name,
-            Map<String, TypeStatement> args,
+            List<Argument> args,
             TypeStatement returnType,
             Statement statement
     ) {
@@ -25,16 +25,29 @@ public class MethodStatement {
         this.statement = statement;
     }
 
-    public void visit(LCRootExecutor root) {
-        Map<String, Type> argsResolved = new HashMap<>();
-        for(Map.Entry<String, TypeStatement> entry: args.entrySet())
-            argsResolved.put(entry.getKey(), entry.getValue().toType(root));
-
+    public void visit(LCRootExecutor root, boolean importVariables) {
         root.globals.put(name, new MethodImpl(
                 root.executor,
-                argsResolved,
+                args,
                 returnType.toType(root),
-                statement
+                statement,
+                importVariables
         ).asValue());
+    }
+
+    public static List<Type> resolveArgs(LCRootExecutor root, List<Argument> args) {
+        List<Type> types = new ArrayList<>();
+        for(Argument argument: args) types.add(argument.type.toType(root));
+        return types;
+    }
+
+    public static class Argument {
+        public final String name;
+        public final TypeStatement type;
+
+        public Argument(String name, TypeStatement type) {
+            this.name = name;
+            this.type = type;
+        }
     }
 }

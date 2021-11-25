@@ -16,10 +16,10 @@ class OutputClass(): LCClass(OUTPUT_CLASSNAME) {
     constructor(output: OutputStream) : this() {
         val printer = PrintStream(output)
 
-        globals["println"] = void(Types.ANY) { printer.println(it[0]) }
-        globals["print"] = void(Types.ANY) { printer.print(it[0]) }
-        globals["printf"] = void(Types.ANY, Types.ARRAY) { list -> printer.printf(list[0].toString(),
-            * (list[1] as ArrayClass).list.toTypedArray())}
+        globals["println"] = void(Types.ANY) { printer.println(it[0].toString(this)) }
+        globals["print"] = void(Types.ANY) { printer.print(it[0].toString(this)) }
+        globals["printf"] = void(Types.ANY, Types.ARRAY) { list -> printer.printf(list[0].toString(this),
+            * (list[1] as ArrayClass).value.toTypedArray())}
         globals["flush"] = void { printer.flush() }
         globals["close"] = void { printer.close() }
         globals["accept"] = void(Types.MagicType(INPUT_CLASSNAME)) {
@@ -30,11 +30,11 @@ class OutputClass(): LCClass(OUTPUT_CLASSNAME) {
     }
 
     init {
-        constructor = constructor(listOf(CallableType(arrayOf(Types.INT)))) {
+        constructor = constructor(listOf(CallableType(listOf(Types.INT)))) {
             val method = it[0] as Method
             OutputClass(object : OutputStream() {
                 override fun write(b: Int) {
-                    method.call(this@constructor, listOf(IntClass(b).asValue()))
+                    method.call(this@constructor, listOf(IntClass.get(b).asValue()))
                 }
             })
         }

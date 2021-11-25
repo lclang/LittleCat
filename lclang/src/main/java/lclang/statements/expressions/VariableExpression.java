@@ -8,13 +8,13 @@ import lclang.exceptions.LCLangException;
 public class VariableExpression extends Expression {
     public final String name;
 
-    public VariableExpression(String name, int line, int column) {
-        super(line, column);
+    public VariableExpression(String name, int line) {
+        super(line);
         this.name = name;
     }
 
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangException {
-        return visitor.getLink(name);
+        return visitor.getLink(getCaller(prevCaller), name);
     }
 }

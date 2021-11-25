@@ -9,7 +9,7 @@ public class ValueExpression extends Expression {
     public final Value value;
 
     public ValueExpression(Value value) {
-        super(0, 0);
+        super(0);
         this.value = value;
     }
 

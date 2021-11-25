@@ -92,10 +92,11 @@ println(data)
 
 ### HTTP client on Connection and url
 ```
-connection = parseUrl("https://github.com").openConnection()
-connection.connect()
-
-println(readInput(connection.input))
+println(readInput(
+    parseUrl("https://github.com")
+      .openConnection()
+      .getInput()
+))
 ```
 
 ### HTTP client on Sockets
@@ -106,13 +107,13 @@ requestMethod = "GET"
 
 socket = :Socket(url, 80)
 
-output = socket.output
+output = socket.getOutput()
 output.println(requestMethod+" "+path+" HTTP/1.1")
 output.println("Host: " + url)
 output.println("")
 output.flush()
 
-println(readInput(socket.input))
+println(readInput(socket.getInput()))
 ```
 
 ### Reflection

@@ -248,6 +248,16 @@ public interface lclangListener extends ParseTreeListener {
 	 */
 	void exitClassExpr(lclangParser.ClassExprContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link lclangParser#extendsArgs}.
+	 * @param ctx the parse tree
+	 */
+	void enterExtendsArgs(lclangParser.ExtendsArgsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link lclangParser#extendsArgs}.
+	 * @param ctx the parse tree
+	 */
+	void exitExtendsArgs(lclangParser.ExtendsArgsContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link lclangParser#arg}.
 	 * @param ctx the parse tree
 	 */

@@ -11,14 +11,14 @@ public class IsExpression extends Expression {
     public final Expression checkExpression;
     public final TypeStatement type;
     public IsExpression(Expression checkExpression, TypeStatement type) {
-        super(0, 0);
+        super(0);
         this.checkExpression = checkExpression;
         this.type = type;
     }
 
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangException {
-        return new BoolClass(type
+        return BoolClass.get(type
                 .toType(visitor.root)
                 .isAccept(checkExpression.visit(prevCaller, visitor).type)).asValue();
     }

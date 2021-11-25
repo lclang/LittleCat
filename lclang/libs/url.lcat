@@ -3,8 +3,6 @@
     From: 0.1.2
     Minimal version: 0.1.2
 **/
-
-
 method parseUrl(url: string): URL {
     urlRegex = regexMatch("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?", url)
     return :URL(urlRegex[2], urlRegex[4], urlRegex[5], urlRegex[7], urlRegex[9])
@@ -56,20 +54,33 @@ class HTTPConnection(socket: Socket, url: URL) extends Connection {
         "Host: "+url.host
     ]
 
-    method connect() {
-        output = socket.output
-        input = socket.input
+    method getOutput(): Output {
+        connect()
+        return socket.getOutput()
+    }
 
-        socket.output.println("GET "+url.getFullPath()+" HTTP/1.1")
+    method getInput(): Input {
+        connect()
+        return socket.getInput()
+    }
+
+    method connect() {
+        socket.getOutput().println("GET "+url.getFullPath()+" HTTP/1.1")
         headers.forEach(-> (header) socket.output.println(header))
-        socket.output.println("")
-        socket.output.flush()
+        socket.getOutput().println("")
+        socket.getOutput().flush()
     }
 }
 
 class Connection {
-    output = null
-    input = null
+
+    method getOutput(): Output {
+        printError("this is abstract class xD")
+    }
+
+    method getInput(): Input {
+        printError("this is abstract class xD")
+    }
 
     method connect() {
         printError("this is abstract class xD")

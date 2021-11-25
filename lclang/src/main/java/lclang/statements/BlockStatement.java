@@ -9,7 +9,7 @@ public class BlockStatement extends Statement {
     public final Statement[] statements;
 
     public BlockStatement(Statement[] statements) {
-        super(0, 0);
+        super(0);
         this.statements = statements;
     }
 

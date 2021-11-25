@@ -7,9 +7,7 @@ import lclang.types.Types;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static lclang.UtilsKt.unescapeString;
 
@@ -27,10 +25,7 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
 
     @Override
     public VariableExpression visitVariable(lclangParser.VariableContext ctx) {
-        return new VariableExpression(
-                ctx.getText(),
-                ctx.getStart().getLine(),
-                ctx.getStop().getLine());
+        return new VariableExpression(ctx.getText(), ctx.getStart().getLine());
     }
 
     @Override
@@ -61,19 +56,19 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
             lcClass = Global.cashedClasses.get(text);
         }else{
             if (ctx.STRING() != null)
-                lcClass = new StringClass(unescapeString(text.substring(1, text.length() - 1)));
+                lcClass = StringClass.get(unescapeString(text.substring(1, text.length() - 1)));
             else if (ctx.CHAR() != null)
-                lcClass = new CharClass(unescapeString(text).charAt(1));
+                lcClass = CharClass.get(unescapeString(text).charAt(1));
             else if (ctx.DOUBLE() != null)
                 lcClass = new DoubleClass(Double.parseDouble(text));
             else if (ctx.INTEGER() != null)
-                lcClass = new IntClass(Integer.parseInt(text));
+                lcClass = IntClass.Companion.get(Integer.parseInt(text));
             else if (ctx.LONG() != null)
                 lcClass = new LongClass(Long.parseLong(text));
             else if (ctx.HEX_LONG() != null)
                 lcClass = new LongClass(Long.parseLong(text, 16));
             else if (ctx.BOOL() != null)
-                lcClass = text.length() == 4 ? BoolClass.TRUE : BoolClass.FALSE;
+                lcClass = BoolClass.get(text.length() == 4);
 
             Global.cashedClasses.put(text, lcClass);
         }
@@ -136,9 +131,7 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
     @Override
     public Statement visitTypeGet(lclangParser.TypeGetContext ctx) {
         return new GetTypeExpression(
-                visitExpression(ctx.expression()),
-                ctx.getStart().getLine(),
-                ctx.getStop().getLine()
+                visitExpression(ctx.expression())
         );
     }
 
@@ -146,8 +139,7 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
     public Statement visitNewClass(lclangParser.NewClassContext ctx) {
         return new GetClassConstructorExpression(
                 ctx.className.getText(),
-                ctx.getStart().getLine(),
-                ctx.getStop().getLine()
+                ctx.getStart().getLine()
         );
     }
 
@@ -158,7 +150,7 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
 
     @Override
     public Statement visitStop(lclangParser.StopContext ctx) {
-        return new StopExpression(ctx.getStart().getLine(), ctx.getStop().getLine());
+        return new StopExpression(ctx.getStart().getLine());
     }
 
     @Override
@@ -178,15 +170,13 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
             return new CallExpression(
                     callable,
                     expressions,
-                    ctx.getStart().getLine(),
-                    ctx.getStop().getLine()
+                    ctx.getStart().getLine()
             );
         }else if(ctx.access!=null) {
             return new AccessExpression(
                     expressions.get(0),
                     visitVariable(ctx.variable()),
-                    ctx.getStart().getLine(),
-                    ctx.getStop().getLine()
+                    ctx.getStart().getLine()
             );
         }else if(ctx.is!=null) {
             return new IsExpression(
@@ -207,8 +197,7 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
             return new UnaryOperationExpression(
                     expressions.get(0),
                     operation,
-                    ctx.getStart().getLine(),
-                    ctx.getStop().getLine()
+                    ctx.getStart().getLine()
             );
         }
 
@@ -250,8 +239,7 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
                 setExpression = new BinaryOperationExpression(
                         expressions.get(0),
                         setExpression, operation,
-                        ctx.getStart().getLine(),
-                        ctx.getStop().getLine());
+                        ctx.getStart().getLine());
 
             return new AssignExpression(
                     expressions.get(0),
@@ -263,8 +251,7 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
                 expressions.get(0),
                 expressions.get(1),
                 operation,
-                ctx.getStart().getLine(),
-                ctx.getStop().getLine()
+                ctx.getStart().getLine()
         );
     }
 
@@ -279,20 +266,19 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
                 getArguments(ctx.arg()),
                 returnType,
                 visitExpression(ctx.expression()),
-                ctx.getStart().getLine(),
-                ctx.getStop().getLine()
+                ctx.getStart().getLine()
         );
     }
 
-    public Map<String, TypeStatement> getArguments(List<lclangParser.ArgContext> argsCtx) {
-        Map<String, TypeStatement> args = new HashMap<>();
+    public List<MethodStatement.Argument> getArguments(List<lclangParser.ArgContext> argsCtx) {
+       List<MethodStatement.Argument> args = new ArrayList<>();
         for (lclangParser.ArgContext argCtx: argsCtx) {
             TypeStatement type = TypeStatement.Companion.getANY();
             lclangParser.TypeContext typeContext = argCtx.type();
             if(typeContext!=null)
                 type = getType(typeContext);
 
-            args.put(argCtx.ID().getText(), type);
+            args.add(new MethodStatement.Argument(argCtx.ID().getText(), type));
         }
 
         return args;
@@ -325,7 +311,7 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
 
         List<lclangParser.MethodContext> methodContexts = ctx.method();
         for(lclangParser.MethodContext methodContext: methodContexts)
-            getMethod(methodContext).visit(root);
+            getMethod(methodContext).visit(root, false);
     }
 
     public ClassStatement getClass(lclangParser.ClassExprContext ctx) {
@@ -342,14 +328,20 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
         }
 
         NamedTypeStatement extendsClass = null;
-        if(ctx.classExtends!=null)
+        List<Expression> extendsArguments = new ArrayList<>();
+        if(ctx.classExtends!=null) {
             extendsClass = getNamedType(ctx.classExtends);
+            if(ctx.extendsArgs()!=null)
+                for (lclangParser.ExpressionContext expressionContext: ctx.extendsArgs().expression())
+                    extendsArguments.add(visitExpression(expressionContext));
+        }
 
         return new ClassStatement(
                 ctx.name.getText(),
                 extendsClass,
                 getArguments(ctx.arg()),
                 statements,
+                extendsArguments,
                 methodStatements
         );
     }
@@ -389,8 +381,8 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
     private NamedTypeStatement getNamedType(lclangParser.NamedTypeContext namedTypeContext) {
         return new NamedTypeStatement(
                 namedTypeContext.getText(),
-                namedTypeContext.getStart().getLine(),
-                namedTypeContext.getStop().getLine());
+                namedTypeContext.getStart().getLine()
+        );
     }
 
     private MagicTypeStatement getMagicType(lclangParser.MagicTypeContext magicTypeContext) {
@@ -409,7 +401,7 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
 
         return new CallableTypeStatement(typeStatements,
                 returnType,
-                typeContext.getStart().getLine(),
-                typeContext.getStop().getLine());
+                typeContext.getStart().getLine()
+        );
     }
 }

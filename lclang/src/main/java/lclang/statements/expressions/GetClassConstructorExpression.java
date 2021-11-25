@@ -10,8 +10,8 @@ import lclang.exceptions.LCLangException;
 public class GetClassConstructorExpression extends Expression {
     public final String name;
 
-    public GetClassConstructorExpression(String name, int line, int column) {
-        super(line, column);
+    public GetClassConstructorExpression(String name, int line) {
+        super(line);
         this.name = name;
     }
 

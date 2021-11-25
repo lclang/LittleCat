@@ -17,8 +17,8 @@ public class CallExpression extends Expression {
     public final Expression expression;
     public final List<Expression> arguments;
 
-    public CallExpression(Expression expression, List<Expression> arguments, int line, int column) {
-        super(line, column);
+    public CallExpression(Expression expression, List<Expression> arguments, int line) {
+        super(line);
         this.expression = expression;
         this.arguments = arguments;
     }
@@ -40,18 +40,19 @@ public class CallExpression extends Expression {
         }
 
         Method method = (Method) value.get.invoke(expressionCaller);
-        if(method.args.length!=argsTypes.size()){
-            throw method.args.length>argsTypes.size() ?
+        if(method.args.size()!=argsTypes.size()){
+            throw method.args.size()>argsTypes.size() ?
                     new TypeErrorException("Invalid arguments: few arguments",
                             getCaller(prevCaller)):
                     new TypeErrorException("Invalid arguments: too many arguments",
-                            arguments.get(method.args.length).getCaller(prevCaller));
+                            arguments.get(method.args.size()).getCaller(prevCaller));
         }
 
-        int notAcceptArg = TypeUtils.isAccept(method.args, argsTypes.toArray(new Type[0]));
+        int notAcceptArg = TypeUtils.isAccept(method.args, argsTypes);
         if(notAcceptArg!=-1)
             throw new TypeErrorException("Invalid argument "+(notAcceptArg+1)+
-                    ": excepted "+method.args[notAcceptArg], arguments.get(notAcceptArg).getCaller(prevCaller));
+                    ": excepted "+method.args.get(notAcceptArg)+", but received "+argsTypes.get(notAcceptArg),
+                    arguments.get(notAcceptArg).getCaller(prevCaller));
 
         return method.call(getCaller(prevCaller), args);
     }

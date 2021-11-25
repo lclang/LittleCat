@@ -5,22 +5,21 @@ import lclang.LCBaseExecutor;
 import lclang.Value;
 import lclang.exceptions.LCLangException;
 import lclang.methods.MethodImpl;
+import lclang.statements.MethodStatement;
 import lclang.statements.TypeStatement;
-import lclang.types.Type;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 public class LambdaExpression extends Expression {
-    public final Map<String, TypeStatement> args;
+    public final List<MethodStatement.Argument> args;
     public final TypeStatement returnType;
     public final Expression expression;
 
-    public LambdaExpression(Map<String, TypeStatement> args,
+    public LambdaExpression(List<MethodStatement.Argument> args,
                             TypeStatement returnType,
                             Expression expression,
-                            int line, int column) {
-        super(line, column);
+                            int line) {
+        super(line);
         this.args = args;
         this.returnType = returnType;
         this.expression = expression;
@@ -28,11 +27,7 @@ public class LambdaExpression extends Expression {
 
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangException {
-        Map<String, Type> argsResolved = new HashMap<>();
-        for(Map.Entry<String, TypeStatement> arg: args.entrySet())
-            argsResolved.put(arg.getKey(), arg.getValue().toType(prevCaller.root));
-
-        return new MethodImpl(visitor, argsResolved,
-                returnType.toType(prevCaller.root), expression).asValue();
+        return new MethodImpl(visitor, args,
+                returnType.toType(visitor.root), expression, true).asValue();
     }
 }

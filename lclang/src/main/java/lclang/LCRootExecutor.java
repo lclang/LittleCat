@@ -2,6 +2,7 @@ package lclang;
 
 import lclang.exceptions.LCLangException;
 import lclang.statements.Statement;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,12 +23,16 @@ public class LCRootExecutor {
         globals.putAll(root.globals);
     }
 
+    @Nullable public Value getLink(Caller caller, String name) throws LCLangException {
+        return globals.getOrDefault(name, null);
+    }
+
     public LCClass execute() throws LCLangException {
         for (Statement statement: statements) {
             Caller caller = statement.getCaller(this);
             Value value = statement.visit(caller, executor);
 
-            LCClass clazz = value.get.invoke(null);
+            LCClass clazz = value.get.invoke(caller);
             if(value.state!=Value.State.NOTHING)
                 return clazz;
         }

@@ -12,7 +12,7 @@ public class WhileStatement extends Statement {
     public final Statement body;
 
     public WhileStatement(Expression condition, Statement body) {
-        super(0, 0);
+        super(0);
         this.condition = condition;
         this.body = body;
     }

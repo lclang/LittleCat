@@ -14,7 +14,7 @@ public class IfStatement extends Statement {
     public final Statement ifFalse;
 
     public IfStatement(Expression condition, Statement ifTrue, Statement ifFalse) {
-        super(0, 0);
+        super(0);
         this.condition = condition;
         this.ifTrue = ifTrue;
         this.ifFalse = ifFalse;
