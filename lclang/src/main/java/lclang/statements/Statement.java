@@ -14,6 +14,7 @@ public abstract class Statement {
         this.line = line;
     }
 
+    @NotNull
     public abstract Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangException;
 
     public Caller getCaller(@NotNull Caller caller) {

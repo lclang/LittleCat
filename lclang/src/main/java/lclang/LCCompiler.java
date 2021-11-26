@@ -1,5 +1,6 @@
 package lclang;
 
+import lclang.exceptions.LCLangException;
 import lclang.libs.lang.classes.BoolClass;
 import lclang.libs.lang.classes.CharClass;
 import lclang.libs.lang.classes.NullClass;
@@ -264,7 +265,7 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
     @Override
     public Statement visitLambda(lclangParser.LambdaContext ctx) {
         lclangParser.TypeContext returnTypeCtx = ctx.type();
-        TypeStatement returnType = TypeStatement.Companion.getVOID();
+        TypeStatement returnType = TypeStatement.VOID;
         if(returnTypeCtx!=null)
             returnType = getType(returnTypeCtx);
 
@@ -279,7 +280,7 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
     public List<MethodStatement.Argument> getArguments(List<lclangParser.ArgContext> argsCtx) {
        List<MethodStatement.Argument> args = new ArrayList<>();
         for (lclangParser.ArgContext argCtx: argsCtx) {
-            TypeStatement type = TypeStatement.Companion.getANY();
+            TypeStatement type = TypeStatement.ANY;
             lclangParser.TypeContext typeContext = argCtx.type();
             if(typeContext!=null)
                 type = getType(typeContext);
@@ -290,7 +291,7 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
         return args;
     }
 
-    public void fillFile(LCRootExecutor root, lclangParser.FileContext ctx){
+    public void fillFile(LCRootExecutor root, lclangParser.FileContext ctx) throws LCLangException {
         root.globals.put("null", NullClass.NULL.asValue());
 
         ArrayList<LCRootExecutor> libraries = new ArrayList<>();
@@ -354,7 +355,7 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
 
     public MethodStatement getMethod(lclangParser.MethodContext ctx) {
         lclangParser.TypeContext returnTypeCtx = ctx.type();
-        TypeStatement returnType = TypeStatement.Companion.getVOID();
+        TypeStatement returnType = TypeStatement.VOID;
         if(returnTypeCtx!=null) returnType = getType(returnTypeCtx);
 
         Statement statement;
@@ -380,7 +381,7 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
             type = getMagicType(magicTypeContext);
         else type = getNamedType(ctx.namedType());
 
-        type.setNullable(ctx.nullable!=null);
+        type.nullable = ctx.nullable!=null;
         return type;
     }
 
@@ -400,9 +401,9 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
         TypeStatement returnType = getType(typeCtxList.get(typeCtxList.size()-1));
         typeCtxList.remove(typeCtxList.size()-1);
 
-        TypeStatement[] typeStatements = new TypeStatement[typeCtxList.size()];
-        for (int i = 0; i < typeStatements.length; i++) {
-            typeStatements[i] = getType(typeCtxList.get(i));
+        List<TypeStatement> typeStatements = new ArrayList<>();
+        for (lclangParser.TypeContext type: typeCtxList) {
+            typeStatements.add(getType(type));
         }
 
         return new CallableTypeStatement(typeStatements,

@@ -36,7 +36,7 @@ public class ClassStatement {
         this.methodStatements = methodStatements;
     }
 
-    public void visit(LCRootExecutor root) {
+    public void visit(LCRootExecutor root) throws LCLangException {
         LCClass clazzAst = new LCClass(name, root.path);
 
         clazzAst.constructor = new Method(root,

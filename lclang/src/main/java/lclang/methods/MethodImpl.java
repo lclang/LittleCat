@@ -21,7 +21,7 @@ public class MethodImpl extends Method {
                       List<MethodStatement.Argument> argsMap,
                       Type returnType,
                       Statement statement,
-                      boolean importVariables) {
+                      boolean importVariables) throws LCLangException {
         super(outExecutor.root, MethodStatement.resolveArgs(outExecutor.root, argsMap), returnType);
         this.outExecutor = outExecutor;
         this.argsMap = argsMap;
