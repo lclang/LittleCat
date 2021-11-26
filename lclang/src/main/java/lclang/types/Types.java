@@ -1,9 +1,8 @@
 package lclang.types;
 
-import lclang.libs.lang.BoolClass;
-import lclang.libs.lang.CharClass;
-import lclang.libs.lang.NullClass;
-import lclang.libs.lang.StringClass;
+import lclang.libs.lang.classes.*;
+import lclang.libs.lang.classes.numbers.DoubleClass;
+import lclang.libs.lang.classes.numbers.IntClass;
 import org.jetbrains.annotations.NotNull;
 
 public class Types {
@@ -13,13 +12,13 @@ public class Types {
     public static MagicType UNDEFINED = new MagicType("undefined");
     public static MagicType NULL = NullClass.getType();
 
-    public static MagicType INT = new MagicType("int");
+    public static MagicType INT = IntClass.type;
     public static MagicType LONG = new MagicType("long");
-    public static MagicType BOOL = BoolClass.getType();
-    public static MagicType STRING = StringClass.getType();
-    public static MagicType CHAR = CharClass.getType();
-    public static MagicType ARRAY = new MagicType("array");
-    public static MagicType DOUBLE = new MagicType("double");
+    public static MagicType DOUBLE = DoubleClass.type;
+    public static MagicType BOOL = BoolClass.type;
+    public static MagicType STRING = StringClass.type;
+    public static MagicType CHAR = CharClass.type;
+    public static MagicType ARRAY = ArrayClass.type;
 
     public static class MagicType extends Type {
 

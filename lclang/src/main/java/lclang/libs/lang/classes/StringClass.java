@@ -1,6 +1,7 @@
-package lclang.libs.lang;
+package lclang.libs.lang.classes;
 
 import lclang.LCClass;
+import lclang.libs.lang.classes.numbers.IntClass;
 import lclang.types.Types;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.Map;
 
 public class StringClass extends LibraryClass {
     public static final String name = "string";
+    public static final Types.MagicType type = new Types.MagicType(name);
     public static final Map<String, StringClass> cache = new HashMap<>();
     public static final StringClass instance = new StringClass();
     public String string;
@@ -24,8 +26,8 @@ public class StringClass extends LibraryClass {
         this();
         this.string = string;
         globals.put("toString", method((caller, lcClasses) -> this, Types.STRING).asValue());
-        globals.put("length", IntClass.Companion.get(string.length()).asValue());
-        globals.put("charAt", method((caller, args) -> CharClass.get(string.charAt(((IntClass) args.get(0)).getInt())),
+        globals.put("length", IntClass.get(string.length()).asValue());
+        globals.put("charAt", method((caller, args) -> CharClass.get(string.charAt(((IntClass) args.get(0)).value)),
         Types.INT, Types.CHAR).asValue());
         globals.put("toArray", method((caller, lcClasses) -> {
             List<LCClass> classes = new ArrayList<>();
@@ -54,18 +56,18 @@ public class StringClass extends LibraryClass {
         globals.put("substring", method((caller, args) ->
                         StringClass.get(
                             string.substring(
-                                ((IntClass) args.get(0)).getInt(),
-                                ((IntClass) args.get(1)).getInt()
+                                ((IntClass) args.get(0)).value,
+                                ((IntClass) args.get(1)).value
                             )
                         ),
                 Types.INT, Types.INT, Types.STRING).asValue());
 
         globals.put("find", method((caller, args) ->
-                        IntClass.Companion.get(string.indexOf(((CharClass) args.get(0)).value)),
+                        IntClass.get(string.indexOf(((CharClass) args.get(0)).value)),
                 Types.CHAR, Types.STRING).asValue());
 
         globals.put("findLast", method((caller, args) ->
-                        IntClass.Companion.get(string.lastIndexOf(((CharClass) args.get(0)).value)),
+                        IntClass.get(string.lastIndexOf(((CharClass) args.get(0)).value)),
                 Types.CHAR, Types.STRING).asValue());
     }
 
@@ -76,9 +78,5 @@ public class StringClass extends LibraryClass {
         StringClass clazz = new StringClass(string);
         cache.put(string, clazz);
         return clazz;
-    }
-
-    public static Types.MagicType getType() {
-        return new Types.MagicType(name);
     }
 }

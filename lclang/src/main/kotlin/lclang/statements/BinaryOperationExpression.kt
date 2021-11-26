@@ -4,7 +4,12 @@ import lclang.Caller
 import lclang.LCBaseExecutor
 import lclang.Value
 import lclang.exceptions.TypeErrorException
-import lclang.libs.lang.*
+import lclang.libs.lang.classes.ArrayClass
+import lclang.libs.lang.classes.BoolClass
+import lclang.libs.lang.classes.NullClass
+import lclang.libs.lang.classes.StringClass
+import lclang.libs.lang.classes.numbers.IntClass
+import lclang.libs.lang.classes.numbers.NumberClass
 import lclang.statements.expressions.Expression
 
 open class BinaryOperationExpression(
@@ -31,10 +36,10 @@ open class BinaryOperationExpression(
                 Operation.LESS_EQUALS -> return left.lessEquals(right).asValue()
                 Operation.LARGER -> return left.larger(right).asValue()
                 Operation.LARGER_EQUALS -> return left.largerEquals(right).asValue()
-                Operation.MULTIPLICATION -> return (left*right).asValue()
-                Operation.ADD -> return (left+right).asValue()
-                Operation.MINUS -> return (left-right).asValue()
-                Operation.DIVISION -> return (left/right).asValue()
+                Operation.MULTIPLICATION -> return left.multiplication(right).asValue()
+                Operation.ADD -> return left.add(right).asValue()
+                Operation.MINUS -> return left.minus(right).asValue()
+                Operation.DIVISION -> return left.div(right).asValue()
                 else -> Unit
             }
         }
@@ -44,8 +49,8 @@ open class BinaryOperationExpression(
                 operation== Operation.ADD -> return StringClass.get(left.toString(caller)+right).asValue()
                 operation== Operation.MULTIPLICATION &&right is IntClass ||left is IntClass ->
                     return StringClass.get(if(right is IntClass)
-                        left.toString(caller).repeat(right.int)
-                    else right.toString(caller).repeat((left as IntClass).int)).asValue()
+                        left.toString(caller).repeat(right.value)
+                    else right.toString(caller).repeat((left as IntClass).value)).asValue()
             }
         }
 
@@ -65,11 +70,11 @@ open class BinaryOperationExpression(
         }
 
         return when (operation) {
-            Operation.NULLABLE_OR -> if(left==NullClass.NULL) rightValue else leftValue
+            Operation.NULLABLE_OR -> if(left== NullClass.NULL) rightValue else leftValue
             Operation.ARRAY_ACCESS -> {
                 return if(left is ArrayClass) {
                     if (right is IntClass)
-                        left[right.int].asValue()
+                        left[right.value].asValue()
                     else throw TypeErrorException("invalid index: excepted int", caller)
                 }else if(left is Map<*, *>){
                     left[right] as Value

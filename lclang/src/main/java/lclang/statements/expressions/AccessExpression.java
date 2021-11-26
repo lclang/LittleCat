@@ -6,7 +6,7 @@ import lclang.LCClass;
 import lclang.Value;
 import lclang.exceptions.LCLangException;
 import lclang.exceptions.LCLangNullPointerException;
-import lclang.libs.lang.NullClass;
+import lclang.libs.lang.classes.NullClass;
 
 public class AccessExpression extends Expression {
     public final Expression expression;

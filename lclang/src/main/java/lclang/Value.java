@@ -1,24 +1,24 @@
 package lclang;
 
 import lclang.exceptions.LCLangException;
-import lclang.libs.lang.NullClass;
+import lclang.libs.lang.classes.NullClass;
 import lclang.types.Type;
 import lclang.types.Types;
 import lclang.utils.Function;
-import lclang.utils.Method2;
+import lclang.utils.VoidMethod2;
 import org.jetbrains.annotations.NotNull;
 
 public class Value {
     public final Type type;
     public final Function<Caller, LCClass> get;
-    public Method2<Caller, Value> set;
+    public VoidMethod2<Caller, Value> set;
     public State state;
     public static Value VOID = new Value(Types.VOID, State.NOTHING);
 
     public Value(
             Type type,
             Function<Caller, LCClass> get,
-            Method2<Caller, Value> set,
+            VoidMethod2<Caller, Value> set,
             State state
     ) {
         this.type = type;

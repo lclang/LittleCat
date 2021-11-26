@@ -1,7 +1,7 @@
 package lclang;
 
 import lclang.exceptions.LCLangException;
-import lclang.libs.lang.StringClass;
+import lclang.libs.lang.classes.StringClass;
 import lclang.methods.Method;
 import lclang.types.NamedType;
 import org.jetbrains.annotations.Nullable;

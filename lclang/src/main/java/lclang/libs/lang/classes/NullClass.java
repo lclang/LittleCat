@@ -1,4 +1,4 @@
-package lclang.libs.lang;
+package lclang.libs.lang.classes;
 
 import lclang.Caller;
 import lclang.Value;

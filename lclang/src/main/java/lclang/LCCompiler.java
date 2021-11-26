@@ -1,6 +1,12 @@
 package lclang;
 
-import lclang.libs.lang.*;
+import lclang.libs.lang.classes.BoolClass;
+import lclang.libs.lang.classes.CharClass;
+import lclang.libs.lang.classes.NullClass;
+import lclang.libs.lang.classes.StringClass;
+import lclang.libs.lang.classes.numbers.DoubleClass;
+import lclang.libs.lang.classes.numbers.IntClass;
+import lclang.libs.lang.classes.numbers.LongClass;
 import lclang.statements.*;
 import lclang.statements.expressions.*;
 import lclang.types.Types;
@@ -60,13 +66,13 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
             else if (ctx.CHAR() != null)
                 lcClass = CharClass.get(unescapeString(text).charAt(1));
             else if (ctx.DOUBLE() != null)
-                lcClass = new DoubleClass(Double.parseDouble(text));
+                lcClass = DoubleClass.get(Double.parseDouble(text));
             else if (ctx.INTEGER() != null)
-                lcClass = IntClass.Companion.get(Integer.parseInt(text));
+                lcClass = IntClass.get(Integer.parseInt(text));
             else if (ctx.LONG() != null)
-                lcClass = new LongClass(Long.parseLong(text));
+                lcClass = LongClass.get(Long.parseLong(text));
             else if (ctx.HEX_LONG() != null)
-                lcClass = new LongClass(Long.parseLong(text, 16));
+                lcClass = LongClass.get(Long.parseLong(text, 16));
             else if (ctx.BOOL() != null)
                 lcClass = BoolClass.get(text.length() == 4);
 

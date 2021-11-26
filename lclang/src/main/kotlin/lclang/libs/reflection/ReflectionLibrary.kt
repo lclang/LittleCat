@@ -3,7 +3,7 @@ package lclang.libs.reflection
 import lclang.Global
 import lclang.LCClass
 import lclang.libs.Library
-import lclang.libs.lang.ArrayClass
+import lclang.libs.lang.classes.ArrayClass
 import lclang.method
 import lclang.string
 import lclang.types.Types
@@ -20,9 +20,10 @@ class ReflectionLibrary: Library("refLib") {
             }
 
             globals["getVariables"] = method(listOf(Types.ANY), Types.ARRAY) {
-                ArrayClass(it[0].executor.variables.values.toList().map { value ->
-                    ReflectionValue(value)
-                })
+                ArrayClass(
+                    it[0].executor.variables.values.toList().map { value ->
+                        ReflectionValue(value)
+                    })
             }
 
             globals["getLibraries"] = method(returnType = Types.ARRAY) {

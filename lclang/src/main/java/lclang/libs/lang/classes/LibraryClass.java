@@ -1,4 +1,4 @@
-package lclang.libs.lang;
+package lclang.libs.lang.classes;
 
 import lclang.Caller;
 import lclang.LCBaseExecutor;
@@ -9,8 +9,8 @@ import lclang.methods.Method;
 import lclang.types.Type;
 import lclang.types.Types;
 import lclang.utils.Function2;
-import lclang.utils.Method2;
 import lclang.utils.ValueUtils;
+import lclang.utils.VoidMethod2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,7 +21,7 @@ public abstract class LibraryClass extends LCClass {
         super(name);
     }
 
-    public Method voidMethod(Method2<Caller, List<LCClass>> body, Type... args) {
+    public Method voidMethod(VoidMethod2<Caller, List<LCClass>> body, Type... args) {
         List<Type> arguments = Arrays.asList(args);
 
         return new Method(this, arguments, Types.VOID) {

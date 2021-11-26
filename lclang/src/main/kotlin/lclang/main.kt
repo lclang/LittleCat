@@ -2,8 +2,8 @@ package lclang
 
 import lclang.exceptions.LCLangException
 import lclang.libs.Library
-import lclang.libs.lang.ArrayClass
-import lclang.libs.lang.StringClass
+import lclang.libs.lang.classes.ArrayClass
+import lclang.libs.lang.classes.StringClass
 import org.mozilla.universalchardet.UniversalDetector
 import java.io.File
 import java.net.URL
@@ -97,7 +97,11 @@ fun main(cliArgs: Array<String>) {
 
     try {
         val executor = LCRootExecutor(executeFile.absolutePath.toString())
-        executor.executor.variables["args"] = ArrayClass(args.map { StringClass.get(it) }).asValue()
+        executor.executor.variables["args"] = ArrayClass(args.map {
+            StringClass.get(
+                it
+            )
+        }).asValue()
         executor.runInput(executeFile.readText(Charset.forName(UniversalDetector.detectCharset(executeFile))))
     } catch (e: LCLangException){
         println(ERROR_COLOR+e.message+RESET_COLOR)

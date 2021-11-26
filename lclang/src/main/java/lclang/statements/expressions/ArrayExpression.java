@@ -6,7 +6,7 @@ import lclang.LCClass;
 import lclang.Value;
 import lclang.exceptions.LCLangException;
 import lclang.exceptions.TypeErrorException;
-import lclang.libs.lang.ArrayClass;
+import lclang.libs.lang.classes.ArrayClass;
 import lclang.types.Types;
 import lclang.utils.ValueUtils;
 

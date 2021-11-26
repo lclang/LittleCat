@@ -1,16 +1,18 @@
 package lclang.libs.std
 
-import lclang.LCClass
-import lclang.Value
+import lclang.*
 import lclang.exceptions.LCLangException
 import lclang.libs.Library
-import lclang.libs.lang.*
+import lclang.libs.lang.classes.ArrayClass
+import lclang.libs.lang.classes.BoolClass
+import lclang.libs.lang.classes.NullClass
+import lclang.libs.lang.classes.StringClass
+import lclang.libs.lang.classes.numbers.IntClass
+import lclang.libs.lang.classes.numbers.LongClass
 import lclang.libs.std.classes.*
-import lclang.method
 import lclang.methods.Method
 import lclang.types.CallableType
 import lclang.types.Types
-import lclang.void
 import java.util.regex.Pattern
 import kotlin.system.exitProcess
 
@@ -18,9 +20,11 @@ import kotlin.system.exitProcess
 class StdLibrary: Library("std") {
 
     init {
+        globals["LC_VERSION"] = StringClass.get(Global.version).asValue()
+        globals["LC_BUILD"] = IntClass.get(Global.buildTime).asValue()
         classes["Socket"] = SocketClass.instance
-        classes["Output"] = OutputClass()
-        classes["Input"] = InputClass()
+        classes["Output"] = OutputClass.instance
+        classes["Input"] = InputClass.instance
         classes["File"] = FileClass()
 
         globals["math"] = MathClass().asValue()
@@ -34,15 +38,15 @@ class StdLibrary: Library("std") {
         }
 
         globals["assert"] = void(Types.BOOL) { args ->
-            if(args[0]==BoolClass.FALSE)
+            if(args[0]== BoolClass.FALSE)
                 throw LCLangException("Assertion Error", "Value is false", this)
         }
 
-        globals["exit"] = void(Types.INT) { exitProcess((it[0] as IntClass).int) }
-        globals["time"] = method(listOf(), Types.LONG) { LongClass(System.currentTimeMillis() / 1000) }
-        globals["millisTime"] = method(listOf(), Types.LONG) { LongClass(System.currentTimeMillis()) }
+        globals["exit"] = void(Types.INT) { exitProcess((it[0] as IntClass).value) }
+        globals["time"] = method(listOf(), Types.LONG) { LongClass.get(System.currentTimeMillis() / 1000) }
+        globals["millisTime"] = method(listOf(), Types.LONG) { LongClass.get(System.currentTimeMillis()) }
         globals["sleep"] = void(Types.LONG) {
-            Thread.sleep((it[0] as LongClass).long)
+            Thread.sleep((it[0] as LongClass).value)
         }
 
         globals["regexMatch"] = method(listOf(Types.STRING, Types.STRING), Types.ARRAY) {
@@ -51,7 +55,8 @@ class StdLibrary: Library("std") {
 
             if (!matcher.find()) return@method BoolClass.FALSE
 
-            val array = ArrayClass(listOf(StringClass.get(matcher.group(0))))
+            val array =
+                ArrayClass(listOf(StringClass.get(matcher.group(0))))
             for (i in 0 until matcher.groupCount()) {
                 val group = matcher.group(i+1)
                 array.add(if(group!=null)

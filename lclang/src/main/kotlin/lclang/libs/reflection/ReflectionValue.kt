@@ -3,7 +3,7 @@ package lclang.libs.reflection
 import lclang.Caller
 import lclang.LCClass
 import lclang.Value
-import lclang.libs.lang.NullClass
+import lclang.libs.lang.classes.NullClass
 import lclang.method
 import lclang.methods.Method
 import lclang.types.Types

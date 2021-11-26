@@ -1,8 +1,9 @@
-package lclang.libs.lang;
+package lclang.libs.lang.classes;
 
 import lclang.Caller;
 import lclang.LCClass;
 import lclang.exceptions.LCLangException;
+import lclang.libs.lang.classes.numbers.IntClass;
 import lclang.methods.Method;
 import lclang.types.CallableType;
 import lclang.types.Types;
@@ -13,6 +14,7 @@ import java.util.List;
 
 public class ArrayClass extends LibraryClass {
     public static final String name = "array";
+    public static final Types.MagicType type = new Types.MagicType(name);
     public static final ArrayClass instance = new ArrayClass();
 
     public List<LCClass> value;
@@ -46,11 +48,11 @@ public class ArrayClass extends LibraryClass {
         value = list;
 
         globals.put("add", voidMethod((caller, args) -> value.add(args.get(0)), Types.ANY).asValue());
-        globals.put("size", method((caller, args) -> IntClass.Companion.get(value.size()), Types.INT).asValue());
+        globals.put("size", method((caller, args) -> IntClass.get(value.size()), Types.INT).asValue());
         globals.put("last", method((caller, args) -> last(), Types.ANY).asValue());
         globals.put("remove", method((caller, args) -> BoolClass.get(list.remove(args.get(0))),
                 Types.ANY, Types.BOOL).asValue());
-        globals.put("removeAt", method((caller, args) -> list.remove(((IntClass) args.get(0)).getInt()),
+        globals.put("removeAt", method((caller, args) -> list.remove(((IntClass) args.get(0)).value),
                 Types.INT, Types.ANY).asValue());
         globals.put("join", method((caller, args) ->
                         StringClass.get(join(caller, ((StringClass) args.get(0)).string)),

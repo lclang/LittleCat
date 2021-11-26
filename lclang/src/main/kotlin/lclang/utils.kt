@@ -1,6 +1,11 @@
 package lclang
 
-import lclang.libs.lang.*
+import lclang.libs.lang.classes.BoolClass
+import lclang.libs.lang.classes.CharClass
+import lclang.libs.lang.classes.StringClass
+import lclang.libs.lang.classes.numbers.DoubleClass
+import lclang.libs.lang.classes.numbers.IntClass
+import lclang.libs.lang.classes.numbers.LongClass
 import lclang.methods.Method
 import lclang.types.NamedType
 import lclang.types.Type

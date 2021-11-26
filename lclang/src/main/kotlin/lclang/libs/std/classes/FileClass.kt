@@ -3,9 +3,9 @@ package lclang.libs.std.classes
 import lclang.LCClass
 import lclang.Value
 import lclang.constructor
-import lclang.libs.lang.ArrayClass
-import lclang.libs.lang.BoolClass
-import lclang.libs.lang.StringClass
+import lclang.libs.lang.classes.ArrayClass
+import lclang.libs.lang.classes.BoolClass
+import lclang.libs.lang.classes.StringClass
 import lclang.method
 import lclang.types.Types
 import java.io.File
@@ -26,10 +26,11 @@ class FileClass(): LCClass(FILE_CLASSNAME) {
             } ?: listOf())
         }
 
-        globals["openInput"] = method (returnType = Types.MagicType(INPUT_CLASSNAME)) {
-            InputClass(file.inputStream() )
+        globals["openInput"] = method (returnType = InputClass.type) {
+            InputClass(file.inputStream())
         }
-        globals["openOutput"] = method (returnType = Types.MagicType(OUTPUT_CLASSNAME)) {
+
+        globals["openOutput"] = method (returnType = OutputClass.type) {
             OutputClass(file.outputStream())
         }
 

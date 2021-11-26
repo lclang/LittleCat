@@ -4,7 +4,7 @@ import lclang.Caller;
 import lclang.LCBaseExecutor;
 import lclang.Value;
 import lclang.exceptions.LCLangException;
-import lclang.libs.lang.StringClass;
+import lclang.libs.lang.classes.StringClass;
 
 public class GetTypeExpression extends Expression {
     public final Expression expression;

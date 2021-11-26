@@ -1,9 +1,9 @@
 package lclang.libs.std.classes;
 
 import lclang.exceptions.LCLangIOException;
-import lclang.libs.lang.BoolClass;
-import lclang.libs.lang.IntClass;
-import lclang.libs.lang.LibraryClass;
+import lclang.libs.lang.classes.BoolClass;
+import lclang.libs.lang.classes.LibraryClass;
+import lclang.libs.lang.classes.numbers.IntClass;
 import lclang.types.Types;
 
 import java.io.IOException;
@@ -13,6 +13,7 @@ import java.net.Socket;
 public class SocketClass extends LibraryClass {
     public static final String name = "Socket";
     public static final SocketClass instance = new SocketClass();
+    public static final Types.MagicType type = new Types.MagicType(name);
 
     public SocketClass(Socket socket) {
         this();
@@ -22,7 +23,7 @@ public class SocketClass extends LibraryClass {
                     } catch (IOException e) {
                         throw new LCLangIOException(e.getMessage(), caller);
                     }
-                }, new Types.MagicType(InputClassKt.INPUT_CLASSNAME)).asValue());
+                }, InputClass.type).asValue());
 
         globals.put("getOutput", method((caller, lcClasses) -> {
                     try {
@@ -30,13 +31,13 @@ public class SocketClass extends LibraryClass {
                     } catch (IOException e) {
                         throw new LCLangIOException(e.getMessage(), caller);
                     }
-                }, new Types.MagicType(OutputClassKt.OUTPUT_CLASSNAME)).asValue());
+                }, OutputClass.type).asValue());
 
         globals.put("isConnected", method((caller, lcClasses) -> BoolClass.get(socket.isConnected()),
                 Types.BOOL).asValue());
         globals.put("isClosed", method((caller, lcClasses) -> BoolClass.get(socket.isClosed()),
                 Types.BOOL).asValue());
-        globals.put("getPort", method((caller, lcClasses) -> IntClass.Companion.get(socket.getPort()),
+        globals.put("getPort", method((caller, lcClasses) -> IntClass.get(socket.getPort()),
                 Types.INT).asValue());
 
         globals.put("close", voidMethod((caller, lcClasses) -> {
@@ -51,16 +52,12 @@ public class SocketClass extends LibraryClass {
     private SocketClass() {
         super(name);
         constructor = method((caller, arguments) -> {
-            int port = ((IntClass) arguments.get(1)).getInt();
+            int port = ((IntClass) arguments.get(1)).value;
             try {
                 return new SocketClass(new Socket(arguments.get(0).toString(caller), port));
             } catch (IOException e) {
                 throw new LCLangIOException(e.getMessage(), caller);
             }
-        }, Types.STRING, Types.INT, getType());
-    }
-
-    public static Types.MagicType getType() {
-        return new Types.MagicType(name);
+        }, Types.STRING, Types.INT, type);
     }
 }

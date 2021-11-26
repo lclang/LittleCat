@@ -4,7 +4,7 @@ import lclang.Caller;
 import lclang.LCBaseExecutor;
 import lclang.Value;
 import lclang.exceptions.LCLangException;
-import lclang.libs.lang.BoolClass;
+import lclang.libs.lang.classes.BoolClass;
 import lclang.statements.TypeStatement;
 
 public class IsExpression extends Expression {
