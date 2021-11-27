@@ -292,7 +292,7 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
     }
 
     public void fillFile(LCRootExecutor root, lclangParser.FileContext ctx) throws LCLangException {
-        root.globals.put("null", NullClass.NULL.asValue());
+        root.globals.put("null", NullClass.instance.asValue());
 
         List<LCRootExecutor> libraries = new ArrayList<>();
         libraries.addAll(Global.libraries);

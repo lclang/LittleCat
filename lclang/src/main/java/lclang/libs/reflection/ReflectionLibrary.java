@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class ReflectionLibrary extends Library {
     public ReflectionLibrary() {
         super("refLib");
+        classes.put("ReflectionValue", ReflectionValue.instance);
         globals.put("reflection", new ReflectionClass().asValue());
     }
 
@@ -19,7 +20,7 @@ public class ReflectionLibrary extends Library {
             super("Reflection");
             globals.put("getLink", ReflectionValue.instance.constructor.asValue());
             globals.put("getLibraries", method((caller, lcClasses) ->
-                    new ArrayClass(new ArrayList<>(Global.javaLibraries)), Types.ANY, Types.ARRAY).asValue());
+                    new ArrayClass(new ArrayList<>(Global.javaLibraries)), Types.ANY, ArrayClass.type).asValue());
         }
     }
 }

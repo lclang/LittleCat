@@ -27,15 +27,15 @@ public class NumberClass extends LibraryClass {
 
         extendsClass = instance;
         globals.put("toInt", method((caller, lcClasses) -> IntClass.get(number.intValue()),
-                Types.INT).asValue());
+                IntClass.type).asValue());
         globals.put("toLong", method((caller, lcClasses) -> LongClass.get(number.longValue()),
-                Types.LONG).asValue());
+                LongClass.type).asValue());
         globals.put("toDouble", method((caller, lcClasses) -> DoubleClass.get(number.doubleValue()),
-                Types.DOUBLE).asValue());
+                DoubleClass.type).asValue());
         globals.put("toChar", method((caller, lcClasses) -> CharClass.get((char) number.intValue()),
-                Types.CHAR).asValue());
+                CharClass.type).asValue());
         globals.put("toString", method((caller, lcClasses) -> StringClass.get(String.valueOf(number)),
-                Types.STRING).asValue());
+                StringClass.type).asValue());
     }
 
     public NumberClass add(NumberClass another) {

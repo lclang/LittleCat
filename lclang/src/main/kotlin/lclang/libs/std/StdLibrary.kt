@@ -12,7 +12,6 @@ import lclang.libs.lang.classes.numbers.LongClass
 import lclang.libs.std.classes.*
 import lclang.methods.Method
 import lclang.types.CallableType
-import lclang.types.Types
 import java.util.regex.Pattern
 import kotlin.system.exitProcess
 
@@ -27,7 +26,7 @@ class StdLibrary: Library("std") {
         classes["Input"] = InputClass.instance
         classes["File"] = FileClass()
 
-        globals["math"] = MathClass().asValue()
+        globals["math"] = MathClass.instance.asValue()
         globals["std"] = StdClass().asValue()
 
         globals["thread"] = void(CallableType()) {
@@ -37,19 +36,19 @@ class StdLibrary: Library("std") {
             }.start()
         }
 
-        globals["assert"] = void(Types.BOOL) { args ->
+        globals["assert"] = void(BoolClass.type) { args ->
             if(args[0]== BoolClass.FALSE)
                 throw LCLangException("Assertion Error", "Value is false", this)
         }
 
-        globals["exit"] = void(Types.INT) { exitProcess((it[0] as IntClass).value) }
-        globals["time"] = method(listOf(), Types.LONG) { LongClass.get(System.currentTimeMillis() / 1000) }
-        globals["millisTime"] = method(listOf(), Types.LONG) { LongClass.get(System.currentTimeMillis()) }
-        globals["sleep"] = void(Types.LONG) {
+        globals["exit"] = void(IntClass.type) { exitProcess((it[0] as IntClass).value) }
+        globals["time"] = method(listOf(), LongClass.type) { LongClass.get(System.currentTimeMillis() / 1000) }
+        globals["millisTime"] = method(listOf(), LongClass.type) { LongClass.get(System.currentTimeMillis()) }
+        globals["sleep"] = void(LongClass.type) {
             Thread.sleep((it[0] as LongClass).value)
         }
 
-        globals["regexMatch"] = method(listOf(Types.STRING, Types.STRING), Types.ARRAY) {
+        globals["regexMatch"] = method(listOf(StringClass.type, StringClass.type), ArrayClass.type) {
             val matcher = Pattern.compile(it[0].toString(this))
                 .matcher(it[1].toString(this))
 
@@ -61,7 +60,7 @@ class StdLibrary: Library("std") {
                 val group = matcher.group(i+1)
                 array.add(if(group!=null)
                     StringClass.get(group)
-                else NullClass.NULL)
+                else NullClass.instance)
             }
 
             return@method array
@@ -72,8 +71,8 @@ class StdLibrary: Library("std") {
         init {
             executor.variables["output"] = OutputClass(System.out).asValue()
             executor.variables["input"] = InputClass(System.`in`).asValue()
-            globals["classesCount"] = Value(Types.INT) { IntClass.get(classesCount) }
-            globals["getProperty"] = method(listOf(Types.STRING), Types.STRING) {
+            globals["classesCount"] = Value(IntClass.type) { IntClass.get(classesCount) }
+            globals["getProperty"] = method(listOf(StringClass.type), StringClass.type) {
                 StringClass.get(System.getProperty(it[0].toString(this), ""))
             }
         }

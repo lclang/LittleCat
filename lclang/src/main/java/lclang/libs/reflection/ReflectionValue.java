@@ -15,16 +15,16 @@ public class ReflectionValue extends LibraryClass {
     private ReflectionValue() {
         super(name);
         constructor = method((caller, lcClasses) -> new ReflectionValue(lcClasses.get(0)
-                .executor.getLink(caller, lcClasses.get(1).toString(caller))), Types.ANY, Types.STRING, type);
+                .executor.getLink(caller, lcClasses.get(1).toString(caller))), Types.ANY, StringClass.type, type);
     }
 
     public ReflectionValue(Value value) {
         this();
 
         this.value = value;
-        globals.put("type", method((caller, lcClasses) -> StringClass.get(value.type.toString()), value.type).asValue());
-        globals.put("get", method((caller, lcClasses) -> value.get.invoke(caller), value.type).asValue());
+        globals.put("type", method((caller, lcClasses) -> StringClass.get(value.type.toString()), StringClass.type).asValue());
+        globals.put("get", method((caller, lcClasses) -> value.get.invoke(caller), Types.ANY).asValue());
         globals.put("set", voidMethod((caller, lcClasses) ->
-                        value.set.invoke(caller, lcClasses.get(0).asValue()), value.type).asValue());
+                        value.set.invoke(caller, lcClasses.get(0).asValue()), Types.ANY).asValue());
     }
 }

@@ -7,7 +7,6 @@ import lclang.libs.lang.classes.ArrayClass
 import lclang.libs.lang.classes.BoolClass
 import lclang.libs.lang.classes.StringClass
 import lclang.method
-import lclang.types.Types
 import java.io.File
 
 const val FILE_CLASSNAME = "File"
@@ -17,10 +16,10 @@ class FileClass(): LCClass(FILE_CLASSNAME) {
         globals["path"] = StringClass.get(file.path).asValue()
         globals["absolutePath"] = StringClass.get(file.absolutePath).asValue()
         globals["canonicalPath"] = StringClass.get(file.canonicalPath).asValue()
-        globals["exists"] = Value(Types.BOOL) { BoolClass.get(file.exists()) }
-        globals["isDirectory"] = Value(Types.BOOL) { BoolClass.get(file.isDirectory) }
-        globals["isFile"] = Value(Types.BOOL) { BoolClass.get(file.isFile) }
-        globals["files"] = Value(Types.ARRAY) {
+        globals["exists"] = Value(BoolClass.type) { BoolClass.get(file.exists()) }
+        globals["isDirectory"] = Value(BoolClass.type) { BoolClass.get(file.isDirectory) }
+        globals["isFile"] = Value(BoolClass.type) { BoolClass.get(file.isFile) }
+        globals["files"] = Value(ArrayClass.type) {
             ArrayClass(file.listFiles()?.map {
                 FileClass(it)
             } ?: listOf())
@@ -34,13 +33,13 @@ class FileClass(): LCClass(FILE_CLASSNAME) {
             OutputClass(file.outputStream())
         }
 
-        globals["createDir"] = method (returnType = Types.BOOL) { BoolClass.get(file.mkdir()) }
-        globals["createDirs"] = method (returnType = Types.BOOL) { BoolClass.get(file.mkdirs()) }
-        globals["create"] = method (returnType = Types.BOOL) { BoolClass.get(file.createNewFile()) }
+        globals["createDir"] = method (returnType = BoolClass.type) { BoolClass.get(file.mkdir()) }
+        globals["createDirs"] = method (returnType = BoolClass.type) { BoolClass.get(file.mkdirs()) }
+        globals["create"] = method (returnType = BoolClass.type) { BoolClass.get(file.createNewFile()) }
     }
 
     init {
-        constructor = constructor(listOf(Types.STRING)) {
+        constructor = constructor(listOf(StringClass.type)) {
             FileClass(File(it[0].toString(this)))
         }
     }

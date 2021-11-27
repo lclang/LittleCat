@@ -19,16 +19,16 @@ public class StringClass extends LibraryClass {
     private StringClass() {
         super(name);
         constructor = method((caller, args) -> get(args.get(0).toString(caller)),
-                Types.ANY, Types.STRING);
+                Types.ANY, StringClass.type);
     }
 
     private StringClass(String string) {
         this();
         this.string = string;
-        globals.put("toString", method((caller, lcClasses) -> this, Types.STRING).asValue());
+        globals.put("toString", method((caller, lcClasses) -> this, StringClass.type).asValue());
         globals.put("length", IntClass.get(string.length()).asValue());
         globals.put("charAt", method((caller, args) -> CharClass.get(string.charAt(((IntClass) args.get(0)).value)),
-        Types.INT, Types.CHAR).asValue());
+            IntClass.type, CharClass.type).asValue());
         globals.put("toArray", method((caller, lcClasses) -> {
             List<LCClass> classes = new ArrayList<>();
 
@@ -37,12 +37,12 @@ public class StringClass extends LibraryClass {
                 classes.add(CharClass.get(character));
 
             return new ArrayClass(classes);
-        }, Types.ARRAY).asValue());
+        }, ArrayClass.type).asValue());
 
         globals.put("lower", method((caller, args) -> StringClass.get(string.toLowerCase()),
-                Types.STRING).asValue());
+                StringClass.type).asValue());
         globals.put("upper", method((caller, args) -> StringClass.get(string.toUpperCase()),
-                Types.STRING).asValue());
+                StringClass.type).asValue());
 
         globals.put("split", method((caller, args) -> {
             List<LCClass> classes = new ArrayList<>();
@@ -51,7 +51,7 @@ public class StringClass extends LibraryClass {
                 classes.add(StringClass.get(part));
 
             return new ArrayClass(classes);
-        }, Types.STRING).asValue());
+        }, StringClass.type).asValue());
 
         globals.put("substring", method((caller, args) ->
                         StringClass.get(
@@ -60,15 +60,15 @@ public class StringClass extends LibraryClass {
                                 ((IntClass) args.get(1)).value
                             )
                         ),
-                Types.INT, Types.INT, Types.STRING).asValue());
+                IntClass.type, IntClass.type, StringClass.type).asValue());
 
         globals.put("find", method((caller, args) ->
                         IntClass.get(string.indexOf(((CharClass) args.get(0)).value)),
-                Types.CHAR, Types.STRING).asValue());
+                CharClass.type, StringClass.type).asValue());
 
         globals.put("findLast", method((caller, args) ->
                         IntClass.get(string.lastIndexOf(((CharClass) args.get(0)).value)),
-                Types.CHAR, Types.STRING).asValue());
+                CharClass.type, StringClass.type).asValue());
     }
 
     public static StringClass get(String string) {

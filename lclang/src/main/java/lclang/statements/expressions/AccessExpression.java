@@ -22,7 +22,7 @@ public class AccessExpression extends Expression {
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangException {
         Caller caller = getCaller(prevCaller);
         LCClass value = expression.visit(caller, visitor).get.invoke(caller);
-        if(value==NullClass.NULL) throw new LCLangNullPointerException(caller);
+        if(value==NullClass.instance) throw new LCLangNullPointerException(caller);
 
         return variable.visit(caller, value.executor);
     }

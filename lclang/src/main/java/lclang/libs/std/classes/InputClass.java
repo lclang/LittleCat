@@ -36,37 +36,37 @@ public class InputClass extends LibraryClass {
                     }
                 }
             });
-        }, CallableType.get(Types.INT), type);
+        }, CallableType.get(IntClass.type), type);
     }
 
     public InputClass(InputStream input) {
         this();
         scanner = new Scanner(input);
         globals.put("hasNextLine", method((caller, lcClasses) ->
-                BoolClass.get(scanner.hasNextLine()), Types.BOOL).asValue());
+                BoolClass.get(scanner.hasNextLine()), BoolClass.type).asValue());
         globals.put("hasNextInt", method((caller, lcClasses) ->
-                BoolClass.get(scanner.hasNextInt()), Types.BOOL).asValue());
+                BoolClass.get(scanner.hasNextInt()), BoolClass.type).asValue());
         globals.put("hasNextByte", method((caller, lcClasses) ->
-                BoolClass.get(scanner.hasNextByte()), Types.BOOL).asValue());
+                BoolClass.get(scanner.hasNextByte()), BoolClass.type).asValue());
         globals.put("hasNextLong", method((caller, lcClasses) ->
-                BoolClass.get(scanner.hasNextLong()), Types.BOOL).asValue());
+                BoolClass.get(scanner.hasNextLong()), BoolClass.type).asValue());
         globals.put("hasNextDouble", method((caller, lcClasses) ->
-                BoolClass.get(scanner.hasNextDouble()), Types.BOOL).asValue());
+                BoolClass.get(scanner.hasNextDouble()), BoolClass.type).asValue());
         globals.put("hasNext", method((caller, lcClasses) ->
-                BoolClass.get(scanner.hasNext()), Types.BOOL).asValue());
+                BoolClass.get(scanner.hasNext()), BoolClass.type).asValue());
 
         globals.put("readLine", method((caller, lcClasses) ->
-                StringClass.get(scanner.nextLine()), Types.STRING).asValue());
+                StringClass.get(scanner.nextLine()), StringClass.type).asValue());
         globals.put("readInt", method((caller, lcClasses) ->
-                IntClass.get(scanner.nextInt()), Types.INT).asValue());
+                IntClass.get(scanner.nextInt()), IntClass.type).asValue());
         globals.put("readByte", method((caller, lcClasses) ->
-                LongClass.get(scanner.nextByte()), Types.LONG).asValue());
+                LongClass.get(scanner.nextByte()), LongClass.type).asValue());
         globals.put("readLong", method((caller, lcClasses) ->
-                LongClass.get(scanner.nextLong()), Types.LONG).asValue());
+                LongClass.get(scanner.nextLong()), LongClass.type).asValue());
         globals.put("readDouble", method((caller, lcClasses) ->
-                DoubleClass.get(scanner.nextDouble()), Types.DOUBLE).asValue());
+                DoubleClass.get(scanner.nextDouble()), DoubleClass.type).asValue());
         globals.put("read", method((caller, lcClasses) ->
-                StringClass.get(scanner.next()), Types.STRING).asValue());
+                StringClass.get(scanner.next()), StringClass.type).asValue());
 
         globals.put("close", voidMethod((caller, lcClasses) -> scanner.close()).asValue());
     }

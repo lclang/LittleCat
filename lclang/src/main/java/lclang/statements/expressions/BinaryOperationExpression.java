@@ -85,7 +85,7 @@ public class BinaryOperationExpression extends Expression {
         }
 
          switch (operation) {
-            case NULLABLE_OR : if(left.equals(NullClass.NULL))
+            case NULLABLE_OR : if(left.equals(NullClass.instance))
                 return rightValue;
             else return leftValue;
 

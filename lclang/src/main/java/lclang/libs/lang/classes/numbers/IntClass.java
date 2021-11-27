@@ -24,7 +24,7 @@ public class IntClass extends NumberClass {
         super(name, value);
         this.value = value;
         globals.put("toString", method((caller, lcClasses) -> StringClass.get(String.valueOf(value)),
-                Types.STRING).asValue());
+                StringClass.type).asValue());
     }
 
     @Override

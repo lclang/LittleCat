@@ -8,7 +8,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class NullClass extends LibraryClass {
     public static final String name = "null";
-    public static final NullClass NULL = new NullClass();
+    public static final Types.MagicType type = new Types.MagicType(name);
+    public static final NullClass instance = new NullClass();
 
     private NullClass() {
         super(name);
@@ -23,9 +24,5 @@ public class NullClass extends LibraryClass {
     @Override
     public String toString(Caller caller) {
         return "null";
-    }
-
-    public static Types.MagicType getType() {
-        return new Types.MagicType(name);
     }
 }

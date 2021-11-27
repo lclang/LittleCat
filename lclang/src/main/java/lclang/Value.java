@@ -44,7 +44,7 @@ public class Value {
             Type type,
             State state
     ) {
-        this(type, caller -> NullClass.NULL, state);
+        this(type, caller -> NullClass.instance, state);
     }
 
     public Value(

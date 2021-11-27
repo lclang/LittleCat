@@ -18,6 +18,6 @@ public class LangLibrary extends Library {
         classes.put("long", LongClass.instance);
         classes.put("number", NumberClass.instance);
         classes.put("string", StringClass.instance);
-        classes.put("null", NullClass.NULL);
+        classes.put("null", NullClass.instance);
     }
 }

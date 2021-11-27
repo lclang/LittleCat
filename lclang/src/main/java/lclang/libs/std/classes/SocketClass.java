@@ -3,6 +3,7 @@ package lclang.libs.std.classes;
 import lclang.exceptions.LCLangIOException;
 import lclang.libs.lang.classes.BoolClass;
 import lclang.libs.lang.classes.LibraryClass;
+import lclang.libs.lang.classes.StringClass;
 import lclang.libs.lang.classes.numbers.IntClass;
 import lclang.types.Types;
 
@@ -34,11 +35,11 @@ public class SocketClass extends LibraryClass {
                 }, OutputClass.type).asValue());
 
         globals.put("isConnected", method((caller, lcClasses) -> BoolClass.get(socket.isConnected()),
-                Types.BOOL).asValue());
+                BoolClass.type).asValue());
         globals.put("isClosed", method((caller, lcClasses) -> BoolClass.get(socket.isClosed()),
-                Types.BOOL).asValue());
+                BoolClass.type).asValue());
         globals.put("getPort", method((caller, lcClasses) -> IntClass.get(socket.getPort()),
-                Types.INT).asValue());
+                IntClass.type).asValue());
 
         globals.put("close", voidMethod((caller, lcClasses) -> {
             try {
@@ -58,6 +59,6 @@ public class SocketClass extends LibraryClass {
             } catch (IOException e) {
                 throw new LCLangIOException(e.getMessage(), caller);
             }
-        }, Types.STRING, Types.INT, type);
+        }, StringClass.type, IntClass.type, type);
     }
 }

@@ -7,8 +7,8 @@ import lclang.Value;
 import lclang.exceptions.LCLangException;
 import lclang.exceptions.TypeErrorException;
 import lclang.libs.lang.classes.ArrayClass;
-import lclang.types.Types;
 import lclang.utils.ValueUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,10 +21,11 @@ public class ArrayExpression extends Expression {
         this.array = array;
     }
 
+    @NotNull
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor executor) throws LCLangException {
         final List<Value> values = ValueUtils.valuesFromExpressions(prevCaller, executor, Arrays.asList(array));
-        return new Value(Types.ARRAY, caller -> new ArrayClass(
+        return new Value(ArrayClass.type, caller -> new ArrayClass(
                 ValueUtils.classesFromValues(caller, executor, values)
         ), (setCaller, newValue) -> {
             LCClass valueClass = newValue.get.invoke(setCaller);

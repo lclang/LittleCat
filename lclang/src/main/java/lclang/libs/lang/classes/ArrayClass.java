@@ -25,7 +25,7 @@ public class ArrayClass extends LibraryClass {
     public LCClass get(int index) {
         return value.size() > index ?
                 value.get(index)
-                : NullClass.NULL;
+                : NullClass.instance;
     }
 
     public void add(LCClass clazz) {
@@ -50,18 +50,18 @@ public class ArrayClass extends LibraryClass {
         globals.put("add", voidMethod((caller, args) ->
                 value.add(args.get(0)),
                 Types.ANY).asValue());
-        globals.put("size", method((caller, args) -> IntClass.get(value.size()), Types.INT).asValue());
+        globals.put("size", method((caller, args) -> IntClass.get(value.size()), IntClass.type).asValue());
         globals.put("last", method((caller, args) -> last(), Types.ANY).asValue());
         globals.put("remove", method((caller, args) -> BoolClass.get(list.remove(args.get(0))),
-                Types.ANY, Types.BOOL).asValue());
+                Types.ANY, BoolClass.type).asValue());
         globals.put("removeAt", method((caller, args) -> list.remove(((IntClass) args.get(0)).value),
-                Types.INT, Types.ANY).asValue());
+                IntClass.type, Types.ANY).asValue());
         globals.put("join", method((caller, args) ->
                         StringClass.get(join(caller, ((StringClass) args.get(0)).string)),
-                Types.STRING, Types.STRING).asValue());
+                StringClass.type, StringClass.type).asValue());
         globals.put("toString", method((caller, args) ->
                         StringClass.get("["+join(caller, ", ")+"]"),
-                Types.STRING).asValue());
+                StringClass.type).asValue());
 
         globals.put("filter", method((caller, args) -> {
             Method method = (Method) args.get(0);
@@ -72,8 +72,8 @@ public class ArrayClass extends LibraryClass {
                 }
             }
 
-            return NullClass.NULL;
-        }, CallableType.get(Types.ANY, Types.BOOL), Types.ANY).asValue());
+            return NullClass.instance;
+        }, CallableType.get(Types.ANY, BoolClass.type), Types.ANY).asValue());
 
         globals.put("forEach", voidMethod((caller, args) -> {
             Method method = (Method) args.get(0);

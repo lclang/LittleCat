@@ -17,7 +17,7 @@ public class BoolClass extends LibraryClass {
         this();
         this.bool = bool;
         globals.put("toString", method((caller, lcClasses) -> StringClass.get(String.valueOf(bool)),
-                Types.STRING).asValue());
+                StringClass.type).asValue());
     }
 
     @Override

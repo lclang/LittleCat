@@ -36,7 +36,7 @@ public class OutputClass extends LibraryClass {
                     }
                 }
             });
-        }, CallableType.get(Types.INT, Types.VOID), type);
+        }, CallableType.get(IntClass.type, Types.VOID), type);
     }
 
     public OutputClass(OutputStream stream) {
@@ -65,6 +65,6 @@ public class OutputClass extends LibraryClass {
             }
 
             printer.printf(main, (Object[]) args);
-        }, Types.ANY, Types.ARRAY).asValue());
+        }, Types.ANY, ArrayClass.type).asValue());
     }
 }
