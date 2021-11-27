@@ -5,17 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eb2edc7a-653c-417d-86ce-2db3142e1174" name="Changes" comment="Optimization">
-      <change afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/UnaryOperationExpression.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/reflection/ReflectionLibrary.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/reflection/ReflectionValue.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/libs/base.lcat" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/libs/base.lcat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclang.interp" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclang.interp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclang.tokens" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclang.tokens" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangBaseListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangBaseListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangBaseVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangBaseVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangLexer.interp" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangLexer.interp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangLexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangLexer.tokens" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangLexer.tokens" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangVisitor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/LCCompiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/LCCompiler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/methods/MethodImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/methods/MethodImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/BlockStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/BlockStatement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/ClassStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/ClassStatement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/MethodStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/MethodStatement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/Statement.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/Statement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/kotlin/lclang/statements/BinaryOperationExpression.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/kotlin/lclang/statements/UnaryOperationExpression.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/kotlin/lclang/statements/types.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/lclang.g4" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/lclang.g4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/ArrayClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/ArrayClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/MagicTypeStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/MagicTypeStatement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/TypeStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/TypeStatement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/kotlin/lclang/libs/reflection/ReflectionLibrary.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/kotlin/lclang/libs/reflection/ReflectionValue.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/kotlin/lclang/main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/kotlin/lclang/main.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,6 +54,12 @@
           <activation />
         </task>
         <task path="$PROJECT_DIR$/postvm">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$/main">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$/lclang">
           <activation />
         </task>
         <projects_view>
@@ -96,7 +113,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../lclang-intellij/out/artifacts/lclang_intellij_jar/lclang-intellij.jar" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lclang" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.50491804" />
@@ -126,11 +143,11 @@
       <recent name="lclang.libs.std" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="lclang.libs.reflection" />
       <recent name="lclang.statements" />
       <recent name="lclang.libs.lang" />
       <recent name="lclang.libs.std.classes" />
       <recent name="lclang.libs.std" />
-      <recent name="lclang" />
     </key>
     <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
       <recent name="lclang.statements" />
@@ -146,11 +163,11 @@
       <recent name="lclang" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.Run lclang tests">
+  <component name="RunManager" selected="Kotlin.Run CLI">
     <configuration name="Build jar" type="GradleRunConfiguration" factoryName="Gradle">
       <ExternalSystemSettings>
         <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/main" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/lclang" />
         <option name="externalSystemIdString" value="GRADLE" />
         <option name="scriptParameters" value="appJar" />
         <option name="taskDescriptions">
@@ -289,8 +306,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.Run lclang tests" />
         <item itemvalue="Kotlin.Run CLI" />
+        <item itemvalue="Gradle.Run lclang tests" />
         <item itemvalue="JAR Application.app-0.1.1.jar" />
       </list>
     </recent_temporary>
@@ -303,13 +320,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1628529223618</updated>
-    </task>
-    <task id="LOCAL-00035" summary="Last fix?">
-      <created>1632240370807</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1632240370807</updated>
     </task>
     <task id="LOCAL-00036" summary="Last fix?">
       <created>1632240527394</created>
@@ -647,7 +657,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637947015443</updated>
     </task>
-    <option name="localTasksCounter" value="84" />
+    <task id="LOCAL-00084" summary="Optimization">
+      <created>1637949901796</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1637949901796</updated>
+    </task>
+    <option name="localTasksCounter" value="85" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -719,6 +736,16 @@
           <url>file://$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/numbers/NumberClass.java</url>
           <line>79</line>
           <option name="timeStamp" value="44" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/ArrayClass.java</url>
+          <line>88</line>
+          <option name="timeStamp" value="52" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/ArrayClass.java</url>
+          <line>89</line>
+          <option name="timeStamp" value="53" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

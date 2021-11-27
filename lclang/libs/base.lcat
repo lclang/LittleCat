@@ -29,3 +29,13 @@ class Map {
 class Entry(key, value) {
     method toString(): string = key.toString() + " => " + value.toString()
 }
+
+method range(start: int, end: int, change: int): array {
+    range = []
+    while start < end: {
+        range.add(start)
+        start += change
+    }
+
+    return range
+}

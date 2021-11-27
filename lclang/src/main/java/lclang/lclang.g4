@@ -50,6 +50,7 @@ COMPONENT: 'component';
 STOP: 'stop';
 RETURN: 'return';
 WHILE: 'while';
+AS: 'as';
 IF: 'if';
 IS: 'is';
 ELSE: 'else';
@@ -69,6 +70,7 @@ fragment UNICODE: 'u' HEX HEX HEX HEX;
 fragment HEX: [0-9A-f];
 /** FILE STRUCTURE **/
 file:
+      use*
       global*           // Globals
       (                 // Body:
         stmt        |       // Statements
@@ -171,6 +173,8 @@ extendsArgs: (expression COMMA)* expression?;
 arg: ID (COLON type)?;
 attribute: AS_ATTR ID;
 method: attribute* METHOD ID OPEN (arg COMMA)* arg? CLOSE (COLON returnType=type)? (block|ASSIGN expression);
+
+use: USE name=ID (AS alias=ID) SEMICOLON?;
 
 //File expressions
 global: GLOBAL ID ASSIGN value SEMICOLON?;

@@ -4,12 +4,8 @@ import lclang.Caller;
 import lclang.LCRootExecutor;
 import lclang.exceptions.LCLangException;
 import lclang.types.Type;
-import lclang.types.Types;
 
 public abstract class TypeStatement {
-    public static final MagicTypeStatement ANY = new MagicTypeStatement(Types.ANY);
-    public static final MagicTypeStatement VOID = new MagicTypeStatement(Types.VOID);
-
     public final int line;
     public boolean nullable;
 

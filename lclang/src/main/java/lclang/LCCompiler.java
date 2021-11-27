@@ -265,7 +265,7 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
     @Override
     public Statement visitLambda(lclangParser.LambdaContext ctx) {
         lclangParser.TypeContext returnTypeCtx = ctx.type();
-        TypeStatement returnType = TypeStatement.VOID;
+        TypeStatement returnType = MagicTypeStatement.VOID;
         if(returnTypeCtx!=null)
             returnType = getType(returnTypeCtx);
 
@@ -280,7 +280,7 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
     public List<MethodStatement.Argument> getArguments(List<lclangParser.ArgContext> argsCtx) {
        List<MethodStatement.Argument> args = new ArrayList<>();
         for (lclangParser.ArgContext argCtx: argsCtx) {
-            TypeStatement type = TypeStatement.ANY;
+            TypeStatement type = MagicTypeStatement.ANY;
             lclangParser.TypeContext typeContext = argCtx.type();
             if(typeContext!=null)
                 type = getType(typeContext);
@@ -294,11 +294,13 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
     public void fillFile(LCRootExecutor root, lclangParser.FileContext ctx) throws LCLangException {
         root.globals.put("null", NullClass.NULL.asValue());
 
-        ArrayList<LCRootExecutor> libraries = new ArrayList<>();
+        List<LCRootExecutor> libraries = new ArrayList<>();
         libraries.addAll(Global.libraries);
         libraries.addAll(Global.javaLibraries);
 
-        for(LCRootExecutor library: libraries) root.accept(library);
+        for (LCRootExecutor library: libraries) {
+            root.accept(library);
+        }
 
         root.statements.clear();
         List<lclangParser.StmtContext> statementsCtx = ctx.stmt();
@@ -355,7 +357,7 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
 
     public MethodStatement getMethod(lclangParser.MethodContext ctx) {
         lclangParser.TypeContext returnTypeCtx = ctx.type();
-        TypeStatement returnType = TypeStatement.VOID;
+        TypeStatement returnType = MagicTypeStatement.VOID;
         if(returnTypeCtx!=null) returnType = getType(returnTypeCtx);
 
         Statement statement;

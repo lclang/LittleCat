@@ -10,6 +10,7 @@ import java.net.URL
 import java.net.URLClassLoader
 import java.nio.charset.Charset
 import java.nio.file.Paths
+import java.util.*
 import java.util.jar.JarFile
 import kotlin.system.exitProcess
 
@@ -40,16 +41,30 @@ fun main(cliArgs: Array<String>) {
     }
 
     if(cliArgs.isEmpty()){
+        val scanner = Scanner(System.`in`)
         println("Little cat ${Global.version} (Build date: ${Global.buildTime})")
         val file = LCRootExecutor("file.lcat")
         file.runInput("")
 
         var data = ""
+        var running = true
+        Runtime.getRuntime().addShutdownHook(Thread {
+            running = false
+        })
 
-        while (true) {
+        fun read(): String? {
+            while (running) {
+                if(scanner.hasNextLine())
+                    return scanner.nextLine()
+            }
+
+            return null
+        }
+
+        while (running) {
             print("> ")
 
-            when (val code = readLine()) {
+            when (val code = read()) {
                 ":code" -> println(data)
                 ":reset" -> {
                     data = ""
@@ -61,6 +76,7 @@ fun main(cliArgs: Array<String>) {
                 }
 
                 null -> {}
+
                 else -> {
                     data += code + "\n\r"
 
@@ -69,7 +85,7 @@ fun main(cliArgs: Array<String>) {
                     } catch (e: LCLangException){
                         println(ERROR_COLOR+e.message+RESET_COLOR)
                     } catch (e: Exception){
-                        println(ERROR_COLOR+e::class.java.simpleName+": "+e.message+RESET_COLOR)
+                        println(ERROR_COLOR+e.javaClass.simpleName+": "+e.message+RESET_COLOR)
                     }
                 }
             }
