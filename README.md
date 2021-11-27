@@ -1,3 +1,4 @@
+![Cat](https://user-images.githubusercontent.com/40952805/143680532-a3a24a74-c39b-4bbf-a32b-bc8216af63d6.png)
 # Little Cat Language
 [![Discord][DiscordBadge]][DiscordUrl]
 
