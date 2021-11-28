@@ -6,7 +6,6 @@ import lclang.LCClass;
 import lclang.Value;
 import lclang.exceptions.LCLangClassNotFoundException;
 import lclang.exceptions.LCLangRuntimeException;
-import org.jetbrains.annotations.NotNull;
 
 public class GetClassConstructorExpression extends Expression {
     public final String name;
@@ -16,7 +15,6 @@ public class GetClassConstructorExpression extends Expression {
         this.name = name;
     }
 
-    @NotNull
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         LCClass clazz = visitor.root.classes.get(name);

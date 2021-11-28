@@ -7,7 +7,6 @@ import lclang.Value;
 import lclang.exceptions.LCLangNullPointerException;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.NullClass;
-import org.jetbrains.annotations.NotNull;
 
 public class AccessExpression extends Expression {
     public final Expression expression;
@@ -19,7 +18,6 @@ public class AccessExpression extends Expression {
         this.variable = variable;
     }
 
-    @NotNull
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         Caller caller = getCaller(prevCaller);

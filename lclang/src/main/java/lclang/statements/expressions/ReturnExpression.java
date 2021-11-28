@@ -4,7 +4,6 @@ import lclang.Caller;
 import lclang.LCBaseExecutor;
 import lclang.Value;
 import lclang.exceptions.LCLangRuntimeException;
-import org.jetbrains.annotations.NotNull;
 
 public class ReturnExpression extends Expression {
     public final Expression expression;
@@ -14,7 +13,6 @@ public class ReturnExpression extends Expression {
         this.expression = expression;
     }
 
-    @NotNull
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         Value value = Value.VOID;

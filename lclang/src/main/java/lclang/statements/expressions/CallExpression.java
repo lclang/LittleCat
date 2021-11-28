@@ -9,7 +9,6 @@ import lclang.methods.Method;
 import lclang.types.CallableType;
 import lclang.types.Type;
 import lclang.utils.TypeUtils;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +23,6 @@ public class CallExpression extends Expression {
         this.arguments = arguments;
     }
 
-    @NotNull
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         Caller expressionCaller = expression.getCaller(prevCaller);

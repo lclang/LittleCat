@@ -26,8 +26,13 @@ public class Caller {
 
     public List<Caller> toList() {
         List<Caller> callers = new ArrayList<>();
-        if(prevCaller!=null) callers.addAll(prevCaller.toList());
-        callers.add(this);
+        if(prevCaller!=null) {
+            callers.addAll(prevCaller.toList());
+        }
+
+        if(prevCaller==null||prevCaller.line!=line)
+            callers.add(this);
+
         return callers;
     }
 

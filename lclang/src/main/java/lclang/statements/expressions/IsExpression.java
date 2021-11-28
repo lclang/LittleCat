@@ -6,7 +6,6 @@ import lclang.Value;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.BoolClass;
 import lclang.statements.TypeStatement;
-import org.jetbrains.annotations.NotNull;
 
 public class IsExpression extends Expression {
     public final Expression checkExpression;
@@ -17,7 +16,6 @@ public class IsExpression extends Expression {
         this.type = type;
     }
 
-    @NotNull
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         return BoolClass.get(type

@@ -5,7 +5,6 @@ import lclang.LCBaseExecutor;
 import lclang.Value;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.statements.Statement;
-import org.jetbrains.annotations.NotNull;
 
 public class ContainerExpression extends Expression {
     private final Statement[] statements;
@@ -15,7 +14,6 @@ public class ContainerExpression extends Expression {
         this.statements = statements;
     }
 
-    @NotNull
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         for(Statement stmt: statements) {

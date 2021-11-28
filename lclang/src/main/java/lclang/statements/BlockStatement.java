@@ -4,7 +4,6 @@ import lclang.Caller;
 import lclang.LCBaseExecutor;
 import lclang.Value;
 import lclang.exceptions.LCLangRuntimeException;
-import org.jetbrains.annotations.NotNull;
 
 public class BlockStatement extends Statement {
     public final Statement[] statements;
@@ -14,7 +13,6 @@ public class BlockStatement extends Statement {
         this.statements = statements;
     }
 
-    @NotNull
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         for(Statement stmt: statements) {

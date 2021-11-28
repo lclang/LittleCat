@@ -6,7 +6,6 @@ import lclang.types.Type;
 import lclang.types.Types;
 import lclang.utils.Function;
 import lclang.utils.VoidMethod2;
-import org.jetbrains.annotations.NotNull;
 
 public class Value {
     public final Type type;
@@ -61,7 +60,7 @@ public class Value {
 
     public Value(
             Type type,
-            @NotNull LCClass value,
+            LCClass value,
             State state
     ) {
         this(type, caller -> value, state);

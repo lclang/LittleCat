@@ -1,8 +1,8 @@
 package lclang;
 
 import lclang.exceptions.LCLangRuntimeException;
+import lclang.libs.lang.classes.NullClass;
 import lclang.statements.Statement;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +23,7 @@ public class LCRootExecutor {
         globals.putAll(root.globals);
     }
 
-    @Nullable public Value getLink(Caller caller, String name) throws LCLangRuntimeException {
+    public Value getLink(Caller caller, String name) throws LCLangRuntimeException {
         return globals.getOrDefault(name, null);
     }
 
@@ -37,6 +37,6 @@ public class LCRootExecutor {
                 return clazz;
         }
 
-        return null;
+        return NullClass.instance;
     }
 }

@@ -7,7 +7,6 @@ import lclang.exceptions.LCLangRuntimeException;
 import lclang.methods.MethodImpl;
 import lclang.statements.MethodStatement;
 import lclang.statements.TypeStatement;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -26,7 +25,6 @@ public class LambdaExpression extends Expression {
         this.expression = expression;
     }
 
-    @NotNull
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         return new MethodImpl(visitor, args,

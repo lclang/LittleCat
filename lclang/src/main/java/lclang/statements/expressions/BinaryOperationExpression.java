@@ -12,7 +12,6 @@ import lclang.libs.lang.classes.NullClass;
 import lclang.libs.lang.classes.StringClass;
 import lclang.libs.lang.classes.numbers.IntClass;
 import lclang.libs.lang.classes.numbers.NumberClass;
-import org.jetbrains.annotations.NotNull;
 
 public class BinaryOperationExpression extends Expression {
     public final Expression left;
@@ -26,7 +25,6 @@ public class BinaryOperationExpression extends Expression {
         this.operation = operation;
     }
 
-    @NotNull
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         Caller caller = getCaller(prevCaller);

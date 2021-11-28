@@ -4,7 +4,6 @@ import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.StringClass;
 import lclang.methods.Method;
 import lclang.types.NamedType;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -25,7 +24,6 @@ public class LCClass extends LCRootExecutor {
         this.name = name;
     }
 
-    @Nullable
     @Override
     public Value getLink(Caller caller, String name) throws LCLangRuntimeException {
         Value value = super.getLink(caller, name);

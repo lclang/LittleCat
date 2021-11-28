@@ -5,7 +5,6 @@ import lclang.LCBaseExecutor;
 import lclang.LCRootExecutor;
 import lclang.Value;
 import lclang.exceptions.LCLangRuntimeException;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class Statement {
     public final int line;
@@ -14,13 +13,12 @@ public abstract class Statement {
         this.line = line;
     }
 
-    @NotNull
     public abstract Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException;
 
-    public Caller getCaller(@NotNull Caller caller) {
+    public Caller getCaller(Caller caller) {
         return new Caller(caller.root, line, caller);
     }
-    public Caller getCaller(@NotNull LCRootExecutor root) {
+    public Caller getCaller(LCRootExecutor root) {
         return new Caller(root, line, null);
     }
 }

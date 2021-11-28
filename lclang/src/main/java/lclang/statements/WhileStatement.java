@@ -6,7 +6,6 @@ import lclang.Value;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.BoolClass;
 import lclang.statements.expressions.Expression;
-import org.jetbrains.annotations.NotNull;
 
 public class WhileStatement extends Statement {
     public final Expression condition;
@@ -18,7 +17,6 @@ public class WhileStatement extends Statement {
         this.body = body;
     }
 
-    @NotNull
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         if(body==null) {

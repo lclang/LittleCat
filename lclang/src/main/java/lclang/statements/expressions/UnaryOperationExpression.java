@@ -10,7 +10,6 @@ import lclang.exceptions.LCLangTypeErrorException;
 import lclang.libs.lang.classes.BoolClass;
 import lclang.libs.lang.classes.numbers.IntClass;
 import lclang.libs.lang.classes.numbers.NumberClass;
-import org.jetbrains.annotations.NotNull;
 
 public class UnaryOperationExpression extends Expression {
     public final Expression expression;
@@ -22,7 +21,6 @@ public class UnaryOperationExpression extends Expression {
         this.operation = operation;
     }
 
-    @NotNull
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         Caller caller = getCaller(prevCaller);

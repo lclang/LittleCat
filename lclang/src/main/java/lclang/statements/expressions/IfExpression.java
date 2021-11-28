@@ -6,7 +6,6 @@ import lclang.LCClass;
 import lclang.Value;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.BoolClass;
-import org.jetbrains.annotations.NotNull;
 
 public class IfExpression extends Expression {
     public final Expression condition;
@@ -20,7 +19,6 @@ public class IfExpression extends Expression {
         this.ifFalse = ifFalse;
     }
 
-    @NotNull
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         LCClass cond = condition.visit(prevCaller, visitor).get.invoke(prevCaller);
