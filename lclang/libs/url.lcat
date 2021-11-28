@@ -15,12 +15,12 @@ class URL(scheme  : string,
             hash  : ?string) {
     method openConnection(): ?Connection {
         hostParts = []
-        if host!=null: hostParts = host.split(':')
+        if host!=null: hostParts = host.split(":")
 
         if scheme=="http": {
-            return :HTTPConnection(:Socket(hostParts[0], :int(hostParts[1] ?: 80)), this)
+            return :HTTPConnection(:Socket(hostParts[0] ?: host, :int(hostParts[1] ?: 80)), this)
         }else if scheme=="https": {
-            return :HTTPConnection(:Socket(hostParts[0], :int(hostParts[1] ?: 443)), this)
+            return :HTTPConnection(:Socket(hostParts[0] ?: host, :int(hostParts[1] ?: 443)), this)
         }else if scheme=="file": {
             return :Connection(-> (connection: Connection) {
                 file = :File(path)
@@ -65,10 +65,11 @@ class HTTPConnection(socket: Socket, url: URL) extends Connection {
     }
 
     method connect() {
-        socket.getOutput().println("GET "+url.getFullPath()+" HTTP/1.1")
-        headers.forEach(-> (header) socket.output.println(header))
-        socket.getOutput().println("")
-        socket.getOutput().flush()
+        output = socket.getOutput()
+        output.println("GET "+url.getFullPath()+" HTTP/1.1")
+        headers.forEach(-> (header) output.println(header))
+        output.println("")
+        output.flush()
     }
 }
 

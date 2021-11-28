@@ -9,9 +9,9 @@ import java.util.Objects;
 
 public class LongClass extends NumberClass {
     public static final String name = "long";
-    public static final LongClass instance = new LongClass();
     public static final Map<Long, LongClass> cache = new HashMap<>();
     public static final Types.MagicType type = new Types.MagicType(name);
+    public static final LongClass instance = new LongClass();
     public long value;
 
     private LongClass() {

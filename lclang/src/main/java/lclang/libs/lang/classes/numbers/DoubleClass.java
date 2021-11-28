@@ -9,9 +9,9 @@ import java.util.Objects;
 
 public class DoubleClass extends NumberClass {
     public static final String name = "double";
-    public static final DoubleClass instance = new DoubleClass();
     public static final Map<Double, DoubleClass> cache = new HashMap<>();
     public static final Types.MagicType type = new Types.MagicType(name);
+    public static final DoubleClass instance = new DoubleClass();
     public double value;
 
     private DoubleClass() {

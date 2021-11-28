@@ -19,13 +19,13 @@ public class StringClass extends LibraryClass {
     private StringClass() {
         super(name);
         constructor = method((caller, args) -> get(args.get(0).toString(caller)),
-                Types.ANY, StringClass.type);
+                Types.ANY, type);
     }
 
     private StringClass(String string) {
         this();
         this.string = string;
-        globals.put("toString", method((caller, lcClasses) -> this, StringClass.type).asValue());
+        globals.put("toString", method((caller, lcClasses) -> this, type).asValue());
         globals.put("length", IntClass.get(string.length()).asValue());
         globals.put("charAt", method((caller, args) -> CharClass.get(string.charAt(((IntClass) args.get(0)).value)),
             IntClass.type, CharClass.type).asValue());
@@ -39,10 +39,8 @@ public class StringClass extends LibraryClass {
             return new ArrayClass(classes);
         }, ArrayClass.type).asValue());
 
-        globals.put("lower", method((caller, args) -> StringClass.get(string.toLowerCase()),
-                StringClass.type).asValue());
-        globals.put("upper", method((caller, args) -> StringClass.get(string.toUpperCase()),
-                StringClass.type).asValue());
+        globals.put("lower", method((caller, args) -> StringClass.get(string.toLowerCase()), type).asValue());
+        globals.put("upper", method((caller, args) -> StringClass.get(string.toUpperCase()), type).asValue());
 
         globals.put("split", method((caller, args) -> {
             List<LCClass> classes = new ArrayList<>();
@@ -51,7 +49,7 @@ public class StringClass extends LibraryClass {
                 classes.add(StringClass.get(part));
 
             return new ArrayClass(classes);
-        }, StringClass.type).asValue());
+        }, type, type).asValue());
 
         globals.put("substring", method((caller, args) ->
                         StringClass.get(
@@ -60,15 +58,15 @@ public class StringClass extends LibraryClass {
                                 ((IntClass) args.get(1)).value
                             )
                         ),
-                IntClass.type, IntClass.type, StringClass.type).asValue());
+                IntClass.type, IntClass.type, type).asValue());
 
         globals.put("find", method((caller, args) ->
                         IntClass.get(string.indexOf(((CharClass) args.get(0)).value)),
-                CharClass.type, StringClass.type).asValue());
+                CharClass.type, type).asValue());
 
         globals.put("findLast", method((caller, args) ->
                         IntClass.get(string.lastIndexOf(((CharClass) args.get(0)).value)),
-                CharClass.type, StringClass.type).asValue());
+                CharClass.type, type).asValue());
     }
 
     public static StringClass get(String string) {

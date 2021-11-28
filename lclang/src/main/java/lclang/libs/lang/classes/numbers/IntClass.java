@@ -9,9 +9,9 @@ import java.util.Objects;
 
 public class IntClass extends NumberClass {
     public static final String name = "int";
-    public static final IntClass instance = new IntClass();
-    public static final Map<Integer, IntClass> cache = new HashMap<>();
     public static final Types.MagicType type = new Types.MagicType(name);
+    public static final Map<Integer, IntClass> cache = new HashMap<>();
+    public static final IntClass instance = new IntClass();
     public int value;
 
     private IntClass() {

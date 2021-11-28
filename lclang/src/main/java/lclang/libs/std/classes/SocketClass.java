@@ -13,8 +13,8 @@ import java.net.Socket;
 
 public class SocketClass extends LibraryClass {
     public static final String name = "Socket";
-    public static final SocketClass instance = new SocketClass();
     public static final Types.MagicType type = new Types.MagicType(name);
+    public static final SocketClass instance = new SocketClass();
 
     public SocketClass(Socket socket) {
         this();

@@ -6,12 +6,12 @@ import lclang.libs.lang.classes.numbers.NumberClass;
 import lclang.types.Types;
 
 public class MathClass extends LibraryClass {
-    public static final String name = "math";
-    public static final MathClass instance = new MathClass();
+    public static final String name = "Math";
     public static final Types.MagicType type = new Types.MagicType(name);
+    public static final MathClass instance = new MathClass();
 
     private MathClass() {
-        super("math");
+        super(name);
         globals.put("sqrt", method((caller, lcClasses) -> DoubleClass.get(
                 Math.sqrt(((NumberClass) lcClasses.get(0)).number.doubleValue())),
                 NumberClass.type, DoubleClass.type).asValue());
