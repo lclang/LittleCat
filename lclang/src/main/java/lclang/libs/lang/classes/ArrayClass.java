@@ -2,7 +2,7 @@ package lclang.libs.lang.classes;
 
 import lclang.Caller;
 import lclang.LCClass;
-import lclang.exceptions.LCLangException;
+import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.numbers.IntClass;
 import lclang.methods.Method;
 import lclang.types.CallableType;
@@ -84,7 +84,7 @@ public class ArrayClass extends LibraryClass {
         }, CallableType.get(Types.ANY, Types.VOID)).asValue());
     }
 
-    public String join(Caller caller, String delimiter) throws LCLangException {
+    public String join(Caller caller, String delimiter) throws LCLangRuntimeException {
         List<String> items = new ArrayList<>();
         for(LCClass item: value)
             items.add(item.toString(caller));

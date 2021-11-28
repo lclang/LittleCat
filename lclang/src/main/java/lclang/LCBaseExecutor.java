@@ -1,7 +1,7 @@
 package lclang;
 
-import lclang.exceptions.LCLangException;
-import lclang.exceptions.VariableNotFoundException;
+import lclang.exceptions.LCLangRuntimeException;
+import lclang.exceptions.LCLangVariableNotFoundException;
 import lclang.types.Types;
 
 import java.util.HashMap;
@@ -19,9 +19,9 @@ public class LCBaseExecutor {
         if(importVariables) variables.putAll(executor.variables);
     }
 
-    public Value getLink(Caller c, String name) throws LCLangException {
+    public Value getLink(Caller c, String name) throws LCLangRuntimeException {
         Value value = new Value(Types.UNDEFINED, caller -> {
-            throw new VariableNotFoundException(name, caller);
+            throw new LCLangVariableNotFoundException(name, caller);
         }, Value.State.NOTHING);
 
         if(variables.containsKey(name))

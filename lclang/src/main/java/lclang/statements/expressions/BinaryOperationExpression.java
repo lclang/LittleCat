@@ -4,8 +4,8 @@ import lclang.Caller;
 import lclang.LCBaseExecutor;
 import lclang.LCClass;
 import lclang.Value;
-import lclang.exceptions.LCLangException;
-import lclang.exceptions.TypeErrorException;
+import lclang.exceptions.LCLangRuntimeException;
+import lclang.exceptions.LCLangTypeErrorException;
 import lclang.libs.lang.classes.ArrayClass;
 import lclang.libs.lang.classes.BoolClass;
 import lclang.libs.lang.classes.NullClass;
@@ -28,7 +28,7 @@ public class BinaryOperationExpression extends Expression {
 
     @NotNull
     @Override
-    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangException {
+    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         Caller caller = getCaller(prevCaller);
         Value rightValue = right.visit(caller, visitor);
         LCClass right = rightValue.get.invoke(caller);
@@ -93,16 +93,16 @@ public class BinaryOperationExpression extends Expression {
                 if(left instanceof ArrayClass) {
                     if (right instanceof IntClass)
                         return ((ArrayClass) left).get(((IntClass) right).value).asValue();
-                    else throw new TypeErrorException("invalid index: excepted int", caller);
+                    else throw new LCLangTypeErrorException("invalid index: excepted int", caller);
                 }/*else if(left instanceof Map<*, *>){
                        left[right] as Value
-                }*/else throw new TypeErrorException("excepted array or map", caller);
+                }*/else throw new LCLangTypeErrorException("excepted array or map", caller);
             }
 
             case EQUALS: return BoolClass.get(left == right).asValue();
             case NOT_EQUALS: return BoolClass.get(left != right).asValue();
 
-            default: throw new TypeErrorException("Operation not supported", caller);
+            default: throw new LCLangTypeErrorException("Operation not supported", caller);
         }
     }
 

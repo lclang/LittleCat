@@ -1,6 +1,6 @@
 package lclang.libs.std.classes;
 
-import lclang.exceptions.LCLangException;
+import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.BoolClass;
 import lclang.libs.lang.classes.LibraryClass;
 import lclang.libs.lang.classes.StringClass;
@@ -31,7 +31,7 @@ public class InputClass extends LibraryClass {
                     try {
                         return ((IntClass) method.call(caller, Collections.emptyList()).get
                                 .invoke(caller)).value;
-                    } catch (LCLangException e) {
+                    } catch (LCLangRuntimeException e) {
                         throw new RuntimeException(e);
                     }
                 }

@@ -1,7 +1,7 @@
 package lclang.utils;
 
-import lclang.exceptions.LCLangException;
+import lclang.exceptions.LCLangRuntimeException;
 
 public interface VoidMethod0 {
-    void invoke() throws LCLangException;
+    void invoke() throws LCLangRuntimeException;
 }

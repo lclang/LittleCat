@@ -1,7 +1,7 @@
 package lclang.libs.std.classes;
 
 import lclang.LCClass;
-import lclang.exceptions.LCLangException;
+import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.ArrayClass;
 import lclang.libs.lang.classes.LibraryClass;
 import lclang.libs.lang.classes.numbers.IntClass;
@@ -31,7 +31,7 @@ public class OutputClass extends LibraryClass {
                     try {
                         method.call(caller, Collections.singletonList(IntClass.get(b).asValue()))
                                 .get.invoke(caller);
-                    } catch (LCLangException e) {
+                    } catch (LCLangRuntimeException e) {
                         throw new RuntimeException(e);
                     }
                 }

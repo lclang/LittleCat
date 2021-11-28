@@ -1,7 +1,7 @@
 package lclang.utils;
 
-import lclang.exceptions.LCLangException;
+import lclang.exceptions.LCLangRuntimeException;
 
 public interface Function0<RET> {
-    RET invoke() throws LCLangException;
+    RET invoke() throws LCLangRuntimeException;
 }

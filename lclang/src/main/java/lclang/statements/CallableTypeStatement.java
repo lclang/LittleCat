@@ -1,7 +1,7 @@
 package lclang.statements;
 
 import lclang.LCRootExecutor;
-import lclang.exceptions.LCLangException;
+import lclang.exceptions.LCLangRuntimeException;
 import lclang.types.CallableType;
 import lclang.types.Type;
 
@@ -19,7 +19,7 @@ public class CallableTypeStatement extends TypeStatement {
     }
 
     @Override
-    public CallableType toType(LCRootExecutor root) throws LCLangException {
+    public CallableType toType(LCRootExecutor root) throws LCLangRuntimeException {
         List<Type> types = new ArrayList<>();
         for (TypeStatement arg: args)
             types.add(arg.toType(root));

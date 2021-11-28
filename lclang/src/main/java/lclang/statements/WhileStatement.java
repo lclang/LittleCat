@@ -3,9 +3,10 @@ package lclang.statements;
 import lclang.Caller;
 import lclang.LCBaseExecutor;
 import lclang.Value;
-import lclang.exceptions.LCLangException;
+import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.BoolClass;
 import lclang.statements.expressions.Expression;
+import org.jetbrains.annotations.NotNull;
 
 public class WhileStatement extends Statement {
     public final Expression condition;
@@ -17,8 +18,9 @@ public class WhileStatement extends Statement {
         this.body = body;
     }
 
+    @NotNull
     @Override
-    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangException {
+    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         if(body==null) {
             while(true) {
                 if(condition.visit(prevCaller, visitor).get.invoke(prevCaller)

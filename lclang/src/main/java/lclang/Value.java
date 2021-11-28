@@ -1,6 +1,6 @@
 package lclang;
 
-import lclang.exceptions.LCLangException;
+import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.NullClass;
 import lclang.types.Type;
 import lclang.types.Types;
@@ -33,7 +33,7 @@ public class Value {
             State state
     ) {
         this(type, get, (caller, value) -> {
-            throw new LCLangException(
+            throw new LCLangRuntimeException(
                     "Invalid operation",
                     "Value is not settable",
                     caller);
@@ -52,7 +52,7 @@ public class Value {
             Function<Caller, LCClass> get
     ) {
         this(type, get, (caller, value) -> {
-            throw new LCLangException(
+            throw new LCLangRuntimeException(
                     "Invalid operation",
                     "Value is not settable",
                     caller);
@@ -67,7 +67,7 @@ public class Value {
         this(type, caller -> value, state);
     }
 
-    public Value recreate(Caller caller) throws LCLangException {
+    public Value recreate(Caller caller) throws LCLangRuntimeException {
         return new Value(type, get.invoke(caller), State.NOTHING);
     }
 

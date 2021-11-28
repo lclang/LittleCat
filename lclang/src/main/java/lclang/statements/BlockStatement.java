@@ -3,7 +3,7 @@ package lclang.statements;
 import lclang.Caller;
 import lclang.LCBaseExecutor;
 import lclang.Value;
-import lclang.exceptions.LCLangException;
+import lclang.exceptions.LCLangRuntimeException;
 import org.jetbrains.annotations.NotNull;
 
 public class BlockStatement extends Statement {
@@ -16,7 +16,7 @@ public class BlockStatement extends Statement {
 
     @NotNull
     @Override
-    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangException {
+    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         for(Statement stmt: statements) {
             Caller caller = stmt.getCaller(prevCaller);
             Value value = stmt.visit(caller, visitor);

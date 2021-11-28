@@ -1,6 +1,6 @@
 package lclang;
 
-import lclang.exceptions.LCLangException;
+import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.BoolClass;
 import lclang.libs.lang.classes.CharClass;
 import lclang.libs.lang.classes.NullClass;
@@ -11,14 +11,16 @@ import lclang.libs.lang.classes.numbers.LongClass;
 import lclang.statements.*;
 import lclang.statements.expressions.*;
 import lclang.types.Types;
+import lclang.utils.Utils;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static lclang.UtilsKt.unescapeString;
+public class LCCompiler extends lclangBaseVisitor<Statement> {
+    public static final LCCompiler instance = new LCCompiler();
+    private LCCompiler() {}
 
-public class LCCompiler extends lclangBaseVisitor<Statement>{
     @Override
     @Deprecated
     public Statement visit(ParseTree tree) {
@@ -63,9 +65,9 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
             lcClass = Global.cashedClasses.get(text);
         }else{
             if (ctx.STRING() != null)
-                lcClass = StringClass.get(unescapeString(text.substring(1, text.length() - 1)));
+                lcClass = StringClass.get(Utils.unescapeString(text.substring(1, text.length() - 1)));
             else if (ctx.CHAR() != null)
-                lcClass = CharClass.get(unescapeString(text).charAt(1));
+                lcClass = CharClass.get(Utils.unescapeString(text).charAt(1));
             else if (ctx.DOUBLE() != null)
                 lcClass = DoubleClass.get(Double.parseDouble(text));
             else if (ctx.INTEGER() != null)
@@ -291,7 +293,7 @@ public class LCCompiler extends lclangBaseVisitor<Statement>{
         return args;
     }
 
-    public void fillFile(LCRootExecutor root, lclangParser.FileContext ctx) throws LCLangException {
+    public void fillFile(LCRootExecutor root, lclangParser.FileContext ctx) throws LCLangRuntimeException {
         root.globals.put("null", NullClass.instance.asValue());
 
         List<LCRootExecutor> libraries = new ArrayList<>();

@@ -3,7 +3,7 @@ package lclang.libs.std;
 import lclang.Global;
 import lclang.LCClass;
 import lclang.Value;
-import lclang.exceptions.LCLangException;
+import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.Library;
 import lclang.libs.lang.classes.*;
 import lclang.libs.lang.classes.numbers.IntClass;
@@ -36,7 +36,7 @@ public class StdLibrary extends Library {
         globals.put("std", StdClass.instance.asValue());
         globals.put("assert", voidMethod((caller, args) -> {
             if(args.get(0).equals(BoolClass.FALSE))
-                throw new LCLangException("Assertion Error", "Value is false", caller);
+                throw new LCLangRuntimeException("Assertion Error", "Value is false", caller);
         }, Types.ANY).asValue());
 
         globals.put("exit", voidMethod((caller, args) -> System.exit(((IntClass) args.get(0)).value),
@@ -45,7 +45,7 @@ public class StdLibrary extends Library {
                     try {
                         Thread.sleep(((LongClass) args.get(0)).value);
                     } catch (InterruptedException e) {
-                        throw new LCLangException("Interrupted", e.getMessage(), caller);
+                        throw new LCLangRuntimeException("Interrupted", e.getMessage(), caller);
                     }
                 }, LongClass.type).asValue());
 

@@ -3,8 +3,9 @@ package lclang.statements.expressions;
 import lclang.Caller;
 import lclang.LCBaseExecutor;
 import lclang.Value;
-import lclang.exceptions.LCLangException;
+import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.StringClass;
+import org.jetbrains.annotations.NotNull;
 
 public class GetTypeExpression extends Expression {
     public final Expression expression;
@@ -14,8 +15,9 @@ public class GetTypeExpression extends Expression {
         this.expression = expression;
     }
 
+    @NotNull
     @Override
-    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangException {
+    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         return StringClass.get(expression.visit(prevCaller, visitor).type.text).asValue();
     }
 }

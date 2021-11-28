@@ -1,6 +1,6 @@
 package lclang;
 
-import lclang.exceptions.LCLangException;
+import lclang.exceptions.LCLangRuntimeException;
 import lclang.statements.Statement;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,11 +23,11 @@ public class LCRootExecutor {
         globals.putAll(root.globals);
     }
 
-    @Nullable public Value getLink(Caller caller, String name) throws LCLangException {
+    @Nullable public Value getLink(Caller caller, String name) throws LCLangRuntimeException {
         return globals.getOrDefault(name, null);
     }
 
-    public LCClass execute() throws LCLangException {
+    public LCClass execute() throws LCLangRuntimeException {
         for (Statement statement: statements) {
             Caller caller = statement.getCaller(this);
             Value value = statement.visit(caller, executor);

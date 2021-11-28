@@ -1,7 +1,7 @@
 package lclang.statements;
 
 import lclang.LCRootExecutor;
-import lclang.exceptions.LCLangException;
+import lclang.exceptions.LCLangRuntimeException;
 import lclang.methods.MethodImpl;
 import lclang.types.Type;
 
@@ -26,7 +26,7 @@ public class MethodStatement {
         this.statement = statement;
     }
 
-    public void visit(LCRootExecutor root, boolean importVariables) throws LCLangException {
+    public void visit(LCRootExecutor root, boolean importVariables) throws LCLangRuntimeException {
         root.globals.put(name, new MethodImpl(
                 root.executor,
                 args,
@@ -36,7 +36,7 @@ public class MethodStatement {
         ).asValue());
     }
 
-    public static List<Type> resolveArgs(LCRootExecutor root, List<Argument> args) throws LCLangException {
+    public static List<Type> resolveArgs(LCRootExecutor root, List<Argument> args) throws LCLangRuntimeException {
         List<Type> types = new ArrayList<>();
         for(Argument argument: args) types.add(argument.type.toType(root));
         return types;

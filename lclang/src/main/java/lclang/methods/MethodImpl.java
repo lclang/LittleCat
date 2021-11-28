@@ -3,8 +3,8 @@ package lclang.methods;
 import lclang.Caller;
 import lclang.LCBaseExecutor;
 import lclang.Value;
-import lclang.exceptions.LCLangException;
-import lclang.exceptions.TypeErrorException;
+import lclang.exceptions.LCLangRuntimeException;
+import lclang.exceptions.LCLangTypeErrorException;
 import lclang.statements.MethodStatement;
 import lclang.statements.Statement;
 import lclang.types.Type;
@@ -21,7 +21,7 @@ public class MethodImpl extends Method {
                       List<MethodStatement.Argument> argsMap,
                       Type returnType,
                       Statement statement,
-                      boolean importVariables) throws LCLangException {
+                      boolean importVariables) throws LCLangRuntimeException {
         super(outExecutor.root, MethodStatement.resolveArgs(outExecutor.root, argsMap), returnType);
         this.outExecutor = outExecutor;
         this.argsMap = argsMap;
@@ -30,7 +30,7 @@ public class MethodImpl extends Method {
     }
 
     @Override
-    public Value call(Caller caller, List<Value> args) throws LCLangException {
+    public Value call(Caller caller, List<Value> args) throws LCLangRuntimeException {
         LCBaseExecutor executor = new LCBaseExecutor(outExecutor, importVariables);
 
         for (int i = 0; i < argsMap.size(); i++) {
@@ -41,7 +41,7 @@ public class MethodImpl extends Method {
         Caller stmtCaller = statement.getCaller(outExecutor.root);
         Value value = statement.visit(stmtCaller, executor);
         if(!returnType.isAccept(value.type))
-            throw new TypeErrorException("invalid type of return (excepted "+returnType+
+            throw new LCLangTypeErrorException("invalid type of return (excepted "+returnType+
                     ", but returned "+value.type+")", stmtCaller);
 
         return value.recreate(stmtCaller);

@@ -3,10 +3,11 @@ package lclang.statements.expressions;
 import lclang.Caller;
 import lclang.LCBaseExecutor;
 import lclang.Value;
-import lclang.exceptions.LCLangException;
+import lclang.exceptions.LCLangRuntimeException;
 import lclang.methods.MethodImpl;
 import lclang.statements.MethodStatement;
 import lclang.statements.TypeStatement;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -25,8 +26,9 @@ public class LambdaExpression extends Expression {
         this.expression = expression;
     }
 
+    @NotNull
     @Override
-    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangException {
+    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         return new MethodImpl(visitor, args,
                 returnType.toType(visitor.root), expression, true).asValue();
     }

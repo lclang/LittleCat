@@ -4,9 +4,9 @@ import lclang.Caller;
 import lclang.LCBaseExecutor;
 import lclang.LCClass;
 import lclang.Value;
-import lclang.exceptions.LCLangException;
 import lclang.exceptions.LCLangNullPointerException;
-import lclang.exceptions.TypeErrorException;
+import lclang.exceptions.LCLangRuntimeException;
+import lclang.exceptions.LCLangTypeErrorException;
 import lclang.libs.lang.classes.BoolClass;
 import lclang.libs.lang.classes.numbers.IntClass;
 import lclang.libs.lang.classes.numbers.NumberClass;
@@ -24,7 +24,7 @@ public class UnaryOperationExpression extends Expression {
 
     @NotNull
     @Override
-    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangException {
+    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         Caller caller = getCaller(prevCaller);
         Value leftValue = expression.visit(caller, visitor);
         LCClass left = leftValue.get.invoke(caller);
@@ -53,7 +53,7 @@ public class UnaryOperationExpression extends Expression {
                     break;
                 }
 
-            default: throw new TypeErrorException("Operation not supported", caller);
+            default: throw new LCLangTypeErrorException("Operation not supported", caller);
         }
 
         leftValue.set.invoke(caller, value);

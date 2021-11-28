@@ -4,7 +4,7 @@ import lclang.Caller;
 import lclang.LCBaseExecutor;
 import lclang.LCClass;
 import lclang.Value;
-import lclang.exceptions.LCLangException;
+import lclang.exceptions.LCLangRuntimeException;
 import lclang.statements.expressions.Expression;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.List;
 public class ValueUtils {
     public static List<Value> valuesFromExpressions(Caller caller,
                                                     LCBaseExecutor executor,
-                                                    List<Expression> expressions) throws LCLangException {
+                                                    List<Expression> expressions) throws LCLangRuntimeException {
         ArrayList<Value> values = new ArrayList<>();
         for (Expression expression : expressions) {
             values.add(expression.visit(caller, executor));
@@ -24,7 +24,7 @@ public class ValueUtils {
 
     public static List<LCClass> classesFromValues(Caller caller,
                                                   LCBaseExecutor executor,
-                                                  List<Value> values) throws LCLangException {
+                                                  List<Value> values) throws LCLangRuntimeException {
         ArrayList<LCClass> classes = new ArrayList<>();
         for (Value expression : values) {
             classes.add(expression.get.invoke(caller));

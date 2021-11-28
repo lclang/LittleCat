@@ -1,6 +1,6 @@
 package lclang;
 
-import lclang.exceptions.LCLangException;
+import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.StringClass;
 import lclang.methods.Method;
 import lclang.types.NamedType;
@@ -27,7 +27,7 @@ public class LCClass extends LCRootExecutor {
 
     @Nullable
     @Override
-    public Value getLink(Caller caller, String name) throws LCLangException {
+    public Value getLink(Caller caller, String name) throws LCLangRuntimeException {
         Value value = super.getLink(caller, name);
         if(value==null&&extendsClass!=null)
             return extendsClass.executor.getLink(caller, name);
@@ -49,7 +49,7 @@ public class LCClass extends LCRootExecutor {
         return other instanceof LCClass && classId == other.hashCode();
     }
 
-    public String toString(Caller caller) throws LCLangException {
+    public String toString(Caller caller) throws LCLangRuntimeException {
         Value toStringMethod = globals.get("toString");
         if(toStringMethod!=null) {
             LCClass clazz = toStringMethod.get.invoke(caller);

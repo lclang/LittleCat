@@ -4,7 +4,7 @@ import lclang.Caller;
 import lclang.LCBaseExecutor;
 import lclang.LCRootExecutor;
 import lclang.Value;
-import lclang.exceptions.LCLangException;
+import lclang.exceptions.LCLangRuntimeException;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class Statement {
@@ -15,7 +15,7 @@ public abstract class Statement {
     }
 
     @NotNull
-    public abstract Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangException;
+    public abstract Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException;
 
     public Caller getCaller(@NotNull Caller caller) {
         return new Caller(caller.root, line, caller);

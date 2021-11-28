@@ -4,7 +4,7 @@ import lclang.Caller;
 import lclang.LCClass;
 import lclang.LCRootExecutor;
 import lclang.Value;
-import lclang.exceptions.LCLangException;
+import lclang.exceptions.LCLangRuntimeException;
 import lclang.methods.Method;
 import lclang.statements.expressions.Expression;
 import lclang.types.NamedType;
@@ -36,7 +36,7 @@ public class ClassStatement {
         this.methodStatements = methodStatements;
     }
 
-    public void visit(LCRootExecutor root) throws LCLangException {
+    public void visit(LCRootExecutor root) throws LCLangRuntimeException {
         LCClass clazzAst = new LCClass(name, root.path);
 
         clazzAst.constructor = new Method(root,
@@ -44,7 +44,7 @@ public class ClassStatement {
                 new NamedType(clazzAst)) {
 
             @Override
-            public Value call(Caller caller, List<Value> args) throws LCLangException {
+            public Value call(Caller caller, List<Value> args) throws LCLangRuntimeException {
                 LCClass clazz = new LCClass(ClassStatement.this.name, root.path);
 
                 clazz.globals.put("this", clazz.asValue());

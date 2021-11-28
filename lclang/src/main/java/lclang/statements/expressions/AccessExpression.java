@@ -4,9 +4,10 @@ import lclang.Caller;
 import lclang.LCBaseExecutor;
 import lclang.LCClass;
 import lclang.Value;
-import lclang.exceptions.LCLangException;
 import lclang.exceptions.LCLangNullPointerException;
+import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.NullClass;
+import org.jetbrains.annotations.NotNull;
 
 public class AccessExpression extends Expression {
     public final Expression expression;
@@ -18,8 +19,9 @@ public class AccessExpression extends Expression {
         this.variable = variable;
     }
 
+    @NotNull
     @Override
-    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangException {
+    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         Caller caller = getCaller(prevCaller);
         LCClass value = expression.visit(caller, visitor).get.invoke(caller);
         if(value==NullClass.instance) throw new LCLangNullPointerException(caller);

@@ -4,7 +4,7 @@ import lclang.Caller;
 import lclang.LCClass;
 import lclang.LCRootExecutor;
 import lclang.Value;
-import lclang.exceptions.LCLangException;
+import lclang.exceptions.LCLangRuntimeException;
 import lclang.types.CallableType;
 import lclang.types.Type;
 
@@ -24,7 +24,7 @@ public abstract class Method extends LCClass{
         this.type = new CallableType(args, returnType);
     }
 
-    public abstract Value call(Caller caller, List<Value> args) throws LCLangException;
+    public abstract Value call(Caller caller, List<Value> args) throws LCLangRuntimeException;
 
     @Override
     public Value asValue() {
@@ -32,7 +32,7 @@ public abstract class Method extends LCClass{
     }
 
     @Override
-    public String toString(Caller caller) throws LCLangException {
+    public String toString(Caller caller) throws LCLangRuntimeException {
         return type.toString();
     }
 }

@@ -4,8 +4,8 @@ import lclang.Caller;
 import lclang.LCBaseExecutor;
 import lclang.LCClass;
 import lclang.Value;
-import lclang.exceptions.LCLangException;
-import lclang.exceptions.TypeErrorException;
+import lclang.exceptions.LCLangRuntimeException;
+import lclang.exceptions.LCLangTypeErrorException;
 import lclang.libs.lang.classes.ArrayClass;
 import lclang.utils.ValueUtils;
 import org.jetbrains.annotations.NotNull;
@@ -23,7 +23,7 @@ public class ArrayExpression extends Expression {
 
     @NotNull
     @Override
-    public Value visit(Caller prevCaller, LCBaseExecutor executor) throws LCLangException {
+    public Value visit(Caller prevCaller, LCBaseExecutor executor) throws LCLangRuntimeException {
         final List<Value> values = ValueUtils.valuesFromExpressions(prevCaller, executor, Arrays.asList(array));
         return new Value(ArrayClass.type, caller -> new ArrayClass(
                 ValueUtils.classesFromValues(caller, executor, values)
@@ -34,7 +34,7 @@ public class ArrayExpression extends Expression {
                 for (int i = 0; i < array.length; i++) {
                     values.get(i).set.invoke(setCaller, otherArray.get(i).asValue());
                 }
-            }else throw new TypeErrorException("Value is not array", setCaller);
+            }else throw new LCLangTypeErrorException("Value is not array", setCaller);
         }, Value.State.NOTHING);
     }
 }

@@ -4,7 +4,7 @@ import lclang.Caller;
 import lclang.LCBaseExecutor;
 import lclang.LCClass;
 import lclang.Value;
-import lclang.exceptions.LCLangException;
+import lclang.exceptions.LCLangRuntimeException;
 import lclang.methods.Method;
 import lclang.types.Type;
 import lclang.types.Types;
@@ -26,7 +26,7 @@ public abstract class LibraryClass extends LCClass {
 
         return new Method(this, arguments, Types.VOID) {
             @Override
-            public Value call(Caller caller, List<Value> args) throws LCLangException {
+            public Value call(Caller caller, List<Value> args) throws LCLangRuntimeException {
                 body.invoke(
                         caller,
                         ValueUtils.classesFromValues(
@@ -48,7 +48,7 @@ public abstract class LibraryClass extends LCClass {
 
         return new Method(this, arguments, returnType) {
             @Override
-            public Value call(Caller caller, List<Value> args) throws LCLangException {
+            public Value call(Caller caller, List<Value> args) throws LCLangRuntimeException {
                 return body.invoke(
                         caller,
                         ValueUtils.classesFromValues(

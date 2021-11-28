@@ -3,8 +3,9 @@ package lclang.statements.expressions;
 import lclang.Caller;
 import lclang.LCBaseExecutor;
 import lclang.Value;
-import lclang.exceptions.LCLangException;
+import lclang.exceptions.LCLangRuntimeException;
 import lclang.statements.Statement;
+import org.jetbrains.annotations.NotNull;
 
 public class ContainerExpression extends Expression {
     private final Statement[] statements;
@@ -14,8 +15,9 @@ public class ContainerExpression extends Expression {
         this.statements = statements;
     }
 
+    @NotNull
     @Override
-    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangException {
+    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         for(Statement stmt: statements) {
             Caller caller = stmt.getCaller(prevCaller);
             Value value = stmt.visit(caller, visitor);

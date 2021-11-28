@@ -1,7 +1,7 @@
 package lclang.statements;
 
 import lclang.LCRootExecutor;
-import lclang.exceptions.ClassNotFoundException;
+import lclang.exceptions.LCLangClassNotFoundException;
 import lclang.types.NamedType;
 
 public class NamedTypeStatement extends TypeStatement {
@@ -13,7 +13,7 @@ public class NamedTypeStatement extends TypeStatement {
     }
 
     @Override
-    public NamedType toType(LCRootExecutor root) throws ClassNotFoundException {
+    public NamedType toType(LCRootExecutor root) throws LCLangClassNotFoundException {
         if(root.classes.containsKey(name)) {
             NamedType type = new NamedType(root.classes.get(name));
             type.nullable = nullable;
@@ -21,6 +21,6 @@ public class NamedTypeStatement extends TypeStatement {
             return type;
         }
 
-        throw new ClassNotFoundException(name, getCaller(root));
+        throw new LCLangClassNotFoundException(name, getCaller(root));
     }
 }

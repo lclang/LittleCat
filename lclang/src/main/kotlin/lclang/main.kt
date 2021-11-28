@@ -1,14 +1,16 @@
 package lclang
 
-import lclang.exceptions.LCLangException
+import lclang.exceptions.LCLangRuntimeException
 import lclang.libs.Library
 import lclang.libs.lang.classes.ArrayClass
 import lclang.libs.lang.classes.StringClass
+import lclang.utils.Utils
+import org.antlr.v4.runtime.CharStreams
+import org.antlr.v4.runtime.CommonTokenStream
 import org.mozilla.universalchardet.UniversalDetector
 import java.io.File
 import java.net.URL
 import java.net.URLClassLoader
-import java.nio.charset.Charset
 import java.nio.file.Paths
 import java.util.*
 import java.util.jar.JarFile
@@ -30,7 +32,7 @@ fun main(cliArgs: Array<String>) {
                     Global.libraries.add(LCRootExecutor(file.absolutePath.toString()).apply {
                         try {
                             runInput(file.readText())
-                        } catch (e: LCLangException){
+                        } catch (e: LCLangRuntimeException){
                             println(ERROR_COLOR+e.message+RESET_COLOR)
                         } catch (e: Exception){
                             println(ERROR_COLOR+e::class.java.simpleName+": "+e.message+RESET_COLOR)
@@ -82,7 +84,7 @@ fun main(cliArgs: Array<String>) {
 
                     try {
                         file.runInput(code)
-                    } catch (e: LCLangException){
+                    } catch (e: LCLangRuntimeException){
                         println(ERROR_COLOR+e.message+RESET_COLOR)
                     } catch (e: Exception){
                         println(ERROR_COLOR+e.javaClass.simpleName+": "+e.message+RESET_COLOR)
@@ -118,8 +120,9 @@ fun main(cliArgs: Array<String>) {
                 it
             )
         }).asValue()
-        executor.runInput(executeFile.readText(Charset.forName(UniversalDetector.detectCharset(executeFile))))
-    } catch (e: LCLangException){
+
+        executor.runInput(Utils.readFile(executeFile, UniversalDetector.detectCharset(executeFile)))
+    } catch (e: LCLangRuntimeException){
         println(ERROR_COLOR+e.message+RESET_COLOR)
         exitProcess(1)
     } catch (e: Exception){
@@ -148,4 +151,14 @@ private fun loadJarLibrary(file: File): List<Library> {
     }
 
     return libraries
+}
+
+fun LCRootExecutor.runInput(input: String) {
+    val lexer = lclangLexer(CharStreams.fromString(input))
+    val parser = lclangParser(CommonTokenStream(lexer))
+    parser.removeErrorListeners()
+    parser.addErrorListener(LCLangErrorListener(path))
+
+    LCCompiler.instance.fillFile(this, parser.file())
+    execute()
 }

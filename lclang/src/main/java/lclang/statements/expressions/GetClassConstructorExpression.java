@@ -4,8 +4,9 @@ import lclang.Caller;
 import lclang.LCBaseExecutor;
 import lclang.LCClass;
 import lclang.Value;
-import lclang.exceptions.ClassNotFoundException;
-import lclang.exceptions.LCLangException;
+import lclang.exceptions.LCLangClassNotFoundException;
+import lclang.exceptions.LCLangRuntimeException;
+import org.jetbrains.annotations.NotNull;
 
 public class GetClassConstructorExpression extends Expression {
     public final String name;
@@ -15,12 +16,13 @@ public class GetClassConstructorExpression extends Expression {
         this.name = name;
     }
 
+    @NotNull
     @Override
-    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangException {
+    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         LCClass clazz = visitor.root.classes.get(name);
         if(clazz!=null)
             return clazz.constructor.asValue();
 
-        throw new ClassNotFoundException(name, getCaller(prevCaller));
+        throw new LCLangClassNotFoundException(name, getCaller(prevCaller));
     }
 }
