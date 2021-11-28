@@ -1,7 +1,6 @@
 package lclang.libs.std.classes;
 
 import lclang.LCClass;
-import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.ArrayClass;
 import lclang.libs.lang.classes.LibraryClass;
 import lclang.libs.lang.classes.numbers.IntClass;
@@ -11,6 +10,7 @@ import lclang.types.Types;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,12 +28,8 @@ public class OutputClass extends LibraryClass {
             return new OutputClass(new OutputStream() {
                 @Override
                 public void write(int b) {
-                    try {
-                        method.call(caller, Collections.singletonList(IntClass.get(b).asValue()))
-                                .get.invoke(caller);
-                    } catch (LCLangRuntimeException e) {
-                        throw new RuntimeException(e);
-                    }
+                    method.call(caller, Collections.singletonList(IntClass.get(b).asValue()))
+                            .get.invoke(caller);
                 }
             });
         }, CallableType.get(IntClass.type, Types.VOID), type);
@@ -41,7 +37,9 @@ public class OutputClass extends LibraryClass {
 
     public OutputClass(OutputStream stream) {
         this();
-        printer = new PrintStream(stream);
+        try {
+            printer = new PrintStream(stream, false, "UTF-8");
+        } catch (UnsupportedEncodingException ignored) {}
 
         globals.put("flush", voidMethod((caller, lcClasses) -> printer.flush()).asValue());
         globals.put("close", voidMethod((caller, lcClasses) -> printer.close()).asValue());

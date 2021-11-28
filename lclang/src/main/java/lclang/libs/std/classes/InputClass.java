@@ -1,6 +1,5 @@
 package lclang.libs.std.classes;
 
-import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.BoolClass;
 import lclang.libs.lang.classes.LibraryClass;
 import lclang.libs.lang.classes.StringClass;
@@ -28,12 +27,8 @@ public class InputClass extends LibraryClass {
             return new InputClass(new InputStream() {
                 @Override
                 public int read() {
-                    try {
-                        return ((IntClass) method.call(caller, Collections.emptyList()).get
-                                .invoke(caller)).value;
-                    } catch (LCLangRuntimeException e) {
-                        throw new RuntimeException(e);
-                    }
+                    return ((IntClass) method.call(caller, Collections.emptyList()).get
+                            .invoke(caller)).value;
                 }
             });
         }, CallableType.get(IntClass.type), type);
@@ -41,6 +36,7 @@ public class InputClass extends LibraryClass {
 
     public InputClass(InputStream input) {
         this();
+
         scanner = new Scanner(input);
         globals.put("hasNextLine", method((caller, lcClasses) ->
                 BoolClass.get(scanner.hasNextLine()), BoolClass.type).asValue());

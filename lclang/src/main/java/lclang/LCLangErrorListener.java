@@ -24,7 +24,7 @@ public class LCLangErrorListener implements ANTLRErrorListener {
                             int charPositionInLine,
                             String msg,
                             RecognitionException e) {
-        throw new RuntimeException(new LCLangLexerException("Syntax error", msg, file, line));
+        throw new LCLangLexerException("Syntax error", msg, file, line);
     }
 
     @Override

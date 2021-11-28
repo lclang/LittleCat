@@ -17,6 +17,8 @@ public class FileClass extends LibraryClass {
 
     private FileClass() {
         super(name);
+        constructor = method((caller, args) -> new FileClass(new File(args.get(0).toString(caller))),
+                StringClass.type, type);
     }
 
     public FileClass(File file) {

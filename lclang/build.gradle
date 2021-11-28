@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    antlr 'org.antlr:antlr4:4.9.2'
+    antlr 'org.antlr:antlr4:4.9.3'
     implementation 'com.github.albfernandez:juniversalchardet:2.4.0'
 
     testImplementation(platform('org.junit:junit-bom:5.7.2'))
@@ -61,8 +61,8 @@ task createProperties(dependsOn: processResources) {
     doLast {
         new File("$buildDir/resources/main/build.properties").withWriter { w ->
             Properties p = new Properties()
-            p['version'] = project.version.toString()
-            p['buildTime'] = new Date().format('yyyyMMdd')
+            p.put("version", project.version.toString())
+            p.put("buildTime", new Date().format('yyyyMMdd'))
             p.store w, null
         }
     }

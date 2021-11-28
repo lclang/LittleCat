@@ -38,6 +38,7 @@ public class Main {
                             try {
                                 executeInput(executor, Utils.readFile(libraryFile,
                                         UniversalDetector.detectCharset(libraryFile)));
+                                Global.libraries.add(executor);
                             } catch (IOException ignored) {}
                         }
                     }
@@ -55,7 +56,7 @@ public class Main {
 
                     try {
                         executeInput(cliExecutor, code);
-                    } catch (LCLangRuntimeException e) {
+                    } catch (RuntimeException e) {
                         System.out.println((char) 27 + "[31m" + e.getMessage() + (char) 27 + "[0m");
                     }
 
@@ -87,7 +88,7 @@ public class Main {
 
             executor.executor.variables.put("args", new ArrayClass(arguments).asValue());
             executeInput(executor, Utils.readFile(file, UniversalDetector.detectCharset(file)));
-        } catch (LCLangRuntimeException e) {
+        } catch (RuntimeException e) {
             System.out.println(ERROR_COLOR + e.getMessage() + RESET_COLOR);
             System.exit(1);
         } catch (IOException ignored) {}

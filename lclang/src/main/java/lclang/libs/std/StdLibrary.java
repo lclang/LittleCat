@@ -23,7 +23,9 @@ public class StdLibrary extends Library {
 
     public StdLibrary() {
         super("std");
+        classes.put("SocketServer", SocketServerClass.instance);
         classes.put("Socket", SocketClass.instance);
+        classes.put("SSLSocket", SSLSocketClass.instance);
         classes.put("Output", OutputClass.instance);
         classes.put("Input", InputClass.instance);
         classes.put("File", FileClass.instance);

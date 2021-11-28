@@ -1,7 +1,6 @@
 package lclang.libs.std.classes;
 
 import lclang.Caller;
-import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.BoolClass;
 import lclang.libs.lang.classes.LibraryClass;
 import lclang.libs.lang.classes.StringClass;
@@ -31,13 +30,8 @@ public class ThreadClass extends LibraryClass {
         this();
 
         AtomicReference<Caller> threadCaller = new AtomicReference<>();
-        thread = new Thread(() -> {
-            try {
-                method.call(threadCaller.get(), Collections.emptyList());
-            } catch (LCLangRuntimeException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        thread = new Thread(() -> method.call(threadCaller.get(), Collections.emptyList()));
+
         thread.setUncaughtExceptionHandler((thread, exception) -> exception.printStackTrace());
 
         globals.put("start", voidMethod((caller, lcClasses) -> {

@@ -20,13 +20,9 @@ class URL(scheme  : string,
         if scheme=="http": {
             return :HTTPConnection(:Socket(hostParts[0] ?: host, :int(hostParts[1] ?: 80)), this)
         }else if scheme=="https": {
-            return :HTTPConnection(:Socket(hostParts[0] ?: host, :int(hostParts[1] ?: 443)), this)
+            return :HTTPConnection(:SSLSocket(hostParts[0] ?: host, :int(hostParts[1] ?: 443)), this)
         }else if scheme=="file": {
-            return :Connection(-> (connection: Connection) {
-                file = :File(path)
-                connection.output = file.openOutput()
-                connection.input = file.openInput()
-            })
+            return :FileConnection(:File(path))
         }
 
         return null
@@ -65,6 +61,10 @@ class HTTPConnection(socket: Socket, url: URL) extends Connection {
     }
 
     method connect() {
+        if socket is SSLSocket: {
+            socket.startHandshake()
+        }
+
         output = socket.getOutput()
         output.println("GET "+url.getFullPath()+" HTTP/1.1")
         headers.forEach(-> (header) output.println(header))
@@ -73,8 +73,13 @@ class HTTPConnection(socket: Socket, url: URL) extends Connection {
     }
 }
 
-class Connection {
+class FileConnection(file: File) extends Connection {
+    method getOutput(): Output = file.openOutput()
+    method getInput(): Input = file.openInput()
+    method connect() {}
+}
 
+class Connection {
     method getOutput(): Output {
         printError("this is abstract class xD")
     }
