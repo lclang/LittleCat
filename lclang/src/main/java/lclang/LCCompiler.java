@@ -119,9 +119,9 @@ public class LCCompiler extends lclangBaseVisitor<Statement> {
 
     @Override
     public Statement visitArray(lclangParser.ArrayContext ctx) {
-        Expression[] expressions = new Expression[ctx.expression().size()];
-        for (int i = 0; i < expressions.length; i++) {
-            expressions[i] = visitExpression(ctx.expression().get(i));
+        List<Expression> expressions = new ArrayList<>();
+        for (lclangParser.ExpressionContext expression: ctx.expression()) {
+            expressions.add(visitExpression(expression));
         }
 
         return new ArrayExpression(expressions);

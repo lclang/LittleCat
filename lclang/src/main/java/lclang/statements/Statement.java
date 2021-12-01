@@ -14,6 +14,7 @@ public abstract class Statement {
     }
 
     public abstract Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException;
+//    public abstract List<Byte> compile(Caller prevCaller);
 
     public Caller getCaller(Caller caller) {
         return new Caller(caller.root, line, caller);

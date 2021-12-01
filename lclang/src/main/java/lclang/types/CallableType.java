@@ -39,9 +39,8 @@ public class CallableType extends Type {
     }
 
     public static CallableType get(Type... args) {
-        Type returnType = args[args.length-1];
         List<Type> arguments = new ArrayList<>(Arrays.asList(args));
-        arguments.remove(args.length-1);
+        Type returnType = arguments.remove(args.length-1);
 
         return new CallableType(arguments, returnType);
     }

@@ -17,4 +17,14 @@ public class VariableExpression extends Expression {
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         return visitor.getLink(getCaller(prevCaller), name);
     }
+
+//    @Override
+//    public List<Byte> compile(Caller prevCaller) {
+//        ArrayList<Byte> bytes = new ArrayList<>();
+//        bytes.add(Opcodes.GET);
+//        bytes.addAll(new ArrayList<>());
+//
+//        List<Byte>
+//        return bytes;
+//    }
 }

@@ -23,7 +23,7 @@ public class ArrayClass extends LibraryClass {
     }
 
     public LCClass get(int index) {
-        return value.size() > index && index > 0?
+        return value.size() > index && index >= 0 ?
                 value.get(index)
                 : NullClass.instance;
     }

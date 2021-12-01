@@ -4,19 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb2edc7a-653c-417d-86ce-2db3142e1174" name="Changes" comment="SocketServer">
+    <list default="true" id="eb2edc7a-653c-417d-86ce-2db3142e1174" name="Changes" comment="Array Access Fix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/libs/base.lcat" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/libs/base.lcat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclang.interp" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclang.interp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangParser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/LCCompiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/LCCompiler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/lclang.g4" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/lclang.g4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/ArrayClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/ArrayClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/LibraryClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/LibraryClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/Statement.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/Statement.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/ArrayExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/ArrayExpression.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/UnaryOperationExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/UnaryOperationExpression.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/utils/ValueUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/utils/ValueUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/VariableExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/VariableExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/types/CallableType.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/types/CallableType.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,6 +65,7 @@
         <option value="LCLang Class" />
         <option value="LCLang File" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -155,7 +150,7 @@
     </key>
   </component>
   <component name="RunManager" selected="Application.Run CLI">
-    <configuration name="Run CLI" type="Application" factoryName="Application" activateToolWindowBeforeRun="false">
+    <configuration name="Run CLI" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="lclang.Main" />
@@ -312,13 +307,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1628529223618</updated>
-    </task>
-    <task id="LOCAL-00042" summary="Last fix?">
-      <created>1632242192964</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1632242192964</updated>
     </task>
     <task id="LOCAL-00043" summary="Last fix?">
       <created>1632242719230</created>
@@ -656,7 +644,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638126170045</updated>
     </task>
-    <option name="localTasksCounter" value="91" />
+    <task id="LOCAL-00091" summary="Array Access Fix">
+      <created>1638368174999</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1638368175011</updated>
+    </task>
+    <option name="localTasksCounter" value="92" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -696,7 +691,8 @@
     <MESSAGE value="No More Kotlin" />
     <MESSAGE value="Support of https, file protocols and new class SSLSocket" />
     <MESSAGE value="SocketServer" />
-    <option name="LAST_COMMIT_MESSAGE" value="SocketServer" />
+    <MESSAGE value="Array Access Fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="Array Access Fix" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -736,6 +732,41 @@
           <url>file://$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/ArrayClass.java</url>
           <line>60</line>
           <option name="timeStamp" value="64" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/UnaryOperationExpression.java</url>
+          <line>34</line>
+          <option name="timeStamp" value="65" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/UnaryOperationExpression.java</url>
+          <line>35</line>
+          <option name="timeStamp" value="66" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/UnaryOperationExpression.java</url>
+          <line>38</line>
+          <option name="timeStamp" value="68" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/UnaryOperationExpression.java</url>
+          <line>36</line>
+          <option name="timeStamp" value="69" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/BinaryOperationExpression.java</url>
+          <line>92</line>
+          <option name="timeStamp" value="71" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/BinaryOperationExpression.java</url>
+          <line>91</line>
+          <option name="timeStamp" value="72" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/BinaryOperationExpression.java</url>
+          <line>90</line>
+          <option name="timeStamp" value="73" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

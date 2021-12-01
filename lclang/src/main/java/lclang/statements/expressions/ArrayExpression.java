@@ -9,21 +9,20 @@ import lclang.exceptions.LCLangTypeErrorException;
 import lclang.libs.lang.classes.ArrayClass;
 import lclang.utils.ValueUtils;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ArrayExpression extends Expression {
-    public final Expression[] array;
+    public final List<Expression> array;
 
-    public ArrayExpression(Expression[] array) {
+    public ArrayExpression(List<Expression> array) {
         super(0);
         this.array = array;
     }
 
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor executor) throws LCLangRuntimeException {
-        final List<Value> values = ValueUtils.valuesFromExpressions(prevCaller, executor, Arrays.asList(array));
+        final List<Value> values = ValueUtils.valuesFromExpressions(prevCaller, executor, array);
         AtomicReference<ArrayClass> arrayClass = new AtomicReference<>(null);
         return new Value(ArrayClass.type, caller -> {
             if(arrayClass.get()==null) arrayClass.set(new ArrayClass(
@@ -35,7 +34,7 @@ public class ArrayExpression extends Expression {
             LCClass valueClass = newValue.get.invoke(setCaller);
             if(valueClass instanceof ArrayClass) {
                 ArrayClass otherArray = (ArrayClass) valueClass;
-                for (int i = 0; i < array.length; i++) {
+                for (int i = 0; i < array.size(); i++) {
                     values.get(i).set.invoke(setCaller, otherArray.get(i).asValue());
                 }
             }else throw new LCLangTypeErrorException("Value is not array", setCaller);
