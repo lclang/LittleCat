@@ -11,6 +11,7 @@ import lclang.utils.ValueUtils;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ArrayExpression extends Expression {
     public final Expression[] array;
@@ -23,9 +24,14 @@ public class ArrayExpression extends Expression {
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor executor) throws LCLangRuntimeException {
         final List<Value> values = ValueUtils.valuesFromExpressions(prevCaller, executor, Arrays.asList(array));
-        return new Value(ArrayClass.type, caller -> new ArrayClass(
-                ValueUtils.classesFromValues(caller, executor, values)
-        ), (setCaller, newValue) -> {
+        AtomicReference<ArrayClass> arrayClass = new AtomicReference<>(null);
+        return new Value(ArrayClass.type, caller -> {
+            if(arrayClass.get()==null) arrayClass.set(new ArrayClass(
+                    ValueUtils.classesFromValues(caller, values)
+            ));
+
+            return arrayClass.get();
+        }, (setCaller, newValue) -> {
             LCClass valueClass = newValue.get.invoke(setCaller);
             if(valueClass instanceof ArrayClass) {
                 ArrayClass otherArray = (ArrayClass) valueClass;

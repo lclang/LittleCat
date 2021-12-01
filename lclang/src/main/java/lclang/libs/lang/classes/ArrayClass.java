@@ -23,7 +23,7 @@ public class ArrayClass extends LibraryClass {
     }
 
     public LCClass get(int index) {
-        return value.size() > index ?
+        return value.size() > index && index > 0?
                 value.get(index)
                 : NullClass.instance;
     }
@@ -47,9 +47,7 @@ public class ArrayClass extends LibraryClass {
         this();
         value = list;
 
-        globals.put("add", voidMethod((caller, args) ->
-                value.add(args.get(0)),
-                Types.ANY).asValue());
+        globals.put("add", voidMethod((caller, args) -> add(args.get(0)), Types.ANY).asValue());
         globals.put("size", method((caller, args) -> IntClass.get(value.size()), IntClass.type).asValue());
         globals.put("last", method((caller, args) -> last(), Types.ANY).asValue());
         globals.put("remove", method((caller, args) -> BoolClass.get(list.remove(args.get(0))),

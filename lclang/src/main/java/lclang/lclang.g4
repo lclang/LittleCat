@@ -97,7 +97,7 @@ magicType: 'any'|'void'|'callable';
 namedType: ID (TYPE_PREFIX namedType)?;
 
 expression:
-      expression arrayAccess=OPEN_BRACKET expression CLOSE_BRACKET
+      expression arrayAccess=OPEN_BRACKET expression? CLOSE_BRACKET
     | expression is=IS type
     | expression access=DOT variable
     | expression call=OPEN (expression COMMA)* expression? CLOSE
@@ -174,7 +174,7 @@ arg: ID (COLON type)?;
 attribute: AS_ATTR ID;
 method: attribute* METHOD ID OPEN (arg COMMA)* arg? CLOSE (COLON returnType=type)? (block|ASSIGN expression);
 
-use: USE name=ID (AS alias=ID) SEMICOLON?;
+use: USE GLOBAL? name=ID (AS alias=ID) FROM (fromPackage=ID|fromFile=STRING) SEMICOLON?;
 
 //File expressions
 global: GLOBAL ID ASSIGN value SEMICOLON?;

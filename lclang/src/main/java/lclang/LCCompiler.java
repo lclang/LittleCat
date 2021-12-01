@@ -202,6 +202,8 @@ public class LCCompiler extends lclangBaseVisitor<Statement> {
                 operation = UnaryOperationExpression.Operation.NOT;
             else if(ctx.throwNull!=null)
                 operation = UnaryOperationExpression.Operation.NULL_CHECK;
+            else if(ctx.arrayAccess!=null)
+                operation = UnaryOperationExpression.Operation.ARRAY_ACCESS;
 
             return new UnaryOperationExpression(
                     expressions.get(0),

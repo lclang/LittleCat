@@ -4,20 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb2edc7a-653c-417d-86ce-2db3142e1174" name="Changes" comment="Support of https, file protocols and new class SSLSocket">
-      <change afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/std/classes/SSLSocketClass.java" afterDir="false" />
+    <list default="true" id="eb2edc7a-653c-417d-86ce-2db3142e1174" name="Changes" comment="SocketServer">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/libs/url.lcat" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/libs/url.lcat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/LCLangErrorListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/LCLangErrorListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/libs/base.lcat" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/libs/base.lcat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclang.interp" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclang.interp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/LCCompiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/LCCompiler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/exceptions/LCLangLexerException.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/exceptions/LCLangLexerException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/exceptions/LCLangRuntimeException.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/exceptions/LCLangRuntimeException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/std/StdLibrary.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/std/StdLibrary.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/std/classes/FileClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/std/classes/FileClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/std/classes/InputClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/std/classes/InputClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/std/classes/OutputClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/std/classes/OutputClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/std/classes/ThreadClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/std/classes/ThreadClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/lclang.g4" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/lclang.g4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/ArrayClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/ArrayClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/LibraryClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/LibraryClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/ArrayExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/ArrayExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/UnaryOperationExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/UnaryOperationExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/utils/ValueUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/utils/ValueUtils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +107,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.50491804" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="discord-application" />
   </component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
@@ -155,8 +154,8 @@
       <recent name="lclang.utils" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Run test file">
-    <configuration name="Run CLI" type="Application" factoryName="Application">
+  <component name="RunManager" selected="Application.Run CLI">
+    <configuration name="Run CLI" type="Application" factoryName="Application" activateToolWindowBeforeRun="false">
       <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="lclang.Main" />
@@ -313,13 +312,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1628529223618</updated>
-    </task>
-    <task id="LOCAL-00041" summary="Last fix?">
-      <created>1632241967950</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1632241967950</updated>
     </task>
     <task id="LOCAL-00042" summary="Last fix?">
       <created>1632242192964</created>
@@ -657,7 +649,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638119197135</updated>
     </task>
-    <option name="localTasksCounter" value="90" />
+    <task id="LOCAL-00090" summary="SocketServer">
+      <created>1638126170045</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1638126170045</updated>
+    </task>
+    <option name="localTasksCounter" value="91" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -696,7 +695,8 @@
     <MESSAGE value="Optimization" />
     <MESSAGE value="No More Kotlin" />
     <MESSAGE value="Support of https, file protocols and new class SSLSocket" />
-    <option name="LAST_COMMIT_MESSAGE" value="Support of https, file protocols and new class SSLSocket" />
+    <MESSAGE value="SocketServer" />
+    <option name="LAST_COMMIT_MESSAGE" value="SocketServer" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -734,13 +734,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/ArrayClass.java</url>
-          <line>88</line>
-          <option name="timeStamp" value="52" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/ArrayClass.java</url>
-          <line>89</line>
-          <option name="timeStamp" value="53" />
+          <line>60</line>
+          <option name="timeStamp" value="64" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

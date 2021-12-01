@@ -30,10 +30,10 @@ class Entry(key, value) {
     method toString(): string = key.toString() + " => " + value.toString()
 }
 
-method range(start: int, end: int, change: int): array {
+method range(start: number, end: number, change: number): array {
     range = []
     while start < end: {
-        range.add(start)
+        range[] = start
         start += change
     }
 

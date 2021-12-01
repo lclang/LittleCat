@@ -7,6 +7,7 @@ import lclang.Value;
 import lclang.exceptions.LCLangNullPointerException;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.exceptions.LCLangTypeErrorException;
+import lclang.libs.lang.classes.ArrayClass;
 import lclang.libs.lang.classes.BoolClass;
 import lclang.libs.lang.classes.numbers.IntClass;
 import lclang.libs.lang.classes.numbers.NumberClass;
@@ -29,6 +30,15 @@ public class UnaryOperationExpression extends Expression {
 
         Value value;
         switch (operation){
+            case ARRAY_ACCESS:
+                if(left instanceof ArrayClass) {
+                    ArrayClass array = (ArrayClass) left;
+                    value = array.last().asValue();
+                    value.set = (caller1, value1) -> array.add(value1.get.invoke(caller1));
+
+                    return value;
+                }else throw new LCLangTypeErrorException("Value is not array", caller);
+
             case NOT:
                 value = BoolClass.get(left instanceof BoolClass &&!((BoolClass) left).bool).asValue();
                 break;
@@ -63,5 +73,6 @@ public class UnaryOperationExpression extends Expression {
         UNARY_PLUS,
         UNARY_MINUS,
         NOT,
+        ARRAY_ACCESS
     }
 }

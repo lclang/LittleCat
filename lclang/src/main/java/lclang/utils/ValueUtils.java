@@ -23,7 +23,6 @@ public class ValueUtils {
     }
 
     public static List<LCClass> classesFromValues(Caller caller,
-                                                  LCBaseExecutor executor,
                                                   List<Value> values) throws LCLangRuntimeException {
         ArrayList<LCClass> classes = new ArrayList<>();
         for (Value expression : values) {

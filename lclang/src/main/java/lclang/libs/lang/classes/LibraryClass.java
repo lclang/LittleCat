@@ -1,7 +1,6 @@
 package lclang.libs.lang.classes;
 
 import lclang.Caller;
-import lclang.LCBaseExecutor;
 import lclang.LCClass;
 import lclang.Value;
 import lclang.exceptions.LCLangRuntimeException;
@@ -31,7 +30,6 @@ public abstract class LibraryClass extends LCClass {
                         caller,
                         ValueUtils.classesFromValues(
                                 caller,
-                                new LCBaseExecutor(LibraryClass.this),
                                 args
                         )
                 );
@@ -53,7 +51,6 @@ public abstract class LibraryClass extends LCClass {
                         caller,
                         ValueUtils.classesFromValues(
                                 caller,
-                                new LCBaseExecutor(LibraryClass.this),
                                 args
                         )
                 ).asValue();
