@@ -6,23 +6,23 @@ import lclang.libs.lang.classes.StringClass;
 import lclang.types.Type;
 import lclang.types.Types;
 
-public class ReflectionValue extends LibraryClass {
-    public static final String NAME = "ReflectionValue";
-    public static final ReflectionValue INSTANCE = new ReflectionValue();
+public class ReflectionLink extends LibraryClass {
+    public static final String NAME = "ReflectionLink";
+    public static final ReflectionLink INSTANCE = new ReflectionLink();
     public static final Type TYPE = INSTANCE.classType;
 
-    public Link value;
+    public Link link;
 
-    private ReflectionValue() {
+    private ReflectionLink() {
         super(NAME);
-        constructor = method((caller, lcClasses) -> new ReflectionValue(lcClasses.get(0)
+        constructor = method((caller, lcClasses) -> new ReflectionLink(lcClasses.get(0)
                 .executor.getLink(caller, lcClasses.get(1).toString(caller))), Types.ANY, StringClass.type, TYPE);
     }
 
-    public ReflectionValue(Link value) {
+    public ReflectionLink(Link value) {
         this();
 
-        this.value = value;
+        this.link = value;
         globals.put("type", method((caller, lcClasses) -> StringClass.get(value.type.toString()), StringClass.type));
         globals.put("get", method((caller, lcClasses) -> value.get.invoke(caller), Types.ANY));
         globals.put("set", voidMethod((caller, lcClasses) ->
