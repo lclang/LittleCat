@@ -2,7 +2,7 @@ package lclang.statements.expressions;
 
 import lclang.Caller;
 import lclang.LCBaseExecutor;
-import lclang.Value;
+import lclang.Link;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.exceptions.LCLangTypeErrorException;
 import lclang.libs.lang.classes.ArrayClass;
@@ -20,10 +20,10 @@ public class ArrayExpression extends Expression {
     }
 
     @Override
-    public Value visit(Caller prevCaller, LCBaseExecutor executor) throws LCLangRuntimeException {
-        final List<Value> values = ValueUtils.valuesFromExpressions(prevCaller, executor, array);
+    public Link visit(Caller prevCaller, LCBaseExecutor executor) throws LCLangRuntimeException {
+        final List<Link> values = ValueUtils.valuesFromExpressions(prevCaller, executor, array);
         AtomicReference<ArrayClass> arrayClass = new AtomicReference<>(null);
-        return new Value(ArrayClass.type, caller -> {
+        return new Link(ArrayClass.type, caller -> {
             if(arrayClass.get()==null) arrayClass.set(new ArrayClass(
                     ValueUtils.classesFromValues(caller, values)
             ));
@@ -36,6 +36,6 @@ public class ArrayExpression extends Expression {
                     values.get(i).set.invoke(setCaller, otherArray.get(i));
                 }
             }else throw new LCLangTypeErrorException("Value is not array", setCaller);
-        }, Value.State.NOTHING);
+        }, Link.State.NOTHING);
     }
 }

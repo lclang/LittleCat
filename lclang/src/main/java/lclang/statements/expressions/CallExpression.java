@@ -2,7 +2,7 @@ package lclang.statements.expressions;
 
 import lclang.Caller;
 import lclang.LCBaseExecutor;
-import lclang.Value;
+import lclang.Link;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.exceptions.LCLangTypeErrorException;
 import lclang.libs.lang.classes.LCClass;
@@ -25,16 +25,16 @@ public class CallExpression extends Expression {
     }
 
     @Override
-    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
+    public Link visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         Caller expressionCaller = expression.getCaller(prevCaller);
-        Value value = expression.visit(prevCaller, visitor);
+        Link value = expression.visit(prevCaller, visitor);
         if(!(value.type instanceof CallableType))
             throw new LCLangTypeErrorException("Value is not callable (it is "+value.type+")", expressionCaller);
 
         ArrayList<Type> argsTypes = new ArrayList<>();
         ArrayList<LCClass> args = new ArrayList<>();
         for(Expression argument: arguments) {
-            Value argumentValue = argument.visit(prevCaller, visitor);
+            Link argumentValue = argument.visit(prevCaller, visitor);
             argsTypes.add(argumentValue.type);
 
             args.add(argumentValue.get.invoke(expression.getCaller(prevCaller)));
@@ -55,6 +55,6 @@ public class CallExpression extends Expression {
                     ": excepted "+method.args.get(notAcceptArg)+", but received "+argsTypes.get(notAcceptArg),
                     arguments.get(notAcceptArg).getCaller(prevCaller));
 
-        return method.call(getCaller(prevCaller), args).asValue();
+        return method.call(getCaller(prevCaller), args).createLink();
     }
 }

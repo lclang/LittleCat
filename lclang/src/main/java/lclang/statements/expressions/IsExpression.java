@@ -2,7 +2,7 @@ package lclang.statements.expressions;
 
 import lclang.Caller;
 import lclang.LCBaseExecutor;
-import lclang.Value;
+import lclang.Link;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.BoolClass;
 import lclang.statements.TypeStatement;
@@ -17,9 +17,9 @@ public class IsExpression extends Expression {
     }
 
     @Override
-    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
+    public Link visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         return BoolClass.get(type
                 .toType(visitor.root)
-                .isAccept(checkExpression.visit(prevCaller, visitor).type)).asValue();
+                .isAccept(checkExpression.visit(prevCaller, visitor).type)).createLink();
     }
 }

@@ -1,6 +1,6 @@
 package lclang.libs.reflection;
 
-import lclang.Value;
+import lclang.Link;
 import lclang.libs.lang.classes.LibraryClass;
 import lclang.libs.lang.classes.StringClass;
 import lclang.types.Type;
@@ -11,7 +11,7 @@ public class ReflectionValue extends LibraryClass {
     public static final ReflectionValue INSTANCE = new ReflectionValue();
     public static final Type TYPE = INSTANCE.classType;
 
-    public Value value;
+    public Link value;
 
     private ReflectionValue() {
         super(NAME);
@@ -19,7 +19,7 @@ public class ReflectionValue extends LibraryClass {
                 .executor.getLink(caller, lcClasses.get(1).toString(caller))), Types.ANY, StringClass.type, TYPE);
     }
 
-    public ReflectionValue(Value value) {
+    public ReflectionValue(Link value) {
         this();
 
         this.value = value;

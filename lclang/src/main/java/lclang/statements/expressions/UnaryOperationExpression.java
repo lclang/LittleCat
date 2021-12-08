@@ -2,7 +2,7 @@ package lclang.statements.expressions;
 
 import lclang.Caller;
 import lclang.LCBaseExecutor;
-import lclang.Value;
+import lclang.Link;
 import lclang.exceptions.LCLangNullPointerException;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.exceptions.LCLangTypeErrorException;
@@ -23,9 +23,9 @@ public class UnaryOperationExpression extends Expression {
     }
 
     @Override
-    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
+    public Link visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         Caller caller = getCaller(prevCaller);
-        Value leftValue = expression.visit(caller, visitor);
+        Link leftValue = expression.visit(caller, visitor);
         LCClass left = leftValue.get.invoke(caller);
 
         LCClass clazz;
@@ -33,7 +33,7 @@ public class UnaryOperationExpression extends Expression {
             case ARRAY_ACCESS:
                 if(left instanceof ArrayClass) {
                     ArrayClass array = (ArrayClass) left;
-                    Value value = array.last().asValue();
+                    Link value = array.last().createLink();
                     value.set = (caller1, clazz1) -> array.add(clazz1);
 
                     return value;
@@ -65,7 +65,7 @@ public class UnaryOperationExpression extends Expression {
         }
 
         leftValue.set.invoke(caller, clazz);
-        return clazz.asValue();
+        return clazz.createLink();
     }
 
     public enum Operation {

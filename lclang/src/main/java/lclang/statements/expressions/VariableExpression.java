@@ -2,7 +2,7 @@ package lclang.statements.expressions;
 
 import lclang.Caller;
 import lclang.LCBaseExecutor;
-import lclang.Value;
+import lclang.Link;
 import lclang.exceptions.LCLangRuntimeException;
 
 public class VariableExpression extends Expression {
@@ -14,7 +14,7 @@ public class VariableExpression extends Expression {
     }
 
     @Override
-    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
+    public Link visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         return visitor.getLink(getCaller(prevCaller), name);
     }
 

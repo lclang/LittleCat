@@ -2,7 +2,7 @@ package lclang.statements;
 
 import lclang.Caller;
 import lclang.LCBaseExecutor;
-import lclang.Value;
+import lclang.Link;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.BoolClass;
 import lclang.libs.lang.classes.LCClass;
@@ -22,7 +22,7 @@ public class IfStatement extends Statement {
     }
 
     @Override
-    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
+    public Link visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         LCClass cond = condition.visit(prevCaller, visitor).get.invoke(prevCaller);
         if(cond!=BoolClass.FALSE) {
             return ifTrue.visit(prevCaller, visitor);

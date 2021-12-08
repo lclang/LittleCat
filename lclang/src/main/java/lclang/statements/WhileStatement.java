@@ -2,7 +2,7 @@ package lclang.statements;
 
 import lclang.Caller;
 import lclang.LCBaseExecutor;
-import lclang.Value;
+import lclang.Link;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.BoolClass;
 import lclang.libs.lang.classes.VoidClass;
@@ -19,14 +19,14 @@ public class WhileStatement extends Statement {
     }
 
     @Override
-    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
+    public Link visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         if(body==null) {
             while(condition.visit(prevCaller, visitor).get.invoke(prevCaller) != BoolClass.FALSE);
         }else while(condition.visit(prevCaller, visitor).get.invoke(prevCaller) != BoolClass.FALSE) {
-            Value value = body.visit(prevCaller, visitor);
-            if(value.state==Value.State.RETURN)
+            Link value = body.visit(prevCaller, visitor);
+            if(value.state== Link.State.RETURN)
                 return value;
-            else if(value.state==Value.State.STOP)
+            else if(value.state== Link.State.STOP)
                 break;
         }
 

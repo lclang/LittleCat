@@ -2,7 +2,7 @@ package lclang.statements.expressions;
 
 import lclang.Caller;
 import lclang.LCBaseExecutor;
-import lclang.Value;
+import lclang.Link;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.exceptions.LCLangTypeErrorException;
 import lclang.libs.lang.classes.*;
@@ -22,12 +22,12 @@ public class BinaryOperationExpression extends Expression {
     }
 
     @Override
-    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
+    public Link visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         Caller caller = getCaller(prevCaller);
-        Value rightValue = right.visit(caller, visitor);
+        Link rightValue = right.visit(caller, visitor);
         LCClass right = rightValue.get.invoke(caller);
 
-        Value leftValue = left.visit(caller, visitor);
+        Link leftValue = left.visit(caller, visitor);
         LCClass left = leftValue.get.invoke(caller);
 
 
@@ -36,28 +36,28 @@ public class BinaryOperationExpression extends Expression {
             NumberClass rightNumber = (NumberClass) right;
 
             switch (operation) {
-                case POW: return leftNumber.pow(rightNumber).asValue();
-                case LESS: return leftNumber.less(rightNumber).asValue();
-                case LESS_EQUALS: return leftNumber.lessEquals(rightNumber).asValue();
-                case LARGER: return leftNumber.larger(rightNumber).asValue();
-                case LARGER_EQUALS: return leftNumber.largerEquals(rightNumber).asValue();
-                case MULTIPLICATION: return leftNumber.multiplication(rightNumber).asValue();
-                case ADD: return leftNumber.add(rightNumber).asValue();
-                case MINUS: return leftNumber.minus(rightNumber).asValue();
-                case DIVISION: return leftNumber.div(rightNumber).asValue();
+                case POW: return leftNumber.pow(rightNumber).createLink();
+                case LESS: return leftNumber.less(rightNumber).createLink();
+                case LESS_EQUALS: return leftNumber.lessEquals(rightNumber).createLink();
+                case LARGER: return leftNumber.larger(rightNumber).createLink();
+                case LARGER_EQUALS: return leftNumber.largerEquals(rightNumber).createLink();
+                case MULTIPLICATION: return leftNumber.multiplication(rightNumber).createLink();
+                case ADD: return leftNumber.add(rightNumber).createLink();
+                case MINUS: return leftNumber.minus(rightNumber).createLink();
+                case DIVISION: return leftNumber.div(rightNumber).createLink();
             }
         }
 
         if(left instanceof StringClass || right instanceof StringClass){
             switch (operation) {
-                case ADD: return StringClass.get(left.toString(caller)+right).asValue();
+                case ADD: return StringClass.get(left.toString(caller)+right).createLink();
                 case MULTIPLICATION:
                     if(right instanceof IntClass ||left instanceof IntClass)
                         return StringClass.get(right instanceof IntClass ?
                                     String.format("%0" + ((IntClass) right).value + "d", 0)
                                         .replace("0", left.toString(caller))
                                 :   String.format("%0" + ((IntClass) left).value + "d", 0)
-                                    .replace("0", right.toString(caller))).asValue();
+                                    .replace("0", right.toString(caller))).createLink();
             }
         }
 
@@ -65,7 +65,7 @@ public class BinaryOperationExpression extends Expression {
             ArrayClass leftArray = (ArrayClass) left;
             ArrayClass rightArray = (ArrayClass) right;
             if (operation == Operation.ADD) {
-                return leftArray.merge(rightArray).asValue();
+                return leftArray.merge(rightArray).createLink();
             }
         }
 
@@ -73,8 +73,8 @@ public class BinaryOperationExpression extends Expression {
             BoolClass leftBool = (BoolClass) left;
             BoolClass rightBool = (BoolClass) right;
             switch (operation) {
-                case OR: return BoolClass.get(leftBool.bool||rightBool.bool).asValue();
-                case AND: return BoolClass.get(leftBool.bool&&rightBool.bool).asValue();
+                case OR: return BoolClass.get(leftBool.bool||rightBool.bool).createLink();
+                case AND: return BoolClass.get(leftBool.bool&&rightBool.bool).createLink();
             }
         }
 
@@ -86,15 +86,15 @@ public class BinaryOperationExpression extends Expression {
             case ARRAY_ACCESS: {
                 if(left instanceof ArrayClass) {
                     if (right instanceof IntClass)
-                        return ((ArrayClass) left).get(((IntClass) right).value).asValue();
+                        return ((ArrayClass) left).get(((IntClass) right).value).createLink();
                     else throw new LCLangTypeErrorException("invalid index: excepted int", caller);
                 }/*else if(left instanceof Map<*, *>){
                        left[right] as Value
                 }*/else throw new LCLangTypeErrorException("excepted array or map", caller);
             }
 
-            case EQUALS: return BoolClass.get(left.classId == right.classId).asValue();
-            case NOT_EQUALS: return BoolClass.get(left.classId != right.classId).asValue();
+            case EQUALS: return BoolClass.get(left.classId == right.classId).createLink();
+            case NOT_EQUALS: return BoolClass.get(left.classId != right.classId).createLink();
 
             default: throw new LCLangTypeErrorException("Operation not supported", caller);
         }

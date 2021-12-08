@@ -4,8 +4,6 @@
     Minimal version: 0.1
 **/
 
-class object {}
-
 class Map {
   entries = []
 

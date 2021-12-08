@@ -6,13 +6,13 @@ import lclang.types.Type;
 import lclang.utils.Function;
 import lclang.utils.VoidMethod2;
 
-public class Value {
+public class Link {
     public final Type type;
     public final Function<Caller, LCClass> get;
     public VoidMethod2<Caller, LCClass> set;
     public State state;
 
-    public Value(
+    public Link(
             Type type,
             Function<Caller, LCClass> get,
             VoidMethod2<Caller, LCClass> set,
@@ -24,7 +24,7 @@ public class Value {
         this.state = state;
     }
 
-    public Value(
+    public Link(
             Type type,
             Function<Caller, LCClass> get,
             State state
@@ -37,7 +37,7 @@ public class Value {
         }, state);
     }
 
-    public Value(
+    public Link(
             Type type,
             LCClass value,
             State state

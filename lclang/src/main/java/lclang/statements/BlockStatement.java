@@ -2,7 +2,7 @@ package lclang.statements;
 
 import lclang.Caller;
 import lclang.LCBaseExecutor;
-import lclang.Value;
+import lclang.Link;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.VoidClass;
 
@@ -15,11 +15,11 @@ public class BlockStatement extends Statement {
     }
 
     @Override
-    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
+    public Link visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         for(Statement stmt: statements) {
             Caller caller = stmt.getCaller(prevCaller);
-            Value value = stmt.visit(caller, visitor);
-            if (value.state!=Value.State.NOTHING)
+            Link value = stmt.visit(caller, visitor);
+            if (value.state!= Link.State.NOTHING)
                 return value;
             else value.get.invoke(caller);
         }

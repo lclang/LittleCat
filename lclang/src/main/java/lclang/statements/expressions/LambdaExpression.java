@@ -2,7 +2,7 @@ package lclang.statements.expressions;
 
 import lclang.Caller;
 import lclang.LCBaseExecutor;
-import lclang.Value;
+import lclang.Link;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.methods.MethodImpl;
 import lclang.statements.MethodStatement;
@@ -26,8 +26,8 @@ public class LambdaExpression extends Expression {
     }
 
     @Override
-    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
+    public Link visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         return new MethodImpl(visitor, args,
-                returnType.toType(visitor.root), expression, true).asValue();
+                returnType.toType(visitor.root), expression, true).createLink();
     }
 }

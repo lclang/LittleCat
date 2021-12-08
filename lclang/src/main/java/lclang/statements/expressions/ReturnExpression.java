@@ -2,7 +2,7 @@ package lclang.statements.expressions;
 
 import lclang.Caller;
 import lclang.LCBaseExecutor;
-import lclang.Value;
+import lclang.Link;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.VoidClass;
 
@@ -15,12 +15,12 @@ public class ReturnExpression extends Expression {
     }
 
     @Override
-    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
-        Value value = VoidClass.value;
+    public Link visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
+        Link value = VoidClass.value;
         if(expression!=null)
             value = expression.visit(prevCaller, visitor);
 
-        value.state = Value.State.RETURN;
+        value.state = Link.State.RETURN;
         return value;
     }
 }

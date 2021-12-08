@@ -20,17 +20,17 @@ public class LCBaseExecutor {
         if(importVariables) variables.putAll(executor.variables);
     }
 
-    public Value getLink(Caller c, String name) throws LCLangRuntimeException {
+    public Link getLink(Caller c, String name) throws LCLangRuntimeException {
         
-        Value value;
+        Link value;
         if(variables.containsKey(name))
-            value = variables.get(name).asValue();
+            value = variables.get(name).createLink();
         else {
-            Value link = root.getLink(c, name);
+            Link link = root.getLink(c, name);
             if(link!=null) value = link;
-            else value = new Value(Types.UNDEFINED, caller -> {
+            else value = new Link(Types.UNDEFINED, caller -> {
                 throw new LCLangVariableNotFoundException(name, caller);
-            }, Value.State.NOTHING);
+            }, Link.State.NOTHING);
         }
 
         value.set = (caller, clazz) -> variables.put(name, clazz);

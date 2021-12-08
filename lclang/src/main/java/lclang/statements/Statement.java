@@ -3,7 +3,7 @@ package lclang.statements;
 import lclang.Caller;
 import lclang.LCBaseExecutor;
 import lclang.LCRootExecutor;
-import lclang.Value;
+import lclang.Link;
 import lclang.exceptions.LCLangRuntimeException;
 
 public abstract class Statement {
@@ -13,7 +13,7 @@ public abstract class Statement {
         this.line = line;
     }
 
-    public abstract Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException;
+    public abstract Link visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException;
 
     public Caller getCaller(Caller caller) {
         return new Caller(caller.root, line, caller);

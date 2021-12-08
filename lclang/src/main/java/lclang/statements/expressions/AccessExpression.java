@@ -2,7 +2,7 @@ package lclang.statements.expressions;
 
 import lclang.Caller;
 import lclang.LCBaseExecutor;
-import lclang.Value;
+import lclang.Link;
 import lclang.exceptions.LCLangNullPointerException;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.LCClass;
@@ -19,7 +19,7 @@ public class AccessExpression extends Expression {
     }
 
     @Override
-    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
+    public Link visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         Caller caller = getCaller(prevCaller);
         LCClass value = expression.visit(caller, visitor).get.invoke(caller);
         if(value==NullClass.instance) throw new LCLangNullPointerException(caller);

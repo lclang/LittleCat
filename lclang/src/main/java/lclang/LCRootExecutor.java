@@ -24,20 +24,20 @@ public class LCRootExecutor {
         globals.putAll(root.globals);
     }
 
-    public Value getLink(Caller caller, String name) throws LCLangRuntimeException {
+    public Link getLink(Caller caller, String name) throws LCLangRuntimeException {
         LCClass clazz = globals.getOrDefault(name, null);
         if(clazz==null) return null;
 
-        return clazz.asValue();
+        return clazz.createLink();
     }
 
     public LCClass execute() throws LCLangRuntimeException {
         for (Statement statement: statements) {
             Caller caller = statement.getCaller(this);
-            Value value = statement.visit(caller, executor);
+            Link value = statement.visit(caller, executor);
 
             LCClass clazz = value.get.invoke(caller);
-            if(value.state!=Value.State.NOTHING)
+            if(value.state!= Link.State.NOTHING)
                 return clazz;
         }
 

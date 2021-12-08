@@ -2,7 +2,7 @@ package lclang.libs.lang.classes;
 
 import lclang.Caller;
 import lclang.LCRootExecutor;
-import lclang.Value;
+import lclang.Link;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.methods.Method;
 import lclang.types.NamedType;
@@ -28,16 +28,16 @@ public class LCClass extends LCRootExecutor {
     }
 
     @Override
-    public Value getLink(Caller caller, String name) throws LCLangRuntimeException {
-        Value value = super.getLink(caller, name);
+    public Link getLink(Caller caller, String name) throws LCLangRuntimeException {
+        Link value = super.getLink(caller, name);
         if(value==null&&extendsClass!=null)
             return extendsClass.executor.getLink(caller, name);
 
         return value;
     }
 
-    public Value asValue(){
-        return new Value(classType, this, Value.State.NOTHING);
+    public Link createLink(){
+        return new Link(classType, this, Link.State.NOTHING);
     }
 
     public boolean canCast(LCClass another) {

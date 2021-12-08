@@ -2,7 +2,7 @@ package lclang.methods;
 
 import lclang.Caller;
 import lclang.LCRootExecutor;
-import lclang.Value;
+import lclang.Link;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.LCClass;
 import lclang.libs.lang.classes.NullClass;
@@ -38,8 +38,8 @@ public class Method extends LCClass {
     }
 
     @Override
-    public Value asValue() {
-        return new Value(methodType, this, Value.State.NOTHING);
+    public Link createLink() {
+        return new Link(methodType, this, Link.State.NOTHING);
     }
 
     @Override

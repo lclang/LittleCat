@@ -2,7 +2,7 @@ package lclang.statements.expressions;
 
 import lclang.Caller;
 import lclang.LCBaseExecutor;
-import lclang.Value;
+import lclang.Link;
 import lclang.exceptions.LCLangRuntimeException;
 
 public class AssignExpression extends Expression {
@@ -16,9 +16,9 @@ public class AssignExpression extends Expression {
     }
 
     @Override
-    public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
-        Value settableValue = left.visit(prevCaller, visitor);
-        Value value = right.visit(prevCaller, visitor);
+    public Link visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
+        Link settableValue = left.visit(prevCaller, visitor);
+        Link value = right.visit(prevCaller, visitor);
         settableValue.set.invoke(prevCaller, value.get.invoke(prevCaller));
         return value;
     }

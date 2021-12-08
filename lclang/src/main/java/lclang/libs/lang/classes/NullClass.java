@@ -1,7 +1,7 @@
 package lclang.libs.lang.classes;
 
 import lclang.Caller;
-import lclang.Value;
+import lclang.Link;
 import lclang.exceptions.LCLangNullPointerException;
 import lclang.types.Type;
 
@@ -15,7 +15,7 @@ public class NullClass extends LibraryClass {
     }
 
     @Override
-    public Value getLink(Caller caller, String name) throws LCLangNullPointerException {
+    public Link getLink(Caller caller, String name) throws LCLangNullPointerException {
         throw new LCLangNullPointerException(caller);
     }
 
