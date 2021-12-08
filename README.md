@@ -1,6 +1,7 @@
 ![Cat](https://user-images.githubusercontent.com/40952805/143680532-a3a24a74-c39b-4bbf-a32b-bc8216af63d6.png)
 # Little Cat Language
 [![Discord][DiscordBadge]][DiscordUrl]
+[![CircleCI][CircleCIBadge]][CircleCIUrl]
 
 Little Cat is a modern dynamic typed interpreted language that allows you to write programs quickly and easily.
 It was influenced by Java, Kotlin, Python, PHP.
@@ -130,8 +131,10 @@ println(variable.get()) // Prints: 123
 ```
 
 [DiscordBadge]: https://img.shields.io/discord/892491030375591977?label=Discord&logo=discord&logoColor=white
-
 [DiscordUrl]: https://discord.gg/vBDkWUdMtx
+
+[CircleCIBadge]: https://circleci.com/gh/lclang/LittleCat.svg?style=svg
+[CircleCIUrl]: https://circleci.com/gh/lclang/LittleCat
 
 ## Contributions
 ![](https://contrib.rocks/image?repo=lclang/LittleCat)
