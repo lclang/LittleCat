@@ -2,6 +2,7 @@ package lclang;
 
 import lclang.libs.TestLibrary;
 import lclang.libs.lang.LangLibrary;
+import lclang.libs.std.StdLibrary;
 import lclang.utils.Utils;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -32,6 +33,7 @@ public class InterpreterTest {
                 Global.libraries.clear();
                 Global.javaLibraries.clear();
                 Global.javaLibraries.add(new LangLibrary());
+                Global.javaLibraries.add(new StdLibrary());
                 Global.javaLibraries.add(new TestLibrary(output));
 
                 String[] parts = Utils.readFile(file, UniversalDetector.detectCharset(file))

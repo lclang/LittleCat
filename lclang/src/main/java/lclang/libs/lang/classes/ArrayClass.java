@@ -1,11 +1,11 @@
 package lclang.libs.lang.classes;
 
 import lclang.Caller;
-import lclang.LCClass;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.numbers.IntClass;
 import lclang.methods.Method;
 import lclang.types.CallableType;
+import lclang.types.Type;
 import lclang.types.Types;
 
 import java.util.ArrayList;
@@ -14,8 +14,8 @@ import java.util.List;
 
 public class ArrayClass extends LibraryClass {
     public static final String name = "array";
-    public static final Types.MagicType type = new Types.MagicType(name);
     public static final ArrayClass instance = new ArrayClass();
+    public static final Type type = instance.classType;
 
     public List<LCClass> value;
     private ArrayClass() {
@@ -47,39 +47,37 @@ public class ArrayClass extends LibraryClass {
         this();
         value = list;
 
-        globals.put("add", voidMethod((caller, args) -> add(args.get(0)), Types.ANY).asValue());
-        globals.put("size", method((caller, args) -> IntClass.get(value.size()), IntClass.type).asValue());
-        globals.put("last", method((caller, args) -> last(), Types.ANY).asValue());
+        globals.put("add", voidMethod((caller, args) -> add(args.get(0)), Types.ANY));
+        globals.put("size", method((caller, args) -> IntClass.get(value.size()), IntClass.TYPE));
+        globals.put("last", method((caller, args) -> last(), Types.ANY));
         globals.put("remove", method((caller, args) -> BoolClass.get(list.remove(args.get(0))),
-                Types.ANY, BoolClass.type).asValue());
+                Types.ANY, BoolClass.type));
         globals.put("removeAt", method((caller, args) -> list.remove(((IntClass) args.get(0)).value),
-                IntClass.type, Types.ANY).asValue());
+                IntClass.TYPE, Types.ANY));
         globals.put("join", method((caller, args) ->
                         StringClass.get(join(caller, ((StringClass) args.get(0)).string)),
-                StringClass.type, StringClass.type).asValue());
+                StringClass.type, StringClass.type));
         globals.put("toString", method((caller, args) ->
                         StringClass.get("["+join(caller, ", ")+"]"),
-                StringClass.type).asValue());
+                StringClass.type));
 
         globals.put("filter", method((caller, args) -> {
             Method method = (Method) args.get(0);
             for (LCClass item: value) {
-                if(method.call(caller, Collections.singletonList(item.asValue())).get
-                        .invoke(caller).equals(BoolClass.TRUE)){
+                if(method.call(caller, Collections.singletonList(item))==BoolClass.TRUE){
                     return item;
                 }
             }
 
             return NullClass.instance;
-        }, CallableType.get(Types.ANY, BoolClass.type), Types.ANY).asValue());
+        }, CallableType.get(Types.ANY, BoolClass.type), Types.ANY));
 
         globals.put("forEach", voidMethod((caller, args) -> {
             Method method = (Method) args.get(0);
             for (LCClass item: value) {
-                method.call(caller, Collections.singletonList(item.asValue())).get
-                        .invoke(caller);
+                method.call(caller, Collections.singletonList(item));
             }
-        }, CallableType.get(Types.ANY, Types.VOID)).asValue());
+        }, CallableType.get(Types.ANY, VoidClass.type)));
     }
 
     public String join(Caller caller, String delimiter) throws LCLangRuntimeException {

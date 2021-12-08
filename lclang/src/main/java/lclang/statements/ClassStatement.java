@@ -1,10 +1,9 @@
 package lclang.statements;
 
 import lclang.Caller;
-import lclang.LCClass;
 import lclang.LCRootExecutor;
-import lclang.Value;
 import lclang.exceptions.LCLangRuntimeException;
+import lclang.libs.lang.classes.LCClass;
 import lclang.methods.Method;
 import lclang.statements.expressions.Expression;
 import lclang.types.NamedType;
@@ -44,10 +43,10 @@ public class ClassStatement {
                 new NamedType(clazzAst)) {
 
             @Override
-            public Value call(Caller caller, List<Value> args) throws LCLangRuntimeException {
+            public LCClass call(Caller caller, List<LCClass> args) throws LCLangRuntimeException {
                 LCClass clazz = new LCClass(ClassStatement.this.name, root.path);
 
-                clazz.globals.put("this", clazz.asValue());
+                clazz.globals.put("this", clazz);
                 clazz.executor.variables.putAll(executor.variables);
                 clazz.accept(root);
 
@@ -59,8 +58,10 @@ public class ClassStatement {
                     Caller extendsCaller = classExtends.getCaller(root);
                     clazz.extendsClass = classExtends.toType(root).clazz.constructor.call(
                             extendsCaller,
-                            ValueUtils.valuesFromExpressions(extendsCaller, clazz.executor, extendsArguments)
-                    ).get.invoke(extendsCaller);
+                            ValueUtils.classesFromValues(caller,
+                                    ValueUtils.valuesFromExpressions(extendsCaller, clazz.executor, extendsArguments)
+                            )
+                    );
 
                     clazz.accept(clazz.extendsClass);
                 }
@@ -74,7 +75,7 @@ public class ClassStatement {
                     statement.visit(classCaller, clazz.executor).get.invoke(classCaller);
                 }
 
-                return clazz.asValue();
+                return clazz;
             }
         };
 

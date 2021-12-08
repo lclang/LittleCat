@@ -2,13 +2,13 @@ package lclang.statements.expressions;
 
 import lclang.Caller;
 import lclang.LCBaseExecutor;
-import lclang.LCClass;
 import lclang.Value;
 import lclang.exceptions.LCLangNullPointerException;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.exceptions.LCLangTypeErrorException;
 import lclang.libs.lang.classes.ArrayClass;
 import lclang.libs.lang.classes.BoolClass;
+import lclang.libs.lang.classes.LCClass;
 import lclang.libs.lang.classes.numbers.IntClass;
 import lclang.libs.lang.classes.numbers.NumberClass;
 
@@ -28,44 +28,44 @@ public class UnaryOperationExpression extends Expression {
         Value leftValue = expression.visit(caller, visitor);
         LCClass left = leftValue.get.invoke(caller);
 
-        Value value;
+        LCClass clazz;
         switch (operation){
             case ARRAY_ACCESS:
                 if(left instanceof ArrayClass) {
                     ArrayClass array = (ArrayClass) left;
-                    value = array.last().asValue();
-                    value.set = (caller1, value1) -> array.add(value1.get.invoke(caller1));
+                    Value value = array.last().asValue();
+                    value.set = (caller1, clazz1) -> array.add(clazz1);
 
                     return value;
                 }else throw new LCLangTypeErrorException("Value is not array", caller);
 
             case NOT:
-                value = BoolClass.get(left instanceof BoolClass &&!((BoolClass) left).bool).asValue();
+                clazz = BoolClass.get(left instanceof BoolClass &&!((BoolClass) left).bool);
                 break;
 
             case NULL_CHECK:
                 if(left==null)
                     throw new LCLangNullPointerException(caller);
-                else value = leftValue;
+                else clazz = leftValue.get.invoke(caller);
                 break;
 
             case UNARY_PLUS:
                 if(left instanceof NumberClass){
-                    value = ((NumberClass) left).add(IntClass.get(1)).asValue();
+                    clazz = ((NumberClass) left).add(IntClass.get(1));
                     break;
                 }
 
             case UNARY_MINUS:
                 if(left instanceof NumberClass){
-                    value = ((NumberClass) left).minus(IntClass.get(1)).asValue();
+                    clazz = ((NumberClass) left).minus(IntClass.get(1));
                     break;
                 }
 
             default: throw new LCLangTypeErrorException("Operation not supported", caller);
         }
 
-        leftValue.set.invoke(caller, value);
-        return value;
+        leftValue.set.invoke(caller, clazz);
+        return clazz.asValue();
     }
 
     public enum Operation {

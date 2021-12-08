@@ -2,9 +2,9 @@ package lclang.utils;
 
 import lclang.Caller;
 import lclang.LCBaseExecutor;
-import lclang.LCClass;
 import lclang.Value;
 import lclang.exceptions.LCLangRuntimeException;
+import lclang.libs.lang.classes.LCClass;
 import lclang.statements.expressions.Expression;
 
 import java.util.ArrayList;

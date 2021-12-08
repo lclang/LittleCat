@@ -2,10 +2,10 @@ package lclang.statements.expressions;
 
 import lclang.Caller;
 import lclang.LCBaseExecutor;
-import lclang.LCClass;
 import lclang.Value;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.BoolClass;
+import lclang.libs.lang.classes.LCClass;
 
 public class IfExpression extends Expression {
     public final Expression condition;
@@ -22,7 +22,7 @@ public class IfExpression extends Expression {
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         LCClass cond = condition.visit(prevCaller, visitor).get.invoke(prevCaller);
-        if(!cond.equals(BoolClass.FALSE)){
+        if(cond!=BoolClass.FALSE){
             return ifTrue.visit(prevCaller, visitor);
         }
 

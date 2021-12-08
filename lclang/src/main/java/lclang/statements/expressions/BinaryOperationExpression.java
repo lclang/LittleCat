@@ -2,14 +2,10 @@ package lclang.statements.expressions;
 
 import lclang.Caller;
 import lclang.LCBaseExecutor;
-import lclang.LCClass;
 import lclang.Value;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.exceptions.LCLangTypeErrorException;
-import lclang.libs.lang.classes.ArrayClass;
-import lclang.libs.lang.classes.BoolClass;
-import lclang.libs.lang.classes.NullClass;
-import lclang.libs.lang.classes.StringClass;
+import lclang.libs.lang.classes.*;
 import lclang.libs.lang.classes.numbers.IntClass;
 import lclang.libs.lang.classes.numbers.NumberClass;
 
@@ -97,8 +93,8 @@ public class BinaryOperationExpression extends Expression {
                 }*/else throw new LCLangTypeErrorException("excepted array or map", caller);
             }
 
-            case EQUALS: return BoolClass.get(left == right).asValue();
-            case NOT_EQUALS: return BoolClass.get(left != right).asValue();
+            case EQUALS: return BoolClass.get(left.classId == right.classId).asValue();
+            case NOT_EQUALS: return BoolClass.get(left.classId != right.classId).asValue();
 
             default: throw new LCLangTypeErrorException("Operation not supported", caller);
         }

@@ -1,52 +1,40 @@
 package lclang.libs.lang.classes.numbers;
 
 import lclang.libs.lang.classes.StringClass;
+import lclang.types.Type;
 import lclang.types.Types;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class DoubleClass extends NumberClass {
-    public static final String name = "double";
-    public static final Map<Double, DoubleClass> cache = new HashMap<>();
-    public static final Types.MagicType type = new Types.MagicType(name);
-    public static final DoubleClass instance = new DoubleClass();
+    public static final String NAME = "double";
+    public static final Map<Double, DoubleClass> CACHE = new HashMap<>();
+    public static final DoubleClass INSTANCE = new DoubleClass();
+    public static final Type TYPE = INSTANCE.classType;
     public double value;
 
     private DoubleClass() {
-        super(name);
+        super(NAME);
         constructor = method((caller, lcClasses) -> DoubleClass.get(
-                Double.parseDouble(lcClasses.get(0).toString(caller))), Types.ANY, type);
+                Double.parseDouble(lcClasses.get(0).toString(caller))), Types.ANY, TYPE);
     }
 
     private DoubleClass(double value) {
-        super(name, value);
+        super(NAME, value);
         this.value = value;
         globals.put("toString", method((caller, lcClasses) -> StringClass.get(String.valueOf(value)),
-                StringClass.type).asValue());
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        DoubleClass intClass = (DoubleClass) o;
-        return value == intClass.value;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), value);
+                StringClass.type));
+        globals.put("toHex", method((caller, lcClasses) -> StringClass.get(Double.toHexString(value)),
+                StringClass.type));
     }
 
     public static DoubleClass get(double value) {
-        if(cache.containsKey(value))
-            return cache.get(value);
+        if(CACHE.containsKey(value))
+            return CACHE.get(value);
 
         DoubleClass intClass = new DoubleClass(value);
-        cache.put(value, intClass);
+        CACHE.put(value, intClass);
         return intClass;
     }
 }

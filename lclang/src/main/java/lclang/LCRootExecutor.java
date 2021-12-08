@@ -1,6 +1,7 @@
 package lclang;
 
 import lclang.exceptions.LCLangRuntimeException;
+import lclang.libs.lang.classes.LCClass;
 import lclang.libs.lang.classes.NullClass;
 import lclang.statements.Statement;
 
@@ -10,7 +11,7 @@ import java.util.HashMap;
 public class LCRootExecutor {
     public final String path;
     public final LCBaseExecutor executor = new LCBaseExecutor(this);
-    public final HashMap<String, Value> globals = new HashMap<>();
+    public final HashMap<String, LCClass> globals = new HashMap<>();
     public final HashMap<String, LCClass> classes = new HashMap<>();
     public final ArrayList<Statement> statements = new ArrayList<>();
 
@@ -24,7 +25,10 @@ public class LCRootExecutor {
     }
 
     public Value getLink(Caller caller, String name) throws LCLangRuntimeException {
-        return globals.getOrDefault(name, null);
+        LCClass clazz = globals.getOrDefault(name, null);
+        if(clazz==null) return null;
+
+        return clazz.asValue();
     }
 
     public LCClass execute() throws LCLangRuntimeException {

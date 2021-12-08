@@ -1,14 +1,10 @@
 package lclang.libs.lang.classes;
 
 import lclang.Caller;
-import lclang.LCClass;
-import lclang.Value;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.methods.Method;
 import lclang.types.Type;
-import lclang.types.Types;
 import lclang.utils.Function2;
-import lclang.utils.ValueUtils;
 import lclang.utils.VoidMethod2;
 
 import java.util.ArrayList;
@@ -23,18 +19,15 @@ public abstract class LibraryClass extends LCClass {
     public Method voidMethod(VoidMethod2<Caller, List<LCClass>> body, Type... args) {
         List<Type> arguments = Arrays.asList(args);
 
-        return new Method(this, arguments, Types.VOID) {
+        return new Method(this, arguments, VoidClass.type) {
             @Override
-            public Value call(Caller caller, List<Value> args) throws LCLangRuntimeException {
+            public LCClass call(Caller caller, List<LCClass> args) throws LCLangRuntimeException {
                 body.invoke(
                         caller,
-                        ValueUtils.classesFromValues(
-                                caller,
-                                args
-                        )
+                        args
                 );
 
-                return Value.VOID;
+                return VoidClass.instance;
             }
         };
     }
@@ -46,14 +39,11 @@ public abstract class LibraryClass extends LCClass {
 
         return new Method(this, arguments, returnType) {
             @Override
-            public Value call(Caller caller, List<Value> args) throws LCLangRuntimeException {
+            public LCClass call(Caller caller, List<LCClass> args) throws LCLangRuntimeException {
                 return body.invoke(
                         caller,
-                        ValueUtils.classesFromValues(
-                                caller,
-                                args
-                        )
-                ).asValue();
+                        args
+                );
             }
         };
     }

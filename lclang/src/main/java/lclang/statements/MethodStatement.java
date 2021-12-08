@@ -33,7 +33,7 @@ public class MethodStatement {
                 returnType.toType(root),
                 statement,
                 importVariables
-        ).asValue());
+        ));
     }
 
     public static List<Type> resolveArgs(LCRootExecutor root, List<Argument> args) throws LCLangRuntimeException {

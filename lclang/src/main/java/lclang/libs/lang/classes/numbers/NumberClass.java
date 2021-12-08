@@ -4,38 +4,38 @@ import lclang.libs.lang.classes.BoolClass;
 import lclang.libs.lang.classes.CharClass;
 import lclang.libs.lang.classes.LibraryClass;
 import lclang.libs.lang.classes.StringClass;
-import lclang.types.Types;
+import lclang.types.Type;
 
 public class NumberClass extends LibraryClass {
-    public static String name = "number";
-    public static final Types.MagicType type = new Types.MagicType(name);
-    public static NumberClass instance = new NumberClass();
+    public static final String NAME = "number";
+    public static final NumberClass INSTANCE = new NumberClass();
+    public static final Type TYPE = INSTANCE.classType;
     public Number number;
 
     private NumberClass() {
-        super(name);
+        super(NAME);
     }
 
     public NumberClass(String name) {
         super(name);
-        extendsClass = instance;
+        extendsClass = INSTANCE;
     }
 
     public NumberClass(String name, Number number) {
         this(name);
         this.number = number;
 
-        extendsClass = instance;
+        extendsClass = INSTANCE;
         globals.put("toInt", method((caller, lcClasses) -> IntClass.get(number.intValue()),
-                IntClass.type).asValue());
+                IntClass.TYPE));
         globals.put("toLong", method((caller, lcClasses) -> LongClass.get(number.longValue()),
-                LongClass.type).asValue());
+                LongClass.TYPE));
         globals.put("toDouble", method((caller, lcClasses) -> DoubleClass.get(number.doubleValue()),
-                DoubleClass.type).asValue());
+                DoubleClass.TYPE));
         globals.put("toChar", method((caller, lcClasses) -> CharClass.get((char) number.intValue()),
-                CharClass.type).asValue());
+                CharClass.type));
         globals.put("toString", method((caller, lcClasses) -> StringClass.get(String.valueOf(number)),
-                StringClass.type).asValue());
+                StringClass.type));
     }
 
     public NumberClass add(NumberClass another) {

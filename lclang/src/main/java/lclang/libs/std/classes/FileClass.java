@@ -1,10 +1,8 @@
 package lclang.libs.std.classes;
 
-import lclang.LCClass;
-import lclang.Value;
 import lclang.exceptions.LCLangIOException;
 import lclang.libs.lang.classes.*;
-import lclang.types.Types;
+import lclang.types.Type;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -12,38 +10,38 @@ import java.util.List;
 
 public class FileClass extends LibraryClass {
     public static final String name = "File";
-    public static final Types.MagicType type = new Types.MagicType(name);
     public static final FileClass instance = new FileClass();
+    public static final Type type = instance.classType;
 
     private FileClass() {
         super(name);
-        constructor = method((caller, args) -> new FileClass(new File(args.get(0).toString(caller))),
+        constructor = method((caller, args) -> new FileClass(new File(args.get(0).cast(StringClass.class).string)),
                 StringClass.type, type);
     }
 
     public FileClass(File file) {
         this();
-        globals.put("name", new Value(StringClass.type, (caller) -> StringClass.get(file.getName())));
-        globals.put("path", new Value(StringClass.type, (caller) -> StringClass.get(file.getPath())));
-        globals.put("absolutePath", new Value(StringClass.type, (caller) -> StringClass.get(file.getAbsolutePath())));
-        globals.put("canonicalPath", new Value(StringClass.type, (caller) -> {
+        globals.put("getName", method((caller, args) -> StringClass.get(file.getName()), StringClass.type));
+        globals.put("getPath", method((caller, args) -> StringClass.get(file.getPath()), StringClass.type));
+        globals.put("getAbsolutePath", method((caller, args) -> StringClass.get(file.getAbsolutePath()), StringClass.type));
+        globals.put("getCanonicalPath", method((caller, args) -> {
             try {
                 return StringClass.get(file.getCanonicalPath());
             } catch (IOException e) {
                 throw new LCLangIOException(e.getMessage(), caller);
             }
-        }));
-        globals.put("exists", new Value(BoolClass.type, (caller) -> BoolClass.get(file.exists())));
-        globals.put("isDirectory", new Value(BoolClass.type, (caller) -> BoolClass.get(file.isDirectory())));
-        globals.put("isFile", new Value(BoolClass.type, (caller) -> BoolClass.get(file.isFile())));
-        globals.put("files", new Value(ArrayClass.type, (caller) -> {
+        }, StringClass.type));
+        globals.put("exists",  method((caller, args) -> BoolClass.get(file.exists()), BoolClass.type));
+        globals.put("isDirectory",  method((caller, args) -> BoolClass.get(file.isDirectory()), BoolClass.type));
+        globals.put("isFile", method((caller, args) -> BoolClass.get(file.isFile()), BoolClass.type));
+        globals.put("files", method((caller, args) -> {
             List<LCClass> classList = new ArrayList<>();
             File[] files = file.listFiles();
             if(files!=null) for (File child: files)
                 classList.add(new FileClass(child));
 
             return new ArrayClass(classList);
-        }));
+        }, ArrayClass.type));
 
         globals.put("openInput", method((caller, lcClasses) -> {
             try {
@@ -51,7 +49,7 @@ public class FileClass extends LibraryClass {
             } catch (FileNotFoundException e) {
                 return NullClass.instance;
             }
-        }, InputClass.type.nullable()).asValue());
+        }, InputClass.type.nullable()));
 
         globals.put("openOutput", method((caller, lcClasses) -> {
             try {
@@ -59,16 +57,16 @@ public class FileClass extends LibraryClass {
             } catch (FileNotFoundException e) {
                 return NullClass.instance;
             }
-        }, OutputClass.type.nullable()).asValue());
+        }, OutputClass.type.nullable()));
 
-        globals.put("createDir", method((caller, lcClasses) -> BoolClass.get(file.mkdir()), BoolClass.type).asValue());
-        globals.put("createDirs", method((caller, lcClasses) -> BoolClass.get(file.mkdirs()), BoolClass.type).asValue());
+        globals.put("createDir", method((caller, lcClasses) -> BoolClass.get(file.mkdir()), BoolClass.type));
+        globals.put("createDirs", method((caller, lcClasses) -> BoolClass.get(file.mkdirs()), BoolClass.type));
         globals.put("create", method((caller, lcClasses) -> {
             try {
                 return BoolClass.get(file.createNewFile());
             } catch (IOException e) {
                 throw new LCLangIOException(e.getMessage(), caller);
             }
-        }, BoolClass.type).asValue());
+        }, BoolClass.type));
     }
 }

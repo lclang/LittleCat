@@ -82,7 +82,7 @@ println(b)
 ### Wait data from other thread
 ```
 data = null
-thread(-> {
+:Thread(-> {
   sleep(5000L)
   data = "New data!"
 })
@@ -132,3 +132,6 @@ println(variable.get()) // Prints: 123
 [DiscordBadge]: https://img.shields.io/discord/892491030375591977?label=Discord&logo=discord&logoColor=white
 
 [DiscordUrl]: https://discord.gg/vBDkWUdMtx
+
+## Contributions
+![](https://contrib.rocks/image?repo=lclang/LittleCat)

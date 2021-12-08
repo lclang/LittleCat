@@ -1,6 +1,6 @@
 package lclang.types;
 
-import lclang.LCClass;
+import lclang.libs.lang.classes.LCClass;
 
 import java.util.Objects;
 

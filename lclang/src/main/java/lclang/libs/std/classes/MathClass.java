@@ -3,121 +3,121 @@ package lclang.libs.std.classes;
 import lclang.libs.lang.classes.LibraryClass;
 import lclang.libs.lang.classes.numbers.DoubleClass;
 import lclang.libs.lang.classes.numbers.NumberClass;
-import lclang.types.Types;
+import lclang.types.Type;
 
 public class MathClass extends LibraryClass {
     public static final String name = "Math";
-    public static final Types.MagicType type = new Types.MagicType(name);
     public static final MathClass instance = new MathClass();
+    public static final Type type = instance.classType;
 
     private MathClass() {
         super(name);
-        globals.put("sqrt", method((caller, lcClasses) -> DoubleClass.get(
-                Math.sqrt(((NumberClass) lcClasses.get(0)).number.doubleValue())),
-                NumberClass.type, DoubleClass.type).asValue());
+        globals.put("sqrt", method((caller, args) -> DoubleClass.get(
+                Math.sqrt(args.get(0).cast(NumberClass.class).number.doubleValue())),
+                NumberClass.TYPE, DoubleClass.TYPE));
 
-        globals.put("ln", method((caller, lcClasses) -> DoubleClass.get(
-                Math.log10(((NumberClass) lcClasses.get(0)).number.doubleValue())),
-                NumberClass.type, DoubleClass.type).asValue());
+        globals.put("ln", method((caller, args) -> DoubleClass.get(
+                Math.log10(args.get(0).cast(NumberClass.class).number.doubleValue())),
+                NumberClass.TYPE, DoubleClass.TYPE));
 
-        globals.put("log", method((caller, lcClasses) -> DoubleClass.get(
-                Math.log(((NumberClass) lcClasses.get(0)).number.doubleValue())),
-                NumberClass.type, DoubleClass.type).asValue());
+        globals.put("log", method((caller, args) -> DoubleClass.get(
+                Math.log(args.get(0).cast(NumberClass.class).number.doubleValue())),
+                NumberClass.TYPE, DoubleClass.TYPE));
 
-        globals.put("abs", method((caller, lcClasses) -> DoubleClass.get(
-                Math.abs(((NumberClass) lcClasses.get(0)).number.doubleValue())),
-                NumberClass.type, DoubleClass.type).asValue());
+        globals.put("abs", method((caller, args) -> DoubleClass.get(
+                Math.abs(args.get(0).cast(NumberClass.class).number.doubleValue())),
+                NumberClass.TYPE, DoubleClass.TYPE));
 
-        globals.put("arccos", method((caller, lcClasses) -> DoubleClass.get(
-                Math.acos(((NumberClass) lcClasses.get(0)).number.doubleValue())),
-                NumberClass.type, DoubleClass.type).asValue());
+        globals.put("arccos", method((caller, args) -> DoubleClass.get(
+                Math.acos(args.get(0).cast(NumberClass.class).number.doubleValue())),
+                NumberClass.TYPE, DoubleClass.TYPE));
 
-        globals.put("arcsin", method((caller, lcClasses) -> DoubleClass.get(
-                Math.asin(((NumberClass) lcClasses.get(0)).number.doubleValue())),
-                NumberClass.type, DoubleClass.type).asValue());
+        globals.put("arcsin", method((caller, args) -> DoubleClass.get(
+                Math.asin(args.get(0).cast(NumberClass.class).number.doubleValue())),
+                NumberClass.TYPE, DoubleClass.TYPE));
 
-        globals.put("arctan", method((caller, lcClasses) -> DoubleClass.get(
-                Math.atan(((NumberClass) lcClasses.get(0)).number.doubleValue())),
-                NumberClass.type, DoubleClass.type).asValue());
+        globals.put("arctan", method((caller, args) -> DoubleClass.get(
+                Math.atan(args.get(0).cast(NumberClass.class).number.doubleValue())),
+                NumberClass.TYPE, DoubleClass.TYPE));
 
-        globals.put("sin", method((caller, lcClasses) -> DoubleClass.get(
-                Math.sin(((NumberClass) lcClasses.get(0)).number.doubleValue())),
-                NumberClass.type, DoubleClass.type).asValue());
+        globals.put("sin", method((caller, args) -> DoubleClass.get(
+                Math.sin(args.get(0).cast(NumberClass.class).number.doubleValue())),
+                NumberClass.TYPE, DoubleClass.TYPE));
 
-        globals.put("cos", method((caller, lcClasses) -> DoubleClass.get(
-                Math.cos(((NumberClass) lcClasses.get(0)).number.doubleValue())),
-                NumberClass.type, DoubleClass.type).asValue());
+        globals.put("cos", method((caller, args) -> DoubleClass.get(
+                Math.cos(args.get(0).cast(NumberClass.class).number.doubleValue())),
+                NumberClass.TYPE, DoubleClass.TYPE));
 
-        globals.put("tan", method((caller, lcClasses) -> DoubleClass.get(
-                Math.tan(((NumberClass) lcClasses.get(0)).number.doubleValue())),
-                NumberClass.type, DoubleClass.type).asValue());
+        globals.put("tan", method((caller, args) -> DoubleClass.get(
+                Math.tan(args.get(0).cast(NumberClass.class).number.doubleValue())),
+                NumberClass.TYPE, DoubleClass.TYPE));
 
-        globals.put("rint", method((caller, lcClasses) -> DoubleClass.get(
-                Math.rint(((NumberClass) lcClasses.get(0)).number.doubleValue())),
-                NumberClass.type, DoubleClass.type).asValue());
+        globals.put("rint", method((caller, args) -> DoubleClass.get(
+                Math.rint(args.get(0).cast(NumberClass.class).number.doubleValue())),
+                NumberClass.TYPE, DoubleClass.TYPE));
 
-        globals.put("round", method((caller, lcClasses) -> DoubleClass.get(
-                Math.round(((NumberClass) lcClasses.get(0)).number.doubleValue())),
-                NumberClass.type, DoubleClass.type).asValue());
+        globals.put("round", method((caller, args) -> DoubleClass.get(
+                Math.round(args.get(0).cast(NumberClass.class).number.doubleValue())),
+                NumberClass.TYPE, DoubleClass.TYPE));
 
-        globals.put("floor", method((caller, lcClasses) -> DoubleClass.get(
-                Math.floor(((NumberClass) lcClasses.get(0)).number.doubleValue())),
-                NumberClass.type, DoubleClass.type).asValue());
+        globals.put("floor", method((caller, args) -> DoubleClass.get(
+                Math.floor(args.get(0).cast(NumberClass.class).number.doubleValue())),
+                NumberClass.TYPE, DoubleClass.TYPE));
 
-        globals.put("ceil", method((caller, lcClasses) -> DoubleClass.get(
-                Math.ceil(((NumberClass) lcClasses.get(0)).number.doubleValue())),
-                NumberClass.type, DoubleClass.type).asValue());
+        globals.put("ceil", method((caller, args) -> DoubleClass.get(
+                Math.ceil(args.get(0).cast(NumberClass.class).number.doubleValue())),
+                NumberClass.TYPE, DoubleClass.TYPE));
 
-        globals.put("cbrt", method((caller, lcClasses) -> DoubleClass.get(
-                Math.cbrt(((NumberClass) lcClasses.get(0)).number.doubleValue())),
-                NumberClass.type, DoubleClass.type).asValue());
+        globals.put("cbrt", method((caller, args) -> DoubleClass.get(
+                Math.cbrt(args.get(0).cast(NumberClass.class).number.doubleValue())),
+                NumberClass.TYPE, DoubleClass.TYPE));
 
-        globals.put("exp", method((caller, lcClasses) -> DoubleClass.get(
-                Math.exp(((NumberClass) lcClasses.get(0)).number.doubleValue())),
-                NumberClass.type, DoubleClass.type).asValue());
+        globals.put("exp", method((caller, args) -> DoubleClass.get(
+                Math.exp(args.get(0).cast(NumberClass.class).number.doubleValue())),
+                NumberClass.TYPE, DoubleClass.TYPE));
 
-        globals.put("toRadians", method((caller, lcClasses) -> DoubleClass.get(
-                Math.toRadians(((NumberClass) lcClasses.get(0)).number.doubleValue())),
-                NumberClass.type, DoubleClass.type).asValue());
+        globals.put("toRadians", method((caller, args) -> DoubleClass.get(
+                Math.toRadians(args.get(0).cast(NumberClass.class).number.doubleValue())),
+                NumberClass.TYPE, DoubleClass.TYPE));
 
-        globals.put("toDegrees", method((caller, lcClasses) -> DoubleClass.get(
-                Math.toDegrees(((NumberClass) lcClasses.get(0)).number.doubleValue())),
-                NumberClass.type, DoubleClass.type).asValue());
+        globals.put("toDegrees", method((caller, args) -> DoubleClass.get(
+                Math.toDegrees(args.get(0).cast(NumberClass.class).number.doubleValue())),
+                NumberClass.TYPE, DoubleClass.TYPE));
 
-        globals.put("cosh", method((caller, lcClasses) -> DoubleClass.get(
-                Math.cosh(((NumberClass) lcClasses.get(0)).number.doubleValue())),
-                NumberClass.type, DoubleClass.type).asValue());
+        globals.put("cosh", method((caller, args) -> DoubleClass.get(
+                Math.cosh(args.get(0).cast(NumberClass.class).number.doubleValue())),
+                NumberClass.TYPE, DoubleClass.TYPE));
 
-        globals.put("min", method((caller, lcClasses) -> DoubleClass.get(
-                Math.min(((NumberClass) lcClasses.get(0)).number.doubleValue(),
-                        ((NumberClass) lcClasses.get(1)).number.doubleValue())),
-                NumberClass.type, NumberClass.type, DoubleClass.type).asValue());
+        globals.put("min", method((caller, args) -> DoubleClass.get(
+                Math.min(args.get(0).cast(NumberClass.class).number.doubleValue(),
+                        args.get(0).cast(NumberClass.class).number.doubleValue())),
+                NumberClass.TYPE, NumberClass.TYPE, DoubleClass.TYPE));
 
-        globals.put("max", method((caller, lcClasses) -> DoubleClass.get(
-                Math.max(((NumberClass) lcClasses.get(0)).number.doubleValue(),
-                        ((NumberClass) lcClasses.get(1)).number.doubleValue())),
-                NumberClass.type, NumberClass.type, DoubleClass.type).asValue());
+        globals.put("max", method((caller, args) -> DoubleClass.get(
+                Math.max(args.get(0).cast(NumberClass.class).number.doubleValue(),
+                        args.get(0).cast(NumberClass.class).number.doubleValue())),
+                NumberClass.TYPE, NumberClass.TYPE, DoubleClass.TYPE));
 
-        globals.put("copySign", method((caller, lcClasses) -> DoubleClass.get(
-                Math.copySign(((NumberClass) lcClasses.get(0)).number.doubleValue(),
-                        ((NumberClass) lcClasses.get(1)).number.doubleValue())),
-                NumberClass.type, NumberClass.type, DoubleClass.type).asValue());
+        globals.put("copySign", method((caller, args) -> DoubleClass.get(
+                Math.copySign(args.get(0).cast(NumberClass.class).number.doubleValue(),
+                        args.get(0).cast(NumberClass.class).number.doubleValue())),
+                NumberClass.TYPE, NumberClass.TYPE, DoubleClass.TYPE));
 
-        globals.put("hypot", method((caller, lcClasses) -> DoubleClass.get(
-                Math.hypot(((NumberClass) lcClasses.get(0)).number.doubleValue(),
-                        ((NumberClass) lcClasses.get(1)).number.doubleValue())),
-                NumberClass.type, NumberClass.type, DoubleClass.type).asValue());
+        globals.put("hypot", method((caller, args) -> DoubleClass.get(
+                Math.hypot(args.get(0).cast(NumberClass.class).number.doubleValue(),
+                        args.get(0).cast(NumberClass.class).number.doubleValue())),
+                NumberClass.TYPE, NumberClass.TYPE, DoubleClass.TYPE));
 
-        globals.put("floorDiv", method((caller, lcClasses) -> DoubleClass.get(
-                Math.floorDiv(((NumberClass) lcClasses.get(0)).number.longValue(),
-                        ((NumberClass) lcClasses.get(1)).number.longValue())),
-                NumberClass.type, NumberClass.type, DoubleClass.type).asValue());
+        globals.put("floorDiv", method((caller, args) -> DoubleClass.get(
+                Math.floorDiv(args.get(0).cast(NumberClass.class).number.longValue(),
+                        args.get(0).cast(NumberClass.class).number.longValue())),
+                NumberClass.TYPE, NumberClass.TYPE, DoubleClass.TYPE));
 
-        globals.put("floorMod", method((caller, lcClasses) -> DoubleClass.get(
-                Math.floorMod(((NumberClass) lcClasses.get(0)).number.longValue(),
-                        ((NumberClass) lcClasses.get(1)).number.longValue())),
-                NumberClass.type, NumberClass.type, DoubleClass.type).asValue());
+        globals.put("floorMod", method((caller, args) -> DoubleClass.get(
+                Math.floorMod(args.get(0).cast(NumberClass.class).number.longValue(),
+                        args.get(0).cast(NumberClass.class).number.longValue())),
+                NumberClass.TYPE, NumberClass.TYPE, DoubleClass.TYPE));
 
-        globals.put("random", method((caller, lcClasses) -> DoubleClass.get(Math.random()), DoubleClass.type).asValue());
+        globals.put("random", method((caller, args) -> DoubleClass.get(Math.random()), DoubleClass.TYPE));
     }
 }

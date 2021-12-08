@@ -1,38 +1,49 @@
 package lclang.methods;
 
 import lclang.Caller;
-import lclang.LCClass;
 import lclang.LCRootExecutor;
 import lclang.Value;
 import lclang.exceptions.LCLangRuntimeException;
+import lclang.libs.lang.classes.LCClass;
+import lclang.libs.lang.classes.NullClass;
 import lclang.types.CallableType;
 import lclang.types.Type;
 
 import java.util.List;
 
-public abstract class Method extends LCClass{
-    public final LCRootExecutor root;
-    public final List<Type> args;
-    public final Type returnType;
-    private final Type type;
+public class Method extends LCClass {
+    public static final String name = "callable";
+    public static final Method instance = new Method();
+    public static final Type type = instance.classType;
+
+    public LCRootExecutor root;
+    public List<Type> args;
+    public Type returnType;
+    private Type methodType;
+
+    private Method() {
+        super(name);
+    }
 
     public Method(LCRootExecutor root, List<Type> args, Type returnType) {
-        super("callable");
+        super(name);
         this.root = root;
         this.args = args;
         this.returnType = returnType;
-        this.type = new CallableType(args, returnType);
+        this.methodType = new CallableType(args, returnType);
     }
 
-    public abstract Value call(Caller caller, List<Value> args) throws LCLangRuntimeException;
+    public LCClass call(Caller caller, List<LCClass> args) throws LCLangRuntimeException {
+        return NullClass.instance;
+    }
 
     @Override
     public Value asValue() {
-        return new Value(type, this, Value.State.NOTHING);
+        return new Value(methodType, this, Value.State.NOTHING);
     }
 
     @Override
     public String toString(Caller caller) throws LCLangRuntimeException {
-        return type.toString();
+        return methodType.toString();
     }
 }

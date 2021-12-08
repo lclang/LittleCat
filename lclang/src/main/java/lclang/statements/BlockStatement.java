@@ -4,6 +4,7 @@ import lclang.Caller;
 import lclang.LCBaseExecutor;
 import lclang.Value;
 import lclang.exceptions.LCLangRuntimeException;
+import lclang.libs.lang.classes.VoidClass;
 
 public class BlockStatement extends Statement {
     public final Statement[] statements;
@@ -23,6 +24,6 @@ public class BlockStatement extends Statement {
             else value.get.invoke(caller);
         }
 
-        return Value.VOID;
+        return VoidClass.value;
     }
 }

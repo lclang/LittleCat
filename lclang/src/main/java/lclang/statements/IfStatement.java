@@ -2,10 +2,11 @@ package lclang.statements;
 
 import lclang.Caller;
 import lclang.LCBaseExecutor;
-import lclang.LCClass;
 import lclang.Value;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.BoolClass;
+import lclang.libs.lang.classes.LCClass;
+import lclang.libs.lang.classes.VoidClass;
 import lclang.statements.expressions.Expression;
 
 public class IfStatement extends Statement {
@@ -23,7 +24,7 @@ public class IfStatement extends Statement {
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         LCClass cond = condition.visit(prevCaller, visitor).get.invoke(prevCaller);
-        if(!cond.equals(BoolClass.FALSE)) {
+        if(cond!=BoolClass.FALSE) {
             return ifTrue.visit(prevCaller, visitor);
         }
 
@@ -31,6 +32,6 @@ public class IfStatement extends Statement {
             return ifFalse.visit(prevCaller, visitor);
         }
 
-        return Value.VOID;
+        return VoidClass.value;
     }
 }

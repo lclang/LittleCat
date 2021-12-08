@@ -1,5 +1,6 @@
 package lclang.types;
 
+import lclang.methods.Method;
 import lclang.utils.TypeUtils;
 import lclang.utils.Utils;
 
@@ -17,17 +18,9 @@ public class CallableType extends Type {
         this.returnType = returnType;
     }
 
-    public CallableType(List<Type> args) {
-        this(args, Types.VOID);
-    }
-
-    public CallableType() {
-        this(new ArrayList<>());
-    }
-
     @Override
     public boolean isAcceptWithoutNullable(Type another) {
-        if(another == Types.CALLABLE) return true;
+        if(another == Method.type) return true;
         boolean result = super.isAcceptWithoutNullable(another);
         if(result||another instanceof CallableType){
             CallableType anotherCallableType = (CallableType) another;

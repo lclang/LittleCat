@@ -19,8 +19,7 @@ public class AssignExpression extends Expression {
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         Value settableValue = left.visit(prevCaller, visitor);
         Value value = right.visit(prevCaller, visitor);
-
-        settableValue.set.invoke(prevCaller, value);
+        settableValue.set.invoke(prevCaller, value.get.invoke(prevCaller));
         return value;
     }
 }

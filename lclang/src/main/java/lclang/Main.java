@@ -3,6 +3,7 @@ package lclang;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.Library;
 import lclang.libs.lang.classes.ArrayClass;
+import lclang.libs.lang.classes.LCClass;
 import lclang.libs.lang.classes.StringClass;
 import lclang.utils.Utils;
 import org.antlr.v4.runtime.CharStreams;
@@ -86,7 +87,7 @@ public class Main {
             List<LCClass> arguments = new ArrayList<>();
             for(String argument: programArgs) arguments.add(StringClass.get(argument));
 
-            executor.executor.variables.put("args", new ArrayClass(arguments).asValue());
+            executor.executor.variables.put("args", new ArrayClass(arguments));
             executeInput(executor, Utils.readFile(file, UniversalDetector.detectCharset(file)));
         } catch (RuntimeException e) {
             System.out.println(ERROR_COLOR + e.getMessage() + RESET_COLOR);

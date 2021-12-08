@@ -4,6 +4,7 @@ import lclang.Caller;
 import lclang.LCBaseExecutor;
 import lclang.Value;
 import lclang.exceptions.LCLangRuntimeException;
+import lclang.libs.lang.classes.VoidClass;
 
 public class ReturnExpression extends Expression {
     public final Expression expression;
@@ -15,7 +16,7 @@ public class ReturnExpression extends Expression {
 
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
-        Value value = Value.VOID;
+        Value value = VoidClass.value;
         if(expression!=null)
             value = expression.visit(prevCaller, visitor);
 

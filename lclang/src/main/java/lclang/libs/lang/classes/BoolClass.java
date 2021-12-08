@@ -1,11 +1,11 @@
 package lclang.libs.lang.classes;
 
-import lclang.types.Types;
+import lclang.types.Type;
 
 public class BoolClass extends LibraryClass {
     public static final String name = "bool";
-    public static final Types.MagicType type = new Types.MagicType(name);
     public static final BoolClass instance = new BoolClass();
+    public static final Type type = instance.classType;
     public static final BoolClass TRUE = new BoolClass(true);
     public static final BoolClass FALSE = new BoolClass(false);
 
@@ -16,16 +16,7 @@ public class BoolClass extends LibraryClass {
     private BoolClass(boolean bool) {
         this();
         this.bool = bool;
-        globals.put("toString", method((caller, lcClasses) -> StringClass.get(String.valueOf(bool)),
-                StringClass.type).asValue());
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if(other instanceof BoolClass)
-            return ((BoolClass) other).bool == bool;
-
-        return false;
+        globals.put("toString", method((caller, lcClasses) -> StringClass.get(String.valueOf(bool)), StringClass.type));
     }
 
     public static BoolClass get(boolean bool) {

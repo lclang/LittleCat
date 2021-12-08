@@ -1,8 +1,6 @@
 package lclang.libs.std;
 
 import lclang.Global;
-import lclang.LCClass;
-import lclang.Value;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.Library;
 import lclang.libs.lang.classes.*;
@@ -33,32 +31,32 @@ public class StdLibrary extends Library {
         classes.put("Thread", ThreadClass.instance);
         classes.put("std", StdClass.instance);
 
-        globals.put("LC_VERSION", StringClass.get(Global.version).asValue());
-        globals.put("LC_BUILD", IntClass.get(Global.buildTime).asValue());
-        globals.put("std", StdClass.instance.asValue());
+        globals.put("LC_VERSION", StringClass.get(Global.version));
+        globals.put("LC_BUILD", IntClass.get(Global.buildTime));
+        globals.put("std", StdClass.instance);
         globals.put("assert", voidMethod((caller, args) -> {
-            if(args.get(0).equals(BoolClass.FALSE))
+            if(args.get(0)==BoolClass.FALSE)
                 throw new LCLangRuntimeException("Assertion Error", "Value is false", caller);
-        }, Types.ANY).asValue());
+        }, Types.ANY));
 
-        globals.put("exit", voidMethod((caller, args) -> System.exit(((IntClass) args.get(0)).value),
-                IntClass.type).asValue());
+        globals.put("exit", voidMethod((caller, args) -> System.exit(args.get(0).cast(IntClass.class).value),
+                IntClass.TYPE));
         globals.put("sleep", voidMethod((caller, args) -> {
                     try {
-                        Thread.sleep(((LongClass) args.get(0)).value);
+                        Thread.sleep(args.get(0).cast(LongClass.class).value);
                     } catch (InterruptedException e) {
                         throw new LCLangRuntimeException("Interrupted", e.getMessage(), caller);
                     }
-                }, LongClass.type).asValue());
+                }, LongClass.TYPE));
 
         globals.put("time", voidMethod((caller, args) -> LongClass.get(System.currentTimeMillis()/1000L),
-                LongClass.type).asValue());
+                LongClass.TYPE));
         globals.put("millisTime", voidMethod((caller, args) -> LongClass.get(System.currentTimeMillis()),
-                LongClass.type).asValue());
+                LongClass.TYPE));
         globals.put("nanoTime", voidMethod((caller, args) -> LongClass.get(System.nanoTime()),
-                LongClass.type).asValue());
+                LongClass.TYPE));
         globals.put("regexMatch", method((caller, args) -> {
-            String stringPattern = args.get(0).toString(caller);
+            String stringPattern = args.get(0).cast(StringClass.class).string;
             Pattern pattern;
 
             if(cachePattern.containsKey(stringPattern)) pattern = cachePattern.get(stringPattern);
@@ -67,7 +65,7 @@ public class StdLibrary extends Library {
                 cachePattern.put(stringPattern, pattern);
             }
 
-            Matcher matcher = pattern.matcher(args.get(1).toString(caller));
+            Matcher matcher = pattern.matcher(args.get(1).cast(StringClass.class).string);
             if(!matcher.find()) return BoolClass.FALSE;
 
             List<LCClass> classes = new ArrayList<>();
@@ -81,7 +79,7 @@ public class StdLibrary extends Library {
             }
 
             return new ArrayClass(classes);
-        }, StringClass.type, StringClass.type, ArrayClass.type).asValue());
+        }, StringClass.type, StringClass.type, ArrayClass.type));
     }
 
     public static class StdClass extends LibraryClass {
@@ -89,11 +87,11 @@ public class StdLibrary extends Library {
 
         private StdClass() {
             super("std");
-            executor.variables.put("output", new OutputClass(System.out).asValue());
-            executor.variables.put("input", new InputClass(System.in).asValue());
-            globals.put("classesCount", new Value(IntClass.type, caller -> IntClass.get(LCClass.classesCount)));
-            globals.put("getProperty", method((caller, lcClasses) ->
-                    StringClass.get(System.getProperty(lcClasses.get(0).toString(caller))), StringClass.type).asValue());
+            executor.variables.put("output", new OutputClass(System.out));
+            executor.variables.put("input", new InputClass(System.in));
+            globals.put("getClassesCount", method((caller, args) -> IntClass.get(LCClass.classesCount), IntClass.TYPE));
+            globals.put("getProperty", method((caller, args) ->
+                    StringClass.get(System.getProperty(args.get(0).toString(caller))), StringClass.type));
         }
     }
 }

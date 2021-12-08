@@ -5,6 +5,7 @@ import lclang.LCBaseExecutor;
 import lclang.Value;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.BoolClass;
+import lclang.libs.lang.classes.VoidClass;
 import lclang.statements.expressions.Expression;
 
 public class WhileStatement extends Statement {
@@ -20,14 +21,8 @@ public class WhileStatement extends Statement {
     @Override
     public Value visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         if(body==null) {
-            while(true) {
-                if(condition.visit(prevCaller, visitor).get.invoke(prevCaller)
-                        .equals(BoolClass.FALSE)) break;
-            }
-        }else while(true) {
-            if(condition.visit(prevCaller, visitor).get.invoke(prevCaller)
-                    .equals(BoolClass.FALSE)) break;
-
+            while(condition.visit(prevCaller, visitor).get.invoke(prevCaller) != BoolClass.FALSE);
+        }else while(condition.visit(prevCaller, visitor).get.invoke(prevCaller) != BoolClass.FALSE) {
             Value value = body.visit(prevCaller, visitor);
             if(value.state==Value.State.RETURN)
                 return value;
@@ -35,6 +30,6 @@ public class WhileStatement extends Statement {
                 break;
         }
 
-        return Value.VOID;
+        return VoidClass.value;
     }
 }

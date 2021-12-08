@@ -2,10 +2,10 @@ package lclang.statements.expressions;
 
 import lclang.Caller;
 import lclang.LCBaseExecutor;
-import lclang.LCClass;
 import lclang.Value;
 import lclang.exceptions.LCLangClassNotFoundException;
 import lclang.exceptions.LCLangRuntimeException;
+import lclang.libs.lang.classes.LCClass;
 
 public class GetClassConstructorExpression extends Expression {
     public final String name;

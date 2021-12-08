@@ -4,6 +4,7 @@ import lclang.Caller;
 import lclang.LCBaseExecutor;
 import lclang.Value;
 import lclang.exceptions.LCLangRuntimeException;
+import lclang.libs.lang.classes.VoidClass;
 import lclang.statements.Statement;
 
 public class ContainerExpression extends Expression {
@@ -27,6 +28,6 @@ public class ContainerExpression extends Expression {
             }else value.get.invoke(caller);
         }
 
-        return Value.VOID;
+        return VoidClass.value;
     }
 }

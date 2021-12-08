@@ -2,6 +2,7 @@ package lclang;
 
 import lclang.libs.Library;
 import lclang.libs.lang.LangLibrary;
+import lclang.libs.lang.classes.LCClass;
 import lclang.libs.reflection.ReflectionLibrary;
 import lclang.libs.std.StdLibrary;
 

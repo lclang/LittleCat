@@ -1,52 +1,40 @@
 package lclang.libs.lang.classes.numbers;
 
 import lclang.libs.lang.classes.StringClass;
+import lclang.types.Type;
 import lclang.types.Types;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class LongClass extends NumberClass {
-    public static final String name = "long";
-    public static final Map<Long, LongClass> cache = new HashMap<>();
-    public static final Types.MagicType type = new Types.MagicType(name);
-    public static final LongClass instance = new LongClass();
+    public static final String NAME = "long";
+    public static final Map<Long, LongClass> CACHE = new HashMap<>();
+    public static final LongClass INSTANCE = new LongClass();
+    public static final Type TYPE = INSTANCE.classType;
     public long value;
 
     private LongClass() {
-        super(name);
+        super(NAME);
         constructor = method((caller, lcClasses) -> LongClass.get(
-                Long.parseLong(lcClasses.get(0).toString(caller))), Types.ANY, type);
+                Long.parseLong(lcClasses.get(0).toString(caller))), Types.ANY, TYPE);
     }
 
     private LongClass(long value) {
-        super(name, value);
+        super(NAME, value);
         this.value = value;
         globals.put("toString", method((caller, lcClasses) -> StringClass.get(String.valueOf(value)),
-                StringClass.type).asValue());
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        LongClass intClass = (LongClass) o;
-        return value == intClass.value;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), value);
+                StringClass.type));
+        globals.put("toBinary", method((caller, lcClasses) -> StringClass.get(Long.toBinaryString(value)),
+                StringClass.type));
     }
 
     public static LongClass get(long value) {
-        if(cache.containsKey(value))
-            return cache.get(value);
+        if(CACHE.containsKey(value))
+            return CACHE.get(value);
 
         LongClass intClass = new LongClass(value);
-        cache.put(value, intClass);
+        CACHE.put(value, intClass);
         return intClass;
     }
 }

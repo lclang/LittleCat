@@ -5,6 +5,7 @@ import lclang.LCBaseExecutor;
 import lclang.Value;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.exceptions.LCLangTypeErrorException;
+import lclang.libs.lang.classes.LCClass;
 import lclang.statements.MethodStatement;
 import lclang.statements.Statement;
 import lclang.types.Type;
@@ -30,20 +31,20 @@ public class MethodImpl extends Method {
     }
 
     @Override
-    public Value call(Caller caller, List<Value> args) throws LCLangRuntimeException {
+    public LCClass call(Caller caller, List<LCClass> args) throws LCLangRuntimeException {
         LCBaseExecutor executor = new LCBaseExecutor(outExecutor, importVariables);
 
         for (int i = 0; i < argsMap.size(); i++) {
             MethodStatement.Argument argument = argsMap.get(i);
-            executor.variables.put(argument.name, args.get(i).recreate(caller));
+            executor.variables.put(argument.name, args.get(i));
         }
 
-        Caller stmtCaller = statement.getCaller(outExecutor.root);
+        Caller stmtCaller = statement.getCaller(caller);
         Value value = statement.visit(stmtCaller, executor);
         if(!returnType.isAccept(value.type))
             throw new LCLangTypeErrorException("invalid type of return (excepted "+returnType+
                     ", but returned "+value.type+")", stmtCaller);
 
-        return value.recreate(stmtCaller);
+        return value.get.invoke(stmtCaller);
     }
 }

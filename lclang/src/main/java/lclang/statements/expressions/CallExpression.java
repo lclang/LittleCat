@@ -5,6 +5,7 @@ import lclang.LCBaseExecutor;
 import lclang.Value;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.exceptions.LCLangTypeErrorException;
+import lclang.libs.lang.classes.LCClass;
 import lclang.methods.Method;
 import lclang.types.CallableType;
 import lclang.types.Type;
@@ -31,12 +32,12 @@ public class CallExpression extends Expression {
             throw new LCLangTypeErrorException("Value is not callable (it is "+value.type+")", expressionCaller);
 
         ArrayList<Type> argsTypes = new ArrayList<>();
-        ArrayList<Value> args = new ArrayList<>();
+        ArrayList<LCClass> args = new ArrayList<>();
         for(Expression argument: arguments) {
             Value argumentValue = argument.visit(prevCaller, visitor);
             argsTypes.add(argumentValue.type);
 
-            args.add(argumentValue);
+            args.add(argumentValue.get.invoke(expression.getCaller(prevCaller)));
         }
 
         Method method = (Method) value.get.invoke(expressionCaller);
@@ -54,6 +55,6 @@ public class CallExpression extends Expression {
                     ": excepted "+method.args.get(notAcceptArg)+", but received "+argsTypes.get(notAcceptArg),
                     arguments.get(notAcceptArg).getCaller(prevCaller));
 
-        return method.call(getCaller(prevCaller), args);
+        return method.call(getCaller(prevCaller), args).asValue();
     }
 }

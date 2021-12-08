@@ -1,7 +1,9 @@
-package lclang;
+package lclang.libs.lang.classes;
 
+import lclang.Caller;
+import lclang.LCRootExecutor;
+import lclang.Value;
 import lclang.exceptions.LCLangRuntimeException;
-import lclang.libs.lang.classes.StringClass;
 import lclang.methods.Method;
 import lclang.types.NamedType;
 
@@ -10,6 +12,7 @@ import java.util.*;
 public class LCClass extends LCRootExecutor {
     public static int classesCount = 0;
 
+    public final NamedType classType = new NamedType(this);
     public final String name;
     public final int classId = classesCount++;
     public LCClass extendsClass;
@@ -34,34 +37,32 @@ public class LCClass extends LCRootExecutor {
     }
 
     public Value asValue(){
-        return new Value(new NamedType(this), this, Value.State.NOTHING);
+        return new Value(classType, this, Value.State.NOTHING);
     }
 
     public boolean canCast(LCClass another) {
         return Objects.equals(another.name, name) ||
-            extendsClass!=null && extendsClass.canCast(another);
+                    extendsClass!=null &&
+                    extendsClass.canCast(another);
     }
 
     @Override
     public boolean equals(Object other) {
-        return other instanceof LCClass && classId == other.hashCode();
+        return other instanceof LCClass && classId == ((LCClass) other).classId;
     }
 
     public String toString(Caller caller) throws LCLangRuntimeException {
-        Value toStringMethod = globals.get("toString");
-        if(toStringMethod!=null) {
-            LCClass clazz = toStringMethod.get.invoke(caller);
-            if(clazz instanceof Method) {
-                Method method = (Method) clazz;
-                return ((StringClass) method.call(caller, Collections.emptyList()).get.invoke(caller)).string;
-            }
+        LCClass clazz = globals.get("toString");
+        if(clazz instanceof Method) {
+            Method method = (Method) clazz;
+            return ((StringClass) method.call(caller, Collections.emptyList())).string;
         }
 
         List<String> parameters = new ArrayList<>();
-        Set<Map.Entry<String, Value>> entries = executor.variables.entrySet();
-        for (Map.Entry<String, Value> entry : entries) {
-            parameters.add(entry.getKey()+": "+entry.getValue().type+" = "+
-                    entry.getValue().get.invoke(caller));
+        Set<Map.Entry<String, LCClass>> entries = executor.variables.entrySet();
+        for (Map.Entry<String, LCClass> entry : entries) {
+            parameters.add(entry.getKey()+": "+entry.getValue().name+" = "+
+                    entry.getValue().toString(caller));
         }
 
         return name+"@class"+classId+": { " + String.join(", ", parameters) + " }";
@@ -77,8 +78,8 @@ public class LCClass extends LCRootExecutor {
         }
     }
 
-    @Override
-    public int hashCode() {
-        return classId;
+    @SuppressWarnings("unchecked")
+    public <T> T cast(Class<T> clazz) {
+        return (T) this;
     }
 }

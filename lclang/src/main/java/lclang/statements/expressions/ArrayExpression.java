@@ -2,7 +2,6 @@ package lclang.statements.expressions;
 
 import lclang.Caller;
 import lclang.LCBaseExecutor;
-import lclang.LCClass;
 import lclang.Value;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.exceptions.LCLangTypeErrorException;
@@ -30,12 +29,11 @@ public class ArrayExpression extends Expression {
             ));
 
             return arrayClass.get();
-        }, (setCaller, newValue) -> {
-            LCClass valueClass = newValue.get.invoke(setCaller);
-            if(valueClass instanceof ArrayClass) {
-                ArrayClass otherArray = (ArrayClass) valueClass;
+        }, (setCaller, clazz) -> {
+            if(clazz instanceof ArrayClass) {
+                ArrayClass otherArray = (ArrayClass) clazz;
                 for (int i = 0; i < array.size(); i++) {
-                    values.get(i).set.invoke(setCaller, otherArray.get(i).asValue());
+                    values.get(i).set.invoke(setCaller, otherArray.get(i));
                 }
             }else throw new LCLangTypeErrorException("Value is not array", setCaller);
         }, Value.State.NOTHING);

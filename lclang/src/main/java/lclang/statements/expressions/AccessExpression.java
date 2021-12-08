@@ -2,10 +2,10 @@ package lclang.statements.expressions;
 
 import lclang.Caller;
 import lclang.LCBaseExecutor;
-import lclang.LCClass;
 import lclang.Value;
 import lclang.exceptions.LCLangNullPointerException;
 import lclang.exceptions.LCLangRuntimeException;
+import lclang.libs.lang.classes.LCClass;
 import lclang.libs.lang.classes.NullClass;
 
 public class AccessExpression extends Expression {

@@ -1,10 +1,7 @@
 package lclang;
 
 import lclang.exceptions.LCLangRuntimeException;
-import lclang.libs.lang.classes.BoolClass;
-import lclang.libs.lang.classes.CharClass;
-import lclang.libs.lang.classes.NullClass;
-import lclang.libs.lang.classes.StringClass;
+import lclang.libs.lang.classes.*;
 import lclang.libs.lang.classes.numbers.DoubleClass;
 import lclang.libs.lang.classes.numbers.IntClass;
 import lclang.libs.lang.classes.numbers.LongClass;
@@ -83,7 +80,7 @@ public class LCCompiler extends lclangBaseVisitor<Statement> {
         }
 
         if(lcClass==null) throw new RuntimeException();
-        return new ValueExpression(lcClass.asValue());
+        return new ValueExpression(lcClass);
     }
 
     @Override
@@ -296,7 +293,7 @@ public class LCCompiler extends lclangBaseVisitor<Statement> {
     }
 
     public void fillFile(LCRootExecutor root, lclangParser.FileContext ctx) throws LCLangRuntimeException {
-        root.globals.put("null", NullClass.instance.asValue());
+        root.globals.put("null", NullClass.instance);
 
         List<LCRootExecutor> libraries = new ArrayList<>();
         libraries.addAll(Global.libraries);
