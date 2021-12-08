@@ -11,11 +11,7 @@ public abstract class Type implements Cloneable {
     }
 
     public boolean isAccept(Type another) {
-        if(
-                Types.ANY.equals(this) ||
-                NullClass.type.equals(this) ||
-                another.equals(Types.UNDEFINED)
-        ) return true;
+        if(NullClass.type.equals(this)) return true;
 
         if(another.isAccept(NullClass.type))
             return nullable;

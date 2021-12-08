@@ -7,7 +7,6 @@ import lclang.libs.lang.classes.numbers.IntClass;
 import lclang.libs.lang.classes.numbers.LongClass;
 import lclang.statements.*;
 import lclang.statements.expressions.*;
-import lclang.types.Types;
 import lclang.utils.Utils;
 import org.antlr.v4.runtime.tree.ParseTree;
 
@@ -369,13 +368,10 @@ public class LCCompiler extends lclangBaseVisitor<Statement> {
 
     public TypeStatement getType(lclangParser.TypeContext ctx) {
         lclangParser.MethodTypeContext typeContext = ctx.methodType();
-        lclangParser.MagicTypeContext magicTypeContext = ctx.magicType();
 
         TypeStatement type;
         if(typeContext!=null)
             type = getMethodType(typeContext);
-        else if(magicTypeContext!=null)
-            type = getMagicType(magicTypeContext);
         else type = getNamedType(ctx.namedType());
 
         type.nullable = ctx.nullable!=null;
@@ -387,10 +383,6 @@ public class LCCompiler extends lclangBaseVisitor<Statement> {
                 namedTypeContext.getText(),
                 namedTypeContext.getStart().getLine()
         );
-    }
-
-    private MagicTypeStatement getMagicType(lclangParser.MagicTypeContext magicTypeContext) {
-        return new MagicTypeStatement(new Types.MagicType(magicTypeContext.getText()));
     }
 
     private CallableTypeStatement getMethodType(lclangParser.MethodTypeContext typeContext) {

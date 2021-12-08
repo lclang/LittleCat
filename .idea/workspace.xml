@@ -4,30 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb2edc7a-653c-417d-86ce-2db3142e1174" name="Changes" comment="ReflectionValue -&gt; ReflectionLink">
+    <list default="true" id="eb2edc7a-653c-417d-86ce-2db3142e1174" name="Changes" comment="MagicType last breath">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/Global.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/Global.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/LCCompiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/LCCompiler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/Link.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/Link.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/CharClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/CharClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/StringClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/StringClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/numbers/DoubleClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/numbers/DoubleClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/numbers/IntClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/numbers/IntClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/numbers/LongClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/numbers/LongClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/ClassStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/ClassStatement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/AccessExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/AccessExpression.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/ArrayExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/ArrayExpression.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/AssignExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/AssignExpression.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/BinaryOperationExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/BinaryOperationExpression.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/GetClassConstructorExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/GetClassConstructorExpression.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/IfExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/IfExpression.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/IsExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/IsExpression.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/StopExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/StopExpression.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/types/NamedType.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/types/NamedType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/LCClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/LCClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/types/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/types/Type.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/types/Types.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/types/Types.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/utils/ValueUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/utils/LinkUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/test/java/lclang/InterpreterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/test/java/lclang/InterpreterTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -324,13 +305,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1628529223618</updated>
-    </task>
-    <task id="LOCAL-00048" summary="Last fix?">
-      <created>1632244032099</created>
-      <option name="number" value="00048" />
-      <option name="presentableId" value="LOCAL-00048" />
-      <option name="project" value="LOCAL" />
-      <updated>1632244032099</updated>
     </task>
     <task id="LOCAL-00049" summary="Last fix?">
       <created>1632244332638</created>
@@ -668,7 +642,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638984195757</updated>
     </task>
-    <option name="localTasksCounter" value="97" />
+    <task id="LOCAL-00097" summary="MagicType last breath">
+      <created>1638986607472</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
+      <option name="project" value="LOCAL" />
+      <updated>1638986607472</updated>
+    </task>
+    <option name="localTasksCounter" value="98" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -684,7 +665,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Last fix?!!!!" />
     <MESSAGE value="Yay" />
     <MESSAGE value="Debian package autobuild" />
     <MESSAGE value="Clean up" />
@@ -709,7 +689,8 @@
     <MESSAGE value="README.md update" />
     <MESSAGE value="New name of Value - Link" />
     <MESSAGE value="ReflectionValue -&gt; ReflectionLink" />
-    <option name="LAST_COMMIT_MESSAGE" value="ReflectionValue -&gt; ReflectionLink" />
+    <MESSAGE value="MagicType last breath" />
+    <option name="LAST_COMMIT_MESSAGE" value="MagicType last breath" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">

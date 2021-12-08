@@ -86,14 +86,12 @@ file:
 type:
     nullable=NULLABLE?   // Nullable prefix
     (
-      magicType  |
       methodType |       // Lambda method type
       namedType          // Named type
     );
 
 
 methodType: OPEN (args=type COMMA)* args=type? CLOSE LAMBDA_PREFIX returnType=type;
-magicType: 'any'|'void'|'callable';
 namedType: ID (TYPE_PREFIX namedType)?;
 
 expression:

@@ -3,7 +3,6 @@ package lclang;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.exceptions.LCLangVariableNotFoundException;
 import lclang.libs.lang.classes.LCClass;
-import lclang.types.Types;
 
 import java.util.HashMap;
 
@@ -28,7 +27,7 @@ public class LCBaseExecutor {
         else {
             Link link = root.getLink(c, name);
             if(link!=null) value = link;
-            else value = new Link(Types.UNDEFINED, caller -> {
+            else value = new Link(LCClass.INSTANCE.classType, caller -> {
                 throw new LCLangVariableNotFoundException(name, caller);
             }, Link.State.NOTHING);
         }

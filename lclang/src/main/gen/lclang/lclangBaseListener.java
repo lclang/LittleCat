@@ -52,18 +52,6 @@ public class lclangBaseListener implements lclangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMagicType(lclangParser.MagicTypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitMagicType(lclangParser.MagicTypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterNamedType(lclangParser.NamedTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}

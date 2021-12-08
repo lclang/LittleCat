@@ -11,6 +11,7 @@ import java.util.*;
 
 public class LCClass extends LCRootExecutor {
     public static int classesCount = 0;
+    public static LCClass INSTANCE = new LCClass();
 
     public final NamedType classType = new NamedType(this);
     public final String name;
@@ -18,13 +19,18 @@ public class LCClass extends LCRootExecutor {
     public LCClass extendsClass;
     public Method constructor = null;
 
+    private LCClass() {
+        super("any");
+        this.name = "any";
+    }
+
     public LCClass(String name) {
         this(name, name);
     }
-
     public LCClass(String name, String path) {
         super(path);
         this.name = name;
+        this.extendsClass = new LCClass();
     }
 
     @Override
