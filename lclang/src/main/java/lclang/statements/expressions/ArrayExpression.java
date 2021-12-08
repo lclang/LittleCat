@@ -6,7 +6,7 @@ import lclang.Link;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.exceptions.LCLangTypeErrorException;
 import lclang.libs.lang.classes.ArrayClass;
-import lclang.utils.ValueUtils;
+import lclang.utils.LinkUtils;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -21,11 +21,11 @@ public class ArrayExpression extends Expression {
 
     @Override
     public Link visit(Caller prevCaller, LCBaseExecutor executor) throws LCLangRuntimeException {
-        final List<Link> values = ValueUtils.valuesFromExpressions(prevCaller, executor, array);
+        final List<Link> values = LinkUtils.linksFromExpressions(prevCaller, executor, array);
         AtomicReference<ArrayClass> arrayClass = new AtomicReference<>(null);
         return new Link(ArrayClass.type, caller -> {
             if(arrayClass.get()==null) arrayClass.set(new ArrayClass(
-                    ValueUtils.classesFromValues(caller, values)
+                    LinkUtils.classesFromLinks(caller, values)
             ));
 
             return arrayClass.get();

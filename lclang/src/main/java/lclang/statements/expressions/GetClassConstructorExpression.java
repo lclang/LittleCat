@@ -4,6 +4,7 @@ import lclang.Caller;
 import lclang.LCBaseExecutor;
 import lclang.Link;
 import lclang.exceptions.LCLangClassNotFoundException;
+import lclang.exceptions.LCLangConstructorNotFoundException;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.LCClass;
 
@@ -18,8 +19,12 @@ public class GetClassConstructorExpression extends Expression {
     @Override
     public Link visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         LCClass clazz = visitor.root.classes.get(name);
-        if(clazz!=null)
+        if(clazz!=null) {
+            if(clazz.constructor==null)
+                throw new LCLangConstructorNotFoundException(getCaller(prevCaller));
+
             return clazz.constructor.createLink();
+        }
 
         throw new LCLangClassNotFoundException(name, getCaller(prevCaller));
     }

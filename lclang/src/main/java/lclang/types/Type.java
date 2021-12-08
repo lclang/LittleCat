@@ -2,8 +2,6 @@ package lclang.types;
 
 import lclang.libs.lang.classes.NullClass;
 
-import java.util.Objects;
-
 public abstract class Type implements Cloneable {
     public final String text;
     public boolean nullable = false;
@@ -16,9 +14,7 @@ public abstract class Type implements Cloneable {
         if(
                 Types.ANY.equals(this) ||
                 NullClass.type.equals(this) ||
-                another.equals(Types.UNDEFINED) ||
-                another instanceof Types.MagicType &&
-                Objects.equals(another.text, text)
+                another.equals(Types.UNDEFINED)
         ) return true;
 
         if(another.isAccept(NullClass.type))

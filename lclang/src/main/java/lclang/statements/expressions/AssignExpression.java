@@ -17,9 +17,9 @@ public class AssignExpression extends Expression {
 
     @Override
     public Link visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
-        Link settableValue = left.visit(prevCaller, visitor);
         Link value = right.visit(prevCaller, visitor);
-        settableValue.set.invoke(prevCaller, value.get.invoke(prevCaller));
+        left.visit(prevCaller, visitor).set
+                .invoke(prevCaller, value.get.invoke(prevCaller));
         return value;
     }
 }

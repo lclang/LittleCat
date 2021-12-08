@@ -5,7 +5,6 @@ import lclang.LCBaseExecutor;
 import lclang.Link;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.libs.lang.classes.BoolClass;
-import lclang.libs.lang.classes.LCClass;
 
 public class IfExpression extends Expression {
     public final Expression condition;
@@ -21,8 +20,7 @@ public class IfExpression extends Expression {
 
     @Override
     public Link visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
-        LCClass cond = condition.visit(prevCaller, visitor).get.invoke(prevCaller);
-        if(cond!=BoolClass.FALSE){
+        if(condition.visit(prevCaller, visitor).get.invoke(prevCaller)!=BoolClass.FALSE){
             return ifTrue.visit(prevCaller, visitor);
         }
 

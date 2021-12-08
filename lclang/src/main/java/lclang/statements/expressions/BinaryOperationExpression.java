@@ -24,6 +24,7 @@ public class BinaryOperationExpression extends Expression {
     @Override
     public Link visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         Caller caller = getCaller(prevCaller);
+
         Link rightValue = right.visit(caller, visitor);
         LCClass right = rightValue.get.invoke(caller);
 
@@ -79,18 +80,16 @@ public class BinaryOperationExpression extends Expression {
         }
 
          switch (operation) {
-            case NULLABLE_OR : if(left.equals(NullClass.instance))
+            case NULLABLE_OR : if(left==NullClass.instance)
                 return rightValue;
             else return leftValue;
 
             case ARRAY_ACCESS: {
                 if(left instanceof ArrayClass) {
                     if (right instanceof IntClass)
-                        return ((ArrayClass) left).get(((IntClass) right).value).createLink();
+                        return left.cast(ArrayClass.class).get(right.cast(IntClass.class).value).createLink();
                     else throw new LCLangTypeErrorException("invalid index: excepted int", caller);
-                }/*else if(left instanceof Map<*, *>){
-                       left[right] as Value
-                }*/else throw new LCLangTypeErrorException("excepted array or map", caller);
+                }else throw new LCLangTypeErrorException("excepted array or map", caller);
             }
 
             case EQUALS: return BoolClass.get(left.classId == right.classId).createLink();

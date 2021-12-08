@@ -56,30 +56,24 @@ public class LCCompiler extends lclangBaseVisitor<Statement> {
 
     @Override
     public ValueExpression visitValue(lclangParser.ValueContext ctx) {
-        LCClass lcClass = null;
+        LCClass lcClass;
         String text = ctx.getText();
-        if(Global.cashedClasses.containsKey(text)){
-            lcClass = Global.cashedClasses.get(text);
-        }else{
-            if (ctx.STRING() != null)
-                lcClass = StringClass.get(Utils.unescapeString(text.substring(1, text.length() - 1)));
-            else if (ctx.CHAR() != null)
-                lcClass = CharClass.get(Utils.unescapeString(text).charAt(1));
-            else if (ctx.DOUBLE() != null)
-                lcClass = DoubleClass.get(Double.parseDouble(text));
-            else if (ctx.INTEGER() != null)
-                lcClass = IntClass.get(Integer.parseInt(text));
-            else if (ctx.LONG() != null)
-                lcClass = LongClass.get(Long.parseLong(text));
-            else if (ctx.HEX_LONG() != null)
-                lcClass = LongClass.get(Long.parseLong(text, 16));
-            else if (ctx.BOOL() != null)
-                lcClass = BoolClass.get(text.length() == 4);
+        if (ctx.STRING() != null)
+            lcClass = StringClass.get(Utils.unescapeString(text.substring(1, text.length() - 1)));
+        else if (ctx.CHAR() != null)
+            lcClass = CharClass.get(Utils.unescapeString(text).charAt(1));
+        else if (ctx.DOUBLE() != null)
+            lcClass = DoubleClass.get(Double.parseDouble(text));
+        else if (ctx.INTEGER() != null)
+            lcClass = IntClass.get(Integer.parseInt(text));
+        else if (ctx.LONG() != null)
+            lcClass = LongClass.get(Long.parseLong(text));
+        else if (ctx.HEX_LONG() != null)
+            lcClass = LongClass.get(Long.parseLong(text, 16));
+        else if (ctx.BOOL() != null)
+            lcClass = BoolClass.get(text.length() == 4);
+        else throw new RuntimeException();
 
-            Global.cashedClasses.put(text, lcClass);
-        }
-
-        if(lcClass==null) throw new RuntimeException();
         return new ValueExpression(lcClass);
     }
 

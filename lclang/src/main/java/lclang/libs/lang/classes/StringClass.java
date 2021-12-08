@@ -1,17 +1,15 @@
 package lclang.libs.lang.classes;
 
+import lclang.Global;
 import lclang.libs.lang.classes.numbers.IntClass;
 import lclang.types.Type;
 import lclang.types.Types;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class StringClass extends LibraryClass {
     public static final String name = "string";
-    public static final Map<String, StringClass> cache = new HashMap<>();
     public static final StringClass instance = new StringClass();
     public static final Type type = instance.classType;
     public String string;
@@ -69,11 +67,11 @@ public class StringClass extends LibraryClass {
     }
 
     public static StringClass get(String string) {
-        if(cache.containsKey(string))
-            return cache.get(string);
+        if(Global.cashedClasses.containsKey(string))
+            return (StringClass) Global.cashedClasses.get(string);
 
         StringClass clazz = new StringClass(string);
-        cache.put(string, clazz);
+        Global.saveCache(string, clazz);
         return clazz;
     }
 }

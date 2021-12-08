@@ -1,15 +1,12 @@
 package lclang.libs.lang.classes.numbers;
 
+import lclang.Global;
 import lclang.libs.lang.classes.StringClass;
 import lclang.types.Type;
 import lclang.types.Types;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class IntClass extends NumberClass {
     public static final String NAME = "int";
-    public static final Map<Integer, IntClass> CACHE = new HashMap<>();
     public static final IntClass INSTANCE = new IntClass();
     public static final Type TYPE = INSTANCE.classType;
     public int value;
@@ -30,11 +27,11 @@ public class IntClass extends NumberClass {
     }
 
     public static IntClass get(int value) {
-        if(CACHE.containsKey(value))
-            return CACHE.get(value);
+        if(Global.cashedClasses.containsKey(value))
+            return (IntClass) Global.cashedClasses.get(value);
 
         IntClass intClass = new IntClass(value);
-        CACHE.put(value, intClass);
+        Global.saveCache(value, intClass);
         return intClass;
     }
 }

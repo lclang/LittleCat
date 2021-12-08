@@ -7,7 +7,7 @@ import lclang.libs.lang.classes.LCClass;
 import lclang.methods.Method;
 import lclang.statements.expressions.Expression;
 import lclang.types.NamedType;
-import lclang.utils.ValueUtils;
+import lclang.utils.LinkUtils;
 
 import java.util.List;
 
@@ -58,8 +58,8 @@ public class ClassStatement {
                     Caller extendsCaller = classExtends.getCaller(root);
                     clazz.extendsClass = classExtends.toType(root).clazz.constructor.call(
                             extendsCaller,
-                            ValueUtils.classesFromValues(caller,
-                                    ValueUtils.valuesFromExpressions(extendsCaller, clazz.executor, extendsArguments)
+                            LinkUtils.classesFromLinks(caller,
+                                    LinkUtils.linksFromExpressions(extendsCaller, clazz.executor, extendsArguments)
                             )
                     );
 

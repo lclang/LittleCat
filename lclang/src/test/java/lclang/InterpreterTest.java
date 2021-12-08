@@ -31,10 +31,12 @@ public class InterpreterTest {
                 StringBuilder output = new StringBuilder();
 
                 Global.libraries.clear();
+                Global.cashedClasses.clear();
                 Global.javaLibraries.clear();
                 Global.javaLibraries.add(new LangLibrary());
                 Global.javaLibraries.add(new StdLibrary());
                 Global.javaLibraries.add(new TestLibrary(output));
+                Link.count = 0;
 
                 String[] parts = Utils.readFile(file, UniversalDetector.detectCharset(file))
                         .split("--OUTPUT--\\R");

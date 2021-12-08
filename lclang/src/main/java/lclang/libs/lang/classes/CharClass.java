@@ -1,14 +1,11 @@
 package lclang.libs.lang.classes;
 
+import lclang.Global;
 import lclang.libs.lang.classes.numbers.IntClass;
 import lclang.types.Type;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class CharClass extends LibraryClass {
     public static final String name =  "char";
-    public static final Map<Character, CharClass> cache = new HashMap<>();
     public static final CharClass instance = new CharClass();
     public static final Type type = instance.classType;
     public char value;
@@ -32,11 +29,11 @@ public class CharClass extends LibraryClass {
     }
 
     public static CharClass get(char value) {
-        if(cache.containsKey(value))
-            return cache.get(value);
+        if(Global.cashedClasses.containsKey(value))
+            return (CharClass) Global.cashedClasses.get(value);
 
         CharClass clazz = new CharClass(value);
-        cache.put(value, clazz);
+        Global.saveCache(value, clazz);
         return clazz;
     }
 }

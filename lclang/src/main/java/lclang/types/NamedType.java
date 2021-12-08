@@ -2,8 +2,6 @@ package lclang.types;
 
 import lclang.libs.lang.classes.LCClass;
 
-import java.util.Objects;
-
 public class NamedType extends Type {
     public final LCClass clazz;
     public NamedType(LCClass clazz) {
@@ -14,9 +12,7 @@ public class NamedType extends Type {
     @Override
     public boolean isAcceptWithoutNullable(Type another) {
         return super.isAcceptWithoutNullable(another) || (
-                (another instanceof Types.MagicType &&
-                Objects.equals(another.text, clazz.name)) || (
                 another instanceof NamedType &&
-                ((NamedType) another).clazz.canCast(clazz)));
+                ((NamedType) another).clazz.canCast(clazz));
     }
 }

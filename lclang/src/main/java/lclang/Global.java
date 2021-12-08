@@ -16,7 +16,11 @@ public class Global {
     public static final int buildTime;
     public static final ArrayList<LCRootExecutor> libraries = new ArrayList<>();
     public static final ArrayList<Library> javaLibraries = new ArrayList<>();
-    public static final Map<String, LCClass> cashedClasses = new HashMap<>();
+    public static final Map<Object, LCClass> cashedClasses = new HashMap<>();
+
+    public static void saveCache(Object value, LCClass clazz) {
+        cashedClasses.put(value, clazz);
+    }
 
     static {
         ResourceBundle prop = ResourceBundle.getBundle("build");

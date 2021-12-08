@@ -10,10 +10,10 @@ import lclang.statements.expressions.Expression;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ValueUtils {
-    public static List<Link> valuesFromExpressions(Caller caller,
-                                                   LCBaseExecutor executor,
-                                                   List<Expression> expressions) throws LCLangRuntimeException {
+public class LinkUtils {
+    public static List<Link> linksFromExpressions(Caller caller,
+                                                  LCBaseExecutor executor,
+                                                  List<Expression> expressions) throws LCLangRuntimeException {
         ArrayList<Link> values = new ArrayList<>();
         for (Expression expression : expressions) {
             values.add(expression.visit(caller, executor));
@@ -22,8 +22,8 @@ public class ValueUtils {
         return values;
     }
 
-    public static List<LCClass> classesFromValues(Caller caller,
-                                                  List<Link> values) throws LCLangRuntimeException {
+    public static List<LCClass> classesFromLinks(Caller caller,
+                                                 List<Link> values) throws LCLangRuntimeException {
         ArrayList<LCClass> classes = new ArrayList<>();
         for (Link expression : values) {
             classes.add(expression.get.invoke(caller));

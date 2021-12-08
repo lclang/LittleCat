@@ -7,6 +7,8 @@ import lclang.utils.Function;
 import lclang.utils.VoidMethod2;
 
 public class Link {
+    public static int count = 0;
+
     public final Type type;
     public final Function<Caller, LCClass> get;
     public VoidMethod2<Caller, LCClass> set;
