@@ -1,24 +1,27 @@
 package lclang.libs.std.classes;
 
+import lclang.exceptions.LCLangIOException;
 import lclang.libs.lang.classes.BoolClass;
 import lclang.libs.lang.classes.LibraryClass;
+import lclang.libs.lang.classes.NullClass;
 import lclang.libs.lang.classes.StringClass;
 import lclang.libs.lang.classes.numbers.DoubleClass;
 import lclang.libs.lang.classes.numbers.IntClass;
-import lclang.libs.lang.classes.numbers.LongClass;
 import lclang.methods.Method;
 import lclang.types.CallableType;
 import lclang.types.Type;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Collections;
-import java.util.Scanner;
 
 public class InputClass extends LibraryClass {
     public static final String name = "Input";
     public static final InputClass instance = new InputClass();
     public static final Type type = instance.classType;
-    public Scanner scanner;
+    public BufferedReader reader;
 
     private InputClass() {
         super(name);
@@ -36,33 +39,42 @@ public class InputClass extends LibraryClass {
     public InputClass(InputStream input) {
         this();
 
-        scanner = new Scanner(input);
-        globals.put("hasNextLine", method((caller, lcClasses) ->
-                BoolClass.get(scanner.hasNextLine()), BoolClass.type));
-        globals.put("hasNextInt", method((caller, lcClasses) ->
-                BoolClass.get(scanner.hasNextInt()), BoolClass.type));
-        globals.put("hasNextByte", method((caller, lcClasses) ->
-                BoolClass.get(scanner.hasNextByte()), BoolClass.type));
-        globals.put("hasNextLong", method((caller, lcClasses) ->
-                BoolClass.get(scanner.hasNextLong()), BoolClass.type));
-        globals.put("hasNextDouble", method((caller, lcClasses) ->
-                BoolClass.get(scanner.hasNextDouble()), BoolClass.type));
-        globals.put("hasNext", method((caller, lcClasses) ->
-                BoolClass.get(scanner.hasNext()), BoolClass.type));
-
+        reader = new BufferedReader(new InputStreamReader(input));
         globals.put("readLine", method((caller, lcClasses) ->
-                StringClass.get(scanner.nextLine()), StringClass.type));
-        globals.put("readInt", method((caller, lcClasses) ->
-                IntClass.get(scanner.nextInt()), IntClass.TYPE));
-        globals.put("readByte", method((caller, lcClasses) ->
-                LongClass.get(scanner.nextByte()), LongClass.TYPE));
-        globals.put("readLong", method((caller, lcClasses) ->
-                LongClass.get(scanner.nextLong()), LongClass.TYPE));
-        globals.put("readDouble", method((caller, lcClasses) ->
-                DoubleClass.get(scanner.nextDouble()), DoubleClass.TYPE));
-        globals.put("read", method((caller, lcClasses) ->
-                StringClass.get(scanner.next()), StringClass.type));
+        {
+            try {
+                String line = reader.readLine();
+                if(line==null) return NullClass.instance;
+                return StringClass.get(line);
+            } catch (IOException e) {
+                throw new LCLangIOException(e.getMessage(), caller);
+            }
+        }, StringClass.type));
 
-        globals.put("close", voidMethod((caller, lcClasses) -> scanner.close()));
+        globals.put("ready", method((caller, lcClasses) ->
+        {
+            try {
+                return BoolClass.get(reader.ready());
+            } catch (IOException e) {
+                throw new LCLangIOException(e.getMessage(), caller);
+            }
+        }, DoubleClass.TYPE));
+
+        globals.put("read", method((caller, lcClasses) ->
+        {
+            try {
+                return IntClass.get(reader.read());
+            } catch (IOException e) {
+                throw new LCLangIOException(e.getMessage(), caller);
+            }
+        }, IntClass.TYPE));
+
+        globals.put("close", voidMethod((caller, lcClasses) -> {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                throw new LCLangIOException(e.getMessage(), caller);
+            }
+        }));
     }
 }

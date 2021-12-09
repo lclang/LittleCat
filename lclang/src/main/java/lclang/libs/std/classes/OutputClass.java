@@ -1,5 +1,6 @@
 package lclang.libs.std.classes;
 
+import lclang.exceptions.LCLangIOException;
 import lclang.libs.lang.classes.ArrayClass;
 import lclang.libs.lang.classes.LCClass;
 import lclang.libs.lang.classes.LibraryClass;
@@ -11,6 +12,7 @@ import lclang.types.CallableType;
 import lclang.types.Type;
 import lclang.types.Types;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
@@ -47,8 +49,14 @@ public class OutputClass extends LibraryClass {
         globals.put("close", voidMethod((caller, args) -> printer.close()));
         globals.put("accept", voidMethod((caller, args) -> {
             InputClass input = (InputClass) args.get(0);
-            while (input.scanner.hasNextLine())
-                printer.println(input.scanner.nextLine());
+
+            try {
+                String line;
+                while ((line = input.reader.readLine())!=null)
+                    printer.println(line);
+            }catch (IOException e) {
+                throw new LCLangIOException(e.getMessage(), caller);
+            }
 
         }, InputClass.type));
 

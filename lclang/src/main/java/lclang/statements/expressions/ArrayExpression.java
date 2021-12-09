@@ -23,7 +23,7 @@ public class ArrayExpression extends Expression {
     public Link visit(Caller prevCaller, LCBaseExecutor executor) throws LCLangRuntimeException {
         final List<Link> values = LinkUtils.linksFromExpressions(prevCaller, executor, array);
         AtomicReference<ArrayClass> arrayClass = new AtomicReference<>(null);
-        return new Link(ArrayClass.type, caller -> {
+        return new Link(caller -> {
             if(arrayClass.get()==null) arrayClass.set(new ArrayClass(
                     LinkUtils.classesFromLinks(caller, values)
             ));

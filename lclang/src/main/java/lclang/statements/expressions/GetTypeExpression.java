@@ -16,6 +16,7 @@ public class GetTypeExpression extends Expression {
 
     @Override
     public Link visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
-        return StringClass.get(expression.visit(prevCaller, visitor).type.text).createLink();
+        return StringClass.get(expression.visit(prevCaller, visitor).get
+                .invoke(prevCaller).classType.text).createLink();
     }
 }

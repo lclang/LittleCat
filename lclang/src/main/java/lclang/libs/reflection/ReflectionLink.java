@@ -23,7 +23,8 @@ public class ReflectionLink extends LibraryClass {
         this();
 
         this.link = value;
-        globals.put("type", method((caller, lcClasses) -> StringClass.get(value.type.toString()), StringClass.type));
+        globals.put("type", method((caller, lcClasses) -> StringClass.get(value.get.invoke(caller)
+                .classType.text), StringClass.type));
         globals.put("get", method((caller, lcClasses) -> value.get.invoke(caller), Types.ANY));
         globals.put("set", voidMethod((caller, lcClasses) ->
                         value.set.invoke(caller, lcClasses.get(0)), Types.ANY));

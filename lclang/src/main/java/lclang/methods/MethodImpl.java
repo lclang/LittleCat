@@ -2,7 +2,6 @@ package lclang.methods;
 
 import lclang.Caller;
 import lclang.LCBaseExecutor;
-import lclang.Link;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.exceptions.LCLangTypeErrorException;
 import lclang.libs.lang.classes.LCClass;
@@ -40,11 +39,11 @@ public class MethodImpl extends Method {
         }
 
         Caller stmtCaller = statement.getCaller(caller);
-        Link value = statement.visit(stmtCaller, executor);
-        if(!returnType.isAccept(value.type))
+        LCClass value = statement.visit(stmtCaller, executor).get.invoke(stmtCaller);
+        if(!returnType.isAccept(value.classType))
             throw new LCLangTypeErrorException("invalid type of return (excepted "+returnType+
-                    ", but returned "+value.type+")", stmtCaller);
+                    ", but returned "+value.classType+")", stmtCaller);
 
-        return value.get.invoke(stmtCaller);
+        return value;
     }
 }

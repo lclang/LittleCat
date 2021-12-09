@@ -27,20 +27,20 @@ public class CallExpression extends Expression {
     @Override
     public Link visit(Caller prevCaller, LCBaseExecutor visitor) throws LCLangRuntimeException {
         Caller expressionCaller = expression.getCaller(prevCaller);
-        Link value = expression.visit(prevCaller, visitor);
-        if(!(value.type instanceof CallableType))
-            throw new LCLangTypeErrorException("Value is not callable (it is "+value.type+")", expressionCaller);
+        LCClass callClazz = expression.visit(prevCaller, visitor).get.invoke(expressionCaller);
+        if(!(callClazz.classType instanceof CallableType))
+            throw new LCLangTypeErrorException("Value is not callable (it is "+callClazz.classType+")", expressionCaller);
 
         ArrayList<Type> argsTypes = new ArrayList<>();
         ArrayList<LCClass> args = new ArrayList<>();
         for(Expression argument: arguments) {
             Link argumentValue = argument.visit(prevCaller, visitor);
-            argsTypes.add(argumentValue.type);
-
-            args.add(argumentValue.get.invoke(expression.getCaller(prevCaller)));
+            LCClass clazz = argumentValue.get.invoke(expression.getCaller(prevCaller));
+            argsTypes.add(clazz.classType);
+            args.add(clazz);
         }
 
-        Method method = (Method) value.get.invoke(expressionCaller);
+        Method method = (Method) callClazz;
         if(method.args.size()!=argsTypes.size()){
             throw method.args.size()>argsTypes.size() ?
                     new LCLangTypeErrorException("Invalid arguments: few arguments",

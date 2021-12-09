@@ -6,6 +6,7 @@ import lclang.Link;
 import lclang.exceptions.LCLangRuntimeException;
 import lclang.methods.Method;
 import lclang.types.NamedType;
+import lclang.types.Type;
 
 import java.util.*;
 
@@ -13,9 +14,9 @@ public class LCClass extends LCRootExecutor {
     public static int classesCount = 0;
     public static LCClass INSTANCE = new LCClass();
 
-    public final NamedType classType = new NamedType(this);
     public final String name;
     public final int classId = classesCount++;
+    public Type classType = new NamedType(this);
     public LCClass extendsClass;
     public Method constructor = null;
 
@@ -43,7 +44,7 @@ public class LCClass extends LCRootExecutor {
     }
 
     public Link createLink(){
-        return new Link(classType, this, Link.State.NOTHING);
+        return new Link(this, Link.State.NOTHING);
     }
 
     public boolean canCast(LCClass another) {

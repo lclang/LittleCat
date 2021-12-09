@@ -19,7 +19,6 @@ public class Method extends LCClass {
     public LCRootExecutor root;
     public List<Type> args;
     public Type returnType;
-    private Type methodType;
 
     private Method() {
         super(name);
@@ -30,7 +29,7 @@ public class Method extends LCClass {
         this.root = root;
         this.args = args;
         this.returnType = returnType;
-        this.methodType = new CallableType(args, returnType);
+        this.classType = new CallableType(args, returnType);
     }
 
     public LCClass call(Caller caller, List<LCClass> args) throws LCLangRuntimeException {
@@ -39,11 +38,11 @@ public class Method extends LCClass {
 
     @Override
     public Link createLink() {
-        return new Link(methodType, this, Link.State.NOTHING);
+        return new Link(this, Link.State.NOTHING);
     }
 
     @Override
     public String toString(Caller caller) throws LCLangRuntimeException {
-        return methodType.toString();
+        return classType.toString();
     }
 }
