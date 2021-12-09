@@ -1,0 +1,25 @@
+println(1 is any)
+println(1 is int)
+println(1 is double)
+println(!false)
+println(!true)
+
+i = 0
+println(i++)
+println(i++)
+println(i--)
+println(i--)
+println(1?:2)
+println(null?:2)
+--OUTPUT--
+true
+true
+false
+true
+false
+1
+2
+1
+0
+1
+2
