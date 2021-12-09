@@ -27,7 +27,7 @@ public class LCBaseExecutor {
         else {
             Link link = root.getLink(c, name);
             if(link!=null) value = link;
-            else value = new Link(LCClass.INSTANCE.classType, caller -> {
+            else value = new Link(caller -> {
                 throw new LCLangVariableNotFoundException(name, caller);
             }, Link.State.NOTHING);
         }
