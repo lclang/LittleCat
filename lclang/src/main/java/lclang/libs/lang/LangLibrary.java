@@ -11,6 +11,7 @@ import lclang.methods.Method;
 public class LangLibrary extends Library {
     public LangLibrary() {
         super("lang");
+        classes.put("any", LCClass.INSTANCE);
         classes.put("array", ArrayClass.instance);
         classes.put("bool", BoolClass.instance);
         classes.put("char", CharClass.instance);
