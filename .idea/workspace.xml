@@ -4,10 +4,216 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb2edc7a-653c-417d-86ce-2db3142e1174" name="Changes" comment="Fix">
+    <list default="true" id="eb2edc7a-653c-417d-86ce-2db3142e1174" name="Changes" comment="lclang -&gt; lclang, postvm, stdlib, reflection-library">
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/CacheManager.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/Caller.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/Library.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/Link$State.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/Link.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/LinkUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/PostVMExecutor$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/PostVMExecutor.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/PostVMRoot.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/TypeUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/Utils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/exceptions/LCLangClassNotFoundException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/exceptions/LCLangConstructorNotFoundException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/exceptions/LCLangIOException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/exceptions/LCLangLexerException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/exceptions/LCLangNullPointerException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/exceptions/LCLangRuntimeException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/exceptions/LCLangTypeErrorException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/exceptions/LCLangVariableNotFoundException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/LangLibrary.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/ArrayClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/BoolClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/CharClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/LibraryClass$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/LibraryClass$2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/LibraryClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/NullClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/PostVMClass$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/PostVMClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/StringClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/VoidClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/numbers/DoubleClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/numbers/IntClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/numbers/LongClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/numbers/NumberClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/methods/Method.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/methods/MethodImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/BlockStatement.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/CallableTypeStatement.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/ClassStatement$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/ClassStatement.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/IfStatement.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/MagicTypeStatement.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/MethodStatement$Argument.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/MethodStatement.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/NamedTypeStatement.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/Statement.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/TypeStatement.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/WhileStatement.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/AccessExpression.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/ArrayExpression$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/ArrayExpression.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/AssignExpression.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/BinaryOperationExpression$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/BinaryOperationExpression$Operation.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/BinaryOperationExpression.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/CallExpression.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/ContainerExpression.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/Expression.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/GetClassConstructorExpression.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/GetTypeExpression.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/IfExpression.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/IsExpression.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/LambdaExpression.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/ReturnExpression.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/StopExpression$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/StopExpression.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/UnaryOperationExpression$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/UnaryOperationExpression$2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/UnaryOperationExpression$Operation.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/UnaryOperationExpression.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/ValueExpression.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/VariableExpression.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/types/CallableType.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/types/Type.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/utils/Function.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/utils/Function0.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/utils/Function2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/utils/VoidMethod.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/utils/VoidMethod0.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/utils/VoidMethod2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/utils/VoidMethod3.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/libs/interpreter.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/libs/postvm.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/build/tmp/compileJava/source-classes-mapping.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/CacheManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/utils/VoidMethod3.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reflection-library/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reflection-library/build/classes/java/main/postvm/reflection/ReflectionLibrary.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reflection-library/build/classes/java/main/postvm/reflection/ReflectionLink.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reflection-library/build/libs/reflection-library-0.1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reflection-library/build/tmp/compileJava/source-classes-mapping.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reflection-library/build/tmp/jar/MANIFEST.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reflection-library/src/main/java/postvm/reflection/ReflectionLibrary.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stdlib/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stdlib/build/classes/java/main/postvm/stdlib/StdLibrary$StdClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stdlib/build/classes/java/main/postvm/stdlib/StdLibrary.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stdlib/build/classes/java/main/postvm/stdlib/classes/FileClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stdlib/build/classes/java/main/postvm/stdlib/classes/InputClass$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stdlib/build/classes/java/main/postvm/stdlib/classes/InputClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stdlib/build/classes/java/main/postvm/stdlib/classes/MathClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stdlib/build/classes/java/main/postvm/stdlib/classes/OutputClass$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stdlib/build/classes/java/main/postvm/stdlib/classes/OutputClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stdlib/build/classes/java/main/postvm/stdlib/classes/SSLSocketClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stdlib/build/classes/java/main/postvm/stdlib/classes/SocketClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stdlib/build/classes/java/main/postvm/stdlib/classes/SocketServerClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stdlib/build/classes/java/main/postvm/stdlib/classes/ThreadClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stdlib/build/libs/stdlib-0.1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stdlib/build/tmp/compileJava/source-classes-mapping.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stdlib/build/tmp/jar/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.circleci/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.circleci/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/core/lclang.core.test.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/LangLibrary.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/LangLibrary.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/UnaryOperationExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/UnaryOperationExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/build/kotlin/corejar-classes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/build/kotlin/corejar-classes.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/build/libs/core.jar" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/build/libs/core.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/build/tmp/jar/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/build/tmp/jar/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/installer_configuration.nsi" beforeDir="false" afterPath="$PROJECT_DIR$/installer_configuration.nsi" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang.bat" beforeDir="false" afterPath="$PROJECT_DIR$/lclang.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/Caller.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/Caller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/Global.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/Global.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/LCBaseExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/PostVMExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/LCCompiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/LCCompiler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/LCLangErrorListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/LCLangErrorListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/LCRootExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/PostVMRoot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/Link.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/Link.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/exceptions/LCLangClassNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/exceptions/LCLangClassNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/exceptions/LCLangConstructorNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/exceptions/LCLangConstructorNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/exceptions/LCLangIOException.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/exceptions/LCLangIOException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/exceptions/LCLangLexerException.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/exceptions/LCLangLexerException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/exceptions/LCLangNullPointerException.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/exceptions/LCLangNullPointerException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/exceptions/LCLangRuntimeException.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/exceptions/LCLangRuntimeException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/exceptions/LCLangTypeErrorException.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/exceptions/LCLangTypeErrorException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/exceptions/LCLangVariableNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/exceptions/LCLangVariableNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/Library.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/Library.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/LangLibrary.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/LangLibrary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/ArrayClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/ArrayClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/BoolClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/BoolClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/CharClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/CharClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/LCClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/PostVMClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/LibraryClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/LibraryClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/NullClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/NullClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/StringClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/StringClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/VoidClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/VoidClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/numbers/DoubleClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/numbers/DoubleClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/numbers/IntClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/numbers/IntClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/numbers/LongClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/numbers/LongClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/numbers/NumberClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/numbers/NumberClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/reflection/ReflectionLibrary.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/reflection/ReflectionLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/reflection-library/src/main/java/postvm/reflection/ReflectionLink.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/std/StdLibrary.java" beforeDir="false" afterPath="$PROJECT_DIR$/stdlib/src/main/java/postvm/stdlib/StdLibrary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/std/classes/FileClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/stdlib/src/main/java/postvm/stdlib/classes/FileClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/std/classes/InputClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/stdlib/src/main/java/postvm/stdlib/classes/InputClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/std/classes/MathClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/stdlib/src/main/java/postvm/stdlib/classes/MathClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/std/classes/OutputClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/stdlib/src/main/java/postvm/stdlib/classes/OutputClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/std/classes/SSLSocketClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/stdlib/src/main/java/postvm/stdlib/classes/SSLSocketClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/std/classes/SocketClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/stdlib/src/main/java/postvm/stdlib/classes/SocketClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/std/classes/SocketServerClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/stdlib/src/main/java/postvm/stdlib/classes/SocketServerClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/libs/std/classes/ThreadClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/stdlib/src/main/java/postvm/stdlib/classes/ThreadClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/methods/Method.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/methods/Method.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/methods/MethodImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/methods/MethodImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/BlockStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/BlockStatement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/CallableTypeStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/CallableTypeStatement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/ClassStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/ClassStatement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/IfStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/IfStatement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/MagicTypeStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/MagicTypeStatement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/MethodStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/MethodStatement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/NamedTypeStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/NamedTypeStatement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/Statement.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/Statement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/TypeStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/TypeStatement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/WhileStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/WhileStatement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/AccessExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/AccessExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/ArrayExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/ArrayExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/AssignExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/AssignExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/BinaryOperationExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/BinaryOperationExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/CallExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/CallExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/ContainerExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/ContainerExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/Expression.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/Expression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/GetClassConstructorExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/GetClassConstructorExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/GetTypeExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/GetTypeExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/IfExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/IfExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/IsExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/IsExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/LambdaExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/LambdaExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/ReturnExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/ReturnExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/StopExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/StopExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/UnaryOperationExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/UnaryOperationExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/ValueExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/ValueExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/VariableExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/VariableExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/types/CallableType.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/types/CallableType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/types/NamedType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/types/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/types/Type.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/types/Types.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/utils/Function.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/utils/Function.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/utils/Function0.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/utils/Function0.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/utils/Function2.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/utils/Function2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/utils/LinkUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/LinkUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/utils/TypeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/TypeUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/utils/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/utils/VoidMethod.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/utils/VoidMethod.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/utils/VoidMethod0.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/utils/VoidMethod0.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/utils/VoidMethod2.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/utils/VoidMethod2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/resources/build.properties" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/resources/build.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/test/java/lclang/InterpreterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/test/java/lclang/InterpreterTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/test/java/lclang/libs/TestLibrary.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/test/java/postvm/libs/TestLibrary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/tests/unaryOperationsTest.lcat" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/tests/unaryOperationsTest.lcat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,8 +267,8 @@
         <option value="Kotlin Class" />
         <option value="LCLang Class" />
         <option value="Enum" />
-        <option value="Class" />
         <option value="LCLang File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -79,12 +285,14 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/build.gradle" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/StopExpression.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/lclang/src/main/java/lclang/types/Types.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/lclang/src/main/java/lclang/LCBaseExecutor.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/lclang/src/main/java/lclang/Link.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/StopExpression.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/postvm/src/main/java/postvm/PostVMExecutor.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/postvm/src/main/java/postvm/Link.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/settings.gradle" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/lclang/build.gradle" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedIndex" value="1" />
   </component>
   <component name="ProjectId" id="1wV21LdiQUjI65cWetPMC4xtx8m" />
   <component name="ProjectViewState">
@@ -95,7 +303,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lclang" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/reflection-library/src/main/java/postvm" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.50491804" />
@@ -106,11 +314,11 @@
       <recent name="lclang.utils" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\IdeaProjects\LittleCat\reflection-library\src\main\java\postvm" />
+      <recent name="C:\IdeaProjects\LittleCat\interpreter\src\main\java\postvm" />
       <recent name="C:\IdeaProjects\LittleCat\lclang\tests" />
       <recent name="C:\IdeaProjects\LittleCat\main" />
       <recent name="C:\IdeaProjects\LittleCat" />
-      <recent name="C:\IdeaProjects\LittleCat\libs" />
-      <recent name="C:\IdeaProjects\LittleCat\gradle" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\IdeaProjects\LittleCat\lclang" />
@@ -125,11 +333,11 @@
       <recent name="lclang.libs.std" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
       <recent name="lclang" />
       <recent name="lclang.libs" />
       <recent name="lclang.exceptions" />
       <recent name="lclang.libs.std.classes" />
-      <recent name="lclang.libs.reflection" />
     </key>
     <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
       <recent name="lclang.statements" />
@@ -139,11 +347,11 @@
       <recent name="postvm.types" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="postvm" />
+      <recent name="lclang.utils" />
       <recent name="lclang.exceptions" />
       <recent name="lclang.libs.std.classes" />
       <recent name="lclang.statements" />
-      <recent name="lclang.libs.lang" />
-      <recent name="lclang.utils" />
     </key>
   </component>
   <component name="RunManager" selected="Gradle.Run lclang tests">
@@ -304,20 +512,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1628529223618</updated>
-    </task>
-    <task id="LOCAL-00052" summary="Last fix?!!!!">
-      <created>1632244741727</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1632244741727</updated>
-    </task>
-    <task id="LOCAL-00053" summary="Yay">
-      <created>1632245130617</created>
-      <option name="number" value="00053" />
-      <option name="presentableId" value="LOCAL-00053" />
-      <option name="project" value="LOCAL" />
-      <updated>1632245130617</updated>
     </task>
     <task id="LOCAL-00054" summary="Fix">
       <created>1632292595248</created>
@@ -648,7 +842,21 @@
       <option name="project" value="LOCAL" />
       <updated>1639075438406</updated>
     </task>
-    <option name="localTasksCounter" value="101" />
+    <task id="LOCAL-00101" summary="New test">
+      <created>1639075838068</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1639075838073</updated>
+    </task>
+    <task id="LOCAL-00102" summary="New test">
+      <created>1639075851868</created>
+      <option name="number" value="00102" />
+      <option name="presentableId" value="LOCAL-00102" />
+      <option name="project" value="LOCAL" />
+      <updated>1639075851868</updated>
+    </task>
+    <option name="localTasksCounter" value="103" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -664,8 +872,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Clean up" />
-    <MESSAGE value="Lexer fixes and new functions" />
     <MESSAGE value="Lexer fixes" />
     <MESSAGE value="config.yml" />
     <MESSAGE value="0.1.2" />
@@ -689,7 +895,9 @@
     <MESSAGE value="No More MagicType" />
     <MESSAGE value="Link now not provide type" />
     <MESSAGE value="Fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix" />
+    <MESSAGE value="New test" />
+    <MESSAGE value="lclang -&gt; lclang, postvm, stdlib, reflection-library" />
+    <option name="LAST_COMMIT_MESSAGE" value="lclang -&gt; lclang, postvm, stdlib, reflection-library" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -706,42 +914,97 @@
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/numbers/NumberClass.java</url>
+          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/numbers/NumberClass.java</url>
           <line>79</line>
           <option name="timeStamp" value="44" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/lclang/src/main/java/lclang/libs/lang/classes/ArrayClass.java</url>
-          <line>60</line>
+          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/ArrayClass.java</url>
+          <line>59</line>
           <option name="timeStamp" value="64" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/UnaryOperationExpression.java</url>
+          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/UnaryOperationExpression.java</url>
           <line>34</line>
           <option name="timeStamp" value="65" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/UnaryOperationExpression.java</url>
+          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/UnaryOperationExpression.java</url>
           <line>35</line>
           <option name="timeStamp" value="66" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/UnaryOperationExpression.java</url>
+          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/UnaryOperationExpression.java</url>
           <line>38</line>
           <option name="timeStamp" value="68" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/lclang/src/main/java/lclang/statements/expressions/UnaryOperationExpression.java</url>
+          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/UnaryOperationExpression.java</url>
           <line>36</line>
           <option name="timeStamp" value="69" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/WhileStatement.java</url>
+          <line>25</line>
+          <option name="timeStamp" value="76" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/WhileStatement.java</url>
+          <line>24</line>
+          <option name="timeStamp" value="77" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/BlockStatement.java</url>
+          <line>19</line>
+          <option name="timeStamp" value="78" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/BlockStatement.java</url>
+          <line>20</line>
+          <option name="timeStamp" value="79" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/BlockStatement.java</url>
+          <line>21</line>
+          <option name="timeStamp" value="80" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/BlockStatement.java</url>
+          <line>23</line>
+          <option name="timeStamp" value="81" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/UnaryOperationExpression.java</url>
+          <line>65</line>
+          <option name="timeStamp" value="82" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/UnaryOperationExpression.java</url>
+          <line>66</line>
+          <option name="timeStamp" value="83" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/UnaryOperationExpression.java</url>
+          <line>52</line>
+          <option name="timeStamp" value="84" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/UnaryOperationExpression.java</url>
+          <line>53</line>
+          <option name="timeStamp" value="85" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/UnaryOperationExpression.java</url>
+          <line>51</line>
+          <option name="timeStamp" value="86" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/lclang$Run_CLI.ic" NAME="Run CLI Coverage Results" MODIFIED="1638882833661" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/lclang$Run_test_file.ic" NAME="Run test file Coverage Results" MODIFIED="1638883935103" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/lclang$Run_lclang_tests.ic" NAME="Run lclang tests Coverage Results" MODIFIED="1638883913876" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/lclang$Run_CLI.ic" NAME="Run CLI Coverage Results" MODIFIED="1639664512413" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/lclang$Run_lclang_tests.ic" NAME="Run lclang tests Coverage Results" MODIFIED="1639664448756" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/core$Run_tests.ic" NAME="Run tests Coverage Results" MODIFIED="1628579542508" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="true" />
   </component>
 </project>

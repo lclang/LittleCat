@@ -1,3 +1,5 @@
+println(println is any)
+println(println is callable)
 println(1 is any)
 println(1 is int)
 println(1 is double)
@@ -12,6 +14,8 @@ println(i--)
 println(1?:2)
 println(null?:2)
 --OUTPUT--
+true
+true
 true
 true
 false

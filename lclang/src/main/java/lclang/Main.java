@@ -1,14 +1,15 @@
 package lclang;
 
-import lclang.exceptions.LCLangRuntimeException;
-import lclang.libs.Library;
-import lclang.libs.lang.classes.ArrayClass;
-import lclang.libs.lang.classes.LCClass;
-import lclang.libs.lang.classes.StringClass;
-import lclang.utils.Utils;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.mozilla.universalchardet.UniversalDetector;
+import postvm.Library;
+import postvm.PostVMRoot;
+import postvm.Utils;
+import postvm.exceptions.LCLangRuntimeException;
+import postvm.library.classes.ArrayClass;
+import postvm.library.classes.PostVMClass;
+import postvm.library.classes.StringClass;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,7 +36,7 @@ public class Main {
                         if (fileName.endsWith(".jar")) {
                             loadJarLibrariesFromFile(libraryFile);
                         } else if (fileName.endsWith(".lcat")) {
-                            LCRootExecutor executor = new LCRootExecutor(fileName);
+                            PostVMRoot executor = new PostVMRoot(fileName);
                             try {
                                 executeInput(executor, Utils.readFile(libraryFile,
                                         UniversalDetector.detectCharset(libraryFile)));
@@ -49,7 +50,7 @@ public class Main {
             if(args.length==0) {
                 System.out.println("Little cat "+Global.version+" (Build date: "+Global.buildTime+")");
                 Scanner scanner = new Scanner(System.in);
-                LCRootExecutor cliExecutor = new LCRootExecutor("cli");
+                PostVMRoot cliExecutor = new PostVMRoot("cli");
 
                 System.out.print("> ");
                 while (scanner.hasNextLine()) {
@@ -82,9 +83,9 @@ public class Main {
             }
 
             if(file.length()==0L) return;
-            LCRootExecutor executor = new LCRootExecutor(file.getPath());
+            PostVMRoot executor = new PostVMRoot(file.getPath());
 
-            List<LCClass> arguments = new ArrayList<>();
+            List<PostVMClass> arguments = new ArrayList<>();
             for(String argument: programArgs) arguments.add(StringClass.get(argument));
 
             executor.executor.variables.put("args", new ArrayClass(arguments));
@@ -122,7 +123,7 @@ public class Main {
         }
     }
 
-    public static LCClass executeInput(LCRootExecutor executor, String file) throws LCLangRuntimeException {
+    public static PostVMClass executeInput(PostVMRoot executor, String file) throws LCLangRuntimeException {
         lclangParser parser = new lclangParser(new CommonTokenStream(
                 new lclangLexer(CharStreams.fromString(file))
         ));

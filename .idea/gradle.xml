@@ -9,8 +9,10 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/lclang" />
+            <option value="$PROJECT_DIR$/postvm" />
+            <option value="$PROJECT_DIR$/reflection-library" />
+            <option value="$PROJECT_DIR$/stdlib" />
           </set>
         </option>
       </GradleProjectSettings>

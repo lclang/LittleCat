@@ -1,15 +1,16 @@
 package lclang;
 
-import lclang.libs.TestLibrary;
-import lclang.libs.lang.LangLibrary;
-import lclang.libs.std.StdLibrary;
-import lclang.utils.Utils;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 import org.mozilla.universalchardet.UniversalDetector;
+import postvm.PostVMRoot;
+import postvm.Utils;
+import postvm.library.LangLibrary;
+import postvm.libs.TestLibrary;
+import postvm.stdlib.StdLibrary;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -31,7 +32,6 @@ public class InterpreterTest {
                 StringBuilder output = new StringBuilder();
 
                 Global.libraries.clear();
-                Global.cashedClasses.clear();
                 Global.javaLibraries.clear();
                 Global.javaLibraries.add(new LangLibrary());
                 Global.javaLibraries.add(new StdLibrary());
@@ -42,7 +42,7 @@ public class InterpreterTest {
                 String scriptPart = parts[0];
                 String outputPart = parts[1];
 
-                LCRootExecutor executor = new LCRootExecutor(file.getPath());
+                PostVMRoot executor = new PostVMRoot(file.getPath());
                 lclangParser parser = new lclangParser(new CommonTokenStream(
                         new lclangLexer(CharStreams.fromString(scriptPart))
                 ));
@@ -64,6 +64,7 @@ public class InterpreterTest {
                 endTime = System.nanoTime();
                 long executeTime = endTime - startTime;
 
+                Global.printDebug(System.out);
                 System.out.println("All time: "+(parseTime+executeTime+compileTime)+"ns / "+
                         ((parseTime+executeTime+compileTime)/1000000)+"ms");
                 System.out.println("Execute time: "+executeTime+"ns / "+(executeTime/1000000)+"ms");

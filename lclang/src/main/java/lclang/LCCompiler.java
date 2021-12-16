@@ -1,14 +1,15 @@
 package lclang;
 
-import lclang.exceptions.LCLangRuntimeException;
-import lclang.libs.lang.classes.*;
-import lclang.libs.lang.classes.numbers.DoubleClass;
-import lclang.libs.lang.classes.numbers.IntClass;
-import lclang.libs.lang.classes.numbers.LongClass;
-import lclang.statements.*;
-import lclang.statements.expressions.*;
-import lclang.utils.Utils;
 import org.antlr.v4.runtime.tree.ParseTree;
+import postvm.PostVMRoot;
+import postvm.Utils;
+import postvm.exceptions.LCLangRuntimeException;
+import postvm.library.classes.*;
+import postvm.library.classes.numbers.DoubleClass;
+import postvm.library.classes.numbers.IntClass;
+import postvm.library.classes.numbers.LongClass;
+import postvm.statements.*;
+import postvm.statements.expressions.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +56,7 @@ public class LCCompiler extends lclangBaseVisitor<Statement> {
 
     @Override
     public ValueExpression visitValue(lclangParser.ValueContext ctx) {
-        LCClass lcClass;
+        PostVMClass lcClass;
         String text = ctx.getText();
         if (ctx.STRING() != null)
             lcClass = StringClass.get(Utils.unescapeString(text.substring(1, text.length() - 1)));
@@ -285,14 +286,14 @@ public class LCCompiler extends lclangBaseVisitor<Statement> {
         return args;
     }
 
-    public void fillFile(LCRootExecutor root, lclangParser.FileContext ctx) throws LCLangRuntimeException {
+    public void fillFile(PostVMRoot root, lclangParser.FileContext ctx) throws LCLangRuntimeException {
         root.globals.put("null", NullClass.instance);
 
-        List<LCRootExecutor> libraries = new ArrayList<>();
+        List<PostVMRoot> libraries = new ArrayList<>();
         libraries.addAll(Global.libraries);
         libraries.addAll(Global.javaLibraries);
 
-        for (LCRootExecutor library: libraries) {
+        for (PostVMRoot library: libraries) {
             root.accept(library);
         }
 

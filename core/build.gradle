@@ -1,7 +1,0 @@
-plugins {}
-
-group 'lclang'
-
-repositories {
-    mavenCentral()
-}

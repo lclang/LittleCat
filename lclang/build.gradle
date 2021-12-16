@@ -21,6 +21,9 @@ repositories {
 dependencies {
     antlr 'org.antlr:antlr4:4.9.3'
     implementation 'com.github.albfernandez:juniversalchardet:2.4.0'
+    implementation project(':postvm')
+    implementation project(':stdlib')
+    implementation project(':reflection-library')
 
     testImplementation(platform('org.junit:junit-bom:5.7.2'))
     testImplementation('org.junit.jupiter:junit-jupiter:5.8.1')
@@ -59,12 +62,18 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 
 task createProperties(dependsOn: processResources) {
     doLast {
-        new File("$buildDir/resources/main/build.properties").withWriter { w ->
+        def file = new File("$buildDir/resources/main/build.properties")
+        file.withReader { r ->
             Properties p = new Properties()
+            p.load(r)
             p.put("version", project.version.toString())
             p.put("buildTime", new Date().format('yyyyMMdd'))
-            p.store w, null
+
+            file.withWriter {
+                p.store it, null
+            }
         }
+
     }
 }
 

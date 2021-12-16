@@ -43,7 +43,7 @@
 Section
   CreateDirectory "$INSTDIR"
   CreateDirectory "$INSTDIR\bin"
-  CreateDirectory "$INSTDIR\libs"
+  CreateDirectory "$INSTDIR\postvm.libs"
 
   SetOutPath "$INSTDIR\bin"
   File lclang.jar
@@ -51,8 +51,8 @@ Section
   SetOutPath "$WINDIR"
   File lclang.bat
 
-  SetOutPath "$INSTDIR\libs"
-  File "libs\"
+  SetOutPath "$INSTDIR\postvm.libs"
+  File "postvm.libs\"
 
   nsExec::Exec 'setx LCLANG_HOME "$INSTDIR" /m'
 
@@ -74,8 +74,8 @@ Section "Uninstall"
   RMDir "$INSTDIR\bin"
 
   ;Libs
-  Delete "$INSTDIR\libs\"
-  RMDir "$INSTDIR\libs"
+  Delete "$INSTDIR\postvm.libs\"
+  RMDir "$INSTDIR\postvm.libs"
 
 
   ;Other

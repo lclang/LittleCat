@@ -1,3 +1,6 @@
 rootProject.name = 'lclang'
 include 'lclang'
-include 'core'
+include 'postvm'
+include 'stdlib'
+include 'reflection-library'
+
