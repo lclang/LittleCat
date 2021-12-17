@@ -8,4 +8,4 @@ if defined JAVA_HOME (
 set java_exe="%JAVA_HOME%\bin\java.exe"
 )
 
-%java_exe% -jar -Duser.language=en -Duser.dir="%dir%" -DlibsPath="%LCLANG_HOME%\postvm.libs" "%LCLANG_HOME%\bin\lclang.jar" %*
+%java_exe% -jar -Duser.language=en -Duser.dir="%dir%" -DlibsPath="%LCLANG_HOME%\lclang\libs" "%LCLANG_HOME%\bin\lclang.jar" %*
