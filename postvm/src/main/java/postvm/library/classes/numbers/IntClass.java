@@ -5,7 +5,7 @@ import postvm.library.classes.PostVMClass;
 import postvm.library.classes.StringClass;
 import postvm.types.Type;
 
-public class IntClass extends NumberClass {
+public final class IntClass extends NumberClass {
     public static final String NAME = "int";
     public static final IntClass INSTANCE = new IntClass();
     public static final Type TYPE = INSTANCE.classType;

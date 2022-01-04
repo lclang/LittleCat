@@ -45,7 +45,7 @@ public class InputClass extends LibraryClass {
         {
             try {
                 String line = reader.readLine();
-                if(line==null) return NullClass.instance;
+                if(line==null) return NullClass.INSTANCE;
                 return StringClass.get(line);
             } catch (IOException e) {
                 throw new LCLangIOException(e.getMessage(), caller);

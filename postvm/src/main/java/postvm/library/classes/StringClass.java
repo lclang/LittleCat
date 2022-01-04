@@ -7,10 +7,10 @@ import postvm.types.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StringClass extends LibraryClass {
+public final class StringClass extends LibraryClass {
     public static final String name = "string";
-    public static final StringClass instance = new StringClass();
-    public static final Type type = instance.classType;
+    public static final StringClass INSTANCE = new StringClass();
+    public static final Type type = INSTANCE.classType;
     public String string;
 
     private StringClass() {

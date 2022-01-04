@@ -70,7 +70,7 @@ public class StdLibrary extends Library {
             classes.add(StringClass.get(matcher.group(0)));
             for (int i = 0; i < matcher.groupCount(); i++) {
                 String group = matcher.group(i + 1);
-                PostVMClass clazz = NullClass.instance;
+                PostVMClass clazz = NullClass.INSTANCE;
                 if(group!=null) clazz = StringClass.get(group);
 
                 classes.add(clazz);

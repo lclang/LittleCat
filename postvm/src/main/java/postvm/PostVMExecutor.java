@@ -1,8 +1,8 @@
 package postvm;
 
 import postvm.exceptions.LCLangRuntimeException;
-import postvm.exceptions.LCLangVariableNotFoundException;
 import postvm.library.classes.PostVMClass;
+import postvm.library.classes.VoidClass;
 
 import java.util.HashMap;
 
@@ -32,7 +32,7 @@ public class PostVMExecutor {
             public PostVMClass get(Caller caller) throws LCLangRuntimeException {
                 PostVMClass clazz = getVariableClass(caller, name);
                 if(clazz!=null) return clazz;
-                throw new LCLangVariableNotFoundException(name, caller);
+                return VoidClass.INSTANCE;
             }
 
             @Override

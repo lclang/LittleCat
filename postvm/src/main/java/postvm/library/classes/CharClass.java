@@ -5,10 +5,10 @@ import postvm.library.classes.numbers.IntClass;
 import postvm.library.classes.numbers.NumberClass;
 import postvm.types.Type;
 
-public class CharClass extends LibraryClass {
+public final class CharClass extends LibraryClass {
     public static final String name =  "char";
-    public static final CharClass instance = new CharClass();
-    public static final Type type = instance.classType;
+    public static final CharClass INSTANCE = new CharClass();
+    public static final Type type = INSTANCE.classType;
     public char value;
 
     private CharClass() {

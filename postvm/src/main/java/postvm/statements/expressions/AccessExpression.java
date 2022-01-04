@@ -22,7 +22,7 @@ public class AccessExpression extends Expression {
     public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
         Caller caller = getCaller(prevCaller);
         PostVMClass clazz = expression.visit(caller, visitor).get(caller);
-        if(clazz==NullClass.instance) throw new LCLangNullPointerException(caller);
+        if(clazz==NullClass.INSTANCE) throw new LCLangNullPointerException(caller);
 
         return variable.visit(caller, clazz.executor);
     }

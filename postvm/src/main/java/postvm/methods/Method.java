@@ -11,8 +11,8 @@ import java.util.List;
 
 public class Method extends PostVMClass {
     public static final String name = "callable";
-    public static final Method instance = new Method();
-    public static final Type type = instance.classType;
+    public static final Method INSTANCE = new Method();
+    public static final Type type = INSTANCE.classType;
 
     public List<Type> args;
     public Type returnType;
@@ -29,7 +29,7 @@ public class Method extends PostVMClass {
     }
 
     public PostVMClass call(Caller caller, List<PostVMClass> args) throws LCLangRuntimeException {
-        return NullClass.instance;
+        return NullClass.INSTANCE;
     }
 
     @Override

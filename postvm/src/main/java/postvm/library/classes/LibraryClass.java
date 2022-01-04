@@ -16,7 +16,6 @@ public abstract class LibraryClass extends PostVMClass {
         super(name);
     }
 
-    @Deprecated
     public Method voidMethod(VoidMethod2<Caller, List<PostVMClass>> body, Type... args) {
         List<Type> arguments = Arrays.asList(args);
 
@@ -28,12 +27,11 @@ public abstract class LibraryClass extends PostVMClass {
                         args
                 );
 
-                return VoidClass.instance;
+                return VoidClass.INSTANCE;
             }
         };
     }
 
-    @Deprecated
     public Method method(Function2<Caller, List<PostVMClass>, PostVMClass> body, Type... args) {
         Type returnType = args[args.length-1];
         List<Type> arguments = new ArrayList<>(Arrays.asList(args));

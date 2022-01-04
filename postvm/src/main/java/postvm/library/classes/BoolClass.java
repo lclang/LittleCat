@@ -2,10 +2,10 @@ package postvm.library.classes;
 
 import postvm.types.Type;
 
-public class BoolClass extends LibraryClass {
+public final class BoolClass extends LibraryClass {
     public static final String name = "bool";
-    public static final BoolClass instance = new BoolClass();
-    public static final Type type = instance.classType;
+    public static final BoolClass INSTANCE = new BoolClass();
+    public static final Type type = INSTANCE.classType;
     public static final BoolClass TRUE = new BoolClass(true);
     public static final BoolClass FALSE = new BoolClass(false);
 

@@ -5,7 +5,7 @@ import postvm.library.classes.PostVMClass;
 import postvm.library.classes.StringClass;
 import postvm.types.Type;
 
-public class LongClass extends NumberClass {
+public final class LongClass extends NumberClass {
     public static final String NAME = "long";
     public static final LongClass INSTANCE = new LongClass();
     public static final Type TYPE = INSTANCE.classType;

@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ArrayClass extends LibraryClass {
+public final class ArrayClass extends LibraryClass {
     public static final String name = "array";
-    public static final ArrayClass instance = new ArrayClass();
-    public static final Type type = instance.classType;
+    public static final ArrayClass INSTANCE = new ArrayClass();
+    public static final Type type = INSTANCE.classType;
 
     public List<PostVMClass> value;
     private ArrayClass() {
@@ -25,7 +25,7 @@ public class ArrayClass extends LibraryClass {
     public PostVMClass get(int index) {
         return value.size() > index && index >= 0 ?
                 value.get(index)
-                : NullClass.instance;
+                : NullClass.INSTANCE;
     }
 
     public void add(PostVMClass clazz) {
@@ -48,6 +48,8 @@ public class ArrayClass extends LibraryClass {
         value = list;
 
         globals.put("add", voidMethod((caller, args) -> add(args.get(0)), PostVMClass.OBJECT_TYPE));
+        globals.put("get", method((caller, args) -> get(args.get(0).cast(IntClass.class).value.intValue()),
+                IntClass.TYPE, PostVMClass.OBJECT_TYPE));
         globals.put("size", method((caller, args) -> IntClass.get(value.size()), IntClass.TYPE));
         globals.put("last", method((caller, args) -> last(), PostVMClass.OBJECT_TYPE));
         globals.put("remove", method((caller, args) -> BoolClass.get(list.remove(args.get(0))),
@@ -70,7 +72,7 @@ public class ArrayClass extends LibraryClass {
                 }
             }
 
-            return NullClass.instance;
+            return NullClass.INSTANCE;
         }, CallableType.get(PostVMClass.OBJECT_TYPE, BoolClass.type), PostVMClass.OBJECT_TYPE));
 
         globals.put("forEach", voidMethod((caller, args) -> {

@@ -6,11 +6,11 @@ import postvm.exceptions.LCLangRuntimeException;
 import postvm.exceptions.LCLangTypeErrorException;
 import postvm.types.Type;
 
-public class VoidClass extends LibraryClass {
+public final class VoidClass extends LibraryClass {
     public static final String name = "void";
-    public static final VoidClass instance = new VoidClass();
-    public static final Type type = instance.classType;
-    public static final Link value = instance.createLink();
+    public static final VoidClass INSTANCE = new VoidClass();
+    public static final Type type = INSTANCE.classType;
+    public static final Link value = INSTANCE.createLink();
 
     private VoidClass() {
         super(name);
@@ -18,7 +18,7 @@ public class VoidClass extends LibraryClass {
 
     @Override
     public PostVMClass getVariableClass(Caller caller, String name) throws LCLangRuntimeException {
-        throw new LCLangTypeErrorException("void", caller);
+        throw new LCLangTypeErrorException("Class is void", caller);
     }
 
     @Override

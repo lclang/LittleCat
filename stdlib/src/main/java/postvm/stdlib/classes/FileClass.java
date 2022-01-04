@@ -47,7 +47,7 @@ public class FileClass extends LibraryClass {
             try {
                 return new InputClass(new FileInputStream(file));
             } catch (FileNotFoundException e) {
-                return NullClass.instance;
+                return NullClass.INSTANCE;
             }
         }, InputClass.type.nullable()));
 
@@ -55,7 +55,7 @@ public class FileClass extends LibraryClass {
             try {
                 return new OutputClass(new FileOutputStream(file));
             } catch (FileNotFoundException e) {
-                return NullClass.instance;
+                return NullClass.INSTANCE;
             }
         }, OutputClass.type.nullable()));
 

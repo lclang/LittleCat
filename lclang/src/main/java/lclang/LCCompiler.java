@@ -287,7 +287,7 @@ public class LCCompiler extends lclangBaseVisitor<Statement> {
     }
 
     public void fillFile(PostVMRoot root, lclangParser.FileContext ctx) throws LCLangRuntimeException {
-        root.globals.put("null", NullClass.instance);
+        root.globals.put("null", NullClass.INSTANCE);
 
         List<PostVMRoot> libraries = new ArrayList<>();
         libraries.addAll(Global.libraries);

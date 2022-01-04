@@ -5,7 +5,7 @@ import postvm.library.classes.PostVMClass;
 import postvm.library.classes.StringClass;
 import postvm.types.Type;
 
-public class DoubleClass extends NumberClass {
+public final class DoubleClass extends NumberClass {
     public static final String NAME = "double";
     public static final DoubleClass INSTANCE = new DoubleClass();
     public static final Type TYPE = INSTANCE.classType;

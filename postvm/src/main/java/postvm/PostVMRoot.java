@@ -25,9 +25,7 @@ public class PostVMRoot {
     }
 
     public PostVMClass getVariableClass(Caller caller, String name) throws LCLangRuntimeException {
-        PostVMClass clazz = globals.getOrDefault(name, null);
-        if(clazz==null) return executor.getVariableClass(caller, name);
-        return clazz;
+        return globals.getOrDefault(name, null);
     }
 
     public PostVMClass execute() throws LCLangRuntimeException {
@@ -40,6 +38,6 @@ public class PostVMRoot {
                 return clazz;
         }
 
-        return NullClass.instance;
+        return NullClass.INSTANCE;
     }
 }
