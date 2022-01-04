@@ -12,5 +12,7 @@ gradle-app.setting
 test.lcat
 gradle.properties
 
-/lclang/build
-/postvm/build
+/lclang/build/
+/stdlib/build/
+/reflection-library/build/
+/postvm/build/
