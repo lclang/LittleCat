@@ -11,6 +11,7 @@ import postvm.methods.Method;
 public final class LangLibrary extends Library {
     public LangLibrary() {
         super("lang");
+
         classes.put("any", PostVMClass.OBJECT_INSTANCE);
         classes.put("object", PostVMClass.OBJECT_INSTANCE);
         classes.put("array", ArrayClass.INSTANCE);

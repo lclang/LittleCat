@@ -1,14 +1,16 @@
 package postvm.library.classes.numbers;
 
 import postvm.CacheManager;
+import postvm.library.classes.LibraryClass;
 import postvm.library.classes.PostVMClass;
 import postvm.library.classes.StringClass;
 import postvm.types.Type;
 
-public final class DoubleClass extends NumberClass {
+public final class DoubleClass extends LibraryClass {
     public static final String NAME = "double";
     public static final DoubleClass INSTANCE = new DoubleClass();
     public static final Type TYPE = INSTANCE.classType;
+    public double value;
 
     private DoubleClass() {
         super(NAME);
@@ -19,10 +21,21 @@ public final class DoubleClass extends NumberClass {
     private DoubleClass(double value) {
         super(NAME);
         this.value = value;
-        globals.put("toString", method((caller, lcClasses) -> StringClass.get(String.valueOf(value)),
-                StringClass.type));
-        globals.put("toHex", method((caller, lcClasses) -> StringClass.get(Double.toHexString(value)),
-                StringClass.type));
+        this.extendsClass = new NumberClass(value);
+    }
+
+    @Override
+    public PostVMClass loadGlobal(String target) {
+        switch (target) {
+            case "toBinary": return method((caller, lcClasses) ->
+                            StringClass.get(Long.toBinaryString((long) value)),
+                    StringClass.type);
+            case "toHex": return method((caller, lcClasses) ->
+                            StringClass.get(Double.toHexString(value)),
+                    StringClass.type);
+        }
+
+        return super.loadGlobal(target);
     }
 
     public static DoubleClass get(double value) {

@@ -1,14 +1,16 @@
 package postvm.library.classes.numbers;
 
 import postvm.CacheManager;
+import postvm.library.classes.LibraryClass;
 import postvm.library.classes.PostVMClass;
 import postvm.library.classes.StringClass;
 import postvm.types.Type;
 
-public final class IntClass extends NumberClass {
+public final class IntClass extends LibraryClass {
     public static final String NAME = "int";
     public static final IntClass INSTANCE = new IntClass();
     public static final Type TYPE = INSTANCE.classType;
+    public int value;
 
     private IntClass() {
         super(NAME);
@@ -19,10 +21,18 @@ public final class IntClass extends NumberClass {
     private IntClass(int value) {
         super(NAME);
         this.value = value;
-        globals.put("toString", method((caller, lcClasses) -> StringClass.get(String.valueOf(value)),
-                StringClass.type));
-        globals.put("toBinary", method((caller, lcClasses) -> StringClass.get(Integer.toBinaryString(value)),
-                StringClass.type));
+        extendsClass = new NumberClass(value);
+    }
+
+    @Override
+    public PostVMClass loadGlobal(String target) {
+        switch (target) {
+            case "toBinary": return method((caller, lcClasses) ->
+                            StringClass.get(Integer.toBinaryString(value)),
+                    StringClass.type);
+        }
+
+        return super.loadGlobal(target);
     }
 
     public static IntClass get(int value) {

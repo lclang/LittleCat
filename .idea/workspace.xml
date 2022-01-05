@@ -4,34 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb2edc7a-653c-417d-86ce-2db3142e1174" name="Changes" comment="ignore build dirs">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="eb2edc7a-653c-417d-86ce-2db3142e1174" name="Changes" comment="For statement">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/libs/streams.lcat" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/libs/streams.lcat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/libs/url.lcat" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/libs/url.lcat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclang.interp" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclang.interp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangLexer.interp" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangLexer.interp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/gen/lclang/lclangParser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/LCCompiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/LCCompiler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/PostVMExecutor$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/PostVMExecutor$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/PostVMRoot.class" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/PostVMRoot.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/LangLibrary.class" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/LangLibrary.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/ArrayClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/ArrayClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/BoolClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/BoolClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/CharClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/CharClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/LibraryClass$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/LibraryClass$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/LibraryClass$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/LibraryClass$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/LibraryClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/LibraryClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/NullClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/NullClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/StringClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/StringClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/VoidClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/VoidClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/numbers/DoubleClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/numbers/DoubleClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/numbers/IntClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/numbers/IntClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/numbers/LongClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/library/classes/numbers/LongClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/methods/Method.class" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/methods/Method.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/AccessExpression.class" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/AccessExpression.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/ArrayExpression$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/ArrayExpression$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/BinaryOperationExpression.class" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/BinaryOperationExpression.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/StopExpression$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/StopExpression$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/UnaryOperationExpression$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/statements/expressions/UnaryOperationExpression$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/types/CallableType.class" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/build/classes/java/main/postvm/types/CallableType.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postvm/build/libs/postvm.jar" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/build/libs/postvm.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postvm/build/tmp/compileJava/source-classes-mapping.txt" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/build/tmp/compileJava/source-classes-mapping.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/main/java/lclang/lclang.g4" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/main/java/lclang/lclang.g4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/test/java/lclang/InterpreterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/test/java/lclang/InterpreterTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lclang/src/test/java/postvm/libs/TestLibrary.java" beforeDir="false" afterPath="$PROJECT_DIR$/lclang/src/test/java/postvm/libs/TestLibrary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/Caller.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/Caller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/PostVMExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/PostVMExecutor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/PostVMRoot.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/PostVMRoot.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/LangLibrary.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/LangLibrary.java" afterDir="false" />
@@ -39,24 +24,37 @@
       <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/BoolClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/BoolClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/CharClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/CharClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/LibraryClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/LibraryClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/NullClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/NullClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/PostVMClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/PostVMClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/StringClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/StringClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/VoidClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/VoidClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/numbers/DoubleClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/numbers/DoubleClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/numbers/IntClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/numbers/IntClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/numbers/LongClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/numbers/LongClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/numbers/NumberClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/numbers/NumberClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/methods/Method.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/methods/Method.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/AccessExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/AccessExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/methods/MethodImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/methods/MethodImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/BlockStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/BlockStatement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/CallableTypeStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/CallableTypeStatement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/ClassStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/ClassStatement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/IfStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/IfStatement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/MagicTypeStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/MagicTypeStatement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/MethodStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/MethodStatement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/NamedTypeStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/NamedTypeStatement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/TypeStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/TypeStatement.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/BinaryOperationExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/BinaryOperationExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/ContainerExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/ContainerExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/GetClassConstructorExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/GetClassConstructorExpression.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/StopExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/StopExpression.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/types/CallableType.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/types/CallableType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stdlib/build/classes/java/main/postvm/stdlib/StdLibrary.class" beforeDir="false" afterPath="$PROJECT_DIR$/stdlib/build/classes/java/main/postvm/stdlib/StdLibrary.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stdlib/build/classes/java/main/postvm/stdlib/classes/FileClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/stdlib/build/classes/java/main/postvm/stdlib/classes/FileClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stdlib/build/classes/java/main/postvm/stdlib/classes/InputClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/stdlib/build/classes/java/main/postvm/stdlib/classes/InputClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stdlib/build/libs/stdlib-0.1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/stdlib/build/libs/stdlib-0.1.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/UnaryOperationExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/UnaryOperationExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reflection-library/src/main/java/postvm/reflection/ReflectionLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/reflection-library/src/main/java/postvm/reflection/ReflectionLink.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/stdlib/src/main/java/postvm/stdlib/StdLibrary.java" beforeDir="false" afterPath="$PROJECT_DIR$/stdlib/src/main/java/postvm/stdlib/StdLibrary.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/stdlib/src/main/java/postvm/stdlib/classes/FileClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/stdlib/src/main/java/postvm/stdlib/classes/FileClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/stdlib/src/main/java/postvm/stdlib/classes/InputClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/stdlib/src/main/java/postvm/stdlib/classes/InputClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stdlib/src/main/java/postvm/stdlib/classes/MathClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/stdlib/src/main/java/postvm/stdlib/classes/MathClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stdlib/src/main/java/postvm/stdlib/classes/OutputClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/stdlib/src/main/java/postvm/stdlib/classes/OutputClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stdlib/src/main/java/postvm/stdlib/classes/SSLSocketClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/stdlib/src/main/java/postvm/stdlib/classes/SSLSocketClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stdlib/src/main/java/postvm/stdlib/classes/SocketClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/stdlib/src/main/java/postvm/stdlib/classes/SocketClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stdlib/src/main/java/postvm/stdlib/classes/SocketServerClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/stdlib/src/main/java/postvm/stdlib/classes/SocketServerClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stdlib/src/main/java/postvm/stdlib/classes/ThreadClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/stdlib/src/main/java/postvm/stdlib/classes/ThreadClass.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -197,7 +195,7 @@
       <recent name="lclang.statements" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.Run lclang tests">
+  <component name="RunManager" selected="Application.Run test file">
     <configuration name="Run CLI" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -355,34 +353,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1628529223618</updated>
-    </task>
-    <task id="LOCAL-00056" summary="Debian package autobuild">
-      <created>1632303802417</created>
-      <option name="number" value="00056" />
-      <option name="presentableId" value="LOCAL-00056" />
-      <option name="project" value="LOCAL" />
-      <updated>1632303802418</updated>
-    </task>
-    <task id="LOCAL-00057" summary="Debian package autobuild">
-      <created>1632304105821</created>
-      <option name="number" value="00057" />
-      <option name="presentableId" value="LOCAL-00057" />
-      <option name="project" value="LOCAL" />
-      <updated>1632304105821</updated>
-    </task>
-    <task id="LOCAL-00058" summary="Debian package autobuild">
-      <created>1632304443045</created>
-      <option name="number" value="00058" />
-      <option name="presentableId" value="LOCAL-00058" />
-      <option name="project" value="LOCAL" />
-      <updated>1632304443045</updated>
-    </task>
-    <task id="LOCAL-00059" summary="Debian package autobuild">
-      <created>1632305033088</created>
-      <option name="number" value="00059" />
-      <option name="presentableId" value="LOCAL-00059" />
-      <option name="project" value="LOCAL" />
-      <updated>1632305033088</updated>
     </task>
     <task id="LOCAL-00060" summary="Debian package autobuild">
       <created>1632305271778</created>
@@ -699,7 +669,35 @@
       <option name="project" value="LOCAL" />
       <updated>1641309512748</updated>
     </task>
-    <option name="localTasksCounter" value="105" />
+    <task id="LOCAL-00105" summary="ignore build dirs">
+      <created>1641309550260</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
+      <option name="project" value="LOCAL" />
+      <updated>1641309550260</updated>
+    </task>
+    <task id="LOCAL-00106" summary="ignore build dirs">
+      <created>1641309632637</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
+      <option name="project" value="LOCAL" />
+      <updated>1641309632637</updated>
+    </task>
+    <task id="LOCAL-00107" summary="ignore build dirs">
+      <created>1641309677558</created>
+      <option name="number" value="00107" />
+      <option name="presentableId" value="LOCAL-00107" />
+      <option name="project" value="LOCAL" />
+      <updated>1641309677558</updated>
+    </task>
+    <task id="LOCAL-00108" summary="For statement">
+      <created>1641309754939</created>
+      <option name="number" value="00108" />
+      <option name="presentableId" value="LOCAL-00108" />
+      <option name="project" value="LOCAL" />
+      <updated>1641309754939</updated>
+    </task>
+    <option name="localTasksCounter" value="109" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -715,7 +713,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="0.1.2" />
     <MESSAGE value="Support universal charsets" />
     <MESSAGE value="Discord" />
     <MESSAGE value="Precompiler" />
@@ -740,7 +737,8 @@
     <MESSAGE value="lclang -&gt; lclang, postvm, stdlib, reflection-library" />
     <MESSAGE value="NSIS fix" />
     <MESSAGE value="ignore build dirs" />
-    <option name="LAST_COMMIT_MESSAGE" value="ignore build dirs" />
+    <MESSAGE value="For statement" />
+    <option name="LAST_COMMIT_MESSAGE" value="For statement" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -757,89 +755,74 @@
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/numbers/NumberClass.java</url>
-          <line>79</line>
-          <option name="timeStamp" value="44" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/ArrayClass.java</url>
-          <line>61</line>
-          <option name="timeStamp" value="64" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/UnaryOperationExpression.java</url>
-          <line>34</line>
+          <line>33</line>
           <option name="timeStamp" value="65" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/UnaryOperationExpression.java</url>
-          <line>35</line>
+          <line>34</line>
           <option name="timeStamp" value="66" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/UnaryOperationExpression.java</url>
-          <line>38</line>
+          <line>37</line>
           <option name="timeStamp" value="68" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/UnaryOperationExpression.java</url>
-          <line>36</line>
+          <line>35</line>
           <option name="timeStamp" value="69" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/WhileStatement.java</url>
-          <line>25</line>
-          <option name="timeStamp" value="76" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/WhileStatement.java</url>
-          <line>24</line>
-          <option name="timeStamp" value="77" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/BlockStatement.java</url>
-          <line>19</line>
-          <option name="timeStamp" value="78" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/BlockStatement.java</url>
-          <line>20</line>
-          <option name="timeStamp" value="79" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/BlockStatement.java</url>
-          <line>21</line>
-          <option name="timeStamp" value="80" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/BlockStatement.java</url>
-          <line>23</line>
-          <option name="timeStamp" value="81" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/UnaryOperationExpression.java</url>
-          <line>65</line>
+          <line>64</line>
           <option name="timeStamp" value="82" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/UnaryOperationExpression.java</url>
-          <line>66</line>
+          <line>65</line>
           <option name="timeStamp" value="83" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/UnaryOperationExpression.java</url>
-          <line>52</line>
+          <line>51</line>
           <option name="timeStamp" value="84" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/UnaryOperationExpression.java</url>
-          <line>53</line>
+          <line>52</line>
           <option name="timeStamp" value="85" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/UnaryOperationExpression.java</url>
-          <line>51</line>
+          <line>50</line>
           <option name="timeStamp" value="86" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/NamedTypeStatement.java</url>
+          <line>24</line>
+          <option name="timeStamp" value="88" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/CallExpression.java</url>
+          <line>31</line>
+          <option name="timeStamp" value="89" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/library/classes/numbers/NumberClass.java</url>
+          <line>26</line>
+          <option name="timeStamp" value="114" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/WhileStatement.java</url>
+          <line>29</line>
+          <option name="timeStamp" value="123" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/postvm/src/main/java/postvm/statements/expressions/GetClassConstructorExpression.java</url>
+          <line>28</line>
+          <option name="timeStamp" value="124" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

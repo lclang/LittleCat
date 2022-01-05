@@ -2,6 +2,7 @@ package postvm.methods;
 
 import postvm.Caller;
 import postvm.exceptions.LCLangRuntimeException;
+import postvm.library.classes.ArrayClass;
 import postvm.library.classes.NullClass;
 import postvm.library.classes.PostVMClass;
 import postvm.types.CallableType;
@@ -26,6 +27,16 @@ public class Method extends PostVMClass {
         this.args = args;
         this.returnType = returnType;
         this.classType = new CallableType(args, returnType);
+    }
+
+    @Override
+    public PostVMClass loadGlobal(String target) {
+        switch (target) {
+            case "call": return method((caller, args) -> call(caller, args.get(0)
+                    .cast(ArrayClass.class).value), ArrayClass.type, PostVMClass.OBJECT_TYPE);
+        }
+
+        return super.loadGlobal(target);
     }
 
     public PostVMClass call(Caller caller, List<PostVMClass> args) throws LCLangRuntimeException {

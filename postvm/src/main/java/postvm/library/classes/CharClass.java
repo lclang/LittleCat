@@ -18,16 +18,23 @@ public final class CharClass extends LibraryClass {
     }
 
     private CharClass(char value) {
-        this();
+        super(name);
         this.value = value;
-        globals.put("toString", method((caller, lcClasses) -> StringClass.get(String.valueOf(value)),
-                StringClass.type));
-        globals.put("toInt", method((caller, lcClasses) -> IntClass.get(value),
-                IntClass.TYPE));
-        globals.put("upper", method((caller, lcClasses) -> CharClass.get(Character.toUpperCase(value)),
-                type));
-        globals.put("lower", method((caller, lcClasses) -> CharClass.get(Character.toLowerCase(value)),
-                type));
+    }
+
+    @Override
+    public PostVMClass loadGlobal(String target) {
+        switch (target) {
+            case "toString": return method((caller, lcClasses) -> StringClass.get(String.valueOf(value)),
+                    StringClass.type);
+            case "toInt": return method((caller, lcClasses) -> IntClass.get(value),
+                    IntClass.TYPE);
+            case "upper": return method((caller, lcClasses) -> CharClass.get(Character.toUpperCase(value)),
+                    type);
+            case "lower": return method((caller, lcClasses) -> CharClass.get(Character.toLowerCase(value)),
+                    type);
+        }
+        return super.loadGlobal(target);
     }
 
     public static CharClass get(char value) {

@@ -1,10 +1,7 @@
 package postvm.stdlib.classes;
 
 import postvm.exceptions.LCLangIOException;
-import postvm.library.classes.BoolClass;
-import postvm.library.classes.LibraryClass;
-import postvm.library.classes.NullClass;
-import postvm.library.classes.StringClass;
+import postvm.library.classes.*;
 import postvm.library.classes.numbers.DoubleClass;
 import postvm.library.classes.numbers.IntClass;
 import postvm.methods.Method;
@@ -30,8 +27,7 @@ public class InputClass extends LibraryClass {
             return new InputClass(new InputStream() {
                 @Override
                 public int read() {
-                    return method.call(caller, Collections.emptyList()).cast(IntClass.class).value
-                            .intValue();
+                    return method.call(caller, Collections.emptyList()).cast(IntClass.class).value;
                 }
             });
         }, CallableType.get(IntClass.TYPE), type);
@@ -41,41 +37,49 @@ public class InputClass extends LibraryClass {
         this();
 
         reader = new BufferedReader(new InputStreamReader(input));
-        globals.put("readLine", method((caller, lcClasses) ->
-        {
-            try {
-                String line = reader.readLine();
-                if(line==null) return NullClass.INSTANCE;
-                return StringClass.get(line);
-            } catch (IOException e) {
-                throw new LCLangIOException(e.getMessage(), caller);
-            }
-        }, StringClass.type));
+    }
 
-        globals.put("ready", method((caller, lcClasses) ->
-        {
-            try {
-                return BoolClass.get(reader.ready());
-            } catch (IOException e) {
-                throw new LCLangIOException(e.getMessage(), caller);
-            }
-        }, DoubleClass.TYPE));
+    @Override
+    public PostVMClass loadGlobal(String target) {
+        switch (target) {
+            case "ready":
+                return method((caller, lcClasses) -> {
+                    try {
+                        return BoolClass.get(reader.ready());
+                    } catch (IOException e) {
+                        throw new LCLangIOException(e.getMessage(), caller);
+                    }
+                }, DoubleClass.TYPE);
 
-        globals.put("read", method((caller, lcClasses) ->
-        {
-            try {
-                return IntClass.get(reader.read());
-            } catch (IOException e) {
-                throw new LCLangIOException(e.getMessage(), caller);
-            }
-        }, IntClass.TYPE));
+            case "read":
+                return method((caller, lcClasses) -> {
+                    try {
+                        return IntClass.get(reader.read());
+                    } catch (IOException e) {
+                        throw new LCLangIOException(e.getMessage(), caller);
+                    }
+                }, IntClass.TYPE);
 
-        globals.put("close", voidMethod((caller, lcClasses) -> {
-            try {
-                reader.close();
-            } catch (IOException e) {
-                throw new LCLangIOException(e.getMessage(), caller);
-            }
-        }));
+            case "readLine":
+                return method((caller, lcClasses) -> {
+                    try {
+                        String line = reader.readLine();
+                        if (line == null) return NullClass.INSTANCE;
+                        return StringClass.get(line);
+                    } catch (IOException e) {
+                        throw new LCLangIOException(e.getMessage(), caller);
+                    }
+                }, StringClass.type);
+
+            case "close":
+                return voidMethod((caller, lcClasses) -> {
+                    try {
+                        reader.close();
+                    } catch (IOException e) {
+                        throw new LCLangIOException(e.getMessage(), caller);
+                    }
+                });
+        }
+        return super.loadGlobal(target);
     }
 }

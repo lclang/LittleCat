@@ -1,7 +1,7 @@
 package postvm.statements;
 
-import postvm.PostVMRoot;
 import postvm.exceptions.LCLangClassNotFoundException;
+import postvm.library.classes.PostVMClass;
 import postvm.types.Type;
 
 public class NamedTypeStatement extends TypeStatement {
@@ -13,9 +13,10 @@ public class NamedTypeStatement extends TypeStatement {
     }
 
     @Override
-    public Type toType(PostVMRoot root) throws LCLangClassNotFoundException {
-        if(root.classes.containsKey(name)) {
-            Type type = new Type(root.classes.get(name));
+    public Type toType(PostVMClass root) throws LCLangClassNotFoundException {
+        PostVMClass clazz = root.getClass(name);
+        if(clazz!=null) {
+            Type type = new Type(clazz);
             type.nullable = nullable;
 
             return type;

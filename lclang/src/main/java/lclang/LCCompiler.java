@@ -4,7 +4,10 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import postvm.PostVMRoot;
 import postvm.Utils;
 import postvm.exceptions.LCLangRuntimeException;
-import postvm.library.classes.*;
+import postvm.library.classes.BoolClass;
+import postvm.library.classes.CharClass;
+import postvm.library.classes.PostVMClass;
+import postvm.library.classes.StringClass;
 import postvm.library.classes.numbers.DoubleClass;
 import postvm.library.classes.numbers.IntClass;
 import postvm.library.classes.numbers.LongClass;
@@ -258,6 +261,11 @@ public class LCCompiler extends lclangBaseVisitor<Statement> {
     }
 
     @Override
+    public Expression visitParentnesesExpr(lclangParser.ParentnesesExprContext ctx) {
+        return visitExpression(ctx.expression());
+    }
+
+    @Override
     public Statement visitLambda(lclangParser.LambdaContext ctx) {
         lclangParser.TypeContext returnTypeCtx = ctx.type();
         TypeStatement returnType = MagicTypeStatement.VOID;
@@ -287,15 +295,8 @@ public class LCCompiler extends lclangBaseVisitor<Statement> {
     }
 
     public void fillFile(PostVMRoot root, lclangParser.FileContext ctx) throws LCLangRuntimeException {
-        root.globals.put("null", NullClass.INSTANCE);
-
-        List<PostVMRoot> libraries = new ArrayList<>();
-        libraries.addAll(Global.libraries);
-        libraries.addAll(Global.javaLibraries);
-
-        for (PostVMRoot library: libraries) {
-            root.accept(library);
-        }
+        root.parents.addAll(Global.javaLibraries);
+        root.parents.addAll(Global.libraries);
 
         root.statements.clear();
         List<lclangParser.StmtContext> statementsCtx = ctx.stmt();
@@ -306,7 +307,7 @@ public class LCCompiler extends lclangBaseVisitor<Statement> {
         for(lclangParser.GlobalContext globalContext: globalsCtx)
             root.globals.put(
                     globalContext.ID().getText(),
-                    visitValue(globalContext.value()).value
+                    () -> visitValue(globalContext.value()).value
             );
 
         List<lclangParser.ClassExprContext> classExprContexts = ctx.classExpr();
@@ -314,8 +315,10 @@ public class LCCompiler extends lclangBaseVisitor<Statement> {
             getClass(classExprContext).visit(root);
 
         List<lclangParser.MethodContext> methodContexts = ctx.method();
-        for(lclangParser.MethodContext methodContext: methodContexts)
-            getMethod(methodContext).visit(root, false);
+        for(lclangParser.MethodContext methodContext: methodContexts) {
+            MethodStatement method = getMethod(methodContext);
+            root.globals.put(method.name, () -> method.visit(root, false));
+        }
     }
 
     public ClassStatement getClass(lclangParser.ClassExprContext ctx) {

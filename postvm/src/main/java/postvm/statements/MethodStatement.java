@@ -1,7 +1,7 @@
 package postvm.statements;
 
-import postvm.PostVMRoot;
 import postvm.exceptions.LCLangRuntimeException;
+import postvm.library.classes.PostVMClass;
 import postvm.methods.MethodImpl;
 import postvm.types.Type;
 
@@ -26,17 +26,17 @@ public class MethodStatement {
         this.statement = statement;
     }
 
-    public void visit(PostVMRoot root, boolean importVariables) throws LCLangRuntimeException {
-        root.globals.put(name, new MethodImpl(
+    public MethodImpl visit(PostVMClass root, boolean importVariables) throws LCLangRuntimeException {
+        return new MethodImpl(
                 root.executor,
                 args,
                 returnType.toType(root),
                 statement,
                 importVariables
-        ));
+        );
     }
 
-    public static List<Type> resolveArgs(PostVMRoot root, List<Argument> args) throws LCLangRuntimeException {
+    public static List<Type> resolveArgs(PostVMClass root, List<Argument> args) throws LCLangRuntimeException {
         List<Type> types = new ArrayList<>();
         for(Argument argument: args) types.add(argument.type.toType(root));
         return types;

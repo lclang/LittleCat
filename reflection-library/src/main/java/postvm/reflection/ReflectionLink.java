@@ -19,14 +19,22 @@ public class ReflectionLink extends LibraryClass {
                 .executor.getLink(lcClasses.get(1).toString(caller))), PostVMClass.OBJECT_TYPE, StringClass.type, TYPE);
     }
 
-    public ReflectionLink(Link value) {
+    public ReflectionLink(Link link) {
         this();
 
-        this.link = value;
-        globals.put("type", method((caller, lcClasses) -> StringClass.get(value.get(caller)
-                .classType.toString()), StringClass.type));
-        globals.put("get", method((caller, lcClasses) -> value.get(caller), PostVMClass.OBJECT_TYPE));
-        globals.put("set", voidMethod((caller, lcClasses) ->
-                        value.set(caller, lcClasses.get(0)), PostVMClass.OBJECT_TYPE));
+        this.link = link;
+    }
+
+    @Override
+    public PostVMClass loadGlobal(String target) {
+        switch (target) {
+            case "type": return method((caller, lcClasses) -> StringClass.get(link.get(caller)
+                    .classType.toString()), StringClass.type);
+            case "get": return method((caller, lcClasses) -> link.get(caller), PostVMClass.OBJECT_TYPE);
+            case "set": return voidMethod((caller, lcClasses) ->
+                    link.set(caller, lcClasses.get(0)), PostVMClass.OBJECT_TYPE);
+        }
+
+        return super.loadGlobal(target);
     }
 }

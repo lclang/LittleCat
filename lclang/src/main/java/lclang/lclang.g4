@@ -99,20 +99,20 @@ expression:
     | expression is=IS type
     | expression access=DOT variable
     | expression call=OPEN (expression COMMA)* expression? CLOSE
-    | expression or=OR_BOOL expression
-    | expression and=AND_BOOL expression
-    | expression equals=EQUALS expression
-    | expression notEquals=NOT_EQUALS expression
     | expression less=LESS expression
     | expression larger=LARGER expression
     | expression largerEquals=LARGER_EQUALS expression
     | expression lessEquals=LESS_EQUALS expression
+    | expression equals=EQUALS expression
+    | expression notEquals=NOT_EQUALS expression
+    | expression or=OR_BOOL expression
+    | expression and=AND_BOOL expression
+    | expression assign=ASSIGN expression
     | expression multiplication=MULTIPLICATION expression
     | expression div=DIVISION expression
-    | expression add=ADD expression
-    | expression minus=MINUS expression
     | expression pow=POW expression
-    | expression assign=ASSIGN expression
+    | expression minus=MINUS expression
+    | expression add=ADD expression
     | expression add=ADD assign=ASSIGN expression
     | expression minus=ADD assign=ASSIGN expression
     | expression div=DIVISION assign=ASSIGN expression

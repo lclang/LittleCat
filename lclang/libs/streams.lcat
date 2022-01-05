@@ -6,7 +6,13 @@
 
 method readInput(input: Input): string {
     lines = ""
-    while input.hasNextLine(): lines += input.readLine() + "\r\n"
+    while {
+        line = input.readLine()
+        if line==null: return false
+        lines += line + "\r\n"
+
+        return true
+    }
 
     return lines
 }

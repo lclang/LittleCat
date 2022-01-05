@@ -1,7 +1,7 @@
 package postvm.statements;
 
-import postvm.PostVMRoot;
 import postvm.exceptions.LCLangRuntimeException;
+import postvm.library.classes.PostVMClass;
 import postvm.types.CallableType;
 import postvm.types.Type;
 
@@ -19,7 +19,7 @@ public class CallableTypeStatement extends TypeStatement {
     }
 
     @Override
-    public CallableType toType(PostVMRoot root) throws LCLangRuntimeException {
+    public CallableType toType(PostVMClass root) throws LCLangRuntimeException {
         List<Type> types = new ArrayList<>();
         for (TypeStatement arg: args)
             types.add(arg.toType(root));

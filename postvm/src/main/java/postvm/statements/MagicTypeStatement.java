@@ -1,6 +1,5 @@
 package postvm.statements;
 
-import postvm.PostVMRoot;
 import postvm.library.classes.PostVMClass;
 import postvm.library.classes.VoidClass;
 import postvm.types.Type;
@@ -16,7 +15,7 @@ public class MagicTypeStatement extends TypeStatement {
     }
 
     @Override
-    public Type toType(PostVMRoot root) {
+    public Type toType(PostVMClass root) {
         return type;
     }
 }

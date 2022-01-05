@@ -4,28 +4,26 @@ import postvm.exceptions.LCLangRuntimeException;
 import postvm.library.classes.NullClass;
 import postvm.library.classes.PostVMClass;
 import postvm.statements.Statement;
+import postvm.utils.Function0;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class PostVMRoot {
-    public final String path;
-    public final PostVMExecutor executor = new PostVMExecutor(this);
-    public final HashMap<String, PostVMClass> globals = new HashMap<>();
-    public final HashMap<String, PostVMClass> classes = new HashMap<>();
+public class PostVMRoot extends PostVMClass {
     public final ArrayList<Statement> statements = new ArrayList<>();
+    public final HashMap<String, Function0<PostVMClass>> globals = new HashMap<>();
 
-    public PostVMRoot(String path) {
-        this.path = path;
+    public PostVMRoot(File file) {
+        super("file", file.getAbsolutePath());
     }
 
-    public void accept(PostVMRoot root) {
-        classes.putAll(root.classes);
-        globals.putAll(root.globals);
-    }
+    @Override
+    public PostVMClass loadGlobal(String target) {
+        if(target.equals("null")) return NullClass.INSTANCE;
+        else if(globals.containsKey(target)) return globals.get(target).invoke();
 
-    public PostVMClass getVariableClass(Caller caller, String name) throws LCLangRuntimeException {
-        return globals.getOrDefault(name, null);
+        return super.loadGlobal(target);
     }
 
     public PostVMClass execute() throws LCLangRuntimeException {

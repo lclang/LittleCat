@@ -12,6 +12,7 @@ public class FileClass extends LibraryClass {
     public static final String name = "File";
     public static final FileClass instance = new FileClass();
     public static final Type type = instance.classType;
+    public File file;
 
     private FileClass() {
         super(name);
@@ -21,52 +22,61 @@ public class FileClass extends LibraryClass {
 
     public FileClass(File file) {
         this();
-        globals.put("getName", method((caller, args) -> StringClass.get(file.getName()), StringClass.type));
-        globals.put("getPath", method((caller, args) -> StringClass.get(file.getPath()), StringClass.type));
-        globals.put("getAbsolutePath", method((caller, args) -> StringClass.get(file.getAbsolutePath()), StringClass.type));
-        globals.put("getCanonicalPath", method((caller, args) -> {
-            try {
-                return StringClass.get(file.getCanonicalPath());
-            } catch (IOException e) {
-                throw new LCLangIOException(e.getMessage(), caller);
-            }
-        }, StringClass.type));
-        globals.put("exists",  method((caller, args) -> BoolClass.get(file.exists()), BoolClass.type));
-        globals.put("isDirectory",  method((caller, args) -> BoolClass.get(file.isDirectory()), BoolClass.type));
-        globals.put("isFile", method((caller, args) -> BoolClass.get(file.isFile()), BoolClass.type));
-        globals.put("files", method((caller, args) -> {
-            List<PostVMClass> classList = new ArrayList<>();
-            File[] files = file.listFiles();
-            if(files!=null) for (File child: files)
-                classList.add(new FileClass(child));
+        this.file = file;
+    }
 
-            return new ArrayClass(classList);
-        }, ArrayClass.type));
+    @Override
+    public PostVMClass loadGlobal(String target) {
+        switch (target) {
+            case "name": return StringClass.get(file.getName());
+            case "path": return StringClass.get(file.getPath());
+            case "absolutePath": return StringClass.get(file.getAbsolutePath());
+            case "getCanonicalPath": return method((caller, args) -> {
+                try {
+                    return StringClass.get(file.getCanonicalPath());
+                } catch (IOException e) {
+                    throw new LCLangIOException(e.getMessage(), caller);
+                }
+            }, StringClass.type);
 
-        globals.put("openInput", method((caller, lcClasses) -> {
-            try {
-                return new InputClass(new FileInputStream(file));
-            } catch (FileNotFoundException e) {
-                return NullClass.INSTANCE;
-            }
-        }, InputClass.type.nullable()));
+            case "exists": return method((caller, args) -> BoolClass.get(file.exists()), BoolClass.type);
+            case "isDirectory": return method((caller, args) -> BoolClass.get(file.isDirectory()), BoolClass.type);
+            case "isFile": return method((caller, args) -> BoolClass.get(file.isFile()), BoolClass.type);
+            case "files": return method((caller, args) -> {
+                List<PostVMClass> classList = new ArrayList<>();
+                File[] files = file.listFiles();
+                if(files!=null) for (File child: files)
+                    classList.add(new FileClass(child));
 
-        globals.put("openOutput", method((caller, lcClasses) -> {
-            try {
-                return new OutputClass(new FileOutputStream(file));
-            } catch (FileNotFoundException e) {
-                return NullClass.INSTANCE;
-            }
-        }, OutputClass.type.nullable()));
+                return new ArrayClass(classList);
+            }, ArrayClass.type);
 
-        globals.put("createDir", method((caller, lcClasses) -> BoolClass.get(file.mkdir()), BoolClass.type));
-        globals.put("createDirs", method((caller, lcClasses) -> BoolClass.get(file.mkdirs()), BoolClass.type));
-        globals.put("create", method((caller, lcClasses) -> {
-            try {
-                return BoolClass.get(file.createNewFile());
-            } catch (IOException e) {
-                throw new LCLangIOException(e.getMessage(), caller);
-            }
-        }, BoolClass.type));
+            case "openInput": return method((caller, lcClasses) -> {
+                try {
+                    return new InputClass(new FileInputStream(file));
+                } catch (FileNotFoundException e) {
+                    return NullClass.INSTANCE;
+                }
+            }, InputClass.type.nullable());
+
+            case "openOutput": method((caller, lcClasses) -> {
+                try {
+                    return new OutputClass(new FileOutputStream(file));
+                } catch (FileNotFoundException e) {
+                    return NullClass.INSTANCE;
+                }
+            }, OutputClass.type.nullable());
+
+            case "createDir": return method((caller, lcClasses) -> BoolClass.get(file.mkdir()), BoolClass.type);
+            case "createDirs": return method((caller, lcClasses) -> BoolClass.get(file.mkdirs()), BoolClass.type);
+            case "create": return method((caller, lcClasses) -> {
+                try {
+                    return BoolClass.get(file.createNewFile());
+                } catch (IOException e) {
+                    throw new LCLangIOException(e.getMessage(), caller);
+                }
+            }, BoolClass.type);
+        }
+        return super.loadGlobal(target);
     }
 }

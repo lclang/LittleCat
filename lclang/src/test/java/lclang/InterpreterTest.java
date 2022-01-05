@@ -42,7 +42,7 @@ public class InterpreterTest {
                 String scriptPart = parts[0];
                 String outputPart = parts[1];
 
-                PostVMRoot executor = new PostVMRoot(file.getPath());
+                PostVMRoot executor = new PostVMRoot(file);
                 lclangParser parser = new lclangParser(new CommonTokenStream(
                         new lclangLexer(CharStreams.fromString(scriptPart))
                 ));

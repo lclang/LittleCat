@@ -23,7 +23,7 @@ class URL(scheme  : string,
             return :HTTPConnection(:SSLSocket(hostParts[0] ?: host, :int(hostParts[1] ?: 443)), this)
         }else if scheme=="file": {
             return :FileConnection(:File(path))
-        }
+        }else printError("Current scheme not supported");
 
         return null
     }
@@ -76,7 +76,6 @@ class HTTPConnection(socket: Socket, url: URL) extends Connection {
 class FileConnection(file: File) extends Connection {
     method getOutput(): Output = file.openOutput()
     method getInput(): Input = file.openInput()
-    method connect() {}
 }
 
 class Connection {
@@ -85,10 +84,6 @@ class Connection {
     }
 
     method getInput(): Input {
-        printError("this is abstract class xD")
-    }
-
-    method connect() {
         printError("this is abstract class xD")
     }
 }

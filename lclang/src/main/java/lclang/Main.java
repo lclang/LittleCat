@@ -36,7 +36,7 @@ public class Main {
                         if (fileName.endsWith(".jar")) {
                             loadJarLibrariesFromFile(libraryFile);
                         } else if (fileName.endsWith(".lcat")) {
-                            PostVMRoot executor = new PostVMRoot(fileName);
+                            PostVMRoot executor = new PostVMRoot(libraryFile);
                             try {
                                 executeInput(executor, Utils.readFile(libraryFile,
                                         UniversalDetector.detectCharset(libraryFile)));
@@ -50,7 +50,7 @@ public class Main {
             if(args.length==0) {
                 System.out.println("Little cat "+Global.version+" (Build date: "+Global.buildTime+")");
                 Scanner scanner = new Scanner(System.in);
-                PostVMRoot cliExecutor = new PostVMRoot("cli");
+                PostVMRoot cliExecutor = new PostVMRoot(new File("./cli"));
 
                 System.out.print("> ");
                 while (scanner.hasNextLine()) {
@@ -83,7 +83,7 @@ public class Main {
             }
 
             if(file.length()==0L) return;
-            PostVMRoot executor = new PostVMRoot(file.getPath());
+            PostVMRoot executor = new PostVMRoot(file);
 
             List<PostVMClass> arguments = new ArrayList<>();
             for(String argument: programArgs) arguments.add(StringClass.get(argument));
@@ -91,6 +91,7 @@ public class Main {
             executor.executor.variables.put("args", new ArrayClass(arguments));
             executeInput(executor, Utils.readFile(file, UniversalDetector.detectCharset(file)));
         } catch (RuntimeException e) {
+            e.printStackTrace();
             System.out.println(ERROR_COLOR + e.getMessage() + RESET_COLOR);
             System.exit(1);
         } catch (IOException ignored) {}

@@ -7,10 +7,10 @@ import postvm.library.classes.VoidClass;
 import java.util.HashMap;
 
 public class PostVMExecutor {
-    public final PostVMRoot root;
+    public final PostVMClass root;
     public final HashMap<String, PostVMClass> variables = new HashMap<>();
 
-    public PostVMExecutor(PostVMRoot root) {
+    public PostVMExecutor(PostVMClass root) {
         this.root = root;
     }
 

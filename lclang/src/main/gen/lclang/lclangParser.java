@@ -514,20 +514,20 @@ public class lclangParser extends Parser {
 
 	public static class ExpressionContext extends ParserRuleContext {
 		public Token not;
-		public Token or;
-		public Token and;
-		public Token equals;
-		public Token notEquals;
 		public Token less;
 		public Token larger;
 		public Token largerEquals;
 		public Token lessEquals;
+		public Token equals;
+		public Token notEquals;
+		public Token or;
+		public Token and;
+		public Token assign;
 		public Token multiplication;
 		public Token div;
-		public Token add;
-		public Token minus;
 		public Token pow;
-		public Token assign;
+		public Token minus;
+		public Token add;
 		public Token nullableOr;
 		public Token arrayAccess;
 		public Token is;
@@ -549,20 +549,20 @@ public class lclangParser extends Parser {
 		public PrimitiveContext primitive() {
 			return getRuleContext(PrimitiveContext.class,0);
 		}
-		public TerminalNode OR_BOOL() { return getToken(lclangParser.OR_BOOL, 0); }
-		public TerminalNode AND_BOOL() { return getToken(lclangParser.AND_BOOL, 0); }
-		public TerminalNode EQUALS() { return getToken(lclangParser.EQUALS, 0); }
-		public TerminalNode NOT_EQUALS() { return getToken(lclangParser.NOT_EQUALS, 0); }
 		public TerminalNode LESS() { return getToken(lclangParser.LESS, 0); }
 		public TerminalNode LARGER() { return getToken(lclangParser.LARGER, 0); }
 		public TerminalNode LARGER_EQUALS() { return getToken(lclangParser.LARGER_EQUALS, 0); }
 		public TerminalNode LESS_EQUALS() { return getToken(lclangParser.LESS_EQUALS, 0); }
+		public TerminalNode EQUALS() { return getToken(lclangParser.EQUALS, 0); }
+		public TerminalNode NOT_EQUALS() { return getToken(lclangParser.NOT_EQUALS, 0); }
+		public TerminalNode OR_BOOL() { return getToken(lclangParser.OR_BOOL, 0); }
+		public TerminalNode AND_BOOL() { return getToken(lclangParser.AND_BOOL, 0); }
+		public TerminalNode ASSIGN() { return getToken(lclangParser.ASSIGN, 0); }
 		public TerminalNode MULTIPLICATION() { return getToken(lclangParser.MULTIPLICATION, 0); }
 		public TerminalNode DIVISION() { return getToken(lclangParser.DIVISION, 0); }
-		public TerminalNode ADD() { return getToken(lclangParser.ADD, 0); }
-		public TerminalNode MINUS() { return getToken(lclangParser.MINUS, 0); }
 		public TerminalNode POW() { return getToken(lclangParser.POW, 0); }
-		public TerminalNode ASSIGN() { return getToken(lclangParser.ASSIGN, 0); }
+		public TerminalNode MINUS() { return getToken(lclangParser.MINUS, 0); }
+		public TerminalNode ADD() { return getToken(lclangParser.ADD, 0); }
 		public TerminalNode NULLABLE_OR() { return getToken(lclangParser.NULLABLE_OR, 0); }
 		public TerminalNode CLOSE_BRACKET() { return getToken(lclangParser.CLOSE_BRACKET, 0); }
 		public TerminalNode OPEN_BRACKET() { return getToken(lclangParser.OPEN_BRACKET, 0); }
@@ -672,7 +672,7 @@ public class lclangParser extends Parser {
 						setState(115);
 						if (!(precpred(_ctx, 25))) throw new FailedPredicateException(this, "precpred(_ctx, 25)");
 						setState(116);
-						((ExpressionContext)_localctx).or = match(OR_BOOL);
+						((ExpressionContext)_localctx).less = match(LESS);
 						setState(117);
 						expression(26);
 						}
@@ -684,7 +684,7 @@ public class lclangParser extends Parser {
 						setState(118);
 						if (!(precpred(_ctx, 24))) throw new FailedPredicateException(this, "precpred(_ctx, 24)");
 						setState(119);
-						((ExpressionContext)_localctx).and = match(AND_BOOL);
+						((ExpressionContext)_localctx).larger = match(LARGER);
 						setState(120);
 						expression(25);
 						}
@@ -696,7 +696,7 @@ public class lclangParser extends Parser {
 						setState(121);
 						if (!(precpred(_ctx, 23))) throw new FailedPredicateException(this, "precpred(_ctx, 23)");
 						setState(122);
-						((ExpressionContext)_localctx).equals = match(EQUALS);
+						((ExpressionContext)_localctx).largerEquals = match(LARGER_EQUALS);
 						setState(123);
 						expression(24);
 						}
@@ -708,7 +708,7 @@ public class lclangParser extends Parser {
 						setState(124);
 						if (!(precpred(_ctx, 22))) throw new FailedPredicateException(this, "precpred(_ctx, 22)");
 						setState(125);
-						((ExpressionContext)_localctx).notEquals = match(NOT_EQUALS);
+						((ExpressionContext)_localctx).lessEquals = match(LESS_EQUALS);
 						setState(126);
 						expression(23);
 						}
@@ -720,7 +720,7 @@ public class lclangParser extends Parser {
 						setState(127);
 						if (!(precpred(_ctx, 21))) throw new FailedPredicateException(this, "precpred(_ctx, 21)");
 						setState(128);
-						((ExpressionContext)_localctx).less = match(LESS);
+						((ExpressionContext)_localctx).equals = match(EQUALS);
 						setState(129);
 						expression(22);
 						}
@@ -732,7 +732,7 @@ public class lclangParser extends Parser {
 						setState(130);
 						if (!(precpred(_ctx, 20))) throw new FailedPredicateException(this, "precpred(_ctx, 20)");
 						setState(131);
-						((ExpressionContext)_localctx).larger = match(LARGER);
+						((ExpressionContext)_localctx).notEquals = match(NOT_EQUALS);
 						setState(132);
 						expression(21);
 						}
@@ -744,7 +744,7 @@ public class lclangParser extends Parser {
 						setState(133);
 						if (!(precpred(_ctx, 19))) throw new FailedPredicateException(this, "precpred(_ctx, 19)");
 						setState(134);
-						((ExpressionContext)_localctx).largerEquals = match(LARGER_EQUALS);
+						((ExpressionContext)_localctx).or = match(OR_BOOL);
 						setState(135);
 						expression(20);
 						}
@@ -756,7 +756,7 @@ public class lclangParser extends Parser {
 						setState(136);
 						if (!(precpred(_ctx, 18))) throw new FailedPredicateException(this, "precpred(_ctx, 18)");
 						setState(137);
-						((ExpressionContext)_localctx).lessEquals = match(LESS_EQUALS);
+						((ExpressionContext)_localctx).and = match(AND_BOOL);
 						setState(138);
 						expression(19);
 						}
@@ -768,7 +768,7 @@ public class lclangParser extends Parser {
 						setState(139);
 						if (!(precpred(_ctx, 17))) throw new FailedPredicateException(this, "precpred(_ctx, 17)");
 						setState(140);
-						((ExpressionContext)_localctx).multiplication = match(MULTIPLICATION);
+						((ExpressionContext)_localctx).assign = match(ASSIGN);
 						setState(141);
 						expression(18);
 						}
@@ -780,7 +780,7 @@ public class lclangParser extends Parser {
 						setState(142);
 						if (!(precpred(_ctx, 16))) throw new FailedPredicateException(this, "precpred(_ctx, 16)");
 						setState(143);
-						((ExpressionContext)_localctx).div = match(DIVISION);
+						((ExpressionContext)_localctx).multiplication = match(MULTIPLICATION);
 						setState(144);
 						expression(17);
 						}
@@ -792,7 +792,7 @@ public class lclangParser extends Parser {
 						setState(145);
 						if (!(precpred(_ctx, 15))) throw new FailedPredicateException(this, "precpred(_ctx, 15)");
 						setState(146);
-						((ExpressionContext)_localctx).add = match(ADD);
+						((ExpressionContext)_localctx).div = match(DIVISION);
 						setState(147);
 						expression(16);
 						}
@@ -804,7 +804,7 @@ public class lclangParser extends Parser {
 						setState(148);
 						if (!(precpred(_ctx, 14))) throw new FailedPredicateException(this, "precpred(_ctx, 14)");
 						setState(149);
-						((ExpressionContext)_localctx).minus = match(MINUS);
+						((ExpressionContext)_localctx).pow = match(POW);
 						setState(150);
 						expression(15);
 						}
@@ -816,7 +816,7 @@ public class lclangParser extends Parser {
 						setState(151);
 						if (!(precpred(_ctx, 13))) throw new FailedPredicateException(this, "precpred(_ctx, 13)");
 						setState(152);
-						((ExpressionContext)_localctx).pow = match(POW);
+						((ExpressionContext)_localctx).minus = match(MINUS);
 						setState(153);
 						expression(14);
 						}
@@ -828,7 +828,7 @@ public class lclangParser extends Parser {
 						setState(154);
 						if (!(precpred(_ctx, 12))) throw new FailedPredicateException(this, "precpred(_ctx, 12)");
 						setState(155);
-						((ExpressionContext)_localctx).assign = match(ASSIGN);
+						((ExpressionContext)_localctx).add = match(ADD);
 						setState(156);
 						expression(13);
 						}
@@ -3107,17 +3107,17 @@ public class lclangParser extends Parser {
 		"\2\2de\3\2\2\2ef\3\2\2\2fg\7\6\2\2gh\7\26\2\2hi\5\4\3\2i\7\3\2\2\2jm\7"+
 		"\66\2\2kl\7\27\2\2ln\5\b\5\2mk\3\2\2\2mn\3\2\2\2n\t\3\2\2\2op\b\6\1\2"+
 		"pq\7\35\2\2qt\5\n\6\4rt\5\f\7\2so\3\2\2\2sr\3\2\2\2t\u00d9\3\2\2\2uv\f"+
-		"\33\2\2vw\7\17\2\2w\u00d8\5\n\6\34xy\f\32\2\2yz\7\16\2\2z\u00d8\5\n\6"+
-		"\33{|\f\31\2\2|}\7\f\2\2}\u00d8\5\n\6\32~\177\f\30\2\2\177\u0080\7\r\2"+
-		"\2\u0080\u00d8\5\n\6\31\u0081\u0082\f\27\2\2\u0082\u0083\7\36\2\2\u0083"+
-		"\u00d8\5\n\6\30\u0084\u0085\f\26\2\2\u0085\u0086\7\37\2\2\u0086\u00d8"+
-		"\5\n\6\27\u0087\u0088\f\25\2\2\u0088\u0089\7\21\2\2\u0089\u00d8\5\n\6"+
-		"\26\u008a\u008b\f\24\2\2\u008b\u008c\7\20\2\2\u008c\u00d8\5\n\6\25\u008d"+
-		"\u008e\f\23\2\2\u008e\u008f\7 \2\2\u008f\u00d8\5\n\6\24\u0090\u0091\f"+
-		"\22\2\2\u0091\u0092\7!\2\2\u0092\u00d8\5\n\6\23\u0093\u0094\f\21\2\2\u0094"+
-		"\u0095\7\"\2\2\u0095\u00d8\5\n\6\22\u0096\u0097\f\20\2\2\u0097\u0098\7"+
-		"#\2\2\u0098\u00d8\5\n\6\21\u0099\u009a\f\17\2\2\u009a\u009b\7\13\2\2\u009b"+
-		"\u00d8\5\n\6\20\u009c\u009d\f\16\2\2\u009d\u009e\7\32\2\2\u009e\u00d8"+
+		"\33\2\2vw\7\36\2\2w\u00d8\5\n\6\34xy\f\32\2\2yz\7\37\2\2z\u00d8\5\n\6"+
+		"\33{|\f\31\2\2|}\7\21\2\2}\u00d8\5\n\6\32~\177\f\30\2\2\177\u0080\7\20"+
+		"\2\2\u0080\u00d8\5\n\6\31\u0081\u0082\f\27\2\2\u0082\u0083\7\f\2\2\u0083"+
+		"\u00d8\5\n\6\30\u0084\u0085\f\26\2\2\u0085\u0086\7\r\2\2\u0086\u00d8\5"+
+		"\n\6\27\u0087\u0088\f\25\2\2\u0088\u0089\7\17\2\2\u0089\u00d8\5\n\6\26"+
+		"\u008a\u008b\f\24\2\2\u008b\u008c\7\16\2\2\u008c\u00d8\5\n\6\25\u008d"+
+		"\u008e\f\23\2\2\u008e\u008f\7\32\2\2\u008f\u00d8\5\n\6\24\u0090\u0091"+
+		"\f\22\2\2\u0091\u0092\7 \2\2\u0092\u00d8\5\n\6\23\u0093\u0094\f\21\2\2"+
+		"\u0094\u0095\7!\2\2\u0095\u00d8\5\n\6\22\u0096\u0097\f\20\2\2\u0097\u0098"+
+		"\7\13\2\2\u0098\u00d8\5\n\6\21\u0099\u009a\f\17\2\2\u009a\u009b\7#\2\2"+
+		"\u009b\u00d8\5\n\6\20\u009c\u009d\f\16\2\2\u009d\u009e\7\"\2\2\u009e\u00d8"+
 		"\5\n\6\17\u009f\u00a0\f\r\2\2\u00a0\u00a1\7\"\2\2\u00a1\u00a2\7\32\2\2"+
 		"\u00a2\u00d8\5\n\6\16\u00a3\u00a4\f\f\2\2\u00a4\u00a5\7\"\2\2\u00a5\u00a6"+
 		"\7\32\2\2\u00a6\u00d8\5\n\6\r\u00a7\u00a8\f\13\2\2\u00a8\u00a9\7!\2\2"+

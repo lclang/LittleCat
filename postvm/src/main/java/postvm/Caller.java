@@ -1,21 +1,23 @@
 package postvm;
 
+import postvm.library.classes.PostVMClass;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Caller {
-    public final PostVMRoot root;
+    public PostVMClass root;
     public final int line;
     public final Caller prevCaller;
 
-    public Caller(PostVMRoot root, int line, Caller prevCaller) {
+    public Caller(PostVMClass root, int line, Caller prevCaller) {
         this.root = root;
         this.line = line;
         this.prevCaller = prevCaller;
     }
 
-    public Caller(PostVMRoot root, int line) {
+    public Caller(PostVMClass root, int line) {
         this(root, line, null);
     }
 

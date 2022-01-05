@@ -26,12 +26,8 @@ public class IfStatement extends Statement {
         PostVMClass cond = condition.visit(prevCaller, visitor).get(prevCaller);
         if(cond!=BoolClass.FALSE) {
             return ifTrue.visit(prevCaller, visitor);
-        }
-
-        if(ifFalse!=null){
+        }else if(ifFalse!=null){
             return ifFalse.visit(prevCaller, visitor);
-        }
-
-        return VoidClass.value;
+        }else return VoidClass.value;
     }
 }

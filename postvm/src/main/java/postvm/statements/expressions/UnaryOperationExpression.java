@@ -9,7 +9,6 @@ import postvm.exceptions.LCLangTypeErrorException;
 import postvm.library.classes.ArrayClass;
 import postvm.library.classes.BoolClass;
 import postvm.library.classes.PostVMClass;
-import postvm.library.classes.numbers.IntClass;
 import postvm.library.classes.numbers.NumberClass;
 
 public class UnaryOperationExpression extends Expression {
@@ -56,14 +55,14 @@ public class UnaryOperationExpression extends Expression {
                 break;
 
             case UNARY_PLUS:
-                if(left instanceof NumberClass){
-                    clazz = ((NumberClass) left).add(IntClass.get(1));
+                if(left.extendsClass instanceof NumberClass){
+                    clazz = ((NumberClass) left.extendsClass).add(new NumberClass(1));
                     break;
                 }
 
             case UNARY_MINUS:
-                if(left instanceof NumberClass){
-                    clazz = ((NumberClass) left).minus(IntClass.get(1));
+                if(left.extendsClass instanceof NumberClass){
+                    clazz = ((NumberClass) left.extendsClass).minus(new NumberClass(1));
                     break;
                 }
 

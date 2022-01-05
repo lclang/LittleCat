@@ -43,38 +43,44 @@ public class OutputClass extends LibraryClass {
         try {
             printer = new PrintStream(stream, false, "UTF-8");
         } catch (UnsupportedEncodingException ignored) {}
+    }
 
-        globals.put("flush", voidMethod((caller, args) -> printer.flush()));
-        globals.put("close", voidMethod((caller, args) -> printer.close()));
-        globals.put("accept", voidMethod((caller, args) -> {
-            InputClass input = (InputClass) args.get(0);
+    @Override
+    public PostVMClass loadGlobal(String target) {
+        switch (target) {
+            case "flush": return voidMethod((caller, args) -> printer.flush());
+            case "close": return voidMethod((caller, args) -> printer.close());
+            case "accept": return voidMethod((caller, args) -> {
+                InputClass input = (InputClass) args.get(0);
 
-            try {
-                String line;
-                while ((line = input.reader.readLine())!=null)
-                    printer.println(line);
-            }catch (IOException e) {
-                throw new LCLangIOException(e.getMessage(), caller);
-            }
+                try {
+                    String line;
+                    while ((line = input.reader.readLine())!=null)
+                        printer.println(line);
+                }catch (IOException e) {
+                    throw new LCLangIOException(e.getMessage(), caller);
+                }
 
-        }, InputClass.type));
+            }, InputClass.type);
+            case "write": return voidMethod((caller, args) -> printer.write(args.get(0)
+                    .cast(NumberClass.class)
+                    .value.byteValue()), NumberClass.TYPE);
+            case "print": return voidMethod((caller, args) ->
+                    printer.print(args.get(0).toString(caller)), PostVMClass.OBJECT_TYPE);
+            case "println": return voidMethod((caller, args) ->
+                    printer.println(args.get(0).toString(caller)), PostVMClass.OBJECT_TYPE);
+            case "printf": return voidMethod((caller, args) -> {
+                String main = args.get(0).toString(caller);
+                List<PostVMClass> classes = ((ArrayClass) args.get(1)).value;
+                String[] printArgs = new String[classes.size()];
+                for (int i = 0; i < classes.size(); i++) {
+                    printArgs[i] = classes.get(i).toString(caller);
+                }
 
-        globals.put("write", voidMethod((caller, args) -> printer.write(args.get(0)
-                .cast(NumberClass.class)
-                        .value.byteValue()), NumberClass.TYPE));
-        globals.put("print", voidMethod((caller, args) ->
-                printer.print(args.get(0).toString(caller)), PostVMClass.OBJECT_TYPE));
-        globals.put("println", voidMethod((caller, args) ->
-                printer.println(args.get(0).toString(caller)), PostVMClass.OBJECT_TYPE));
-        globals.put("printf", voidMethod((caller, args) -> {
-            String main = args.get(0).toString(caller);
-            List<PostVMClass> classes = ((ArrayClass) args.get(1)).value;
-            String[] printArgs = new String[classes.size()];
-            for (int i = 0; i < classes.size(); i++) {
-                printArgs[i] = classes.get(i).toString(caller);
-            }
+                printer.printf(main, (Object[]) printArgs);
+            }, PostVMClass.OBJECT_TYPE, ArrayClass.type);
+        }
 
-            printer.printf(main, (Object[]) printArgs);
-        }, PostVMClass.OBJECT_TYPE, ArrayClass.type));
+        return super.loadGlobal(target);
     }
 }

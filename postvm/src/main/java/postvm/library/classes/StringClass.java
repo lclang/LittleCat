@@ -6,6 +6,7 @@ import postvm.types.Type;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public final class StringClass extends LibraryClass {
     public static final String name = "string";
@@ -19,51 +20,60 @@ public final class StringClass extends LibraryClass {
     }
 
     private StringClass(String string) {
-        this();
+        super(name);
         this.string = string;
-        globals.put("toString", method((caller, lcClasses) -> this, type));
-        globals.put("length", IntClass.get(string.length()));
-        globals.put("charAt", method((caller, args) -> CharClass.get(string.charAt(args.get(0).cast(IntClass.class)
-                        .value.intValue())),
-            IntClass.TYPE, CharClass.type));
-        globals.put("toArray", method((caller, lcClasses) -> {
-            List<PostVMClass> classes = new ArrayList<>();
+    }
 
-            char[] chars = string.toCharArray();
-            for (char character: chars)
-                classes.add(CharClass.get(character));
+    @Override
+    public PostVMClass loadGlobal(String target) {
+        switch (target) {
+            case "toString": return method((caller, lcClasses) -> this, type);
+            case "length": return IntClass.get(string.length());
+            case "charAt": return method((caller, args) -> CharClass.get(
+                    string.charAt(args.get(0).cast(IntClass.class).value)),
+                    IntClass.TYPE, CharClass.type);
+            case "equals": return method((caller, args) -> {
+                PostVMClass clazz = args.get(0);
 
-            return new ArrayClass(classes);
-        }, ArrayClass.type));
+                return BoolClass.get(clazz instanceof StringClass &&
+                        Objects.equals(clazz.cast(StringClass.class).string, string));
+            }, PostVMClass.OBJECT_TYPE, BoolClass.type);
+            case "toArray": return method((caller, lcClasses) -> {
+                List<PostVMClass> classes = new ArrayList<>();
 
-        globals.put("lower", method((caller, args) -> StringClass.get(string.toLowerCase()), type));
-        globals.put("upper", method((caller, args) -> StringClass.get(string.toUpperCase()), type));
+                char[] chars = string.toCharArray();
+                for (char character: chars)
+                    classes.add(CharClass.get(character));
 
-        globals.put("split", method((caller, args) -> {
-            List<PostVMClass> classes = new ArrayList<>();
-            String[] parts = string.split(args.get(0).cast(StringClass.class).string);
-            for (String part: parts)
-                classes.add(StringClass.get(part));
+                return new ArrayClass(classes);
+            }, ArrayClass.type);
+            case "lower": return method((caller, args) -> StringClass.get(string.toLowerCase()), type);
+            case "upper": return method((caller, args) -> StringClass.get(string.toUpperCase()), type);
+            case "split": return method((caller, args) -> {
+                List<PostVMClass> classes = new ArrayList<>();
+                String[] parts = string.split(args.get(0).cast(StringClass.class).string);
+                for (String part: parts)
+                    classes.add(StringClass.get(part));
 
-            return new ArrayClass(classes);
-        }, type, type));
+                return new ArrayClass(classes);
+            }, type, type);
+            case "substring": return method((caller, args) ->
+                            StringClass.get(
+                                    string.substring(
+                                            args.get(0).cast(IntClass.class).value,
+                                            args.get(1).cast(IntClass.class).value
+                                    )
+                            ),
+                    IntClass.TYPE, IntClass.TYPE, type);
+            case "find": return method((caller, args) ->
+                            IntClass.get(string.indexOf(args.get(0).cast(CharClass.class).value)),
+                    CharClass.type, type);
+            case "findLast": return method((caller, args) ->
+                            IntClass.get(string.lastIndexOf(args.get(0).cast(CharClass.class).value)),
+                    CharClass.type, type);
+        }
 
-        globals.put("substring", method((caller, args) ->
-                        StringClass.get(
-                            string.substring(
-                                    args.get(0).cast(IntClass.class).value.intValue(),
-                                    args.get(1).cast(IntClass.class).value.intValue()
-                            )
-                        ),
-                IntClass.TYPE, IntClass.TYPE, type));
-
-        globals.put("find", method((caller, args) ->
-                        IntClass.get(string.indexOf(args.get(0).cast(CharClass.class).value)),
-                CharClass.type, type));
-
-        globals.put("findLast", method((caller, args) ->
-                        IntClass.get(string.lastIndexOf(args.get(0).cast(CharClass.class).value)),
-                CharClass.type, type));
+        return super.loadGlobal(target);
     }
 
     public static StringClass get(String string) {

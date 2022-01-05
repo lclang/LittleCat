@@ -18,7 +18,7 @@ public class GetClassConstructorExpression extends Expression {
 
     @Override
     public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
-        PostVMClass clazz = visitor.root.classes.get(name);
+        PostVMClass clazz = visitor.root.getClass(name);
         if(clazz!=null) {
             if(clazz.constructor==null)
                 throw new LCLangConstructorNotFoundException(getCaller(prevCaller));

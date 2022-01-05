@@ -32,9 +32,9 @@ public class BinaryOperationExpression extends Expression {
         PostVMClass left = leftValue.get(caller);
 
 
-        if(left instanceof NumberClass && right instanceof NumberClass) {
-            NumberClass leftNumber = (NumberClass) left;
-            NumberClass rightNumber = (NumberClass) right;
+        if(left.extendsClass instanceof NumberClass && right.extendsClass instanceof NumberClass) {
+            NumberClass leftNumber = (NumberClass) left.extendsClass;
+            NumberClass rightNumber = (NumberClass) right.extendsClass;
 
             switch (operation) {
                 case POW: return leftNumber.pow(rightNumber).createLink();
@@ -87,14 +87,13 @@ public class BinaryOperationExpression extends Expression {
             case ARRAY_ACCESS: {
                 if(left instanceof ArrayClass) {
                     if (right instanceof IntClass)
-                        return left.cast(ArrayClass.class).get(right.cast(IntClass.class).value
-                                .intValue()).createLink();
+                        return left.cast(ArrayClass.class).get(right.cast(IntClass.class).value).createLink();
                     else throw new LCLangTypeErrorException("invalid index: excepted int", caller);
                 }else throw new LCLangTypeErrorException("excepted array or map", caller);
             }
 
-            case EQUALS: return BoolClass.get(left.classId == right.classId).createLink();
-            case NOT_EQUALS: return BoolClass.get(left.classId != right.classId).createLink();
+            case EQUALS: return BoolClass.get(left.equals(right)).createLink();
+            case NOT_EQUALS: return BoolClass.get(!left.equals(right)).createLink();
 
             default: throw new LCLangTypeErrorException("Operation not supported", caller);
         }

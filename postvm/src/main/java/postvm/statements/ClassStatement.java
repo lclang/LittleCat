@@ -2,13 +2,13 @@ package postvm.statements;
 
 import postvm.Caller;
 import postvm.LinkUtils;
-import postvm.PostVMRoot;
 import postvm.exceptions.LCLangRuntimeException;
 import postvm.library.classes.PostVMClass;
 import postvm.methods.Method;
 import postvm.statements.expressions.Expression;
 import postvm.types.Type;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class ClassStatement {
@@ -35,20 +35,36 @@ public class ClassStatement {
         this.methodStatements = methodStatements;
     }
 
-    public void visit(PostVMRoot root) throws LCLangRuntimeException {
+    public void visit(PostVMClass root) throws LCLangRuntimeException {
         PostVMClass clazzAst = new PostVMClass(name, root.path);
-
         clazzAst.constructor = new Method(
                 MethodStatement.resolveArgs(root, arguments),
                 new Type(clazzAst)) {
 
             @Override
             public PostVMClass call(Caller caller, List<PostVMClass> args) throws LCLangRuntimeException {
-                PostVMClass clazz = new PostVMClass(ClassStatement.this.name, root.path);
+                PostVMClass clazz = new PostVMClass(ClassStatement.this.name, root.path) {
+                    public HashMap<String, MethodStatement> methods = new HashMap<>();
 
-                clazz.globals.put("this", clazz);
+                    {
+                        for(MethodStatement methodStatement: methodStatements) {
+                            methods.put(methodStatement.name, methodStatement);
+                        }
+                    }
+
+                    @Override
+                    public PostVMClass loadGlobal(String target) {
+                        MethodStatement methodStatement = methods.get(target);
+                        if(methodStatement!=null) {
+                            return methodStatement.visit(this, true);
+                        }
+
+                        return super.loadGlobal(target);
+                    }
+                };
+
                 clazz.executor.variables.putAll(executor.variables);
-                clazz.accept(root);
+                clazz.parents.add(root);
 
                 for (int i = 0; i < arguments.size(); i++) {
                     clazz.executor.variables.put(arguments.get(i).name, args.get(i));
@@ -62,12 +78,6 @@ public class ClassStatement {
                                     LinkUtils.linksFromExpressions(extendsCaller, clazz.executor, extendsArguments)
                             )
                     );
-
-                    clazz.accept(clazz.extendsClass);
-                }
-
-                for(MethodStatement methodStatement: methodStatements) {
-                    methodStatement.visit(clazz, true);
                 }
 
                 for (Statement statement: init) {

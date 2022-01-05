@@ -2,6 +2,8 @@ package postvm.library.classes;
 
 import postvm.types.Type;
 
+import java.util.Objects;
+
 public final class BoolClass extends LibraryClass {
     public static final String name = "bool";
     public static final BoolClass INSTANCE = new BoolClass();
@@ -14,9 +16,15 @@ public final class BoolClass extends LibraryClass {
         super(name);
     }
     private BoolClass(boolean bool) {
-        this();
+        super(name);
         this.bool = bool;
-        globals.put("toString", method((caller, lcClasses) -> StringClass.get(String.valueOf(bool)), StringClass.type));
+    }
+
+    @Override
+    public PostVMClass loadGlobal(String target) {
+        if(Objects.equals(target, "toString")) return method((caller, lcClasses) ->
+                StringClass.get(String.valueOf(bool)), StringClass.type);
+        return super.loadGlobal(target);
     }
 
     public static BoolClass get(boolean bool) {

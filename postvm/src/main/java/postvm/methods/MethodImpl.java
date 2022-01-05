@@ -39,6 +39,8 @@ public class MethodImpl extends Method {
         }
 
         Caller stmtCaller = statement.getCaller(caller);
+        stmtCaller.root = executor.root;
+
         PostVMClass value = statement.visit(stmtCaller, executor).get(stmtCaller);
         if(!returnType.isAccept(value.classType))
             throw new LCLangTypeErrorException("invalid type of return (excepted "+returnType+

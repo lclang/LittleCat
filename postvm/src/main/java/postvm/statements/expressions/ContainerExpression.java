@@ -21,7 +21,7 @@ public class ContainerExpression extends Expression {
             Caller caller = stmt.getCaller(prevCaller);
             Link value = stmt.visit(caller, visitor);
             if(value.state!= Link.State.NOTHING) {
-                if(value.state== Link.State.RETURN)
+                if(value.state == Link.State.RETURN)
                     value.state = Link.State.NOTHING;
 
                 return value;
