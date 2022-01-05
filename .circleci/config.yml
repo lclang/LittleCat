@@ -104,7 +104,7 @@ jobs:
             fakeroot dpkg-deb --build deb
             cp ./*.deb ./lclang/build/libs/debian.deb
       - store_artifacts:
-          path: lclang/build/postvm.libs
+          path: lclang/build/libs
           destination: build
 
       - discord/status:
