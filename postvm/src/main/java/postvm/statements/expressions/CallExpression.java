@@ -35,6 +35,7 @@ public class CallExpression extends Expression {
         ArrayList<PostVMClass> args = new ArrayList<>();
         for(Expression argument: arguments) {
             Link argumentValue = argument.visit(prevCaller, visitor);
+            if(argumentValue.state != Link.State.NOTHING) return argumentValue;
             PostVMClass clazz = argumentValue.get(expression.getCaller(prevCaller));
             argsTypes.add(clazz.classType);
             args.add(clazz);

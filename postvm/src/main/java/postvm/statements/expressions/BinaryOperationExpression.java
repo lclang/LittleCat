@@ -26,9 +26,11 @@ public class BinaryOperationExpression extends Expression {
         Caller caller = getCaller(prevCaller);
 
         Link rightLink = right.visit(caller, visitor);
+        if(rightLink.state != Link.State.NOTHING) return rightLink;
         PostVMClass rightClass = rightLink.get(caller);
 
         Link leftLink = left.visit(caller, visitor);
+        if(leftLink.state != Link.State.NOTHING) return leftLink;
         PostVMClass leftClass = leftLink.get(caller);
 
         if(leftClass.canCast(NumberClass.INSTANCE) && rightClass.canCast(NumberClass.INSTANCE)) {

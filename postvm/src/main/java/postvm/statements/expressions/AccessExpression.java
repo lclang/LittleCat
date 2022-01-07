@@ -21,7 +21,10 @@ public class AccessExpression extends Expression {
     @Override
     public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
         Caller caller = getCaller(prevCaller);
-        PostVMClass clazz = expression.visit(caller, visitor).get(caller);
+        Link clazzLink = expression.visit(caller, visitor);
+        if(clazzLink.state != Link.State.NOTHING) return clazzLink;
+
+        PostVMClass clazz = clazzLink.get(caller);
         if(clazz==NullClass.INSTANCE) throw new LCLangNullPointerException(caller);
 
         return variable.visit(caller, clazz.executor);

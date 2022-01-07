@@ -25,6 +25,7 @@ public class UnaryOperationExpression extends Expression {
     public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
         Caller caller = getCaller(prevCaller);
         Link leftValue = expression.visit(caller, visitor);
+        if(leftValue.state != Link.State.NOTHING) return leftValue;
         PostVMClass left = leftValue.get(caller);
 
         PostVMClass clazz;
