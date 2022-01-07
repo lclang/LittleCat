@@ -67,6 +67,42 @@ public final class NumberClass extends LibraryClass {
         return IntClass.get(value.intValue() * another.value.intValue());
     }
 
+    public PostVMClass binaryOr(NumberClass another) {
+        if (value instanceof Long || another.value instanceof Long)
+            return LongClass.get(value.longValue() | another.value.longValue());
+
+        return IntClass.get(value.intValue() | another.value.intValue());
+    }
+
+    public PostVMClass binaryAnd(NumberClass another) {
+        if (value instanceof Long || another.value instanceof Long)
+            return LongClass.get(value.longValue() & another.value.longValue());
+
+        return IntClass.get(value.intValue() & another.value.intValue());
+    }
+
+    public PostVMClass binaryLeftShift(NumberClass another) {
+        if (value instanceof Long || another.value instanceof Long)
+            return LongClass.get(value.longValue() << another.value.longValue());
+
+        return IntClass.get(value.intValue() << another.value.intValue());
+    }
+
+    public PostVMClass binaryRightShift(NumberClass another) {
+        if (value instanceof Long || another.value instanceof Long)
+            return LongClass.get(value.longValue() >> another.value.longValue());
+
+        return IntClass.get(value.intValue() >> another.value.intValue());
+    }
+
+
+    public PostVMClass binaryXOr(NumberClass another) {
+        if (value instanceof Long || another.value instanceof Long)
+            return LongClass.get(value.longValue() ^ another.value.longValue());
+
+        return IntClass.get(value.intValue() ^ another.value.intValue());
+    }
+
     public PostVMClass div(NumberClass another) {
         return DoubleClass.get(value.doubleValue() / another.value.doubleValue());
     }
@@ -89,5 +125,12 @@ public final class NumberClass extends LibraryClass {
 
     public BoolClass lessEquals(NumberClass another) {
         return BoolClass.get(value.doubleValue()<=another.value.doubleValue());
+    }
+
+    public PostVMClass compliment() {
+        if(value instanceof Long)
+            return LongClass.get(~value.longValue());
+
+        return IntClass.get(~value.intValue());
     }
 }

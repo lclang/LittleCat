@@ -19,6 +19,8 @@ LESS_EQUALS : '<=';
 LARGER_EQUALS : '>=';
 UNARY_ADD : '++';
 UNARY_MINUS : '--';
+LEFT_SHIFT : '<<';
+RIGHT_SHIFT : '>>';
 NULLABLE_OR : '?:';
 NULLABLE : '?';
 LAMBDA_PREFIX : '->';
@@ -27,8 +29,10 @@ TYPE_PREFIX : '\\';
 COMMA : ',';
 SEMICOLON : ';';
 ASSIGN : '=';
+XOR : '^';
 OR : '|';
 AND : '&';
+COMPLIMENT: '~';
 NOT : '!';
 LESS : '<';
 LARGER : '>';
@@ -111,6 +115,11 @@ expression:
     | expression multiplication=MULTIPLICATION expression
     | expression div=DIVISION expression
     | expression pow=POW expression
+    | expression andBin=AND expression
+    | expression orBin=OR expression
+    | expression xor=XOR expression
+    | expression leftShift=LEFT_SHIFT expression
+    | expression rightShift=RIGHT_SHIFT expression
     | expression minus=MINUS expression
     | expression add=ADD expression
     | expression add=ADD assign=ASSIGN expression
@@ -122,6 +131,7 @@ expression:
     | expression throwNull=NOT NOT
     | expression unaryPlus=UNARY_ADD
     | expression unaryMinus=UNARY_MINUS
+    | compliment=COMPLIMENT expression
     | not=NOT expression
     | primitive;
 

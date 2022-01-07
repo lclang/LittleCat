@@ -68,6 +68,11 @@ public class UnaryOperationExpression extends Expression {
                     break;
                 }
 
+            case BINARY_COMPLIMENT:
+                if(left.extendsClass instanceof NumberClass){
+                    return left.extendsClass.cast(NumberClass.class).compliment().createLink();
+                }
+
             default: throw new LCLangTypeErrorException("Operation not supported", caller);
         }
 
@@ -80,6 +85,7 @@ public class UnaryOperationExpression extends Expression {
         UNARY_PLUS,
         UNARY_MINUS,
         NOT,
-        ARRAY_ACCESS
+        ARRAY_ACCESS,
+        BINARY_COMPLIMENT
     }
 }

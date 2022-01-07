@@ -5,6 +5,13 @@ println(2/2)
 println(2**2)
 println(2+2*2)
 println(2+2-2)
+println(2+2-2)
+println(60&13)
+println(60|13)
+println(60^13)
+println(~60)
+println(60<<2)
+println(60>>2)
 --OUTPUT--
 4
 0
@@ -13,3 +20,10 @@ println(2+2-2)
 4.0
 6
 2
+2
+12
+61
+49
+-61
+240
+15

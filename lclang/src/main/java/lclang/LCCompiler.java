@@ -198,6 +198,8 @@ public class LCCompiler extends lclangBaseVisitor<Statement> {
                 operation = UnaryOperationExpression.Operation.NULL_CHECK;
             else if(ctx.arrayAccess!=null)
                 operation = UnaryOperationExpression.Operation.ARRAY_ACCESS;
+            else if(ctx.compliment!=null)
+                operation = UnaryOperationExpression.Operation.BINARY_COMPLIMENT;
 
             return new UnaryOperationExpression(
                     expressions.get(0),
@@ -231,6 +233,16 @@ public class LCCompiler extends lclangBaseVisitor<Statement> {
             operation = BinaryOperationExpression.Operation.NOT_EQUALS;
         else if(ctx.or!=null)
             operation = BinaryOperationExpression.Operation.OR;
+        else if(ctx.andBin!=null)
+            operation = BinaryOperationExpression.Operation.BINARY_AND;
+        else if(ctx.xor!=null)
+            operation = BinaryOperationExpression.Operation.BINARY_XOR;
+        else if(ctx.orBin!=null)
+            operation = BinaryOperationExpression.Operation.BINARY_OR;
+        else if(ctx.leftShift!=null)
+            operation = BinaryOperationExpression.Operation.BINARY_LEFT_SHIFT;
+        else if(ctx.rightShift!=null)
+            operation = BinaryOperationExpression.Operation.BINARY_RIGHT_SHIFT;
         else if(ctx.and!=null)
             operation = BinaryOperationExpression.Operation.ADD;
         else if(ctx.arrayAccess!=null)

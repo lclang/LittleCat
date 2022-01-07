@@ -47,6 +47,11 @@ public class BinaryOperationExpression extends Expression {
                 case ADD: return leftNumber.add(rightNumber).createLink();
                 case MINUS: return leftNumber.minus(rightNumber).createLink();
                 case DIVISION: return leftNumber.div(rightNumber).createLink();
+                case BINARY_AND: return leftNumber.binaryAnd(rightNumber).createLink();
+                case BINARY_OR: return leftNumber.binaryOr(rightNumber).createLink();
+                case BINARY_XOR: return leftNumber.binaryXOr(rightNumber).createLink();
+                case BINARY_LEFT_SHIFT: return leftNumber.binaryLeftShift(rightNumber).createLink();
+                case BINARY_RIGHT_SHIFT: return leftNumber.binaryRightShift(rightNumber).createLink();
             }
         }
 
@@ -104,6 +109,10 @@ public class BinaryOperationExpression extends Expression {
         ARRAY_ACCESS,
         OR,
         AND,
+        BINARY_AND,
+        BINARY_XOR,
+        BINARY_LEFT_SHIFT,
+        BINARY_RIGHT_SHIFT,
         EQUALS,
         NOT_EQUALS,
         LESS,
@@ -115,6 +124,7 @@ public class BinaryOperationExpression extends Expression {
         ADD,
         MINUS,
         POW,
-        NULLABLE_OR
+        NULLABLE_OR,
+        BINARY_OR
     }
 }
