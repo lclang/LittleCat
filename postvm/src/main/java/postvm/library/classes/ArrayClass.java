@@ -25,7 +25,7 @@ public final class ArrayClass extends LibraryClass {
     public PostVMClass get(int index) {
         return value.size() > index && index >= 0 ?
                 value.get(index)
-                : NullClass.INSTANCE;
+                : VoidClass.INSTANCE;
     }
 
     public void add(PostVMClass clazz) {

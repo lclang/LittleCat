@@ -3,4 +3,6 @@ include 'lclang'
 include 'postvm'
 include 'stdlib'
 include 'reflection-library'
+include 'untitled'
+include 'ui-library'
 

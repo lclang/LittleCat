@@ -15,7 +15,7 @@ public class VariableExpression extends Expression {
 
     @Override
     public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
-        return visitor.getLink(name);
+        return visitor.getVariableClass(prevCaller, name);
     }
 
 //    @Override

@@ -4,6 +4,7 @@ import postvm.Caller;
 import postvm.Link;
 import postvm.PostVMExecutor;
 import postvm.exceptions.LCLangRuntimeException;
+import postvm.exceptions.LCLangTypeErrorException;
 import postvm.methods.Method;
 import postvm.types.Type;
 import postvm.utils.Function2;
@@ -83,12 +84,16 @@ public class PostVMClass {
         return global;
     }
 
-    public PostVMClass getVariableClass(Caller caller, String name) throws LCLangRuntimeException {
+    public Link getVariableClass(Caller caller, String name) throws LCLangRuntimeException {
         PostVMClass value = getGlobal(name);
-        if(value==null&&extendsClass!=null)
-            return extendsClass.getVariableClass(caller, name);
+        if(value==null) {
+            if(extendsClass!=null)
+                return extendsClass.getVariableClass(caller, name);
 
-        return value;
+            return VoidClass.value;
+        }
+
+        return value.createLink();
     }
 
     public boolean canCast(PostVMClass another) {
@@ -131,7 +136,13 @@ public class PostVMClass {
 
     @SuppressWarnings("unchecked")
     public <T> T cast(Class<T> clazz) {
-        return (T) this;
+        if(clazz.isAssignableFrom(getClass()))
+            return (T) this;
+        else if(extendsClass!=null)
+            return extendsClass.cast(clazz);
+        else throw new LCLangTypeErrorException("PostVM Error: Invalid cast: "+name+" as "+clazz.getName()+".\n" +
+                    "Please report error to GitHub: https://github.com/lclang/LittleCat",
+                    new Caller(this, -1));
     }
 
     public Method voidMethod(VoidMethod2<Caller, List<PostVMClass>> body, Type... args) {

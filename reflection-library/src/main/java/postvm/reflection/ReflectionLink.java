@@ -16,7 +16,7 @@ public class ReflectionLink extends LibraryClass {
     private ReflectionLink() {
         super(NAME);
         constructor = method((caller, lcClasses) -> new ReflectionLink(lcClasses.get(0)
-                .executor.getLink(lcClasses.get(1).toString(caller))), PostVMClass.OBJECT_TYPE, StringClass.type, TYPE);
+                .executor.getVariableClass(caller, lcClasses.get(1).toString(caller))), PostVMClass.OBJECT_TYPE, StringClass.type, TYPE);
     }
 
     public ReflectionLink(Link link) {

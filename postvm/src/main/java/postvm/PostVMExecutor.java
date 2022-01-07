@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 public class PostVMExecutor {
     public final PostVMClass root;
+    public PostVMExecutor parentExecutor = null;
     public final HashMap<String, PostVMClass> variables = new HashMap<>();
 
     public PostVMExecutor(PostVMClass root) {
@@ -16,23 +17,28 @@ public class PostVMExecutor {
 
     public PostVMExecutor(PostVMExecutor executor, boolean importVariables) {
         this(executor.root);
-        if(importVariables) variables.putAll(executor.variables);
+        if(importVariables) parentExecutor = executor;
     }
 
-    public PostVMClass getVariableClass(Caller caller, String name) {
-        PostVMClass clazz = variables.getOrDefault(name, null);
-        if(clazz==null) return root.getVariableClass(caller, name);
+    public Link getVariableClass(Caller caller, String name) {
+        PostVMClass clazz;
+        if(variables.containsKey(name)){
+            clazz = variables.getOrDefault(name, null);
+        } else {
+            if(parentExecutor!=null) {
+                Link link = parentExecutor.getVariableClass(caller, name);
+                if(link != VoidClass.value) return link;
+            }
 
-        return clazz;
-    }
+            Link link = root.getVariableClass(caller, name);
+            if(link != VoidClass.value) return link;
+            else clazz = VoidClass.INSTANCE;
+        }
 
-    public Link getLink(String name) {
         return new Link(Link.State.NOTHING) {
             @Override
             public PostVMClass get(Caller caller) throws LCLangRuntimeException {
-                PostVMClass clazz = getVariableClass(caller, name);
-                if(clazz!=null) return clazz;
-                return VoidClass.INSTANCE;
+                return clazz;
             }
 
             @Override

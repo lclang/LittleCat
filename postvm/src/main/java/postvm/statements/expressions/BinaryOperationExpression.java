@@ -25,16 +25,15 @@ public class BinaryOperationExpression extends Expression {
     public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
         Caller caller = getCaller(prevCaller);
 
-        Link rightValue = right.visit(caller, visitor);
-        PostVMClass right = rightValue.get(caller);
+        Link rightLink = right.visit(caller, visitor);
+        PostVMClass rightClass = rightLink.get(caller);
 
-        Link leftValue = left.visit(caller, visitor);
-        PostVMClass left = leftValue.get(caller);
+        Link leftLink = left.visit(caller, visitor);
+        PostVMClass leftClass = leftLink.get(caller);
 
-
-        if(left.extendsClass instanceof NumberClass && right.extendsClass instanceof NumberClass) {
-            NumberClass leftNumber = (NumberClass) left.extendsClass;
-            NumberClass rightNumber = (NumberClass) right.extendsClass;
+        if(leftClass.canCast(NumberClass.INSTANCE) && rightClass.canCast(NumberClass.INSTANCE)) {
+            NumberClass leftNumber = leftClass.cast(NumberClass.class);
+            NumberClass rightNumber = rightClass.cast(NumberClass.class);
 
             switch (operation) {
                 case POW: return leftNumber.pow(rightNumber).createLink();
@@ -49,51 +48,51 @@ public class BinaryOperationExpression extends Expression {
             }
         }
 
-        if(left instanceof StringClass || right instanceof StringClass){
+        if(leftClass instanceof StringClass || rightClass instanceof StringClass){
             switch (operation) {
-                case ADD: return StringClass.get(left.toString(caller)+right.toString(caller)).createLink();
+                case ADD: return StringClass.get(leftClass.toString(caller)+rightClass.toString(caller)).createLink();
                 case MULTIPLICATION:
-                    if(right instanceof IntClass ||left instanceof IntClass)
-                        return StringClass.get(right instanceof IntClass ?
-                                    String.format("%0" + ((IntClass) right).value + "d", 0)
-                                        .replace("0", left.toString(caller))
-                                :   String.format("%0" + ((IntClass) left).value + "d", 0)
-                                    .replace("0", right.toString(caller))).createLink();
+                    if(rightClass instanceof IntClass ||leftClass instanceof IntClass)
+                        return StringClass.get(rightClass instanceof IntClass ?
+                                    String.format("%0" + ((IntClass) rightClass).value + "d", 0)
+                                        .replace("0", leftClass.toString(caller))
+                                :   String.format("%0" + ((IntClass) leftClass).value + "d", 0)
+                                    .replace("0", rightClass.toString(caller))).createLink();
             }
         }
 
-        if(right instanceof ArrayClass && left instanceof ArrayClass){
-            ArrayClass leftArray = (ArrayClass) left;
-            ArrayClass rightArray = (ArrayClass) right;
+        if(rightClass instanceof ArrayClass && leftClass instanceof ArrayClass){
+            ArrayClass leftArray = (ArrayClass) leftClass;
+            ArrayClass rightArray = (ArrayClass) rightClass;
             if (operation == Operation.ADD) {
                 return leftArray.merge(rightArray).createLink();
             }
         }
 
-        if(right instanceof BoolClass && left instanceof BoolClass){
-            BoolClass leftBool = (BoolClass) left;
-            BoolClass rightBool = (BoolClass) right;
+        if(rightClass instanceof BoolClass && leftClass instanceof BoolClass){
+            BoolClass leftBool = (BoolClass) leftClass;
+            BoolClass rightBool = (BoolClass) rightClass;
             switch (operation) {
-                case OR: return BoolClass.get(leftBool.bool||rightBool.bool).createLink();
-                case AND: return BoolClass.get(leftBool.bool&&rightBool.bool).createLink();
+                case OR: return BoolClass.get(leftBool.bool || rightBool.bool).createLink();
+                case AND: return BoolClass.get(leftBool.bool && rightBool.bool).createLink();
             }
         }
 
          switch (operation) {
-            case NULLABLE_OR : if(left==NullClass.INSTANCE)
-                return rightValue;
-            else return leftValue;
+            case NULLABLE_OR : if(leftClass==NullClass.INSTANCE)
+                return rightLink;
+            else return leftLink;
 
             case ARRAY_ACCESS: {
-                if(left instanceof ArrayClass) {
-                    if (right instanceof IntClass)
-                        return left.cast(ArrayClass.class).get(right.cast(IntClass.class).value).createLink();
+                if(leftClass instanceof ArrayClass) {
+                    if (rightClass instanceof IntClass)
+                        return leftClass.cast(ArrayClass.class).get(rightClass.cast(IntClass.class).value).createLink();
                     else throw new LCLangTypeErrorException("invalid index: excepted int", caller);
                 }else throw new LCLangTypeErrorException("excepted array or map", caller);
             }
 
-            case EQUALS: return BoolClass.get(left.equals(right)).createLink();
-            case NOT_EQUALS: return BoolClass.get(!left.equals(right)).createLink();
+            case EQUALS: return BoolClass.get(leftClass.equals(rightClass)).createLink();
+            case NOT_EQUALS: return BoolClass.get(!leftClass.equals(rightClass)).createLink();
 
             default: throw new LCLangTypeErrorException("Operation not supported", caller);
         }

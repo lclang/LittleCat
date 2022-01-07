@@ -52,17 +52,18 @@ public class UnaryOperationExpression extends Expression {
                 if(left==null)
                     throw new LCLangNullPointerException(caller);
                 else clazz = leftValue.get(caller);
+
                 break;
 
             case UNARY_PLUS:
                 if(left.extendsClass instanceof NumberClass){
-                    clazz = ((NumberClass) left.extendsClass).add(new NumberClass(1));
+                    clazz = left.extendsClass.cast(NumberClass.class).add(new NumberClass(1));
                     break;
                 }
 
             case UNARY_MINUS:
                 if(left.extendsClass instanceof NumberClass){
-                    clazz = ((NumberClass) left.extendsClass).minus(new NumberClass(1));
+                    clazz = left.extendsClass.cast(NumberClass.class).minus(new NumberClass(1));
                     break;
                 }
 

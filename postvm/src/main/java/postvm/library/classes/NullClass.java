@@ -1,6 +1,7 @@
 package postvm.library.classes;
 
 import postvm.Caller;
+import postvm.Link;
 import postvm.exceptions.LCLangNullPointerException;
 import postvm.types.Type;
 
@@ -14,7 +15,7 @@ public final class NullClass extends LibraryClass {
     }
 
     @Override
-    public PostVMClass getVariableClass(Caller caller, String name) throws LCLangNullPointerException {
+    public Link getVariableClass(Caller caller, String name) throws LCLangNullPointerException {
         throw new LCLangNullPointerException(caller);
     }
 

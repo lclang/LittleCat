@@ -17,7 +17,7 @@ public final class VoidClass extends LibraryClass {
     }
 
     @Override
-    public PostVMClass getVariableClass(Caller caller, String name) throws LCLangRuntimeException {
+    public Link getVariableClass(Caller caller, String name) throws LCLangRuntimeException {
         throw new LCLangTypeErrorException("Class is void", caller);
     }
 
