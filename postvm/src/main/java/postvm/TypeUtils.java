@@ -1,15 +1,25 @@
 package postvm;
 
+import postvm.library.classes.VoidClass;
 import postvm.types.Type;
 
 import java.util.List;
 
 public class TypeUtils {
-    public static int isAccept(List<Type> t, List<Type> array) {
-        if(t.size()!=array.size()) return array.size()-1;
-        for (int i = 0; i < t.size(); i++) {
-            if(!t.get(i).isAccept(array.get(i)))
+    public static int isAccept(List<Type> filterTypes, List<Type> checkTypes) {
+        if(filterTypes.size()<checkTypes.size()) {
+            System.out.println("Check failed: "+filterTypes.size()+" < "+checkTypes.size());
+            return filterTypes.size()+1;
+        }
+
+        for (int i = 0; i < filterTypes.size(); i++) {
+            Type checkType = VoidClass.type;
+            if(checkTypes.size()>i) checkType = checkTypes.get(i);
+
+            if(!filterTypes.get(i).isAccept(checkType)) {
+                System.out.println("Check failed: "+filterTypes.get(i)+" != "+checkType);
                 return i;
+            }
         }
 
         return -1;

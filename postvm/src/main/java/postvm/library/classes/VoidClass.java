@@ -23,6 +23,6 @@ public final class VoidClass extends LibraryClass {
 
     @Override
     public String toString(Caller caller) throws LCLangRuntimeException {
-        return "void";
+        return "";
     }
 }

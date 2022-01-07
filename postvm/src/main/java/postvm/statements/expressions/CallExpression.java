@@ -42,19 +42,21 @@ public class CallExpression extends Expression {
         }
 
         Method method = (Method) callClazz;
-        if(method.args.size()!=argsTypes.size()){
-            throw method.args.size()>argsTypes.size() ?
-                    new LCLangTypeErrorException("Invalid arguments: few arguments",
-                            getCaller(prevCaller)):
-                    new LCLangTypeErrorException("Invalid arguments: too many arguments",
-                            arguments.get(method.args.size()).getCaller(prevCaller));
-        }
 
         int notAcceptArg = TypeUtils.isAccept(method.args, argsTypes);
-        if(notAcceptArg!=-1)
-            throw new LCLangTypeErrorException("Invalid argument "+(notAcceptArg+1)+
-                    ": excepted "+method.args.get(notAcceptArg)+", but received "+argsTypes.get(notAcceptArg),
+        if(notAcceptArg!=-1) {
+            if(method.args.size()!=argsTypes.size()){
+                throw method.args.size()>argsTypes.size() ?
+                        new LCLangTypeErrorException("Invalid arguments: few arguments",
+                                getCaller(prevCaller)):
+                        new LCLangTypeErrorException("Invalid arguments: too many arguments",
+                                arguments.get(method.args.size()).getCaller(prevCaller));
+            }
+
+            throw new LCLangTypeErrorException("Invalid argument " + (notAcceptArg + 1) +
+                    ": excepted " + method.args.get(notAcceptArg) + ", but received " + argsTypes.get(notAcceptArg),
                     arguments.get(notAcceptArg).getCaller(prevCaller));
+        }
 
         return method.call(getCaller(prevCaller), args).createLink();
     }

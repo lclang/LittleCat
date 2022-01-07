@@ -33,7 +33,7 @@ public class MethodImpl extends Method {
     public PostVMClass call(Caller caller, List<PostVMClass> args) throws LCLangRuntimeException {
         PostVMExecutor executor = new PostVMExecutor(outExecutor, importVariables);
 
-        for (int i = 0; i < argsMap.size(); i++) {
+        for (int i = 0; i < args.size(); i++) {
             MethodStatement.Argument argument = argsMap.get(i);
             executor.variables.put(argument.name, args.get(i));
         }

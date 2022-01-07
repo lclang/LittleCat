@@ -40,6 +40,18 @@ public class lclangBaseListener implements lclangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterPrimaryType(lclangParser.PrimaryTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPrimaryType(lclangParser.PrimaryTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterMethodType(lclangParser.MethodTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -59,6 +71,18 @@ public class lclangBaseListener implements lclangListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitNamedType(lclangParser.NamedTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterUnionType(lclangParser.UnionTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitUnionType(lclangParser.UnionTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

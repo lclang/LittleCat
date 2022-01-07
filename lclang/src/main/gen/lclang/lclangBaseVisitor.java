@@ -31,6 +31,13 @@ public class lclangBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitPrimaryType(lclangParser.PrimaryTypeContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitMethodType(lclangParser.MethodTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -39,6 +46,13 @@ public class lclangBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitNamedType(lclangParser.NamedTypeContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitUnionType(lclangParser.UnionTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

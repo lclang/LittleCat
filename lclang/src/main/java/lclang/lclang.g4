@@ -58,6 +58,7 @@ AS: 'as';
 IF: 'if';
 IS: 'is';
 ELSE: 'else';
+VOIDABLE: 'voidable';
 
 BOOL: 'true'|'false';
 ID: [A-Za-z_]+;
@@ -87,7 +88,13 @@ file:
 
 
 /** TYPE STRUCTURE **/
+
 type:
+    primaryType |
+    unionType
+    ;
+
+primaryType:
     nullable=NULLABLE?   // Nullable prefix
     (
       methodType |       // Lambda method type
@@ -97,6 +104,7 @@ type:
 
 methodType: OPEN (args=type COMMA)* args=type? CLOSE LAMBDA_PREFIX returnType=type;
 namedType: ID (TYPE_PREFIX namedType)?;
+unionType: (primaryType OR)* primaryType;
 
 expression:
       expression arrayAccess=OPEN_BRACKET expression? CLOSE_BRACKET

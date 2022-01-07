@@ -23,6 +23,12 @@ public interface lclangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitType(lclangParser.TypeContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link lclangParser#primaryType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPrimaryType(lclangParser.PrimaryTypeContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link lclangParser#methodType}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -34,6 +40,12 @@ public interface lclangVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitNamedType(lclangParser.NamedTypeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link lclangParser#unionType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUnionType(lclangParser.UnionTypeContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link lclangParser#expression}.
 	 * @param ctx the parse tree

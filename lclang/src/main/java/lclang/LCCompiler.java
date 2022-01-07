@@ -383,6 +383,18 @@ public class LCCompiler extends lclangBaseVisitor<Statement> {
     }
 
     public TypeStatement getType(lclangParser.TypeContext ctx) {
+        lclangParser.PrimaryTypeContext primaryTypeContext = ctx.primaryType();
+        if(primaryTypeContext!=null) return getPrimaryType(primaryTypeContext);
+
+        lclangParser.UnionTypeContext unionTypeContext = ctx.unionType();
+        List<TypeStatement> typeStatements = new ArrayList<>();
+        for (lclangParser.PrimaryTypeContext type: unionTypeContext.primaryType())
+            typeStatements.add(getPrimaryType(type));
+
+        return new UnionTypeStatement(typeStatements);
+    }
+
+    public TypeStatement getPrimaryType(lclangParser.PrimaryTypeContext ctx) {
         lclangParser.MethodTypeContext typeContext = ctx.methodType();
 
         TypeStatement type;
