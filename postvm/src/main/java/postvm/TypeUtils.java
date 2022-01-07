@@ -8,7 +8,6 @@ import java.util.List;
 public class TypeUtils {
     public static int isAccept(List<Type> filterTypes, List<Type> checkTypes) {
         if(filterTypes.size()<checkTypes.size()) {
-            System.out.println("Check failed: "+filterTypes.size()+" < "+checkTypes.size());
             return filterTypes.size()+1;
         }
 
@@ -17,7 +16,6 @@ public class TypeUtils {
             if(checkTypes.size()>i) checkType = checkTypes.get(i);
 
             if(!filterTypes.get(i).isAccept(checkType)) {
-                System.out.println("Check failed: "+filterTypes.get(i)+" != "+checkType);
                 return i;
             }
         }
