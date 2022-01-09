@@ -47,7 +47,7 @@ public class UnaryOperationExpression extends Expression {
                 }else throw new LCLangTypeErrorException("Value is not array", caller);
 
             case NOT:
-                return BoolClass.get(left instanceof BoolClass &&!((BoolClass) left).bool).createLink();
+                return left.cast(BoolClass.class).not().createLink();
 
             case NULL_CHECK:
                 if(left==null)

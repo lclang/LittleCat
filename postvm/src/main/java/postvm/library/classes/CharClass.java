@@ -5,6 +5,8 @@ import postvm.library.classes.numbers.IntClass;
 import postvm.library.classes.numbers.NumberClass;
 import postvm.types.Type;
 
+import java.util.Objects;
+
 public final class CharClass extends LibraryClass {
     public static final String name =  "char";
     public static final CharClass INSTANCE = new CharClass();
@@ -33,6 +35,12 @@ public final class CharClass extends LibraryClass {
                     type);
             case "lower": return method((caller, lcClasses) -> CharClass.get(Character.toLowerCase(value)),
                     type);
+            case "equals": return method((caller, args) -> {
+                PostVMClass clazz = args.get(0);
+
+                return BoolClass.get(clazz.canCast(CharClass.INSTANCE) &&
+                        Objects.equals(clazz.cast(CharClass.class).value, value));
+            }, PostVMClass.OBJECT_TYPE, BoolClass.type);
         }
         return super.loadGlobal(target);
     }

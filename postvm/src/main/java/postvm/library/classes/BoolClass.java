@@ -20,6 +20,10 @@ public final class BoolClass extends LibraryClass {
         this.bool = bool;
     }
 
+    public BoolClass not() {
+        return bool ? FALSE: TRUE;
+    }
+
     @Override
     public PostVMClass loadGlobal(String target) {
         if(Objects.equals(target, "toString")) return method((caller, lcClasses) ->

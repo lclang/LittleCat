@@ -18,6 +18,7 @@ public class UILibrary extends Library {
         classes.put("UIText", UIText.INSTANCE);
         classes.put("UIButton", UIButton.INSTANCE);
         classes.put("UIWindow", UIWindow.INSTANCE);
+        classes.put("UIEditText", UIEditText.INSTANCE);
     }
 
     @Override

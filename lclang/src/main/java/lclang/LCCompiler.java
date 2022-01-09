@@ -60,6 +60,7 @@ public class LCCompiler extends lclangBaseVisitor<Statement> {
     @Override
     public ValueExpression visitValue(lclangParser.ValueContext ctx) {
         PostVMClass lcClass;
+
         String text = ctx.getText();
         if (ctx.STRING() != null)
             lcClass = StringClass.get(Utils.unescapeString(text.substring(1, text.length() - 1)));

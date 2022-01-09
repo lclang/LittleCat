@@ -86,7 +86,7 @@ public class BinaryOperationExpression extends Expression {
         }
 
          switch (operation) {
-            case NULLABLE_OR : if(leftClass==NullClass.INSTANCE)
+            case NULLABLE_OR : if(leftClass==NullClass.INSTANCE||leftClass==VoidClass.INSTANCE)
                 return rightLink;
             else return leftLink;
 
@@ -98,8 +98,9 @@ public class BinaryOperationExpression extends Expression {
                 }else throw new LCLangTypeErrorException("excepted array or map", caller);
             }
 
-            case EQUALS: return BoolClass.get(leftClass.equals(rightClass)).createLink();
-            case NOT_EQUALS: return BoolClass.get(!leftClass.equals(rightClass)).createLink();
+            case EQUALS: return leftClass.equals(rightClass, caller).createLink();
+            case NOT_EQUALS: return leftClass.equals(rightClass, caller).cast(BoolClass.class)
+                    .not().createLink();
 
             default: throw new LCLangTypeErrorException("Operation not supported", caller);
         }

@@ -35,7 +35,7 @@ public final class StringClass extends LibraryClass {
             case "equals": return method((caller, args) -> {
                 PostVMClass clazz = args.get(0);
 
-                return BoolClass.get(clazz instanceof StringClass &&
+                return BoolClass.get(clazz.canCast(StringClass.INSTANCE) &&
                         Objects.equals(clazz.cast(StringClass.class).string, string));
             }, PostVMClass.OBJECT_TYPE, BoolClass.type);
             case "toArray": return method((caller, lcClasses) -> {
@@ -49,6 +49,10 @@ public final class StringClass extends LibraryClass {
             }, ArrayClass.type);
             case "lower": return method((caller, args) -> StringClass.get(string.toLowerCase()), type);
             case "upper": return method((caller, args) -> StringClass.get(string.toUpperCase()), type);
+            case "endsWith": return method((caller, args) -> BoolClass.get(string.endsWith(args.get(0)
+                    .cast(StringClass.class).string)), type, BoolClass.type);
+            case "startsWith": return method((caller, args) -> BoolClass.get(string.startsWith(args.get(0)
+                    .cast(StringClass.class).string)), type, BoolClass.type);
             case "split": return method((caller, args) -> {
                 List<PostVMClass> classes = new ArrayList<>();
                 String[] parts = string.split(args.get(0).cast(StringClass.class).string);

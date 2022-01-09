@@ -3,6 +3,8 @@ package postvm.library.classes.numbers;
 import postvm.library.classes.*;
 import postvm.types.Type;
 
+import java.util.Objects;
+
 public final class NumberClass extends LibraryClass {
     public static final String NAME = "number";
     public static final NumberClass INSTANCE = new NumberClass();
@@ -35,6 +37,11 @@ public final class NumberClass extends LibraryClass {
                     CharClass.type);
             case "toString": return method((caller, lcClasses) -> StringClass.get(String.valueOf(value)),
                     StringClass.type);
+            case "equals": return method((caller, args) -> {
+                PostVMClass another = args.get(0);
+                return BoolClass.get(another.canCast(NumberClass.INSTANCE) &&
+                        Objects.equals(another.cast(NumberClass.class).value, value));
+            }, PostVMClass.OBJECT_TYPE, BoolClass.type);
         }
 
         return super.loadGlobal(target);

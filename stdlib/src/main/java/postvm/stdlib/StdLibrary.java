@@ -1,5 +1,6 @@
 package postvm.stdlib;
 
+import postvm.CacheManager;
 import postvm.Library;
 import postvm.exceptions.LCLangRuntimeException;
 import postvm.library.classes.*;
@@ -97,6 +98,9 @@ public class StdLibrary extends Library {
             switch (target) {
                 case "getClassesCount": return method((caller, args) ->
                         IntClass.get(PostVMClass.classesCount), IntClass.TYPE);
+                case "getCacheCount": return method((caller, args) ->
+                        IntClass.get(CacheManager.cashedClasses.size()), IntClass.TYPE);
+                case "gc": return voidMethod((caller, args) -> CacheManager.clearCache());
                 case "getProperty": return method((caller, args) ->
                         StringClass.get(System.getProperty(args.get(0).toString(caller))), StringClass.type);
             }

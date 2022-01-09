@@ -45,12 +45,6 @@ public class PostVMClass {
     }
 
     public PostVMClass loadGlobal(String target) {
-        switch (target) {
-            case "equals": return method((caller, args) -> BoolClass.get(args.get(0).classId == classId),
-                    PostVMClass.OBJECT_TYPE, BoolClass.type);
-            case "this": return this;
-        }
-
         if(extendsClass!=null) {
             PostVMClass global = extendsClass.loadGlobal(target);
             if(global!=null) return global;
@@ -59,6 +53,12 @@ public class PostVMClass {
         for(PostVMClass parent: parents) {
             PostVMClass global = parent.loadGlobal(target);
             if(global!=null) return global;
+        }
+
+        switch (target) {
+            case "equals": return method((caller, args) -> BoolClass.get(args.get(0).classId == classId),
+                    PostVMClass.OBJECT_TYPE, BoolClass.type);
+            case "this": return this;
         }
 
         return null;
@@ -111,6 +111,21 @@ public class PostVMClass {
         };
     }
 
+    public PostVMClass equals(PostVMClass another, Caller caller) {
+        return getGlobal("equals").cast(Method.class).call(caller, Collections.singletonList(another));
+    }
+
+    @Override
+    @Deprecated
+    public boolean equals(Object o) {
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, path, classId, classes, executor, classType, extendsClass, parents, constructor, globals);
+    }
+
     public String toString(Caller caller) throws LCLangRuntimeException {
         PostVMClass clazz = getGlobal("toString");
         if(clazz instanceof Method) {
@@ -151,6 +166,10 @@ public class PostVMClass {
         return new Method(arguments, VoidClass.type) {
             @Override
             public PostVMClass call(Caller caller, List<PostVMClass> args) throws LCLangRuntimeException {
+                while(arguments.size()>args.size()) {
+                    args.add(VoidClass.INSTANCE);
+                }
+
                 body.invoke(
                         caller,
                         args
@@ -169,6 +188,10 @@ public class PostVMClass {
         return new Method(arguments, returnType) {
             @Override
             public PostVMClass call(Caller caller, List<PostVMClass> args) throws LCLangRuntimeException {
+                while(arguments.size()>args.size()) {
+                    args.add(VoidClass.INSTANCE);
+                }
+
                 return body.invoke(
                         caller,
                         args

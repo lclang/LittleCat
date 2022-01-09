@@ -1,5 +1,5 @@
 /***
-    URL module
+    Network module
     From: 0.1.2
     Minimal version: 0.1.2
 **/
@@ -13,6 +13,8 @@ class URL(scheme  : string,
             path  : ?string,
             query : ?string,
             hash  : ?string) {
+    if !path.endsWith("/"): path += "/"
+
     method openConnection(): ?Connection {
         hostParts = []
         if host!=null: hostParts = host.split(":")
@@ -23,7 +25,7 @@ class URL(scheme  : string,
             return :HTTPConnection(:SSLSocket(hostParts[0] ?: host, :int(hostParts[1] ?: 443)), this)
         }else if scheme=="file": {
             return :FileConnection(:File(path))
-        }else printError("Current scheme not supported");
+        }else printError("Current scheme not supported")
 
         return null
     }
@@ -46,6 +48,8 @@ class URL(scheme  : string,
 }
 
 class HTTPConnection(socket: Socket, url: URL) extends Connection {
+    methodType = "GET"
+    isConnected = false
     headers = [
         "Host: "+url.host
     ]
@@ -61,14 +65,17 @@ class HTTPConnection(socket: Socket, url: URL) extends Connection {
     }
 
     method connect() {
+        if isConnected: return;
+
+        isConnected = true
         if socket is SSLSocket: {
             socket.startHandshake()
         }
 
         output = socket.getOutput()
-        output.println("GET "+url.getFullPath()+" HTTP/1.1")
-        headers.forEach(-> (header) output.println(header))
-        output.println("")
+        output.println(methodType+" "+url.getFullPath()+" HTTP/1.1")
+        headers.forEach(-> (header) output.print(header+"\r\n"))
+        output.print("\r\n")
         output.flush()
     }
 }

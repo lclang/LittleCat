@@ -92,7 +92,13 @@ public class Main {
             executeInput(executor, Utils.readFile(file, UniversalDetector.detectCharset(file)));
         } catch (RuntimeException e) {
             e.printStackTrace();
-            System.out.println(ERROR_COLOR + e.getMessage() + RESET_COLOR);
+            if(e instanceof LCLangRuntimeException)
+                System.out.println(ERROR_COLOR + e.getMessage() + RESET_COLOR);
+            else {
+                System.out.println(ERROR_COLOR + "Invalid error. Please submit this error to GitHub: " +
+                        "https://gtihub.com/lclang/LittleCat/issues"+RESET_COLOR);
+            }
+
             System.exit(1);
         } catch (IOException ignored) {}
     }

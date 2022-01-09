@@ -1,6 +1,7 @@
 package postvm.library.classes.numbers;
 
 import postvm.CacheManager;
+import postvm.exceptions.LCLangIOException;
 import postvm.library.classes.LibraryClass;
 import postvm.library.classes.PostVMClass;
 import postvm.library.classes.StringClass;
@@ -14,8 +15,13 @@ public final class LongClass extends LibraryClass {
 
     private LongClass() {
         super(NAME);
-        constructor = method((caller, lcClasses) -> LongClass.get(
-                Long.parseLong(lcClasses.get(0).toString(caller))), PostVMClass.OBJECT_TYPE, TYPE);
+        constructor = method((caller, lcClasses) -> {
+            try {
+                return LongClass.get(Long.parseLong(lcClasses.get(0).toString(caller)));
+            } catch (NumberFormatException e) {
+                throw new LCLangIOException("Invalid number format "+e.getMessage().toLowerCase(), caller);
+            }
+        }, PostVMClass.OBJECT_TYPE, TYPE);
     }
 
     private LongClass(long value) {
