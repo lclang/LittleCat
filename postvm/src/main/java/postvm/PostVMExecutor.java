@@ -5,11 +5,12 @@ import postvm.library.classes.PostVMClass;
 import postvm.library.classes.VoidClass;
 
 import java.util.HashMap;
+import java.util.WeakHashMap;
 
 public class PostVMExecutor {
     public final PostVMClass root;
     public PostVMExecutor parentExecutor = null;
-    public final HashMap<String, PostVMClass> variables = new HashMap<>();
+    public final WeakHashMap<String, PostVMClass> variables = new WeakHashMap<>();
 
     public PostVMExecutor(PostVMClass root) {
         this.root = root;

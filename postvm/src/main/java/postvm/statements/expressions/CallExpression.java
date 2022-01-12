@@ -8,7 +8,6 @@ import postvm.exceptions.LCLangRuntimeException;
 import postvm.exceptions.LCLangTypeErrorException;
 import postvm.library.classes.PostVMClass;
 import postvm.methods.Method;
-import postvm.types.CallableType;
 import postvm.types.Type;
 
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ public class CallExpression extends Expression {
     public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
         Caller expressionCaller = expression.getCaller(prevCaller);
         PostVMClass callClazz = expression.visit(prevCaller, visitor).get(expressionCaller);
-        if(!(callClazz.classType instanceof CallableType))
+        if(!callClazz.canCast(Method.INSTANCE))
             throw new LCLangTypeErrorException("Value is not callable (it is "+callClazz.classType+")", expressionCaller);
 
         ArrayList<Type> argsTypes = new ArrayList<>();

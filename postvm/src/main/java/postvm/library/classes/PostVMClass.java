@@ -1,5 +1,6 @@
 package postvm.library.classes;
 
+import postvm.CacheManager;
 import postvm.Caller;
 import postvm.Link;
 import postvm.PostVMExecutor;
@@ -26,8 +27,8 @@ public class PostVMClass {
     public PostVMClass extendsClass = null;
     public List<PostVMClass> parents = new ArrayList<>();
     public Method constructor = null;
+    private Link link;
 
-    private final HashMap<String, PostVMClass> globals = new HashMap<>();
 
     private PostVMClass() {
         this.name = "any";
@@ -75,10 +76,10 @@ public class PostVMClass {
     }
 
     public PostVMClass getGlobal(String name) {
-        PostVMClass global = globals.getOrDefault(name, null);
+        PostVMClass global = CacheManager.cashedClasses.get(this.name+classId+name);
         if(global==null) {
             global = loadGlobal(name);
-            globals.put(name, global);
+            CacheManager.saveCache(this.name+classId+name, global);
         }
 
         return global;
@@ -103,12 +104,14 @@ public class PostVMClass {
     }
 
     public Link createLink() {
-        return new Link(Link.State.NOTHING) {
+        if(link==null) link = new Link(Link.State.NOTHING) {
             @Override
             public PostVMClass get(Caller caller) throws LCLangRuntimeException {
                 return PostVMClass.this;
             }
         };
+
+        return link;
     }
 
     public PostVMClass equals(PostVMClass another, Caller caller) {
@@ -119,11 +122,6 @@ public class PostVMClass {
     @Deprecated
     public boolean equals(Object o) {
         return false;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, path, classId, classes, executor, classType, extendsClass, parents, constructor, globals);
     }
 
     public String toString(Caller caller) throws LCLangRuntimeException {

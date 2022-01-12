@@ -4,12 +4,13 @@ import postvm.library.classes.PostVMClass;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.WeakHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class CacheManager {
-    public static final Map<Object, PostVMClass> cashedClasses = new HashMap<>();
+    public static final WeakHashMap<Object, PostVMClass> cashedClasses = new WeakHashMap<>();
     private static final ScheduledExecutorService cacheClearTaskScheduler = Executors.newSingleThreadScheduledExecutor();
     private static final Runnable cacheClearTask = new Runnable() {
         public int classesCount = cashedClasses.size();
@@ -26,7 +27,7 @@ public class CacheManager {
     };
 
     public static void saveCache(Object value, PostVMClass clazz) {
-//        cashedClasses.put(value, clazz);
+        cashedClasses.put(value, clazz);
     }
 
     public static void clearCache() {
@@ -34,6 +35,6 @@ public class CacheManager {
     }
 
     static {
-        cacheClearTaskScheduler.scheduleAtFixedRate(cacheClearTask, 0,1, TimeUnit.NANOSECONDS);
+//        cacheClearTaskScheduler.scheduleAtFixedRate(cacheClearTask, 0,1, TimeUnit.NANOSECONDS);
     }
 }
