@@ -77,6 +77,11 @@ public class PostVMClass {
 
     public PostVMClass getGlobal(String name) {
         PostVMClass global = CacheManager.cashedClasses.get(this.name+classId+name);
+        for(PostVMClass parent: parents){
+            global = parent.getGlobal(name);
+            if(global!=null) return global;
+        }
+
         if(global==null) {
             global = loadGlobal(name);
             CacheManager.saveCache(this.name+classId+name, global);

@@ -1,4 +1,4 @@
-// Generated from C:/IdeaProjects/LittleCat/lclang/src/main/java/lclang\lclang.g4 by ANTLR 4.9.1
+// Generated from /home/levkopo/IdeaProjects/LittleCat/lclang/src/main/java/lclang/lclang.g4 by ANTLR 4.9.2
 package lclang;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 

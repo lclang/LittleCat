@@ -1,6 +1,7 @@
 package postvm.stdlib.classes;
 
 import postvm.Caller;
+import postvm.exceptions.LCLangRuntimeException;
 import postvm.library.classes.*;
 import postvm.library.classes.numbers.IntClass;
 import postvm.library.classes.numbers.LongClass;
@@ -29,8 +30,12 @@ public class ThreadClass extends LibraryClass {
     public PostVMClass loadGlobal(String target) {
         switch (target) {
             case "start": return voidMethod((caller, args) -> {
-                threadCaller.set(caller);
-                thread.start();
+                try {
+                    threadCaller.set(caller);
+                    thread.start();
+                }catch (OutOfMemoryError e) {
+                    throw new LCLangRuntimeException("PostVM", "Out of memory", caller);
+                }
             });
 
             case "setName": return voidMethod((caller, args) -> thread.setName(

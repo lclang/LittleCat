@@ -1,0 +1,46 @@
+class HTTPServer(port: int|void) {
+    if port is void: port = 80
+
+    server = :SocketServer(port)
+    handlers = []
+
+    method setHandler(path: string, handler: (HTTPRequest) -> string) {
+        handlers[] = handler
+    }
+
+    method start() {
+        :Thread(-> {
+            while {
+                :Thread(-> {
+                    socket = server.accept()
+                    input = socket.getInput()
+
+                    while !input.ready()
+                    [type, path, httpVersion] = input.readLine().split(" ")
+                    request = :HTTPRequest(type, path, httpVersion)
+
+                    while input.ready(): {
+                        line = input.readLine()
+                        println(line)
+                        if line == "": break
+                    }
+
+                    output = socket.getOutput()
+                    output.println("HTTP/1.0 200 OK")
+                    output.println("Content-Type: text/html; charset=utf-8")
+                    output.println()
+                    output.println(handlers[0](request))
+                    output.flush()
+
+                    socket.close()
+                }).start()
+            }
+        }).start()
+    }
+}
+
+class HTTPRequest (
+    type: string,
+    path: string,
+    httpVersion: string
+)

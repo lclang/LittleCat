@@ -6,6 +6,7 @@ import org.mozilla.universalchardet.UniversalDetector;
 import postvm.Library;
 import postvm.PostVMRoot;
 import postvm.Utils;
+import postvm.exceptions.LCLangLexerException;
 import postvm.exceptions.LCLangRuntimeException;
 import postvm.library.classes.ArrayClass;
 import postvm.library.classes.PostVMClass;
@@ -91,10 +92,10 @@ public class Main {
             executor.executor.variables.put("args", new ArrayClass(arguments));
             executeInput(executor, Utils.readFile(file, UniversalDetector.detectCharset(file)));
         } catch (RuntimeException e) {
-            e.printStackTrace();
-            if(e instanceof LCLangRuntimeException)
+            if(e instanceof LCLangRuntimeException||e instanceof LCLangLexerException)
                 System.out.println(ERROR_COLOR + e.getMessage() + RESET_COLOR);
             else {
+                e.printStackTrace();
                 System.out.println(ERROR_COLOR + "Invalid error. Please submit this error to GitHub: " +
                         "https://gtihub.com/lclang/LittleCat/issues"+RESET_COLOR);
             }
