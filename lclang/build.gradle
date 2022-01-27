@@ -24,7 +24,6 @@ dependencies {
     implementation project(':postvm')
     implementation project(':stdlib')
     implementation project(':ui-library')
-    implementation project(':reflection-library')
 
     testImplementation(platform('org.junit:junit-bom:5.7.2'))
     testImplementation('org.junit.jupiter:junit-jupiter:5.8.1')

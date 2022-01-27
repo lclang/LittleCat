@@ -3,7 +3,6 @@ package lclang;
 import postvm.Library;
 import postvm.PostVMRoot;
 import postvm.library.LangLibrary;
-import postvm.reflection.ReflectionLibrary;
 import postvm.stdlib.StdLibrary;
 import postvm.ui.UILibrary;
 
@@ -34,7 +33,6 @@ public class Global {
 
         javaLibraries.add(new LangLibrary());
         javaLibraries.add(new StdLibrary());
-        javaLibraries.add(new ReflectionLibrary());
         javaLibraries.add(new UILibrary());
     }
 }

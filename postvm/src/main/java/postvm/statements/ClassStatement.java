@@ -44,7 +44,7 @@ public class ClassStatement {
             @Override
             public PostVMClass call(Caller caller, List<PostVMClass> args) throws LCLangRuntimeException {
                 PostVMClass clazz = new PostVMClass(ClassStatement.this.name, root.path) {
-                    public HashMap<String, MethodStatement> methods = new HashMap<>();
+                    public final HashMap<String, MethodStatement> methods = new HashMap<>();
 
                     {
                         for(MethodStatement methodStatement: methodStatements) {
