@@ -18,15 +18,17 @@ public class PostVMClass {
     public static PostVMClass OBJECT_INSTANCE = new PostVMClass();
     public static Type OBJECT_TYPE = PostVMClass.OBJECT_INSTANCE.classType;
 
-    public final String name;
-    public final String path;
     public final int classId = classesCount++;
+    public Type classType = new Type(this);
+
+    public final String name, path;
+    public Method constructor = null;
+    public PostVMClass extendsClass = null;
+
     public final HashMap<String, PostVMClass> classes = new HashMap<>();
     public final PostVMExecutor executor = new PostVMExecutor(this);
-    public Type classType = new Type(this);
-    public PostVMClass extendsClass = null;
     public List<PostVMClass> parents = new ArrayList<>();
-    public Method constructor = null;
+
     private Link link;
 
 
@@ -59,6 +61,17 @@ public class PostVMClass {
         switch (target) {
             case "equals": return method((caller, args) -> BoolClass.get(args.get(0).classId == classId),
                     PostVMClass.OBJECT_TYPE, BoolClass.type);
+            case "toString": return method((caller, args) -> {
+                List<String> parameters = new ArrayList<>();
+                Set<Map.Entry<String, PostVMClass>> entries = executor.variables.entrySet();
+                for (Map.Entry<String, PostVMClass> entry : entries) {
+                    parameters.add(entry.getKey()+": "+entry.getValue().name+" = "+
+                            entry.getValue().toString(caller));
+                }
+
+                return StringClass.get(name+"@class"+classId+": { " + String.join(", ", parameters) + " }");
+            }, StringClass.type);
+
             case "this": return this;
         }
 
@@ -136,14 +149,7 @@ public class PostVMClass {
             return ((StringClass) method.call(caller, Collections.emptyList())).string;
         }
 
-        List<String> parameters = new ArrayList<>();
-        Set<Map.Entry<String, PostVMClass>> entries = executor.variables.entrySet();
-        for (Map.Entry<String, PostVMClass> entry : entries) {
-            parameters.add(entry.getKey()+": "+entry.getValue().name+" = "+
-                    entry.getValue().toString(caller));
-        }
-
-        return name+"@class"+classId+": { " + String.join(", ", parameters) + " }";
+        throw new LCLangTypeErrorException("Expected method for toString global", caller);
     }
 
     @Override

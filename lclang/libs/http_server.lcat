@@ -11,8 +11,8 @@ class HTTPServer(port: int|void) {
     method start() {
         :Thread(-> {
             while {
+                socket = server.accept()
                 :Thread(-> {
-                    socket = server.accept()
                     input = socket.getInput()
 
                     while !input.ready()
