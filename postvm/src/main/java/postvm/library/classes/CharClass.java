@@ -1,26 +1,33 @@
 package postvm.library.classes;
 
 import postvm.CacheManager;
+import postvm.Caller;
+import postvm.Utils;
 import postvm.library.classes.numbers.IntClass;
 import postvm.library.classes.numbers.NumberClass;
 import postvm.types.Type;
 
+import java.util.List;
 import java.util.Objects;
 
 public final class CharClass extends LibraryClass {
-    public static final String name =  "char";
-    public static final CharClass INSTANCE = new CharClass();
-    public static final Type type = INSTANCE.classType;
+    public static final PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
+            "char",
+            PostVMClass.PROTOTYPE,
+            Utils.listOf(IntClass.TYPE)
+    ) {
+        @Override
+        public PostVMClass createClass(Caller caller, List<PostVMClass> args) {
+            return CharClass.get((char) args.get(0).cast(NumberClass.class)
+                    .value.intValue());
+        }
+    };
+
+    public static final Type type = PROTOTYPE.type;
     public char value;
 
-    private CharClass() {
-        super(name);
-        constructor = method((caller, args) -> CharClass.get((char) args.get(0).cast(NumberClass.class).value.intValue()),
-                IntClass.TYPE);
-    }
-
     private CharClass(char value) {
-        super(name);
+        super(null, PROTOTYPE);
         this.value = value;
     }
 
@@ -38,7 +45,7 @@ public final class CharClass extends LibraryClass {
             case "equals": return method((caller, args) -> {
                 PostVMClass clazz = args.get(0);
 
-                return BoolClass.get(clazz.canCast(CharClass.INSTANCE) &&
+                return BoolClass.get(clazz.prototype.canCast(CharClass.PROTOTYPE) &&
                         Objects.equals(clazz.cast(CharClass.class).value, value));
             }, PostVMClass.OBJECT_TYPE, BoolClass.type);
         }

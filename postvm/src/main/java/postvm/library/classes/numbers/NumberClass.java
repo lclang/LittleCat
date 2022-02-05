@@ -1,26 +1,30 @@
 package postvm.library.classes.numbers;
 
+import postvm.Caller;
+import postvm.Utils;
 import postvm.library.classes.*;
 import postvm.types.Type;
 
+import java.util.List;
 import java.util.Objects;
 
 public final class NumberClass extends LibraryClass {
-    public static final String NAME = "number";
-    public static final NumberClass INSTANCE = new NumberClass();
-    public static final Type TYPE = INSTANCE.classType;
+    public static final PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
+            "number",
+            PostVMClass.PROTOTYPE,
+            Utils.listOf()
+    ) {
+        @Override
+        public PostVMClass createClass(Caller caller, List<PostVMClass> args) {
+            return new NumberClass(0);
+        }
+    };
+
+    public static final Type TYPE = PROTOTYPE.type;
     public Number value;
 
-    private NumberClass() {
-        super(NAME);
-    }
-
-    public NumberClass(String name) {
-        super(name);
-    }
-
     public NumberClass(Number value) {
-        super(NAME);
+        super(null, PROTOTYPE);
         this.value = value;
     }
 
@@ -39,7 +43,7 @@ public final class NumberClass extends LibraryClass {
                     StringClass.type);
             case "equals": return method((caller, args) -> {
                 PostVMClass another = args.get(0);
-                return BoolClass.get(another.canCast(NumberClass.INSTANCE) &&
+                return BoolClass.get(another.prototype.canCast(NumberClass.PROTOTYPE) &&
                         Objects.equals(another.cast(NumberClass.class).value, value));
             }, PostVMClass.OBJECT_TYPE, BoolClass.type);
         }

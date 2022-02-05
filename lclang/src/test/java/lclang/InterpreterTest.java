@@ -10,7 +10,6 @@ import postvm.PostVMRoot;
 import postvm.Utils;
 import postvm.library.LangLibrary;
 import postvm.libs.TestLibrary;
-import postvm.stdlib.StdLibrary;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -34,7 +33,7 @@ public class InterpreterTest {
                 Global.libraries.clear();
                 Global.javaLibraries.clear();
                 Global.javaLibraries.add(new LangLibrary());
-                Global.javaLibraries.add(new StdLibrary());
+//                Global.javaLibraries.add(new StdLibrary());
                 Global.javaLibraries.add(new TestLibrary(output));
 
                 String[] parts = Utils.readFile(file, UniversalDetector.detectCharset(file))

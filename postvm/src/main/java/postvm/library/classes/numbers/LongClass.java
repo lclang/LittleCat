@@ -1,33 +1,40 @@
 package postvm.library.classes.numbers;
 
 import postvm.CacheManager;
+import postvm.Caller;
+import postvm.Utils;
 import postvm.exceptions.LCLangIOException;
 import postvm.library.classes.LibraryClass;
 import postvm.library.classes.PostVMClass;
+import postvm.library.classes.PostVMClassPrototype;
 import postvm.library.classes.StringClass;
 import postvm.types.Type;
 
-public final class LongClass extends LibraryClass {
-    public static final String NAME = "long";
-    public static final LongClass INSTANCE = new LongClass();
-    public static final Type TYPE = INSTANCE.classType;
-    public long value;
+import java.util.List;
 
-    private LongClass() {
-        super(NAME);
-        constructor = method((caller, lcClasses) -> {
+public final class LongClass extends LibraryClass {
+    public static final PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
+            "long",
+            NumberClass.PROTOTYPE,
+            Utils.listOf(PostVMClass.OBJECT_TYPE)
+    ){
+        @Override
+        public PostVMClass createClass(Caller caller, List<PostVMClass> args) {
             try {
-                return LongClass.get(Long.parseLong(lcClasses.get(0).toString(caller)));
+                return LongClass.get(Long.parseLong(args.get(0).toString(caller)));
             } catch (NumberFormatException e) {
                 throw new LCLangIOException("Invalid number format "+e.getMessage().toLowerCase(), caller);
             }
-        }, PostVMClass.OBJECT_TYPE, TYPE);
-    }
+        }
+    };
+
+    public static final Type TYPE = PROTOTYPE.type;
+    public long value;
 
     private LongClass(long value) {
-        super(NAME);
+        super(null, PROTOTYPE);
         this.value = value;
-        this.extendsClass = new NumberClass(value);
+        this.extendsClass.cast(NumberClass.class).value = value;
     }
 
     @Override

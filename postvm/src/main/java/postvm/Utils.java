@@ -6,6 +6,7 @@ import postvm.utils.Function;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -24,6 +25,11 @@ public class Utils {
         }
 
         return String.join(spectator, output);
+    }
+
+    @SafeVarargs
+    public static <T> List<T> listOf(T... array) {
+        return Arrays.asList(array);
     }
 
     public static String unescapeString(String input) {

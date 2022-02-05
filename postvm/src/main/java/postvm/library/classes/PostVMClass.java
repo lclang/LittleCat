@@ -14,47 +14,66 @@ import postvm.utils.VoidMethod2;
 import java.util.*;
 
 public class PostVMClass {
+    public final static PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
+        "any",
+        null,
+            Collections.emptyList()
+    ) {
+        @Override
+        public PostVMClass createClass(Caller caller, List<PostVMClass> args) {
+            return new PostVMClass();
+        }
+    };
+
     public static int classesCount = 0;
     public static PostVMClass OBJECT_INSTANCE = new PostVMClass();
-    public static Type OBJECT_TYPE = PostVMClass.OBJECT_INSTANCE.classType;
+    public static Type OBJECT_TYPE = PROTOTYPE.type;
 
     public final int classId = classesCount++;
-    public Type classType = new Type(this);
+    public final PostVMClassPrototype prototype;
 
-    public final String name, path;
-    public Method constructor = null;
-    public PostVMClass extendsClass = null;
+    public final String path;
+    public final PostVMClass extendsClass;
 
-    public final HashMap<String, PostVMClass> classes = new HashMap<>();
+    public final HashMap<String, PostVMClassPrototype> classes = new HashMap<>();
     public final PostVMExecutor executor = new PostVMExecutor(this);
     public List<PostVMClass> parents = new ArrayList<>();
 
     private Link link;
 
-
     private PostVMClass() {
-        this.name = "any";
+        this.prototype = PROTOTYPE;
         this.path = "undefined";
+        this.extendsClass = null;
     }
 
-    public PostVMClass(String name) {
-        this(name, name);
+    public PostVMClass(
+            Caller caller,
+            PostVMClassPrototype prototype,
+            List<PostVMClass> extendsArgs) {
+        this(caller, prototype, prototype.name, extendsArgs);
     }
 
-    public PostVMClass(String name, String path) {
-        this.name = name;
+    public PostVMClass(
+            Caller caller,
+            PostVMClassPrototype prototype,
+            String path,
+            List<PostVMClass> extendsArgs) {
+
+        this.prototype = prototype;
         this.path = path;
-        this.extendsClass = new PostVMClass();
+        PostVMClass extendsClass = createExtendsClass();
+        if(extendsClass==null) this.extendsClass = prototype.extendsClass.createClass(caller, extendsArgs);
+        else this.extendsClass = extendsClass;
+    }
+
+    public PostVMClass createExtendsClass() {
+        return null;
     }
 
     public PostVMClass loadGlobal(String target) {
-        if(extendsClass!=null) {
-            PostVMClass global = extendsClass.loadGlobal(target);
-            if(global!=null) return global;
-        }
-
-        for(PostVMClass parent: parents) {
-            PostVMClass global = parent.loadGlobal(target);
+        if(extendsClass != null) {
+            PostVMClass global = extendsClass.getGlobal(target);
             if(global!=null) return global;
         }
 
@@ -65,11 +84,11 @@ public class PostVMClass {
                 List<String> parameters = new ArrayList<>();
                 Set<Map.Entry<String, PostVMClass>> entries = executor.variables.entrySet();
                 for (Map.Entry<String, PostVMClass> entry : entries) {
-                    parameters.add(entry.getKey()+": "+entry.getValue().name+" = "+
+                    parameters.add(entry.getKey()+": "+entry.getValue().prototype.name+" = "+
                             entry.getValue().toString(caller));
                 }
 
-                return StringClass.get(name+"@class"+classId+": { " + String.join(", ", parameters) + " }");
+                return StringClass.get(prototype.name+"@class"+classId+": { " + String.join(", ", parameters) + " }");
             }, StringClass.type);
 
             case "this": return this;
@@ -78,8 +97,8 @@ public class PostVMClass {
         return null;
     }
 
-    public PostVMClass getClass(String name) {
-        PostVMClass clazz = classes.get(name);
+    public PostVMClassPrototype getClass(String name) {
+        PostVMClassPrototype clazz = classes.get(name);
         if(clazz==null) for (PostVMClass parent: parents){
             clazz = parent.getClass(name);
             if(clazz!=null) return clazz;
@@ -89,36 +108,37 @@ public class PostVMClass {
     }
 
     public PostVMClass getGlobal(String name) {
-        PostVMClass global = CacheManager.cashedClasses.get(this.name+classId+name);
         for(PostVMClass parent: parents){
-            global = parent.getGlobal(name);
+            PostVMClass global = parent.getGlobal(name);
             if(global!=null) return global;
         }
 
-        if(global==null) {
-            global = loadGlobal(name);
-            CacheManager.saveCache(this.name+classId+name, global);
+        PostVMClass global = CacheManager.cashedClasses.get(this.prototype.name+classId+name);
+        if(global!=null) return global;
+
+        global = loadGlobal(name);
+        if(global!=null) {
+            CacheManager.saveCache(this.prototype.name+classId+name, global);
+            return global;
         }
 
-        return global;
+        return null;
     }
 
-    public Link getVariableClass(Caller caller, String name) throws LCLangRuntimeException {
+    public PostVMClass getVariableClass(Caller caller, String name) throws LCLangRuntimeException {
         PostVMClass value = getGlobal(name);
         if(value==null) {
             if(extendsClass!=null)
                 return extendsClass.getVariableClass(caller, name);
 
-            return VoidClass.value;
+            return VoidClass.INSTANCE;
         }
 
-        return value.createLink();
+        return value;
     }
 
     public boolean canCast(PostVMClass another) {
-        return Objects.equals(another.name, name) ||
-                    extendsClass!=null &&
-                    extendsClass.canCast(another);
+        return prototype.canCast(another.prototype);
     }
 
     public Link createLink() {
@@ -164,7 +184,7 @@ public class PostVMClass {
             return (T) this;
         else if(extendsClass!=null)
             return extendsClass.cast(clazz);
-        else throw new LCLangTypeErrorException("PostVM Error: Invalid cast: "+name+" as "+clazz.getName()+".\n" +
+        else throw new LCLangTypeErrorException("PostVM Error: Invalid cast: "+prototype.name+" as "+clazz.getName()+".\n" +
                     "Please report error to GitHub: https://github.com/lclang/LittleCat",
                     new Caller(this, -1));
     }
@@ -172,7 +192,7 @@ public class PostVMClass {
     public Method voidMethod(VoidMethod2<Caller, List<PostVMClass>> body, Type... args) {
         List<Type> arguments = Arrays.asList(args);
 
-        return new Method(arguments, VoidClass.type) {
+        return new Method(arguments, VoidClass.PROTOTYPE.type) {
             @Override
             public PostVMClass call(Caller caller, List<PostVMClass> args) throws LCLangRuntimeException {
                 while(arguments.size()>args.size()) {
@@ -189,7 +209,7 @@ public class PostVMClass {
         };
     }
 
-    public Method method(Function2<Caller, List<PostVMClass>, PostVMClass> body, Type... args) {
+    public static Method method(Function2<Caller, List<PostVMClass>, PostVMClass> body, Type... args) {
         Type returnType = args[args.length-1];
         List<Type> arguments = new ArrayList<>(Arrays.asList(args));
         arguments.remove(args.length-1);

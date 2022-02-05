@@ -33,7 +33,7 @@ public class BinaryOperationExpression extends Expression {
         if(leftLink.state != Link.State.NOTHING) return leftLink;
         PostVMClass leftClass = leftLink.get(caller);
 
-        if(leftClass.canCast(NumberClass.INSTANCE) && rightClass.canCast(NumberClass.INSTANCE)) {
+        if(leftClass.prototype.canCast(NumberClass.PROTOTYPE) && rightClass.prototype.canCast(NumberClass.PROTOTYPE)) {
             NumberClass leftNumber = leftClass.cast(NumberClass.class);
             NumberClass rightNumber = rightClass.cast(NumberClass.class);
 

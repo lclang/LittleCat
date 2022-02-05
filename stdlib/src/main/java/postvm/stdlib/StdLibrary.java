@@ -1,12 +1,16 @@
 package postvm.stdlib;
 
 import postvm.CacheManager;
+import postvm.Caller;
 import postvm.Library;
+import postvm.Utils;
 import postvm.exceptions.LCLangRuntimeException;
 import postvm.library.classes.*;
 import postvm.library.classes.numbers.IntClass;
 import postvm.library.classes.numbers.LongClass;
+import postvm.methods.Method;
 import postvm.stdlib.classes.*;
+import postvm.types.CallableType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,15 +24,15 @@ public class StdLibrary extends Library {
 
     public StdLibrary() {
         super("std");
-        classes.put("SocketServer", SocketServerClass.instance);
-        classes.put("Socket", SocketClass.instance);
-        classes.put("SSLSocket", SSLSocketClass.instance);
-        classes.put("Output", OutputClass.instance);
-        classes.put("Input", InputClass.instance);
-        classes.put("File", FileClass.instance);
-        classes.put("Math", MathClass.instance);
-        classes.put("Thread", ThreadClass.instance);
-        classes.put("std", StdClass.instance);
+        classes.put("SocketServer", SocketServerClass.PROTOTYPE);
+        classes.put("Socket", SocketClass.PROTOTYPE);
+//        classes.put("SSLSocket", SSLSocketClass.instance);
+        classes.put("Output", OutputClass.PROTOTYPE);
+        classes.put("Input", InputClass.PROTOTYPE);
+        classes.put("File", FileClass.PROTOTYPE);
+        classes.put("Math", MathClass.PROTOTYPE);
+        classes.put("Thread", ThreadClass.PROTOTYPE);
+        classes.put("std", StdClass.PROTOTYPE);
     }
 
     @Override
@@ -85,12 +89,21 @@ public class StdLibrary extends Library {
     }
 
     public static class StdClass extends LibraryClass {
+        public static final PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
+                "std", PostVMClass.PROTOTYPE, Utils.listOf()
+        ) {
+            @Override
+            public PostVMClass createClass(Caller caller, List<PostVMClass> args) {
+                return instance;
+            }
+        };
+
         public static final StdClass instance = new StdClass();
 
         private StdClass() {
-            super("std");
-            executor.variables.put("output", new OutputClass(System.out));
-            executor.variables.put("input", new InputClass(System.in));
+            super(null, PROTOTYPE);
+            executor.variables.put("output", new OutputClass(new Caller(this, 0), System.out));
+            executor.variables.put("input", new InputClass(new Caller(this, 0), System.in));
         }
 
         @Override

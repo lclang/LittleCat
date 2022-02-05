@@ -1,6 +1,7 @@
 package postvm.stdlib.classes;
 
 import postvm.Caller;
+import postvm.Utils;
 import postvm.exceptions.LCLangRuntimeException;
 import postvm.library.classes.*;
 import postvm.library.classes.numbers.IntClass;
@@ -11,19 +12,31 @@ import postvm.types.CallableType;
 import postvm.types.Type;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ThreadClass extends LibraryClass {
-    public static final String name = "Thread";
-    public static final ThreadClass instance = new ThreadClass();
-    public static final Type type = instance.classType;
-    private AtomicReference<Caller> threadCaller = new AtomicReference<>();
+    public static final PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
+            "Thread", PostVMClass.PROTOTYPE, Utils.listOf(
+            CallableType.get(VoidClass.PROTOTYPE.type))
+    ) {
+        @Override
+        public PostVMClass createClass(Caller caller, List<PostVMClass> args) {
+            return new ThreadClass(caller, args.get(0).cast(Method.class));
+        }
+    };
+
+    private final AtomicReference<Caller> threadCaller = new AtomicReference<>();
     public Thread thread;
 
-    private ThreadClass() {
-        super(name);
-        constructor = method((caller, args) -> new ThreadClass((Method) args.get(0)),
-                CallableType.get(VoidClass.type), type);
+    private ThreadClass(Caller caller, Method method) {
+        super(caller, PROTOTYPE);
+
+        thread = new Thread(() -> method.call(threadCaller.get(), Collections.emptyList()));
+        thread.setUncaughtExceptionHandler((thread, exception) -> {
+            System.out.println("unhandled exception");
+            exception.printStackTrace();
+        });
     }
 
     @Override
@@ -67,15 +80,5 @@ public class ThreadClass extends LibraryClass {
         }
 
         return super.loadGlobal(target);
-    }
-
-    private ThreadClass(Method method) {
-        this();
-
-        thread = new Thread(() -> method.call(threadCaller.get(), Collections.emptyList()));
-        thread.setUncaughtExceptionHandler((thread, exception) -> {
-            System.out.println("unhandled exception");
-            exception.printStackTrace();
-        });
     }
 }

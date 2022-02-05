@@ -5,12 +5,11 @@ import postvm.library.classes.PostVMClass;
 import postvm.library.classes.VoidClass;
 
 import java.util.HashMap;
-import java.util.WeakHashMap;
 
 public class PostVMExecutor {
     public final PostVMClass root;
     public PostVMExecutor parentExecutor = null;
-    public final WeakHashMap<String, PostVMClass> variables = new WeakHashMap<>();
+    public final HashMap<String, PostVMClass> variables = new HashMap<>();
 
     public PostVMExecutor(PostVMClass root) {
         this.root = root;
@@ -22,26 +21,17 @@ public class PostVMExecutor {
     }
 
     public Link getVariableClass(Caller caller, String name) {
-        PostVMClass clazz;
-        if(variables.containsKey(name)){
-            clazz = variables.getOrDefault(name, null);
-        } else {
+        PostVMClass clazz = variables.getOrDefault(name, null);
+        if(clazz==null){
             if(parentExecutor!=null) {
                 Link link = parentExecutor.getVariableClass(caller, name);
                 if(link != VoidClass.value) return link;
             }
 
-            Link link = root.getVariableClass(caller, name);
-            if(link != VoidClass.value) return link;
-            else clazz = VoidClass.INSTANCE;
+            clazz = root.getVariableClass(caller, name);
         }
 
-        return new Link(Link.State.NOTHING) {
-            @Override
-            public PostVMClass get(Caller caller) throws LCLangRuntimeException {
-                return clazz;
-            }
-
+        return new ClassLink(clazz, Link.State.NOTHING) {
             @Override
             public void set(Caller caller, PostVMClass value) throws LCLangRuntimeException {
                 variables.put(name, value);

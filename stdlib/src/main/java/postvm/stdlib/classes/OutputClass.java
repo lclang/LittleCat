@@ -1,45 +1,41 @@
 package postvm.stdlib.classes;
 
+import postvm.Caller;
+import postvm.Utils;
 import postvm.exceptions.LCLangIOException;
-import postvm.library.classes.ArrayClass;
-import postvm.library.classes.LibraryClass;
-import postvm.library.classes.PostVMClass;
-import postvm.library.classes.VoidClass;
+import postvm.library.classes.*;
 import postvm.library.classes.numbers.IntClass;
 import postvm.library.classes.numbers.NumberClass;
 import postvm.methods.Method;
 import postvm.types.CallableType;
 import postvm.types.Type;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.Collections;
 import java.util.List;
 
 public class OutputClass extends LibraryClass {
-    public static final String name = "Output";
-    public static final OutputClass instance = new OutputClass();
-    public static final Type type = instance.classType;
-    public PrintStream printer;
-
-    private OutputClass() {
-        super(name);
-
-        constructor = method((caller, args) -> {
+    public static final PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
+            "Output",
+            PostVMClass.PROTOTYPE,
+            Utils.listOf(CallableType.get(IntClass.PROTOTYPE.type))
+    ) {
+        @Override
+        public PostVMClass createClass(Caller caller, List<PostVMClass> args) {
             Method method = (Method) args.get(0);
-            return new OutputClass(new OutputStream() {
+            return new OutputClass(caller, new OutputStream() {
                 @Override
                 public void write(int b) {
                     method.call(caller, Collections.singletonList(IntClass.get(b)));
                 }
             });
-        }, CallableType.get(IntClass.TYPE, VoidClass.type), type);
-    }
+        }
+    };
 
-    public OutputClass(OutputStream stream) {
-        this();
+    public PrintStream printer;
+
+    public OutputClass(Caller caller, OutputStream stream) {
+        super(caller, PROTOTYPE);
         try {
             printer = new PrintStream(stream, false, "UTF-8");
         } catch (UnsupportedEncodingException ignored) {}
@@ -61,7 +57,7 @@ public class OutputClass extends LibraryClass {
                     throw new LCLangIOException(e.getMessage(), caller);
                 }
 
-            }, InputClass.type);
+            }, InputClass.PROTOTYPE.type);
             case "write": return voidMethod((caller, args) -> printer.write(args.get(0)
                     .cast(NumberClass.class)
                     .value.byteValue()), NumberClass.TYPE);

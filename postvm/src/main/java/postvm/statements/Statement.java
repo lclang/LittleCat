@@ -3,7 +3,6 @@ package postvm.statements;
 import postvm.Caller;
 import postvm.Link;
 import postvm.PostVMExecutor;
-import postvm.PostVMRoot;
 import postvm.exceptions.LCLangRuntimeException;
 
 public abstract class Statement {
@@ -17,8 +16,5 @@ public abstract class Statement {
 
     public Caller getCaller(Caller caller) {
         return new Caller(caller.root, line, caller);
-    }
-    public Caller getCaller(PostVMRoot root) {
-        return new Caller(root, line, null);
     }
 }

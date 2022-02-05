@@ -12,7 +12,7 @@ public class TypeUtils {
         }
 
         for (int i = 0; i < filterTypes.size(); i++) {
-            Type checkType = VoidClass.type;
+            Type checkType = VoidClass.PROTOTYPE.type;
             if(checkTypes.size()>i) checkType = checkTypes.get(i);
 
             if(!filterTypes.get(i).isAccept(checkType)) {

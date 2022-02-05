@@ -12,18 +12,18 @@ public final class LangLibrary extends Library {
     public LangLibrary() {
         super("lang");
 
-        classes.put("any", PostVMClass.OBJECT_INSTANCE);
-        classes.put("object", PostVMClass.OBJECT_INSTANCE);
-        classes.put("array", ArrayClass.INSTANCE);
-        classes.put("bool", BoolClass.INSTANCE);
-        classes.put("char", CharClass.INSTANCE);
-        classes.put("double", DoubleClass.INSTANCE);
-        classes.put("int", IntClass.INSTANCE);
-        classes.put("long", LongClass.INSTANCE);
-        classes.put("number", NumberClass.INSTANCE);
-        classes.put("string", StringClass.INSTANCE);
-        classes.put("null", NullClass.INSTANCE);
-        classes.put("callable", Method.INSTANCE);
-        classes.put("void", VoidClass.INSTANCE);
+        classes.put("any", PostVMClass.PROTOTYPE);
+        classes.put("object", PostVMClass.PROTOTYPE);
+        classes.put("array", ArrayClass.PROTOTYPE);
+        classes.put("bool", BoolClass.PROTOTYPE);
+        classes.put("char", CharClass.PROTOTYPE);
+        classes.put("double", DoubleClass.PROTOTYPE);
+        classes.put("int", IntClass.PROTOTYPE);
+        classes.put("long", LongClass.PROTOTYPE);
+        classes.put("number", NumberClass.PROTOTYPE);
+        classes.put("string", StringClass.PROTOTYPE);
+        classes.put("null", NullClass.PROTOTYPE);
+        classes.put("callable", Method.PROTOTYPE);
+        classes.put("void", VoidClass.PROTOTYPE);
     }
 }

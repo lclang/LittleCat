@@ -13,14 +13,20 @@ import java.util.Collections;
 import java.util.List;
 
 public final class ArrayClass extends LibraryClass {
-    public static final String name = "array";
-    public static final ArrayClass INSTANCE = new ArrayClass();
-    public static final Type type = INSTANCE.classType;
+    public static final PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
+            "array",
+            PostVMClass.PROTOTYPE,
+            Collections.emptyList()
+    ) {
+        @Override
+        public PostVMClass createClass(Caller caller, List<PostVMClass> args) {
+            return new ArrayClass(Collections.emptyList());
+        }
+    };
+
+    public static final Type type = PROTOTYPE.type;
 
     public List<PostVMClass> value;
-    private ArrayClass() {
-        super(name);
-    }
 
     public PostVMClass get(int index) {
         return value.size() > index && index >= 0 ?
@@ -42,7 +48,7 @@ public final class ArrayClass extends LibraryClass {
     }
 
     public ArrayClass(List<PostVMClass> list) {
-        super(name);
+        super(null, PROTOTYPE);
         value = list;
     }
 
@@ -82,7 +88,7 @@ public final class ArrayClass extends LibraryClass {
                 for (PostVMClass item: value) {
                     method.call(caller, Collections.singletonList(item));
                 }
-            }, CallableType.get(PostVMClass.OBJECT_TYPE, VoidClass.type));
+            }, CallableType.get(PostVMClass.OBJECT_TYPE, VoidClass.PROTOTYPE.type));
         }
 
         return super.loadGlobal(target);

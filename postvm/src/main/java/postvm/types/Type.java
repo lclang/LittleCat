@@ -1,20 +1,20 @@
 package postvm.types;
 
 import postvm.library.classes.NullClass;
-import postvm.library.classes.PostVMClass;
+import postvm.library.classes.PostVMClassPrototype;
 
 public class Type implements Cloneable {
     public boolean nullable = false;
-    public final PostVMClass clazz;
+    public final PostVMClassPrototype clazz;
 
-    public Type(PostVMClass clazz) {
+    public Type(PostVMClassPrototype clazz) {
         this.clazz = clazz;
     }
 
     public boolean isAccept(Type another) {
-        if(NullClass.type.equals(this)) return true;
+        if(NullClass.PROTOTYPE==clazz) return true;
 
-        if(another.isAccept(NullClass.type))
+        if(another.clazz==NullClass.PROTOTYPE)
             return nullable;
 
         return isAcceptWithoutNullable(another) && (nullable || !another.nullable);

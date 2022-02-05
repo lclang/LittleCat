@@ -24,7 +24,7 @@ public class ForStatement extends Statement {
     @Override
     public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
         PostVMClass clazz = values.visit(prevCaller, visitor).get(prevCaller);
-        if(!ArrayClass.OBJECT_TYPE.isAccept(clazz.classType))
+        if(!clazz.prototype.canCast(ArrayClass.PROTOTYPE))
             throw new LCLangTypeErrorException("Expected array", prevCaller);
 
         ArrayClass array = (ArrayClass) clazz;

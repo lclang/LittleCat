@@ -1,33 +1,43 @@
 package postvm.library.classes.numbers;
 
 import postvm.CacheManager;
+import postvm.Caller;
+import postvm.Utils;
 import postvm.exceptions.LCLangIOException;
 import postvm.library.classes.LibraryClass;
 import postvm.library.classes.PostVMClass;
+import postvm.library.classes.PostVMClassPrototype;
 import postvm.library.classes.StringClass;
+import postvm.methods.Method;
 import postvm.types.Type;
 
-public final class DoubleClass extends LibraryClass {
-    public static final String NAME = "double";
-    public static final DoubleClass INSTANCE = new DoubleClass();
-    public static final Type TYPE = INSTANCE.classType;
-    public double value;
+import java.util.List;
 
-    private DoubleClass() {
-        super(NAME);
-        constructor = method((caller, lcClasses) -> {
+public final class DoubleClass extends LibraryClass {
+    public static final PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
+            "double",
+            NumberClass.PROTOTYPE,
+            Utils.listOf(PostVMClass.PROTOTYPE.type)
+    ){
+
+        @Override
+        public PostVMClass createClass(Caller caller, List<PostVMClass> args) {
             try {
-                return DoubleClass.get(Double.parseDouble(lcClasses.get(0).toString(caller)));
+                return DoubleClass.get(Double.parseDouble(args.get(0).toString(caller)));
             } catch (NumberFormatException e) {
                 throw new LCLangIOException("Invalid number format "+e.getMessage().toLowerCase(), caller);
             }
-        }, PostVMClass.OBJECT_TYPE, TYPE);
-    }
+        }
+    };
+
+    public static final Type TYPE = PROTOTYPE.type;
+    public double value;
+
 
     private DoubleClass(double value) {
-        super(NAME);
+        super(null, PROTOTYPE);
         this.value = value;
-        this.extendsClass = new NumberClass(value);
+        this.extendsClass.cast(NumberClass.class).value = value;
     }
 
     @Override

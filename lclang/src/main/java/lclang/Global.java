@@ -4,7 +4,7 @@ import postvm.Library;
 import postvm.PostVMRoot;
 import postvm.library.LangLibrary;
 import postvm.stdlib.StdLibrary;
-import postvm.ui.UILibrary;
+//import postvm.ui.UILibrary;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -33,6 +33,6 @@ public class Global {
 
         javaLibraries.add(new LangLibrary());
         javaLibraries.add(new StdLibrary());
-        javaLibraries.add(new UILibrary());
+//        javaLibraries.add(new UILibrary());
     }
 }

@@ -1,6 +1,8 @@
 package postvm.library.classes;
 
 import postvm.CacheManager;
+import postvm.Caller;
+import postvm.Utils;
 import postvm.library.classes.numbers.IntClass;
 import postvm.types.Type;
 
@@ -9,18 +11,22 @@ import java.util.List;
 import java.util.Objects;
 
 public final class StringClass extends LibraryClass {
-    public static final String name = "string";
-    public static final StringClass INSTANCE = new StringClass();
-    public static final Type type = INSTANCE.classType;
+    public static final PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
+            "string",
+            PostVMClass.PROTOTYPE,
+            Utils.listOf(PostVMClass.PROTOTYPE.type)
+    ) {
+        @Override
+        public PostVMClass createClass(Caller caller, List<PostVMClass> args) {
+            return get(args.get(0).toString(caller));
+        }
+    };
+
+    public static final Type type = PROTOTYPE.type;
     public String string;
 
-    private StringClass() {
-        super(name);
-        constructor = method((caller, args) -> get(args.get(0).toString(caller)), OBJECT_TYPE, type);
-    }
-
     private StringClass(String string) {
-        super(name);
+        super(null, PROTOTYPE);
         this.string = string;
     }
 
@@ -35,7 +41,7 @@ public final class StringClass extends LibraryClass {
             case "equals": return method((caller, args) -> {
                 PostVMClass clazz = args.get(0);
 
-                return BoolClass.get(clazz.canCast(StringClass.INSTANCE) &&
+                return BoolClass.get(clazz.prototype.canCast(StringClass.PROTOTYPE) &&
                         Objects.equals(clazz.cast(StringClass.class).string, string));
             }, PostVMClass.OBJECT_TYPE, BoolClass.type);
             case "toArray": return method((caller, lcClasses) -> {

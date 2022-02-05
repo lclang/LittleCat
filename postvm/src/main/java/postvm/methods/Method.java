@@ -1,32 +1,37 @@
 package postvm.methods;
 
 import postvm.Caller;
+import postvm.Utils;
 import postvm.exceptions.LCLangRuntimeException;
-import postvm.library.classes.ArrayClass;
-import postvm.library.classes.NullClass;
-import postvm.library.classes.PostVMClass;
+import postvm.library.classes.*;
 import postvm.types.CallableType;
 import postvm.types.Type;
 
 import java.util.List;
 
-public class Method extends PostVMClass {
-    public static final String name = "callable";
-    public static final Method INSTANCE = new Method();
-    public static final Type type = INSTANCE.classType;
+public class Method extends LibraryClass {
+    public static final PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
+            "callable",
+            PostVMClass.PROTOTYPE,
+            Utils.listOf()
+    ){
+
+        @Override
+        public PostVMClass createClass(Caller caller, List<PostVMClass> args) {
+            return new Method(Utils.listOf(), VoidClass.PROTOTYPE.type);
+        }
+    };
+
+    public static final Type type = PROTOTYPE.type;
 
     public List<Type> args;
     public Type returnType;
 
-    private Method() {
-        super(name);
-    }
 
     public Method(List<Type> args, Type returnType) {
-        super(name);
+        super(null, PROTOTYPE);
         this.args = args;
         this.returnType = returnType;
-        this.classType = new CallableType(args, returnType);
     }
 
     @Override
@@ -40,11 +45,11 @@ public class Method extends PostVMClass {
     }
 
     public PostVMClass call(Caller caller, List<PostVMClass> args) throws LCLangRuntimeException {
-        return NullClass.INSTANCE;
+        return VoidClass.INSTANCE;
     }
 
     @Override
     public String toString(Caller caller) throws LCLangRuntimeException {
-        return classType.toString();
+        return new CallableType(args, returnType).toString();
     }
 }

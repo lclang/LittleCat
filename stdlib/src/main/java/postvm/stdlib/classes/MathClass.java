@@ -1,18 +1,29 @@
 package postvm.stdlib.classes;
 
+import postvm.Caller;
+import postvm.Utils;
 import postvm.library.classes.LibraryClass;
 import postvm.library.classes.PostVMClass;
+import postvm.library.classes.PostVMClassPrototype;
 import postvm.library.classes.numbers.DoubleClass;
 import postvm.library.classes.numbers.NumberClass;
-import postvm.types.Type;
+
+import java.util.List;
 
 public class MathClass extends LibraryClass {
-    public static final String name = "Math";
-    public static final MathClass instance = new MathClass();
-    public static final Type type = instance.classType;
+    public static final PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
+            "Math", PostVMClass.PROTOTYPE, Utils.listOf()) {
+        @Override
+        public PostVMClass createClass(Caller caller, List<PostVMClass> args) {
+            return INSTANCE;
+        }
+    };
+
+    public static final MathClass INSTANCE = new MathClass();
+
 
     private MathClass() {
-        super(name);
+        super(null, PROTOTYPE);
     }
 
     @Override

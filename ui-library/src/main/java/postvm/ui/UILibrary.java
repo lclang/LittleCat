@@ -27,7 +27,7 @@ public class UILibrary extends Library {
             case "useUI": return voidMethod((caller, args) ->
                     SwingUtilities.invokeLater(() -> args.get(0).cast(Method.class)
                             .call(caller, Collections.emptyList())
-                    ), CallableType.get(VoidClass.type));
+                    ), CallableType.get(VoidClass.PROTOTYPE.type));
         }
 
         return super.loadGlobal(target);

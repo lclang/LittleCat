@@ -17,6 +17,6 @@ public class GetTypeExpression extends Expression {
     @Override
     public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
         return StringClass.get(expression.visit(prevCaller, visitor).get(prevCaller)
-                .classType.toString()).createLink();
+                .prototype.type.toString()).createLink();
     }
 }

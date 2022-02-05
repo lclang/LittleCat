@@ -1,5 +1,7 @@
 package postvm.stdlib.classes;
 
+import postvm.Caller;
+import postvm.Utils;
 import postvm.exceptions.LCLangIOException;
 import postvm.library.classes.*;
 import postvm.library.classes.numbers.DoubleClass;
@@ -8,34 +10,32 @@ import postvm.methods.Method;
 import postvm.types.CallableType;
 import postvm.types.Type;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.Collections;
+import java.util.List;
 
 public class InputClass extends LibraryClass {
-    public static final String name = "Input";
-    public static final InputClass instance = new InputClass();
-    public static final Type type = instance.classType;
-    public BufferedReader reader;
-
-    private InputClass() {
-        super(name);
-        constructor = method((caller, lcClasses) -> {
-            Method method = (Method) lcClasses.get(0);
-            return new InputClass(new InputStream() {
+    public static final PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
+            "Input",
+            PostVMClass.PROTOTYPE,
+            Utils.listOf(CallableType.get(IntClass.PROTOTYPE.type))
+    ) {
+        @Override
+        public PostVMClass createClass(Caller caller, List<PostVMClass> args) {
+            Method method = args.get(0).cast(Method.class);
+            return new InputClass(caller, new InputStream() {
                 @Override
                 public int read() {
                     return method.call(caller, Collections.emptyList()).cast(IntClass.class).value;
                 }
             });
-        }, CallableType.get(IntClass.TYPE), type);
-    }
+        }
+    };
 
-    public InputClass(InputStream input) {
-        this();
+    public BufferedReader reader;
 
+    public InputClass(Caller caller, InputStream input) {
+        super(caller, PROTOTYPE);
         reader = new BufferedReader(new InputStreamReader(input));
     }
 

@@ -13,7 +13,7 @@ public class CallableType extends Type {
     public final Type returnType;
 
     public CallableType(List<Type> args, Type returnType) {
-        super(Method.INSTANCE);
+        super(Method.PROTOTYPE);
         this.args = args;
         this.returnType = returnType;
     }

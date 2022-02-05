@@ -23,6 +23,7 @@ public class MethodImpl extends Method {
                       Statement statement,
                       boolean importVariables) throws LCLangRuntimeException {
         super(MethodStatement.resolveArgs(outExecutor.root, argsMap), returnType);
+
         this.outExecutor = outExecutor;
         this.argsMap = argsMap;
         this.statement = statement;
@@ -34,17 +35,16 @@ public class MethodImpl extends Method {
         PostVMExecutor executor = new PostVMExecutor(outExecutor, importVariables);
 
         for (int i = 0; i < args.size(); i++) {
-            MethodStatement.Argument argument = argsMap.get(i);
-            executor.variables.put(argument.name, args.get(i));
+            executor.variables.put(argsMap.get(i).name, args.get(i));
         }
 
         Caller stmtCaller = statement.getCaller(caller);
         stmtCaller.root = executor.root;
 
         PostVMClass value = statement.visit(stmtCaller, executor).get(stmtCaller);
-        if(!returnType.isAccept(value.classType))
+        if(!returnType.isAccept(value.prototype.type))
             throw new LCLangTypeErrorException("invalid type of return (excepted "+returnType+
-                    ", but returned "+value.classType+")", stmtCaller);
+                    ", but returned "+value.prototype.type+")", stmtCaller);
 
         return value;
     }

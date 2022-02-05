@@ -1,39 +1,44 @@
 package postvm.stdlib.classes;
 
+import postvm.Caller;
+import postvm.Utils;
 import postvm.exceptions.LCLangIOException;
-import postvm.library.classes.BoolClass;
-import postvm.library.classes.LibraryClass;
-import postvm.library.classes.PostVMClass;
-import postvm.library.classes.StringClass;
+import postvm.library.classes.*;
 import postvm.library.classes.numbers.IntClass;
+import postvm.methods.Method;
+import postvm.types.CallableType;
 import postvm.types.Type;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.Socket;
+import java.util.Collections;
+import java.util.List;
 
 
 public class SocketClass extends LibraryClass {
-    public static final String name = "Socket";
-    public static final SocketClass instance = new SocketClass();
-    public static final Type type = instance.classType;
-    public Socket socket;
+    public static final PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
+            "Socket",
+            PostVMClass.PROTOTYPE,
+            Utils.listOf(CallableType.get(IntClass.PROTOTYPE.type))
+    ) {
+        @Override
+        public PostVMClass createClass(Caller caller, List<PostVMClass> args) {
+            int port = args.get(1).cast(IntClass.class).value;
 
-    public SocketClass(Socket socket) {
-        super(name);
-        this.socket = socket;
-    }
-
-    private SocketClass() {
-        super(name);
-        constructor = method((caller, arguments) -> {
-            int port = arguments.get(1).cast(IntClass.class).value;
             try {
-                return new SocketClass(new Socket(arguments.get(0).cast(StringClass.class)
-                        .string, port));
+                return new SocketClass(caller, new Socket(args.get(0).cast(StringClass.class).string, port));
             } catch (IOException e) {
                 throw new LCLangIOException(e.getMessage(), caller);
             }
-        }, StringClass.type, IntClass.TYPE, type);
+        }
+    };
+
+    public Socket socket;
+
+    public SocketClass(Caller caller, Socket socket) {
+        super(caller, PROTOTYPE);
+        this.socket = socket;
     }
 
     @Override
@@ -41,18 +46,18 @@ public class SocketClass extends LibraryClass {
         switch (target) {
             case "getInput": return method((caller, args) -> {
                 try {
-                    return new InputClass(socket.getInputStream());
+                    return new InputClass(caller, socket.getInputStream());
                 } catch (IOException e) {
                     throw new LCLangIOException(e.getMessage(), caller);
                 }
-            }, InputClass.type);
+            }, InputClass.PROTOTYPE.type);
             case "getOutput": return method((caller, args) -> {
                 try {
-                    return new OutputClass(socket.getOutputStream());
+                    return new OutputClass(caller, socket.getOutputStream());
                 } catch (IOException e) {
                     throw new LCLangIOException(e.getMessage(), caller);
                 }
-            }, OutputClass.type);
+            }, OutputClass.PROTOTYPE.type);
             case "isConnected": return method((caller, args) -> BoolClass.get(socket.isConnected()),
                     BoolClass.type);
             case "isClosed": return method((caller, args) -> BoolClass.get(socket.isClosed()),

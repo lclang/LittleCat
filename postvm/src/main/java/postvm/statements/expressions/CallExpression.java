@@ -24,8 +24,8 @@ public class CallExpression extends Expression {
     public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
         Caller expressionCaller = expression.getCaller(prevCaller);
         PostVMClass callClazz = expression.visit(prevCaller, visitor).get(expressionCaller);
-        if(!callClazz.canCast(Method.INSTANCE))
-            throw new LCLangTypeErrorException("Value is not callable (it is "+callClazz.classType+")", expressionCaller);
+        if(!callClazz.prototype.canCast(Method.PROTOTYPE))
+            throw new LCLangTypeErrorException("Value is not callable (it is "+callClazz.prototype.name+")", expressionCaller);
 
         ArrayList<Type> argsTypes = new ArrayList<>();
         ArrayList<PostVMClass> args = new ArrayList<>();
@@ -33,7 +33,7 @@ public class CallExpression extends Expression {
             Link argumentValue = argument.visit(prevCaller, visitor);
             if(argumentValue.state != Link.State.NOTHING) return argumentValue;
             PostVMClass clazz = argumentValue.get(expression.getCaller(prevCaller));
-            argsTypes.add(clazz.classType);
+            argsTypes.add(clazz.prototype.type);
             args.add(clazz);
         }
 

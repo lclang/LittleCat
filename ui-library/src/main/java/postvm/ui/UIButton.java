@@ -37,7 +37,7 @@ public class UIButton extends LibraryClass {
                             .cast(StringClass.class).string), StringClass.type);
             case "setOnClick": return voidMethod((caller, args) -> button.addActionListener(e -> args.get(0)
                     .cast(Method.class).call(caller, Collections.singletonList(this))),
-                    CallableType.get(UIButton.type, VoidClass.type));
+                    CallableType.get(UIButton.type, VoidClass.PROTOTYPE.type));
         }
 
         return super.loadGlobal(target);

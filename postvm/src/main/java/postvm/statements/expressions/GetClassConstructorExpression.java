@@ -7,6 +7,7 @@ import postvm.exceptions.LCLangClassNotFoundException;
 import postvm.exceptions.LCLangConstructorNotFoundException;
 import postvm.exceptions.LCLangRuntimeException;
 import postvm.library.classes.PostVMClass;
+import postvm.library.classes.PostVMClassPrototype;
 
 public class GetClassConstructorExpression extends Expression {
     public final String name;
@@ -18,12 +19,12 @@ public class GetClassConstructorExpression extends Expression {
 
     @Override
     public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
-        PostVMClass clazz = visitor.root.getClass(name);
+        PostVMClassPrototype clazz = visitor.root.getClass(name);
         if(clazz!=null) {
-            if(clazz.constructor==null)
+            if(clazz.getConstructor()==null)
                 throw new LCLangConstructorNotFoundException(getCaller(prevCaller));
 
-            return clazz.constructor.createLink();
+            return clazz.getConstructor().createLink();
         }
 
         throw new LCLangClassNotFoundException(name, getCaller(prevCaller));

@@ -1,6 +1,7 @@
 package postvm.types;
 
 import postvm.Utils;
+import postvm.library.classes.PostVMClass;
 import postvm.methods.Method;
 
 import java.util.Arrays;
@@ -10,7 +11,7 @@ public class UnionType extends Type {
     public final List<Type> types;
 
     public UnionType(List<Type> types) {
-        super(Method.INSTANCE);
+        super(PostVMClass.PROTOTYPE);
         this.types = types;
         this.nullable = false;
     }
