@@ -14,7 +14,7 @@ class Map {
   }
 
   method get(key): any {
-    return entries.filter(-> (it): bool it.key==key )[0]
+    return entries.filter(-> (it): bool it.key==key )[0].value
   }
 
   method remove(key) {

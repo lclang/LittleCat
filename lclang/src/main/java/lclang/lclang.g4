@@ -182,8 +182,7 @@ ifStmt: IF condition=expression COLON ifT=stmt (ELSE ifF=stmt)?;
 block: OPEN_BRACE stmt* CLOSE_BRACE;
 
 component: COMPONENT type OPEN_BRACE global* classExpr* CLOSE_BRACE;
-classExpr: CLASS name=ID (OPEN (arg COMMA)* arg? CLOSE)? (EXTENDS classExtends=namedType (OPEN extendsArgs CLOSE)?)?
- (OPEN_BRACE (method|stmt)* CLOSE_BRACE)?;
+classExpr: CLASS name=ID (OPEN (arg COMMA)* arg? CLOSE)? (EXTENDS classExtends=namedType (OPEN extendsArgs CLOSE)?)? (OPEN_BRACE (method|stmt)* CLOSE_BRACE)?;
 
 extendsArgs: (expression COMMA)* expression?;
 

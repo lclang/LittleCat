@@ -17,7 +17,7 @@ public class ThreadClass extends LibraryClass {
     ) {
         @Override
         public int createClass(Caller caller, int[] args) {
-            return new ThreadClass(caller, PostVMClass.instances.get(args[0]).cast(Method.class)).classId;
+            return new ThreadClass(caller, (Method) PostVMClass.instances.get(args[0])).classId;
         }
     };
 

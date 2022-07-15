@@ -84,6 +84,18 @@ public final class ArrayClass extends LibraryClass {
                 return NullClass.INSTANCE.classId;
             }, CallableType.get(ObjectClass.OBJECT_TYPE, BoolClass.type));
 
+            case "filter": return method(ObjectClass.OBJECT_TYPE, (caller, args) -> {
+                Method method = (Method) args[0];
+                List<Integer> filteredList = new ArrayList<>();
+                for (int item: value) {
+                    if(method.call(caller, new int[]{item})==BoolClass.TRUE){
+                        filteredList.add(item);
+                    }
+                }
+
+                return new ArrayClass(filteredList).classId;
+            }, CallableType.get(ObjectClass.OBJECT_TYPE, BoolClass.type));
+
             case "forEach": return voidMethod((caller, args) -> {
                 Method method = (Method) args[0];
                 for (int item: value) {

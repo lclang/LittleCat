@@ -118,16 +118,12 @@ output.flush()
 println(readInput(socket.getInput()))
 ```
 
-### Reflection
+### Map
 ```
-obj = :object()
-obj.test = "This is string in object"
-
-variable = reflection.getVariable(obj, "test")
-println(variable.get()) // Prints: This is string in object
-
-variable.set(123)
-println(variable.get()) // Prints: 123
+map = :Map()
+map.put("ads", "Zation is a social network")
+println(map.get("ads"))
+println(map.entries)
 ```
 
 [DiscordBadge]: https://img.shields.io/discord/892491030375591977?label=Discord&logo=discord&logoColor=white

@@ -1,0 +1,7 @@
+class Date(nanoseconds: int|void) {
+    nanoseconds = nanoseconds||nanoTime()
+
+    method toString() {
+        return nanoseconds
+    }
+}

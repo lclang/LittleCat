@@ -15,7 +15,7 @@ public class SocketClass extends LibraryClass {
     public static final PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
             "Socket",
             ObjectClass.PROTOTYPE,
-            Utils.listOf(CallableType.get(NumberClass.PROTOTYPE.type))
+            Utils.listOf(StringClass.PROTOTYPE.type, NumberClass.PROTOTYPE.type)
     ) {
         @Override
         public int createClass(Caller caller, int[] args) {

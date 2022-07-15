@@ -14,7 +14,7 @@ import java.net.ServerSocket;
 
 public class SocketServerClass extends LibraryClass {
     public static final PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
-            "SocketServer", ObjectClass.PROTOTYPE, Utils.listOf()
+            "SocketServer", ObjectClass.PROTOTYPE, Utils.listOf(NumberClass.TYPE)
     ) {
         @Override
         public int createClass(Caller caller, int[] args) {
