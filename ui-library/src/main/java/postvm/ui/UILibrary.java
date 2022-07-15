@@ -22,7 +22,7 @@ public class UILibrary extends Library {
     }
 
     @Override
-    public PostVMClass loadGlobal(String target) {
+    public Integer loadGlobal(PostVMClass clazz, String target) {
         switch (target) {
             case "useUI": return voidMethod((caller, args) ->
                     SwingUtilities.invokeLater(() -> args.get(0).cast(Method.class)
@@ -30,6 +30,6 @@ public class UILibrary extends Library {
                     ), CallableType.get(VoidClass.PROTOTYPE.type));
         }
 
-        return super.loadGlobal(target);
+        return super.loadGlobal(clazz, target);
     }
 }

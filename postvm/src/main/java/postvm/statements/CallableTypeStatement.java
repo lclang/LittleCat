@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CallableTypeStatement extends TypeStatement {
-    public final List<TypeStatement> args;
+    public final TypeStatement[] args;
     public final TypeStatement returnType;
 
-    public CallableTypeStatement(List<TypeStatement> args, TypeStatement returnType, int line) {
+    public CallableTypeStatement(TypeStatement[] args, TypeStatement returnType, int line) {
         super(line);
         this.args = args;
         this.returnType = returnType;
@@ -20,9 +20,9 @@ public class CallableTypeStatement extends TypeStatement {
 
     @Override
     public CallableType toType(PostVMClass root) throws LCLangRuntimeException {
-        List<Type> types = new ArrayList<>();
-        for (TypeStatement arg: args)
-            types.add(arg.toType(root));
+        Type[] types = new Type[args.length];
+        for (int i = 0, l = args.length; i < l; i++)
+            types[i] = args[i].toType(root);
 
         CallableType callableType = new CallableType(types, returnType.toType(root));
         callableType.nullable = nullable;

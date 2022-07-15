@@ -18,8 +18,7 @@ public class IsExpression extends Expression {
 
     @Override
     public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
-        return BoolClass.get(type.toType(visitor.root)
-                .isAccept(checkExpression.visit(prevCaller, visitor).get(prevCaller).prototype.type))
-                .createLink();
+        return new Link(BoolClass.get(type.toType(visitor.root)
+                .isAccept(checkExpression.visit(prevCaller, visitor).get().prototype.type)));
     }
 }

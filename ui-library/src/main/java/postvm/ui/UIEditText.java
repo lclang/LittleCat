@@ -15,7 +15,7 @@ public class UIEditText extends LibraryClass {
 
     private UIEditText() {
         super(name);
-        constructor = method((caller, postVMClasses) -> new UIEditText(new JTextArea()), type);
+        constructor = methodOld((caller, PostVMClasses) -> new UIEditText(new JTextArea()), type);
     }
 
     public UIEditText(JTextArea textArea) {
@@ -25,14 +25,14 @@ public class UIEditText extends LibraryClass {
     }
 
     @Override
-    public PostVMClass loadGlobal(String target) {
+    public Integer loadGlobal(PostVMClass clazz, String target) {
         switch (target) {
-            case "getText": return method((caller, args) -> StringClass.get(textArea.getText()),
+            case "getText": return methodOld((caller, args) -> StringClass.get(textArea.getText()),
                     StringClass.type);
             case "setText": return voidMethod((caller, args) -> textArea.setText(args.get(0)
                             .cast(StringClass.class).string), StringClass.type);
         }
 
-        return super.loadGlobal(target);
+        return super.loadGlobal(clazz, target);
     }
 }

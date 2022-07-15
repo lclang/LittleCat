@@ -1,147 +1,155 @@
 package postvm.library.classes.numbers;
 
+import postvm.CacheManager;
 import postvm.Caller;
 import postvm.Utils;
+import postvm.exceptions.LCLangRuntimeException;
 import postvm.library.classes.*;
 import postvm.types.Type;
 
-import java.util.List;
 import java.util.Objects;
 
 public final class NumberClass extends LibraryClass {
     public static final PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
             "number",
-            PostVMClass.PROTOTYPE,
-            Utils.listOf()
+            ObjectClass.PROTOTYPE,
+            Utils.listOf(ObjectClass.OBJECT_TYPE)
     ) {
         @Override
-        public PostVMClass createClass(Caller caller, List<PostVMClass> args) {
-            return new NumberClass(0);
+        public int createClass(Caller caller, int[] args) {
+            try {
+                return NumberClass.get(Integer.parseInt(PostVMClass.instances.get(args[0]).toString(caller)));
+            }catch (NumberFormatException exception) {
+                throw new LCLangRuntimeException("Invalid number format", exception.getMessage(), caller);
+            }
         }
     };
 
     public static final Type TYPE = PROTOTYPE.type;
-    public Number value;
+    public final Number value;
 
-    public NumberClass(Number value) {
+    private NumberClass(Number value) {
         super(null, PROTOTYPE);
         this.value = value;
     }
 
     @Override
-    public PostVMClass loadGlobal(String target) {
+    public Integer loadGlobal(PostVMClass clazz, String target) {
         switch (target) {
-            case "toInt": return method((caller, lcClasses) -> IntClass.get(value.intValue()),
-                    IntClass.TYPE);
-            case "toLong": return method((caller, lcClasses) -> LongClass.get(value.longValue()),
-                    LongClass.TYPE);
-            case "toDouble": return method((caller, lcClasses) -> DoubleClass.get(value.doubleValue()),
-                    DoubleClass.TYPE);
-            case "toChar": return method((caller, lcClasses) -> CharClass.get((char) value.intValue()),
-                    CharClass.type);
-            case "toString": return method((caller, lcClasses) -> StringClass.get(String.valueOf(value)),
-                    StringClass.type);
-            case "equals": return method((caller, args) -> {
-                PostVMClass another = args.get(0);
-                return BoolClass.get(another.prototype.canCast(NumberClass.PROTOTYPE) &&
-                        Objects.equals(another.cast(NumberClass.class).value, value));
-            }, PostVMClass.OBJECT_TYPE, BoolClass.type);
+            case "toString": return toStrMethod((caller) -> StringClass.get(String.valueOf(value)));
+            case "equals": return method(BoolClass.type, (caller, args) -> {
+                PostVMClass another = args[0];
+                return BoolClass.get(
+                        another.prototype.canCast(NumberClass.PROTOTYPE) &&
+                        Objects.equals(((NumberClass) another).value, value)
+                );
+
+            }, ObjectClass.OBJECT_TYPE);
         }
 
-        return super.loadGlobal(target);
+        return super.loadGlobal(clazz, target);
     }
 
-    public PostVMClass add(NumberClass another) {
+    public int add(NumberClass another) {
         if (value instanceof Double || another.value instanceof Double)
-            return DoubleClass.get(value.doubleValue() + another.value.doubleValue());
+            return NumberClass.get(value.doubleValue() + another.value.doubleValue());
         else if (value instanceof Long || another.value instanceof Long)
-            return LongClass.get(value.longValue() + another.value.longValue());
+            return NumberClass.get(value.longValue() + another.value.longValue());
 
-        return IntClass.get(value.intValue() + another.value.intValue());
+        return NumberClass.get(value.intValue() + another.value.intValue());
     }
 
-    public PostVMClass minus(NumberClass another) {
+    public int minus(NumberClass another) {
         if (value instanceof Double || another.value instanceof Double)
-            return DoubleClass.get(value.doubleValue() - another.value.doubleValue());
+            return NumberClass.get(value.doubleValue() - another.value.doubleValue());
         else if (value instanceof Long || another.value instanceof Long)
-            return LongClass.get(value.longValue() - another.value.longValue());
+            return NumberClass.get(value.longValue() - another.value.longValue());
 
-        return IntClass.get(value.intValue() - another.value.intValue());
+        return NumberClass.get(value.intValue() - another.value.intValue());
     }
 
-    public PostVMClass multiplication(NumberClass another) {
+    public int multiplication(NumberClass another) {
         if (value instanceof Double || another.value instanceof Double)
-            return DoubleClass.get(value.doubleValue() * another.value.doubleValue());
+            return NumberClass.get(value.doubleValue() * another.value.doubleValue());
         else if (value instanceof Long || another.value instanceof Long)
-            return LongClass.get(value.longValue() * another.value.longValue());
+            return NumberClass.get(value.longValue() * another.value.longValue());
 
-        return IntClass.get(value.intValue() * another.value.intValue());
+        return NumberClass.get(value.intValue() * another.value.intValue());
     }
 
-    public PostVMClass binaryOr(NumberClass another) {
+    public int binaryOr(NumberClass another) {
         if (value instanceof Long || another.value instanceof Long)
-            return LongClass.get(value.longValue() | another.value.longValue());
+            return NumberClass.get(value.longValue() | another.value.longValue());
 
-        return IntClass.get(value.intValue() | another.value.intValue());
+        return NumberClass.get(value.intValue() | another.value.intValue());
     }
 
-    public PostVMClass binaryAnd(NumberClass another) {
+    public int binaryAnd(NumberClass another) {
         if (value instanceof Long || another.value instanceof Long)
-            return LongClass.get(value.longValue() & another.value.longValue());
+            return NumberClass.get(value.longValue() & another.value.longValue());
 
-        return IntClass.get(value.intValue() & another.value.intValue());
+        return NumberClass.get(value.intValue() & another.value.intValue());
     }
 
-    public PostVMClass binaryLeftShift(NumberClass another) {
+    public int binaryLeftShift(NumberClass another) {
         if (value instanceof Long || another.value instanceof Long)
-            return LongClass.get(value.longValue() << another.value.longValue());
+            return NumberClass.get(value.longValue() << another.value.longValue());
 
-        return IntClass.get(value.intValue() << another.value.intValue());
+        return NumberClass.get(value.intValue() << another.value.intValue());
     }
 
-    public PostVMClass binaryRightShift(NumberClass another) {
+    public int binaryRightShift(NumberClass another) {
         if (value instanceof Long || another.value instanceof Long)
-            return LongClass.get(value.longValue() >> another.value.longValue());
+            return NumberClass.get(value.longValue() >> another.value.longValue());
 
-        return IntClass.get(value.intValue() >> another.value.intValue());
+        return NumberClass.get(value.intValue() >> another.value.intValue());
     }
 
 
-    public PostVMClass binaryXOr(NumberClass another) {
+    public int binaryXOr(NumberClass another) {
         if (value instanceof Long || another.value instanceof Long)
-            return LongClass.get(value.longValue() ^ another.value.longValue());
+            return NumberClass.get(value.longValue() ^ another.value.longValue());
 
-        return IntClass.get(value.intValue() ^ another.value.intValue());
+        return NumberClass.get(value.intValue() ^ another.value.intValue());
     }
 
-    public PostVMClass div(NumberClass another) {
-        return DoubleClass.get(value.doubleValue() / another.value.doubleValue());
+    public int div(NumberClass another) {
+        return NumberClass.get(value.doubleValue() / another.value.doubleValue());
     }
 
-    public PostVMClass pow(NumberClass another) {
-        return DoubleClass.get(Math.pow(value.doubleValue(), another.value.doubleValue()));
+    public int pow(NumberClass another) {
+        return NumberClass.get(Math.pow(value.doubleValue(), another.value.doubleValue()));
     }
 
-    public BoolClass larger(NumberClass another) {
+    public int larger(NumberClass another) {
         return BoolClass.get(value.doubleValue()>another.value.doubleValue());
     }
 
-    public BoolClass largerEquals(NumberClass another) {
+    public int largerEquals(NumberClass another) {
         return BoolClass.get(value.doubleValue()>=another.value.doubleValue());
     }
 
-    public BoolClass less(NumberClass another) {
+    public int less(NumberClass another) {
         return BoolClass.get(value.doubleValue()<another.value.doubleValue());
     }
 
-    public BoolClass lessEquals(NumberClass another) {
+    public int lessEquals(NumberClass another) {
         return BoolClass.get(value.doubleValue()<=another.value.doubleValue());
     }
 
-    public PostVMClass compliment() {
+    public int compliment() {
         if(value instanceof Long)
-            return LongClass.get(~value.longValue());
+            return NumberClass.get(~value.longValue());
 
-        return IntClass.get(~value.intValue());
+        return NumberClass.get(~value.intValue());
+    }
+
+    public static int get(Number value) {
+        if(CacheManager.cashedClasses.containsKey(value))
+            return CacheManager.cashedClasses.get(value);
+
+        NumberClass NumberClass = new NumberClass(value);
+        CacheManager.saveCache(value, NumberClass.classId);
+        return NumberClass.classId;
     }
 }

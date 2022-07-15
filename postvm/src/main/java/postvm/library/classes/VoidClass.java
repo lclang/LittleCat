@@ -12,12 +12,12 @@ import java.util.List;
 public final class VoidClass extends LibraryClass {
     public static final PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
             "void",
-            PostVMClass.PROTOTYPE,
+            ObjectClass.PROTOTYPE,
             Utils.listOf()
     ) {
         @Override
-        public PostVMClass createClass(Caller caller, List<PostVMClass> args) {
-            return INSTANCE;
+        public int createClass(Caller caller, int[] args) {
+            return INSTANCE.classId;
         }
     };
 
@@ -26,11 +26,6 @@ public final class VoidClass extends LibraryClass {
 
     private VoidClass() {
         super(null, PROTOTYPE);
-    }
-
-    @Override
-    public PostVMClass getVariableClass(Caller caller, String name) throws LCLangRuntimeException {
-        throw new LCLangTypeErrorException("Class is void", caller);
     }
 
     @Override

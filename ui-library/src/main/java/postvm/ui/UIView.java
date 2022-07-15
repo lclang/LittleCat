@@ -2,7 +2,7 @@ package postvm.ui;
 
 import postvm.library.classes.LibraryClass;
 import postvm.library.classes.PostVMClass;
-import postvm.library.classes.numbers.IntClass;
+import postvm.library.classes.numbers.NumberClass;
 import postvm.types.Type;
 
 import javax.swing.*;
@@ -25,13 +25,13 @@ public class UIView extends LibraryClass {
     }
 
     @Override
-    public PostVMClass loadGlobal(String target) {
+    public Integer loadGlobal(PostVMClass clazz, String target) {
         switch (target) {
-            case "getId": return method((caller, args) -> IntClass.get(id), IntClass.TYPE);
-            case "setId": return voidMethod((caller, args) -> id = args.get(0).cast(IntClass.class).value,
-                    IntClass.TYPE);
+            case "getId": return methodOld((caller, args) -> NumberClass.get(id), NumberClass.TYPE);
+            case "setId": return voidMethod((caller, args) -> id = args.get(0).cast(NumberClass.class).value.intValue(),
+                    NumberClass.TYPE);
         }
 
-        return super.loadGlobal(target);
+        return super.loadGlobal(clazz, target);
     }
 }

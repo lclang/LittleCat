@@ -5,10 +5,7 @@ import postvm.utils.Function;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,6 +26,7 @@ public class Utils {
 
     @SafeVarargs
     public static <T> List<T> listOf(T... array) {
+        if(array.length==0) return Collections.emptyList();
         return Arrays.asList(array);
     }
 

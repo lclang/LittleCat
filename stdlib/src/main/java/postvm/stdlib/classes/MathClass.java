@@ -3,19 +3,17 @@ package postvm.stdlib.classes;
 import postvm.Caller;
 import postvm.Utils;
 import postvm.library.classes.LibraryClass;
+import postvm.library.classes.ObjectClass;
 import postvm.library.classes.PostVMClass;
 import postvm.library.classes.PostVMClassPrototype;
-import postvm.library.classes.numbers.DoubleClass;
 import postvm.library.classes.numbers.NumberClass;
-
-import java.util.List;
 
 public class MathClass extends LibraryClass {
     public static final PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
-            "Math", PostVMClass.PROTOTYPE, Utils.listOf()) {
+            "Math", ObjectClass.PROTOTYPE, Utils.listOf()) {
         @Override
-        public PostVMClass createClass(Caller caller, List<PostVMClass> args) {
-            return INSTANCE;
+        public int createClass(Caller caller, int[] args) {
+            return INSTANCE.classId;
         }
     };
 
@@ -27,91 +25,91 @@ public class MathClass extends LibraryClass {
     }
 
     @Override
-    public PostVMClass loadGlobal(String target) {
+    public Integer loadGlobal(PostVMClass clazz, String target) {
         switch (target) {
-            case "sqrt": return method((caller, args) -> DoubleClass.get(
-                            Math.sqrt(args.get(0).cast(NumberClass.class).value.doubleValue())),
-                    NumberClass.TYPE, DoubleClass.TYPE);
-            case "ln": return method((caller, args) -> DoubleClass.get(
-                            Math.log10(args.get(0).cast(NumberClass.class).value.doubleValue())),
-                    NumberClass.TYPE, DoubleClass.TYPE);
-            case "log": return method((caller, args) -> DoubleClass.get(
-                            Math.log(args.get(0).cast(NumberClass.class).value.doubleValue())),
-                    NumberClass.TYPE, DoubleClass.TYPE);
-            case "abs": return method((caller, args) -> DoubleClass.get(
-                            Math.abs(args.get(0).cast(NumberClass.class).value.doubleValue())),
-                    NumberClass.TYPE, DoubleClass.TYPE);
-            case "arccos": return method((caller, args) -> DoubleClass.get(
-                            Math.acos(args.get(0).cast(NumberClass.class).value.doubleValue())),
-                    NumberClass.TYPE, DoubleClass.TYPE);
-            case "arcsin": return method((caller, args) -> DoubleClass.get(
-                            Math.asin(args.get(0).cast(NumberClass.class).value.doubleValue())),
-                    NumberClass.TYPE, DoubleClass.TYPE);
-            case "arctan": return method((caller, args) -> DoubleClass.get(
-                            Math.atan(args.get(0).cast(NumberClass.class).value.doubleValue())),
-                    NumberClass.TYPE, DoubleClass.TYPE);
-            case "sin": return method((caller, args) -> DoubleClass.get(
-                            Math.sin(args.get(0).cast(NumberClass.class).value.doubleValue())),
-                    NumberClass.TYPE, DoubleClass.TYPE);
-            case "cos": return method((caller, args) -> DoubleClass.get(
-                            Math.cos(args.get(0).cast(NumberClass.class).value.doubleValue())),
-                    NumberClass.TYPE, DoubleClass.TYPE);
-            case "tan": return method((caller, args) -> DoubleClass.get(
-                            Math.tan(args.get(0).cast(NumberClass.class).value.doubleValue())),
-                    NumberClass.TYPE, DoubleClass.TYPE);
-            case "rint": return method((caller, args) -> DoubleClass.get(
-                            Math.rint(args.get(0).cast(NumberClass.class).value.doubleValue())),
-                    NumberClass.TYPE, DoubleClass.TYPE);
-            case "round": return method((caller, args) -> DoubleClass.get(
-                            Math.round(args.get(0).cast(NumberClass.class).value.doubleValue())),
-                    NumberClass.TYPE, DoubleClass.TYPE);
-            case "floor": return method((caller, args) -> DoubleClass.get(
-                            Math.floor(args.get(0).cast(NumberClass.class).value.doubleValue())),
-                    NumberClass.TYPE, DoubleClass.TYPE);
-            case "ceil": return method((caller, args) -> DoubleClass.get(
-                            Math.ceil(args.get(0).cast(NumberClass.class).value.doubleValue())),
-                    NumberClass.TYPE, DoubleClass.TYPE);
-            case "cbrt": return method((caller, args) -> DoubleClass.get(
-                            Math.cbrt(args.get(0).cast(NumberClass.class).value.doubleValue())),
-                    NumberClass.TYPE, DoubleClass.TYPE);
-            case "exp": return method((caller, args) -> DoubleClass.get(
-                            Math.exp(args.get(0).cast(NumberClass.class).value.doubleValue())),
-                    NumberClass.TYPE, DoubleClass.TYPE);
-            case "toRadians": return method((caller, args) -> DoubleClass.get(
-                            Math.toRadians(args.get(0).cast(NumberClass.class).value.doubleValue())),
-                    NumberClass.TYPE, DoubleClass.TYPE);
-            case "toDegrees": return method((caller, args) -> DoubleClass.get(
-                            Math.toDegrees(args.get(0).cast(NumberClass.class).value.doubleValue())),
-                    NumberClass.TYPE, DoubleClass.TYPE);
-            case "cosh": return method((caller, args) -> DoubleClass.get(
-                            Math.cosh(args.get(0).cast(NumberClass.class).value.doubleValue())),
-                    NumberClass.TYPE, DoubleClass.TYPE);
-            case "min": return method((caller, args) -> DoubleClass.get(
-                            Math.min(args.get(0).cast(NumberClass.class).value.doubleValue(),
-                                    args.get(0).cast(NumberClass.class).value.doubleValue())),
-                    NumberClass.TYPE, NumberClass.TYPE, DoubleClass.TYPE);
-            case "max": return method((caller, args) -> DoubleClass.get(
-                            Math.max(args.get(0).cast(NumberClass.class).value.doubleValue(),
-                                    args.get(0).cast(NumberClass.class).value.doubleValue())),
-                    NumberClass.TYPE, NumberClass.TYPE, DoubleClass.TYPE);
-            case "copySign": return method((caller, args) -> DoubleClass.get(
-                            Math.copySign(args.get(0).cast(NumberClass.class).value.doubleValue(),
-                                    args.get(0).cast(NumberClass.class).value.doubleValue())),
-                    NumberClass.TYPE, NumberClass.TYPE, DoubleClass.TYPE);
-            case "hypot": return method((caller, args) -> DoubleClass.get(
-                            Math.hypot(args.get(0).cast(NumberClass.class).value.doubleValue(),
-                                    args.get(0).cast(NumberClass.class).value.doubleValue())),
-                    NumberClass.TYPE, NumberClass.TYPE, DoubleClass.TYPE);
-            case "floorDiv": return method((caller, args) -> DoubleClass.get(
-                            Math.floorDiv(args.get(0).cast(NumberClass.class).value.longValue(),
-                                    args.get(0).cast(NumberClass.class).value.longValue())),
-                    NumberClass.TYPE, NumberClass.TYPE, DoubleClass.TYPE);
-            case "floorMod": return  method((caller, args) -> DoubleClass.get(
-                            Math.floorMod(args.get(0).cast(NumberClass.class).value.longValue(),
-                                    args.get(0).cast(NumberClass.class).value.longValue())),
-                    NumberClass.TYPE, NumberClass.TYPE, DoubleClass.TYPE);
-            case "random": return method((caller, args) -> DoubleClass.get(Math.random()), DoubleClass.TYPE);
+            case "sqrt": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(
+                            Math.sqrt(args[0].cast(NumberClass.class).value.doubleValue())),
+                    NumberClass.TYPE);
+            case "ln": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(
+                            Math.log10(args[0].cast(NumberClass.class).value.doubleValue())),
+                    NumberClass.TYPE);
+            case "log": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(
+                            Math.log(args[0].cast(NumberClass.class).value.doubleValue())),
+                    NumberClass.TYPE);
+            case "abs": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(
+                            Math.abs(args[0].cast(NumberClass.class).value.doubleValue())),
+                    NumberClass.TYPE);
+            case "arccos": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(
+                            Math.acos(args[0].cast(NumberClass.class).value.doubleValue())),
+                    NumberClass.TYPE);
+            case "arcsin": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(
+                            Math.asin(args[0].cast(NumberClass.class).value.doubleValue())),
+                    NumberClass.TYPE);
+            case "arctan": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(
+                            Math.atan(args[0].cast(NumberClass.class).value.doubleValue())),
+                    NumberClass.TYPE);
+            case "sin": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(
+                            Math.sin(args[0].cast(NumberClass.class).value.doubleValue())),
+                    NumberClass.TYPE);
+            case "cos": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(
+                            Math.cos(args[0].cast(NumberClass.class).value.doubleValue())),
+                    NumberClass.TYPE);
+            case "tan": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(
+                            Math.tan(args[0].cast(NumberClass.class).value.doubleValue())),
+                    NumberClass.TYPE);
+            case "rint": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(
+                            Math.rint(args[0].cast(NumberClass.class).value.doubleValue())),
+                    NumberClass.TYPE);
+            case "round": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(
+                            Math.round(args[0].cast(NumberClass.class).value.doubleValue())),
+                    NumberClass.TYPE);
+            case "floor": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(
+                            Math.floor(args[0].cast(NumberClass.class).value.doubleValue())),
+                    NumberClass.TYPE);
+            case "ceil": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(
+                            Math.ceil(args[0].cast(NumberClass.class).value.doubleValue())),
+                    NumberClass.TYPE);
+            case "cbrt": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(
+                            Math.cbrt(args[0].cast(NumberClass.class).value.doubleValue())),
+                    NumberClass.TYPE);
+            case "exp": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(
+                            Math.exp(args[0].cast(NumberClass.class).value.doubleValue())),
+                    NumberClass.TYPE);
+            case "toRadians": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(
+                            Math.toRadians(args[0].cast(NumberClass.class).value.doubleValue())),
+                    NumberClass.TYPE);
+            case "toDegrees": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(
+                            Math.toDegrees(args[0].cast(NumberClass.class).value.doubleValue())),
+                    NumberClass.TYPE);
+            case "cosh": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(
+                            Math.cosh(args[0].cast(NumberClass.class).value.doubleValue())),
+                    NumberClass.TYPE);
+            case "min": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(
+                            Math.min(args[0].cast(NumberClass.class).value.doubleValue(),
+                                    args[0].cast(NumberClass.class).value.doubleValue())),
+                    NumberClass.TYPE, NumberClass.TYPE);
+            case "max": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(
+                            Math.max(args[0].cast(NumberClass.class).value.doubleValue(),
+                                    args[0].cast(NumberClass.class).value.doubleValue())),
+                    NumberClass.TYPE, NumberClass.TYPE);
+            case "copySign": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(
+                            Math.copySign(args[0].cast(NumberClass.class).value.doubleValue(),
+                                    args[0].cast(NumberClass.class).value.doubleValue())),
+                    NumberClass.TYPE, NumberClass.TYPE);
+            case "hypot": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(
+                            Math.hypot(args[0].cast(NumberClass.class).value.doubleValue(),
+                                    args[0].cast(NumberClass.class).value.doubleValue())),
+                    NumberClass.TYPE, NumberClass.TYPE);
+            case "floorDiv": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(
+                            Math.floorDiv(args[0].cast(NumberClass.class).value.longValue(),
+                                    args[0].cast(NumberClass.class).value.longValue())),
+                    NumberClass.TYPE, NumberClass.TYPE);
+            case "floorMod": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(
+                            Math.floorMod(args[0].cast(NumberClass.class).value.longValue(),
+                                    args[0].cast(NumberClass.class).value.longValue())),
+                    NumberClass.TYPE, NumberClass.TYPE);
+            case "random": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(Math.random()));
         }
-        return super.loadGlobal(target);
+        return super.loadGlobal(clazz, target);
     }
 }

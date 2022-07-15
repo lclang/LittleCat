@@ -6,11 +6,8 @@ import postvm.Library;
 import postvm.Utils;
 import postvm.exceptions.LCLangRuntimeException;
 import postvm.library.classes.*;
-import postvm.library.classes.numbers.IntClass;
-import postvm.library.classes.numbers.LongClass;
-import postvm.methods.Method;
+import postvm.library.classes.numbers.NumberClass;
 import postvm.stdlib.classes.*;
-import postvm.types.CallableType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,8 +18,9 @@ import java.util.regex.Pattern;
 
 public class StdLibrary extends Library {
     public static final Map<String, Pattern> cachePattern = new HashMap<>();
+    public static final StdLibrary INSTANCE = new StdLibrary();
 
-    public StdLibrary() {
+    private StdLibrary() {
         super("std");
         classes.put("SocketServer", SocketServerClass.PROTOTYPE);
         classes.put("Socket", SocketClass.PROTOTYPE);
@@ -36,30 +34,27 @@ public class StdLibrary extends Library {
     }
 
     @Override
-    public PostVMClass loadGlobal(String target) {
+    public Integer loadGlobal(PostVMClass clazz, String target) {
         switch (target) {
             case "std": return StdClass.instance;
-            case "assert": return voidMethod((caller, args) -> {
-                if(args.get(0)== BoolClass.FALSE)
+            case "assert": return voidNativeMethod((caller, args) -> {
+                if(args[0]==BoolClass.FALSE)
                     throw new LCLangRuntimeException("Assertion Error", "Value is false", caller);
-            }, PostVMClass.OBJECT_TYPE);
-            case "exit": return voidMethod((caller, args) -> System.exit(args.get(0).cast(IntClass.class).value),
-                    IntClass.TYPE);
+            }, ObjectClass.OBJECT_TYPE);
+            case "exit": return voidMethod((caller, args) -> System.exit(args[0].cast(NumberClass.class).value.intValue()),
+                    NumberClass.TYPE);
             case "sleep": return voidMethod((caller, args) -> {
                 try {
-                    Thread.sleep(args.get(0).cast(LongClass.class).value);
+                    Thread.sleep(args[0].cast(NumberClass.class).value.longValue());
                 } catch (InterruptedException e) {
                     throw new LCLangRuntimeException("Interrupted", e.getMessage(), caller);
                 }
-            }, LongClass.TYPE);
-            case "time": return method((caller, args) -> LongClass.get(System.currentTimeMillis()/1000L),
-                    LongClass.TYPE);
-            case "millisTime": return method((caller, args) -> LongClass.get(System.currentTimeMillis()),
-                    LongClass.TYPE);
-            case "nanoTime": return method((caller, args) -> LongClass.get(System.nanoTime()),
-                    LongClass.TYPE);
-            case "regexMatch": return method((caller, args) -> {
-                String stringPattern = args.get(0).cast(StringClass.class).string;
+            }, NumberClass.TYPE);
+            case "time": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(System.currentTimeMillis()/1000L));
+            case "millisTime": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(System.currentTimeMillis()));
+            case "nanoTime": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(System.nanoTime()));
+            case "regexMatch": return method(ArrayClass.type, (caller, args) -> {
+                String stringPattern = args[0].cast(StringClass.class).string;
                 Pattern pattern;
 
                 if(cachePattern.containsKey(stringPattern)) pattern = cachePattern.get(stringPattern);
@@ -68,56 +63,56 @@ public class StdLibrary extends Library {
                     cachePattern.put(stringPattern, pattern);
                 }
 
-                Matcher matcher = pattern.matcher(args.get(1).cast(StringClass.class).string);
+                Matcher matcher = pattern.matcher(args[1].cast(StringClass.class).string);
                 if(!matcher.find()) return BoolClass.FALSE;
 
-                List<PostVMClass> classes = new ArrayList<>();
+                List<Integer> classes = new ArrayList<>();
                 classes.add(StringClass.get(matcher.group(0)));
                 for (int i = 0; i < matcher.groupCount(); i++) {
                     String group = matcher.group(i + 1);
-                    PostVMClass clazz = NullClass.INSTANCE;
-                    if(group!=null) clazz = StringClass.get(group);
+                    int value = NullClass.INSTANCE.classId;
+                    if(group!=null) value = StringClass.get(group);
 
-                    classes.add(clazz);
+                    classes.add(value);
                 }
 
-                return new ArrayClass(classes);
-            }, StringClass.type, StringClass.type, ArrayClass.type);
+                return new ArrayClass(classes).classId;
+            }, StringClass.type, StringClass.type);
         }
 
-        return super.loadGlobal(target);
+        return super.loadGlobal(clazz, target);
     }
 
     public static class StdClass extends LibraryClass {
         public static final PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
-                "std", PostVMClass.PROTOTYPE, Utils.listOf()
+                "std", ObjectClass.PROTOTYPE, Utils.listOf()
         ) {
             @Override
-            public PostVMClass createClass(Caller caller, List<PostVMClass> args) {
+            public int createClass(Caller caller, int[] args) {
                 return instance;
             }
         };
 
-        public static final StdClass instance = new StdClass();
+        public static final int instance = new StdClass().classId;
 
         private StdClass() {
             super(null, PROTOTYPE);
-            executor.variables.put("output", new OutputClass(new Caller(this, 0), System.out));
-            executor.variables.put("input", new InputClass(new Caller(this, 0), System.in));
+            executor.variables.put("output", new OutputClass(new Caller(this, 0), System.out).classId);
+            executor.variables.put("input", new InputClass(new Caller(this, 0), System.in).classId);
         }
 
         @Override
-        public PostVMClass loadGlobal(String target) {
+        public Integer loadGlobal(PostVMClass clazz, String target) {
             switch (target) {
-                case "getClassesCount": return method((caller, args) ->
-                        IntClass.get(PostVMClass.classesCount), IntClass.TYPE);
-                case "getCacheCount": return method((caller, args) ->
-                        IntClass.get(CacheManager.cashedClasses.size()), IntClass.TYPE);
-                case "gc": return voidMethod((caller, args) -> CacheManager.clearCache());
-                case "getProperty": return method((caller, args) ->
-                        StringClass.get(System.getProperty(args.get(0).toString(caller))), StringClass.type);
+                case "getClassesCount": return method(NumberClass.TYPE, (caller, args) ->
+                        NumberClass.get(PostVMClass.instances.size()));
+                case "getCacheCount": return method(NumberClass.TYPE, (caller, args) ->
+                        NumberClass.get(CacheManager.cashedClasses.size()));
+                case "gc": return voidNativeMethod((caller, args) -> CacheManager.clearCache());
+                case "getProperty": return method(StringClass.type, (caller, args) ->
+                        StringClass.get(System.getProperty(args[0].toString(caller))));
             }
-            return super.loadGlobal(target);
+            return super.loadGlobal(clazz, target);
         }
     }
 }

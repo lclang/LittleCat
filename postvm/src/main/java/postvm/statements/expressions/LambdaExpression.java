@@ -11,11 +11,11 @@ import postvm.statements.TypeStatement;
 import java.util.List;
 
 public class LambdaExpression extends Expression {
-    public final List<MethodStatement.Argument> args;
+    public final MethodStatement.Argument[] args;
     public final TypeStatement returnType;
     public final Expression expression;
 
-    public LambdaExpression(List<MethodStatement.Argument> args,
+    public LambdaExpression(MethodStatement.Argument[] args,
                             TypeStatement returnType,
                             Expression expression,
                             int line) {

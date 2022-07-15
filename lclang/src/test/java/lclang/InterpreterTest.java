@@ -6,14 +6,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 import org.mozilla.universalchardet.UniversalDetector;
-import postvm.PostVMRoot;
+import postvm.Caller;
 import postvm.Utils;
 import postvm.library.LangLibrary;
+import postvm.library.classes.PostVMClass;
 import postvm.libs.TestLibrary;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,20 +31,20 @@ public class InterpreterTest {
         File[] files = tests.listFiles();
         if(files!=null) for (File file: files)
             testList.add(DynamicTest.dynamicTest(file.getName(), () -> {
-                StringBuilder output = new StringBuilder();
+                TestLibrary.output = new StringBuilder();
 
                 Global.libraries.clear();
                 Global.javaLibraries.clear();
-                Global.javaLibraries.add(new LangLibrary());
+                Global.javaLibraries.add(LangLibrary.INSTANCE);
 //                Global.javaLibraries.add(new StdLibrary());
-                Global.javaLibraries.add(new TestLibrary(output));
+                Global.javaLibraries.add(TestLibrary.INSTANCE);
 
                 String[] parts = Utils.readFile(file, UniversalDetector.detectCharset(file))
                         .split("--OUTPUT--\\R");
                 String scriptPart = parts[0];
                 String outputPart = parts[1];
 
-                PostVMRoot executor = new PostVMRoot(file);
+                LCLangFileClass executor = new LCLangFileClass(file);
                 lclangParser parser = new lclangParser(new CommonTokenStream(
                         new lclangLexer(CharStreams.fromString(scriptPart))
                 ));
@@ -59,7 +62,7 @@ public class InterpreterTest {
                 long compileTime = endTime - startTime;
 
                 startTime = System.nanoTime();
-                executor.execute();
+                executor.execute(Collections.emptyList());
                 endTime = System.nanoTime();
                 long executeTime = endTime - startTime;
 
@@ -71,10 +74,10 @@ public class InterpreterTest {
                 System.out.println("Parse time: "+parseTime+"ns / "+(parseTime/1000000)+"ms");
 
                 System.out.println();
-                System.out.println(output);
+                System.out.println(TestLibrary.output);
 
                 assertEquals(outputPart.replaceAll("\\R", "\n").trim(),
-                        output.toString().replaceAll("\\R", "\n").trim());
+                        TestLibrary.output.toString().replaceAll("\\R", "\n").trim());
             }));
         return testList.stream();
     }

@@ -3,7 +3,7 @@ package postvm.library.classes;
 import postvm.CacheManager;
 import postvm.Caller;
 import postvm.Utils;
-import postvm.library.classes.numbers.IntClass;
+import postvm.library.classes.numbers.NumberClass;
 import postvm.types.Type;
 
 import java.util.ArrayList;
@@ -13,12 +13,12 @@ import java.util.Objects;
 public final class StringClass extends LibraryClass {
     public static final PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
             "string",
-            PostVMClass.PROTOTYPE,
-            Utils.listOf(PostVMClass.PROTOTYPE.type)
+            ObjectClass.PROTOTYPE,
+            Utils.listOf(ObjectClass.PROTOTYPE.type)
     ) {
         @Override
-        public PostVMClass createClass(Caller caller, List<PostVMClass> args) {
-            return get(args.get(0).toString(caller));
+        public int createClass(Caller caller, int[] args) {
+            return get(PostVMClass.instances.get(args[0]).toString(caller));
         }
     };
 
@@ -31,67 +31,67 @@ public final class StringClass extends LibraryClass {
     }
 
     @Override
-    public PostVMClass loadGlobal(String target) {
+    public Integer loadGlobal(PostVMClass clazz, String target) {
         switch (target) {
-            case "toString": return method((caller, lcClasses) -> this, type);
-            case "length": return IntClass.get(string.length());
-            case "charAt": return method((caller, args) -> CharClass.get(
-                    string.charAt(args.get(0).cast(IntClass.class).value)),
-                    IntClass.TYPE, CharClass.type);
-            case "equals": return method((caller, args) -> {
-                PostVMClass clazz = args.get(0);
+            case "length": return NumberClass.get(string.length());
+            case "toString": return method(type, (caller, lcClasses) -> classId);
+            case "charAt": return method(CharClass.type, (caller, args) -> CharClass.get(
+                    string.charAt(args[0].cast(NumberClass.class).value.intValue())),
+                    NumberClass.TYPE);
+            case "equals": return method(BoolClass.type, (caller, args) -> {
+                PostVMClass arg = args[0];
 
-                return BoolClass.get(clazz.prototype.canCast(StringClass.PROTOTYPE) &&
-                        Objects.equals(clazz.cast(StringClass.class).string, string));
-            }, PostVMClass.OBJECT_TYPE, BoolClass.type);
-            case "toArray": return method((caller, lcClasses) -> {
-                List<PostVMClass> classes = new ArrayList<>();
+                return BoolClass.get(arg.prototype.canCast(StringClass.PROTOTYPE) &&
+                        Objects.equals(arg.cast(StringClass.class).string, string));
+            }, ObjectClass.OBJECT_TYPE);
+            case "toArray": return method(ArrayClass.type, (caller, lcClasses) -> {
+                List<Integer> classes = new ArrayList<>();
 
                 char[] chars = string.toCharArray();
                 for (char character: chars)
                     classes.add(CharClass.get(character));
 
-                return new ArrayClass(classes);
-            }, ArrayClass.type);
-            case "lower": return method((caller, args) -> StringClass.get(string.toLowerCase()), type);
-            case "upper": return method((caller, args) -> StringClass.get(string.toUpperCase()), type);
-            case "endsWith": return method((caller, args) -> BoolClass.get(string.endsWith(args.get(0)
-                    .cast(StringClass.class).string)), type, BoolClass.type);
-            case "startsWith": return method((caller, args) -> BoolClass.get(string.startsWith(args.get(0)
-                    .cast(StringClass.class).string)), type, BoolClass.type);
-            case "split": return method((caller, args) -> {
-                List<PostVMClass> classes = new ArrayList<>();
-                String[] parts = string.split(args.get(0).cast(StringClass.class).string);
+                return new ArrayClass(classes).classId;
+            });
+            case "lower": return method(type, (caller, args) -> StringClass.get(string.toLowerCase()));
+            case "upper": return method(type, (caller, args) -> StringClass.get(string.toUpperCase()));
+            case "endsWith": return method(BoolClass.type, (caller, args) -> BoolClass.get(string.endsWith(args[0]
+                    .cast(StringClass.class).string)), type);
+            case "startsWith": return method(BoolClass.type, (caller, args) -> BoolClass.get(string.startsWith(args[0]
+                    .cast(StringClass.class).string)), type);
+            case "split": return method(type, (caller, args) -> {
+                List<Integer> classes = new ArrayList<>();
+                String[] parts = string.split(args[0].cast(StringClass.class).string);
                 for (String part: parts)
                     classes.add(StringClass.get(part));
 
-                return new ArrayClass(classes);
-            }, type, type);
-            case "substring": return method((caller, args) ->
+                return new ArrayClass(classes).classId;
+            }, type);
+            case "substring": return method(type, (caller, args) ->
                             StringClass.get(
                                     string.substring(
-                                            args.get(0).cast(IntClass.class).value,
-                                            args.get(1).cast(IntClass.class).value
+                                            args[0].cast(NumberClass.class).value.intValue(),
+                                            args[1].cast(NumberClass.class).value.intValue()
                                     )
                             ),
-                    IntClass.TYPE, IntClass.TYPE, type);
-            case "find": return method((caller, args) ->
-                            IntClass.get(string.indexOf(args.get(0).cast(CharClass.class).value)),
-                    CharClass.type, type);
-            case "findLast": return method((caller, args) ->
-                            IntClass.get(string.lastIndexOf(args.get(0).cast(CharClass.class).value)),
-                    CharClass.type, type);
+                    NumberClass.TYPE, NumberClass.TYPE);
+            case "find": return method(type, (caller, args) ->
+                            NumberClass.get(string.indexOf(args[0].cast(CharClass.class).value)),
+                    CharClass.type);
+            case "findLast": return method(type, (caller, args) ->
+                            NumberClass.get(string.lastIndexOf(args[0].cast(CharClass.class).value)),
+                    CharClass.type);
         }
 
-        return super.loadGlobal(target);
+        return super.loadGlobal(clazz, target);
     }
 
-    public static StringClass get(String string) {
-        if(CacheManager.cashedClasses.containsKey(string))
-            return (StringClass) CacheManager.cashedClasses.get(string);
+    public static int get(String value) {
+        if(CacheManager.cashedClasses.containsKey(value))
+            return CacheManager.cashedClasses.get(value);
 
-        StringClass clazz = new StringClass(string);
-        CacheManager.saveCache(string, clazz);
-        return clazz;
+        StringClass clazz = new StringClass(value);
+        CacheManager.saveCache(value, clazz.classId);
+        return clazz.classId;
     }
 }

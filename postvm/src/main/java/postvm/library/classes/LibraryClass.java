@@ -7,10 +7,10 @@ import java.util.List;
 
 public abstract class LibraryClass extends PostVMClass {
     public LibraryClass(Caller caller, PostVMClassPrototype prototype) {
-        super(caller, prototype, Collections.emptyList());
+        super(caller, prototype, new int[0]);
     }
 
-    public LibraryClass(Caller caller, PostVMClassPrototype prototype, List<PostVMClass> extendsArgs) {
+    public LibraryClass(Caller caller, PostVMClassPrototype prototype, int[] extendsArgs) {
         super(caller, prototype, extendsArgs);
     }
 }

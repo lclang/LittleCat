@@ -3,24 +3,33 @@ package postvm;
 import postvm.exceptions.LCLangRuntimeException;
 import postvm.library.classes.PostVMClass;
 
-public abstract class Link {
-    public State state;
+public class Link {
+    public final int classId;
+    public int state;
 
-    public Link(State state) {
+    public Link(int classId) {
+        this(classId, State.NOTHING);
+    }
+
+    public Link(int classId, int state) {
+        this.classId = classId;
         this.state = state;
     }
 
-    public abstract PostVMClass get(Caller caller) throws LCLangRuntimeException;
-    public void set(Caller caller, PostVMClass value) throws LCLangRuntimeException{
+    public PostVMClass get() {
+        return PostVMClass.instances.get(classId);
+    }
+
+    public void set(Caller caller, int value) throws LCLangRuntimeException {
         throw new LCLangRuntimeException(
                 "Invalid operation",
                 "Value is not settable",
                 caller);
     }
 
-    public enum State {
-        RETURN,
-        STOP,
-        NOTHING
+    public static class State {
+        public static final int NOTHING = 0;
+        public static final int RETURN = 1;
+        public static final int STOP = 2;
     }
 }

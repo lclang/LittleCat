@@ -11,12 +11,12 @@ import java.util.List;
 public final class NullClass extends LibraryClass {
     public final static PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
             "null",
-                PostVMClass.PROTOTYPE,
+            null,
             Utils.listOf()
     ) {
         @Override
-        public PostVMClass createClass(Caller caller, List<PostVMClass> args) {
-            return INSTANCE;
+        public int createClass(Caller caller, int[] args) {
+            return INSTANCE.classId;
         }
     };
 
@@ -24,11 +24,6 @@ public final class NullClass extends LibraryClass {
 
     private NullClass() {
         super(null, PROTOTYPE);
-    }
-
-    @Override
-    public PostVMClass getVariableClass(Caller caller, String name) throws LCLangNullPointerException {
-        throw new LCLangNullPointerException(caller);
     }
 
     @Override

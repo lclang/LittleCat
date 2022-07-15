@@ -16,10 +16,7 @@ public class ReturnExpression extends Expression {
 
     @Override
     public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
-        Link value = VoidClass.value;
-        if(expression!=null)
-            value = expression.visit(prevCaller, visitor);
-
+        Link value = expression.visit(prevCaller, visitor);
         value.state = Link.State.RETURN;
         return value;
     }

@@ -6,16 +6,16 @@ import postvm.types.Type;
 import java.util.List;
 
 public class TypeUtils {
-    public static int isAccept(List<Type> filterTypes, List<Type> checkTypes) {
-        if(filterTypes.size()<checkTypes.size()) {
-            return filterTypes.size()+1;
+    public static int isAccept(Type[] filterTypes, Type[] checkTypes) {
+        if(filterTypes.length<checkTypes.length) {
+            return filterTypes.length+1;
         }
 
-        for (int i = 0; i < filterTypes.size(); i++) {
+        for (int i = 0; i < filterTypes.length; i++) {
             Type checkType = VoidClass.PROTOTYPE.type;
-            if(checkTypes.size()>i) checkType = checkTypes.get(i);
+            if(checkTypes.length>i) checkType = checkTypes[i];
 
-            if(!filterTypes.get(i).isAccept(checkType)) {
+            if(!filterTypes[i].isAccept(checkType)) {
                 return i;
             }
         }

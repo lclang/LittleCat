@@ -10,13 +10,13 @@ import java.util.List;
 
 public class MethodStatement {
     public final String name;
-    public final List<Argument> args;
+    public final Argument[] args;
     public final TypeStatement returnType;
     public final Statement statement;
 
     public MethodStatement(
             String name,
-            List<Argument> args,
+            Argument[] args,
             TypeStatement returnType,
             Statement statement
     ) {
@@ -26,19 +26,22 @@ public class MethodStatement {
         this.statement = statement;
     }
 
-    public MethodImpl visit(PostVMClass root, boolean importVariables) throws LCLangRuntimeException {
+    public int visit(PostVMClass root, boolean importVariables) throws LCLangRuntimeException {
         return new MethodImpl(
                 root.executor,
                 args,
                 returnType.toType(root),
                 statement,
                 importVariables
-        );
+        ).classId;
     }
 
-    public static List<Type> resolveArgs(PostVMClass root, List<Argument> args) throws LCLangRuntimeException {
-        List<Type> types = new ArrayList<>();
-        for(Argument argument: args) types.add(argument.type.toType(root));
+    public static Type[] resolveArgs(PostVMClass root, Argument[] args) throws LCLangRuntimeException {
+        Type[] types = new Type[args.length];
+        for (int i = 0, l = args.length; i < l; i++) {
+            types[i] = args[i].type.toType(root);
+        }
+
         return types;
     }
 

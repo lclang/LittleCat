@@ -15,7 +15,7 @@ public class UILinearLayout extends LibraryClass {
 
     private UILinearLayout() {
         super(name);
-        constructor = method((caller, args) -> new UILinearLayout(new JPanel()), type);
+        constructor = methodOld((caller, args) -> new UILinearLayout(new JPanel()), type);
     }
 
     public UILinearLayout(JPanel frame) {
@@ -26,7 +26,7 @@ public class UILinearLayout extends LibraryClass {
     }
 
     @Override
-    public PostVMClass loadGlobal(String target) {
+    public Integer loadGlobal(PostVMClass clazz, String target) {
         switch (target) {
             case "setHorizontal": return voidMethod((caller, args) -> frame.setLayout(
                     new BoxLayout(frame, args.get(0) == BoolClass.TRUE ?
@@ -34,6 +34,6 @@ public class UILinearLayout extends LibraryClass {
                             BoxLayout.Y_AXIS)), BoolClass.type);
         }
 
-        return super.loadGlobal(target);
+        return super.loadGlobal(clazz, target);
     }
 }

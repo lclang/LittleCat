@@ -15,7 +15,7 @@ public class UIText extends LibraryClass {
 
     private UIText() {
         super(name);
-        constructor = method((caller, postVMClasses) -> new UIText(new JLabel()), type);
+        constructor = methodOld((caller, PostVMClasses) -> new UIText(new JLabel()), type);
     }
 
     public UIText(JLabel label) {
@@ -25,14 +25,14 @@ public class UIText extends LibraryClass {
     }
 
     @Override
-    public PostVMClass loadGlobal(String target) {
+    public Integer loadGlobal(PostVMClass clazz, String target) {
         switch (target) {
-            case "getText": return method((caller, args) -> StringClass.get(label.getText()),
+            case "getText": return methodOld((caller, args) -> StringClass.get(label.getText()),
                     StringClass.type);
             case "setText": return voidMethod((caller, args) -> label.setText(args.get(0)
                             .cast(StringClass.class).string), StringClass.type);
         }
 
-        return super.loadGlobal(target);
+        return super.loadGlobal(clazz, target);
     }
 }

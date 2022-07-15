@@ -54,6 +54,7 @@ COMPONENT: 'component';
 STOP: 'stop';
 RETURN: 'return';
 WHILE: 'while';
+LOOP: 'loop';
 AS: 'as';
 IF: 'if';
 IS: 'is';
@@ -176,13 +177,12 @@ stmt:
         expression SEMICOLON?
 ;
 
-whileStmt: WHILE condition=expression (COLON stmt)?;
+whileStmt: (WHILE|LOOP) condition=expression (COLON stmt)?;
 ifStmt: IF condition=expression COLON ifT=stmt (ELSE ifF=stmt)?;
 block: OPEN_BRACE stmt* CLOSE_BRACE;
 
 component: COMPONENT type OPEN_BRACE global* classExpr* CLOSE_BRACE;
-classExpr: CLASS name=ID (OPEN (arg COMMA)* arg? CLOSE)? (EXTENDS classExtends=namedType (OPEN extendsArgs CLOSE)?)?
- (OPEN_BRACE (method|stmt)* CLOSE_BRACE)?;
+classExpr: CLASS name=ID (OPEN (arg COMMA)* arg? CLOSE)? (EXTENDS classExtends=namedType (OPEN extendsArgs CLOSE)?)? (OPEN_BRACE (method|stmt)* CLOSE_BRACE)?;
 
 extendsArgs: (expression COMMA)* expression?;
 

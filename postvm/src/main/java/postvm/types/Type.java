@@ -30,9 +30,7 @@ public class Type implements Cloneable {
     }
 
     public Type nullable() {
-        Type newType = clone();
-        newType.nullable = true;
-        return newType;
+        return new UnionType(new Type[] { NullClass.PROTOTYPE.type, this });
     }
 
     public Type notNullable() {

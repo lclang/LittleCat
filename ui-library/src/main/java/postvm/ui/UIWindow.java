@@ -27,12 +27,12 @@ public class UIWindow extends LibraryClass {
     }
 
     @Override
-    public PostVMClass loadGlobal(String target) {
+    public Integer loadGlobal(PostVMClass clazz, String target) {
         switch (target) {
             case "pack": return voidMethod((caller, args) -> frame.pack());
             case "dispose": return voidMethod((caller, args) -> frame.dispose());
         }
 
-        return super.loadGlobal(target);
+        return super.loadGlobal(clazz, target);
     }
 }

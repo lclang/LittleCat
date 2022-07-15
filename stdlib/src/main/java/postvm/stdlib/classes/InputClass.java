@@ -4,31 +4,30 @@ import postvm.Caller;
 import postvm.Utils;
 import postvm.exceptions.LCLangIOException;
 import postvm.library.classes.*;
-import postvm.library.classes.numbers.DoubleClass;
-import postvm.library.classes.numbers.IntClass;
+import postvm.library.classes.numbers.NumberClass;
 import postvm.methods.Method;
 import postvm.types.CallableType;
-import postvm.types.Type;
 
-import java.io.*;
-import java.util.Collections;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class InputClass extends LibraryClass {
     public static final PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
             "Input",
-            PostVMClass.PROTOTYPE,
-            Utils.listOf(CallableType.get(IntClass.PROTOTYPE.type))
+            ObjectClass.PROTOTYPE,
+            Utils.listOf(CallableType.get(NumberClass.PROTOTYPE.type))
     ) {
         @Override
-        public PostVMClass createClass(Caller caller, List<PostVMClass> args) {
-            Method method = args.get(0).cast(Method.class);
+        public int createClass(Caller caller, int[] args) {
+            Method method = PostVMClass.instances.get(args[0]).cast(Method.class);
             return new InputClass(caller, new InputStream() {
                 @Override
                 public int read() {
-                    return method.call(caller, Collections.emptyList()).cast(IntClass.class).value;
+                    return PostVMClass.instances.get(method.call(caller, new int[0])).cast(NumberClass.class).value.intValue();
                 }
-            });
+            }).classId;
         }
     };
 
@@ -40,36 +39,36 @@ public class InputClass extends LibraryClass {
     }
 
     @Override
-    public PostVMClass loadGlobal(String target) {
+    public Integer loadGlobal(PostVMClass clazz, String target) {
         switch (target) {
             case "ready":
-                return method((caller, lcClasses) -> {
+                return method(BoolClass.PROTOTYPE.type, (caller, lcClasses) -> {
                     try {
                         return BoolClass.get(reader.ready());
                     } catch (IOException e) {
                         throw new LCLangIOException(e.getMessage(), caller);
                     }
-                }, DoubleClass.TYPE);
+                });
 
             case "read":
-                return method((caller, lcClasses) -> {
+                return method(NumberClass.TYPE, (caller, lcClasses) -> {
                     try {
-                        return IntClass.get(reader.read());
+                        return NumberClass.get(reader.read());
                     } catch (IOException e) {
                         throw new LCLangIOException(e.getMessage(), caller);
                     }
-                }, IntClass.TYPE);
+                });
 
             case "readLine":
-                return method((caller, lcClasses) -> {
+                return method(StringClass.type, (caller, lcClasses) -> {
                     try {
                         String line = reader.readLine();
-                        if (line == null) return NullClass.INSTANCE;
+                        if (line == null) return NullClass.INSTANCE.classId;
                         return StringClass.get(line);
                     } catch (IOException e) {
                         throw new LCLangIOException(e.getMessage(), caller);
                     }
-                }, StringClass.type);
+                });
 
             case "close":
                 return voidMethod((caller, lcClasses) -> {
@@ -80,6 +79,6 @@ public class InputClass extends LibraryClass {
                     }
                 });
         }
-        return super.loadGlobal(target);
+        return super.loadGlobal(clazz, target);
     }
 }
