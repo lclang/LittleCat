@@ -34,9 +34,6 @@ public abstract class PostVMClass {
     private PostVMClass extendsClass;
 
     private Link link;
-    private final Caller creator;
-    private final int[] extendsArgs;
-
     {
         instances.add(this);
     }
@@ -53,10 +50,14 @@ public abstract class PostVMClass {
             PostVMClassPrototype prototype,
             String path,
             int[] extendsArgs) {
-        this.creator = caller;
         this.prototype = prototype;
         this.path = path;
-        this.extendsArgs = extendsArgs;
+        this.extendsClass = createExtendsClass();
+        if (extendsClass == null) {
+            PostVMClassPrototype extendsPrototype = prototype.getExtendsClass();
+            if (extendsPrototype != null)
+                extendsClass = PostVMClass.instances.get(extendsPrototype.createClass(caller, extendsArgs));
+        }
     }
 
     public PostVMClass createExtendsClass() {
@@ -64,16 +65,7 @@ public abstract class PostVMClass {
     }
 
     public PostVMClass getExtendsClass() {
-        if(extendsClass==null) {
-            extendsClass = createExtendsClass();
-            if (extendsClass == null) {
-                PostVMClassPrototype extendsPrototype = prototype.getExtendsClass();
-                if (extendsPrototype != null)
-                    extendsClass = PostVMClass.instances.get(extendsPrototype.createClass(creator, extendsArgs));
-            }
-        }
-
-        return this.extendsClass;
+        return extendsClass;
     }
 
     public Integer loadGlobal(PostVMClass clazz, String target) {
@@ -171,7 +163,7 @@ public abstract class PostVMClass {
     @Override
     @Deprecated
     public boolean equals(Object o) {
-        throw new RuntimeException("USE EQUALS WITH CALLER!!!");
+        throw new RuntimeException("USE EQUALS WITH CALLER OR WITH CLASS ID!!!");
     }
 
     public String toString(Caller caller) throws LCLangRuntimeException {
