@@ -58,7 +58,7 @@ public abstract class PostVMClassPrototype {
 
     public boolean canCast(PostVMClassPrototype prototype) {
         return name.equals(prototype.name) ||
-                extendsClass != null &&
-                extendsClass.canCast(prototype);
+                getExtendsClass() != null &&
+                getExtendsClass().canCast(prototype);
     }
 }

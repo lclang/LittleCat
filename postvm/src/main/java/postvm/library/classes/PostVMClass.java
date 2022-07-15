@@ -34,6 +34,7 @@ public abstract class PostVMClass {
     private PostVMClass extendsClass;
 
     private Link link;
+
     {
         instances.add(this);
     }
