@@ -3,6 +3,7 @@ package postvm.library.classes.numbers;
 import postvm.CacheManager;
 import postvm.Caller;
 import postvm.Utils;
+import postvm.exceptions.LCLangRuntimeException;
 import postvm.library.classes.*;
 import postvm.types.Type;
 
@@ -16,7 +17,11 @@ public final class NumberClass extends LibraryClass {
     ) {
         @Override
         public int createClass(Caller caller, int[] args) {
-            return NumberClass.get(Double.parseDouble(PostVMClass.instances.get(args[0]).toString(caller)));
+            try {
+                return NumberClass.get(Integer.parseInt(PostVMClass.instances.get(args[0]).toString(caller)));
+            }catch (NumberFormatException exception) {
+                throw new LCLangRuntimeException("Invalid number format", exception.getMessage(), caller);
+            }
         }
     };
 

@@ -47,7 +47,7 @@ public class ClassStatement {
 
             @Override
             public int createClass(Caller caller, int[] args) {
-                return new PostVMClass(caller, this, LinkUtils.classesFromLinks(
+                return new PostVMClass(caller, this, root.path, LinkUtils.classesFromLinks(
                         LinkUtils.linksFromExpressions(caller, caller.root.executor, extendsArguments)
                 )) {
                     public final HashMap<String, MethodStatement> methods = new HashMap<>();
