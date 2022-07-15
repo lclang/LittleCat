@@ -27,13 +27,15 @@ public abstract class PostVMClass {
     public final PostVMClassPrototype prototype;
 
     public final String path;
-    public final PostVMClass extendsClass;
 
     public final HashMap<String, PostVMClassPrototype> classes = new HashMap<>();
     public final PostVMExecutor executor = new PostVMExecutor(this);
     public List<PostVMClass> parents = new ArrayList<>();
+    private PostVMClass extendsClass;
 
     private Link link;
+    private final Caller creator;
+    private final int[] extendsArgs;
 
     {
         instances.add(this);
@@ -51,26 +53,32 @@ public abstract class PostVMClass {
             PostVMClassPrototype prototype,
             String path,
             int[] extendsArgs) {
-
+        this.creator = caller;
         this.prototype = prototype;
         this.path = path;
-        PostVMClass extendsClass = createExtendsClass();
-        if(extendsClass==null) {
-            PostVMClassPrototype extendsPrototype = prototype.getExtendsClass();
-            if(extendsPrototype!=null)
-                extendsClass = PostVMClass.instances.get(extendsPrototype.createClass(caller, extendsArgs));
-        }
-
-        this.extendsClass = extendsClass;
+        this.extendsArgs = extendsArgs;
     }
 
     public PostVMClass createExtendsClass() {
         return null;
     }
 
+    public PostVMClass getExtendsClass() {
+        if(extendsClass==null) {
+            extendsClass = createExtendsClass();
+            if (extendsClass == null) {
+                PostVMClassPrototype extendsPrototype = prototype.getExtendsClass();
+                if (extendsPrototype != null)
+                    extendsClass = PostVMClass.instances.get(extendsPrototype.createClass(creator, extendsArgs));
+            }
+        }
+
+        return this.extendsClass;
+    }
+
     public Integer loadGlobal(PostVMClass clazz, String target) {
-        if(extendsClass != null) {
-            Integer global = extendsClass.getGlobal(clazz, target);
+        if(getExtendsClass() != null) {
+            Integer global = getExtendsClass().getGlobal(clazz, target);
             if(global!=null) return global;
         }
 
@@ -90,7 +98,7 @@ public abstract class PostVMClass {
             });
 
             case Constants.FIELD_ID: return NumberClass.get(classId);
-            case Constants.FIELD_EXTENDS: return extendsClass==null ? NullClass.INSTANCE.classId : extendsClass.classId;
+            case Constants.FIELD_EXTENDS: return getExtendsClass()==null ? NullClass.INSTANCE.classId : getExtendsClass().classId;
             case Constants.FIELD_TYPE: return StringClass.get(clazz.prototype.name);
             case Constants.FIELD_PROTOTYPE: return clazz.prototype.getConstructor();
 
@@ -193,8 +201,8 @@ public abstract class PostVMClass {
     public <T> T cast(Class<T> clazz) {
         if(clazz.equals(getClass()))
             return (T) this;
-        else if(extendsClass!=null)
-            return extendsClass.cast(clazz);
+        else if(getExtendsClass()!=null)
+            return getExtendsClass().cast(clazz);
         else {
             new Throwable().printStackTrace();
 

@@ -36,7 +36,6 @@ public class ClassStatement {
     }
 
     public void visit(PostVMClass root) throws LCLangRuntimeException {
-
         PostVMClassPrototype classPrototype = new PostVMClassPrototype(
                 name, null, MethodStatement.resolveArgs(root, arguments)
         ) {
@@ -54,6 +53,7 @@ public class ClassStatement {
                     public final HashMap<String, MethodStatement> methods = new HashMap<>();
 
                     {
+                        parents.add(root);
                         for(MethodStatement methodStatement: methodStatements) {
                             methods.put(methodStatement.name, methodStatement);
                         }

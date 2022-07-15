@@ -29,7 +29,7 @@ public class PostVMExecutor {
 
             Integer global = root.getGlobal(name);
             if(global!=null) classId = global;
-            else if(root.extendsClass!=null) return root.extendsClass.executor.getVariableClass(name);
+            else if(root.getExtendsClass()!=null) return root.getExtendsClass().executor.getVariableClass(name);
         }else{
             classId = variables.get(name);
         }
