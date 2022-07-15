@@ -4,7 +4,6 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.mozilla.universalchardet.UniversalDetector;
 import postvm.Library;
-import postvm.PostVMRoot;
 import postvm.Utils;
 import postvm.exceptions.LCLangLexerException;
 import postvm.exceptions.LCLangRuntimeException;
@@ -37,12 +36,14 @@ public class Main {
                         if (fileName.endsWith(".jar")) {
                             loadJarLibrariesFromFile(libraryFile);
                         } else if (fileName.endsWith(".lcat")) {
-                            PostVMRoot executor = new PostVMRoot(libraryFile);
+                            LCLangFileClass executor = new LCLangFileClass(libraryFile);
                             try {
                                 executeInput(executor, Utils.readFile(libraryFile,
-                                        UniversalDetector.detectCharset(libraryFile)));
+                                        UniversalDetector.detectCharset(libraryFile)), Collections.emptyList());
                                 Global.libraries.add(executor);
-                            } catch (IOException ignored) {}
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }
@@ -51,14 +52,14 @@ public class Main {
             if(args.length==0) {
                 System.out.println("Little cat "+Global.version+" (Build date: "+Global.buildTime+")");
                 Scanner scanner = new Scanner(System.in);
-                PostVMRoot cliExecutor = new PostVMRoot(new File("./cli"));
+                LCLangFileClass cliExecutor = new LCLangFileClass(new File("./cli"));
 
                 System.out.print("> ");
                 while (scanner.hasNextLine()) {
                     String code = scanner.nextLine();
 
                     try {
-                        executeInput(cliExecutor, code);
+                        executeInput(cliExecutor, code, Collections.emptyList());
                     } catch (RuntimeException e) {
                         System.out.println(ERROR_COLOR + e.getMessage() + RESET_COLOR);
                     }
@@ -84,13 +85,12 @@ public class Main {
             }
 
             if(file.length()==0L) return;
-            PostVMRoot executor = new PostVMRoot(file);
+            LCLangFileClass executor = new LCLangFileClass(file);
 
-            List<PostVMClass> arguments = new ArrayList<>();
+            List<Integer> arguments = new ArrayList<>();
             for(String argument: programArgs) arguments.add(StringClass.get(argument));
 
-            executor.executor.variables.put("args", new ArrayClass(arguments));
-            executeInput(executor, Utils.readFile(file, UniversalDetector.detectCharset(file)));
+            executeInput(executor, Utils.readFile(file, UniversalDetector.detectCharset(file)), arguments);
         } catch (RuntimeException e) {
             if(e instanceof LCLangRuntimeException||e instanceof LCLangLexerException)
                 System.out.println(ERROR_COLOR + e.getMessage() + RESET_COLOR);
@@ -131,7 +131,7 @@ public class Main {
         }
     }
 
-    public static PostVMClass executeInput(PostVMRoot executor, String file) throws LCLangRuntimeException {
+    public static void executeInput(LCLangFileClass executor, String file, List<Integer> args) throws LCLangRuntimeException {
         lclangParser parser = new lclangParser(new CommonTokenStream(
                 new lclangLexer(CharStreams.fromString(file))
         ));
@@ -139,6 +139,6 @@ public class Main {
         parser.addErrorListener(new LCLangErrorListener(executor.path));
 
         LCCompiler.instance.fillFile(executor, parser.file());
-        return executor.execute();
+        executor.execute(args);
     }
 }

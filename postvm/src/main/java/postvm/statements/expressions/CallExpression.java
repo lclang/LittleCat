@@ -1,20 +1,22 @@
 package postvm.statements.expressions;
 
-import postvm.*;
+import postvm.Caller;
+import postvm.Link;
+import postvm.PostVMExecutor;
+import postvm.TypeUtils;
 import postvm.exceptions.LCLangRuntimeException;
 import postvm.exceptions.LCLangTypeErrorException;
 import postvm.library.classes.PostVMClass;
 import postvm.methods.Method;
 import postvm.types.Type;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CallExpression extends Expression {
     public final Expression expression;
-    public final List<Expression> arguments;
+    public final Expression[] arguments;
 
-    public CallExpression(Expression expression, List<Expression> arguments, int line) {
+    public CallExpression(Expression expression, Expression[] arguments, int line) {
         super(line);
         this.expression = expression;
         this.arguments = arguments;
@@ -23,37 +25,46 @@ public class CallExpression extends Expression {
     @Override
     public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
         Caller expressionCaller = expression.getCaller(prevCaller);
-        PostVMClass callClazz = expression.visit(prevCaller, visitor).get(expressionCaller);
+        PostVMClass callClazz = expression.visit(prevCaller, visitor).get();
         if(!callClazz.prototype.canCast(Method.PROTOTYPE))
             throw new LCLangTypeErrorException("Value is not callable (it is "+callClazz.prototype.name+")", expressionCaller);
 
-        ArrayList<Type> argsTypes = new ArrayList<>();
-        ArrayList<PostVMClass> args = new ArrayList<>();
-        for(Expression argument: arguments) {
+        Type[] argsTypes = new Type[arguments.length];
+        Integer[] args = new Integer[argsTypes.length];
+
+        for (int i = 0, l = argsTypes.length; i < l; i++) {
+            Expression argument = arguments[i];
+
             Link argumentValue = argument.visit(prevCaller, visitor);
-            if(argumentValue.state != Link.State.NOTHING) return argumentValue;
-            PostVMClass clazz = argumentValue.get(expression.getCaller(prevCaller));
-            argsTypes.add(clazz.prototype.type);
-            args.add(clazz);
+            if(argumentValue.state!=Link.State.NOTHING) return argumentValue;
+
+            PostVMClass clazz = argumentValue.get();
+            argsTypes[i] = clazz.prototype.type;
+            args[i] = clazz.classId;
         }
 
         Method method = (Method) callClazz;
 
         int notAcceptArg = TypeUtils.isAccept(method.args, argsTypes);
         if(notAcceptArg!=-1) {
-            if(method.args.size()!=argsTypes.size()){
-                throw method.args.size()>argsTypes.size() ?
+            if(method.args.length!=argsTypes.length){
+                throw method.args.length>argsTypes.length ?
                         new LCLangTypeErrorException("Invalid arguments: few arguments",
                                 getCaller(prevCaller)):
                         new LCLangTypeErrorException("Invalid arguments: too many arguments",
-                                arguments.get(method.args.size()).getCaller(prevCaller));
+                                arguments[method.args.length].getCaller(prevCaller));
             }
 
             throw new LCLangTypeErrorException("Invalid argument " + (notAcceptArg + 1) +
-                    ": excepted " + method.args.get(notAcceptArg) + ", but received " + argsTypes.get(notAcceptArg),
-                    arguments.get(notAcceptArg).getCaller(prevCaller));
+                    ": excepted " + method.args[notAcceptArg] + ", but received " + argsTypes[notAcceptArg],
+                    arguments[notAcceptArg].getCaller(prevCaller));
         }
 
-        return method.call(getCaller(prevCaller), args).createLink();
+        return new Link(method.call(getCaller(prevCaller), args));
+    }
+
+    @Override
+    public void compile(List<Integer> bytes, Caller prevCaller) {
+        super.compile(bytes, prevCaller);
     }
 }

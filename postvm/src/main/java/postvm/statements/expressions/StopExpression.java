@@ -3,20 +3,14 @@ package postvm.statements.expressions;
 import postvm.Caller;
 import postvm.Link;
 import postvm.PostVMExecutor;
-import postvm.exceptions.LCLangRuntimeException;
-import postvm.library.classes.PostVMClass;
 import postvm.library.classes.VoidClass;
 
 public class StopExpression extends Expression {
-    public static final Link STOP_VALUE = new Link(Link.State.STOP) {
-        @Override
-        public PostVMClass get(Caller caller) throws LCLangRuntimeException {
-            return VoidClass.INSTANCE;
-        }
-    };
+    public static final Link STOP_VALUE = new Link(VoidClass.INSTANCE.classId, Link.State.STOP);
+    public static final StopExpression STOP = new StopExpression();
 
-    public StopExpression(int line) {
-        super(line);
+    private StopExpression() {
+        super(0);
     }
 
     @Override

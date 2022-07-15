@@ -20,7 +20,7 @@ public class IfExpression extends Expression {
 
     @Override
     public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
-        if(condition.visit(prevCaller, visitor).get(prevCaller)!=BoolClass.FALSE){
+        if(condition.visit(prevCaller, visitor).classId!=BoolClass.FALSE){
             return ifTrue.visit(prevCaller, visitor);
         }
 

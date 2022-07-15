@@ -21,8 +21,8 @@ public class WhileStatement extends Statement {
     @Override
     public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
         if(body==null) {
-            while(condition.visit(prevCaller, visitor).get(prevCaller) != BoolClass.FALSE);
-        }else while(condition.visit(prevCaller, visitor).get(prevCaller) != BoolClass.FALSE) {
+            while(condition.visit(prevCaller, visitor).classId != BoolClass.FALSE);
+        }else while(condition.visit(prevCaller, visitor).classId != BoolClass.FALSE) {
             Link value = body.visit(prevCaller, visitor);
             if(value.state== Link.State.RETURN)
                 return value;

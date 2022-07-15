@@ -1,18 +1,5 @@
 package postvm.stdlib.classes;
 
-import postvm.Caller;
-import postvm.exceptions.LCLangIOException;
-import postvm.library.classes.LibraryClass;
-import postvm.library.classes.PostVMClass;
-import postvm.library.classes.StringClass;
-import postvm.library.classes.numbers.IntClass;
-import postvm.types.Type;
-
-import javax.net.SocketFactory;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
-import java.io.IOException;
-
 //public class SSLSocketClass extends LibraryClass {
 ////    public static final String name = "SSLSocket";
 ////    public static final SSLSocketClass instance = new SSLSocketClass();
@@ -43,7 +30,7 @@ import java.io.IOException;
 ////
 ////
 ////    @Override
-////    public PostVMClass loadGlobal(String target) {
+////    public PostVMClass loadGlobal(PostVMClass clazz, String target) {
 ////        switch (target) {
 ////            case "startHandshake": return voidMethod((caller, args) -> {
 ////                try {
@@ -54,6 +41,6 @@ import java.io.IOException;
 ////            });
 ////        }
 ////
-////        return super.loadGlobal(target);
+////        return super.loadGlobal(clazz, target);
 ////    }
 //}

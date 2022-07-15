@@ -21,7 +21,6 @@ public class BlockStatement extends Statement {
             Link value = stmt.visit(caller, visitor);
             if (value.state!=Link.State.NOTHING)
                 return value;
-            else value.get(caller);
         }
 
         return VoidClass.value;

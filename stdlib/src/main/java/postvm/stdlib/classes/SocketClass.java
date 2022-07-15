@@ -4,30 +4,25 @@ import postvm.Caller;
 import postvm.Utils;
 import postvm.exceptions.LCLangIOException;
 import postvm.library.classes.*;
-import postvm.library.classes.numbers.IntClass;
-import postvm.methods.Method;
+import postvm.library.classes.numbers.NumberClass;
 import postvm.types.CallableType;
-import postvm.types.Type;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.Socket;
-import java.util.Collections;
-import java.util.List;
 
 
 public class SocketClass extends LibraryClass {
     public static final PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
             "Socket",
-            PostVMClass.PROTOTYPE,
-            Utils.listOf(CallableType.get(IntClass.PROTOTYPE.type))
+            ObjectClass.PROTOTYPE,
+            Utils.listOf(CallableType.get(NumberClass.PROTOTYPE.type))
     ) {
         @Override
-        public PostVMClass createClass(Caller caller, List<PostVMClass> args) {
-            int port = args.get(1).cast(IntClass.class).value;
+        public int createClass(Caller caller, Integer[] args) {
+            int port = PostVMClass.instances.get(args[1]).cast(NumberClass.class).value.intValue();
 
             try {
-                return new SocketClass(caller, new Socket(args.get(0).cast(StringClass.class).string, port));
+                return new SocketClass(caller, new Socket(PostVMClass.instances.get(args[0]).cast(StringClass.class).string, port)).classId;
             } catch (IOException e) {
                 throw new LCLangIOException(e.getMessage(), caller);
             }
@@ -42,28 +37,25 @@ public class SocketClass extends LibraryClass {
     }
 
     @Override
-    public PostVMClass loadGlobal(String target) {
+    public Integer loadGlobal(PostVMClass clazz, String target) {
         switch (target) {
-            case "getInput": return method((caller, args) -> {
+            case "getInput": return methodOld(InputClass.PROTOTYPE.type, (caller, args) -> {
                 try {
                     return new InputClass(caller, socket.getInputStream());
                 } catch (IOException e) {
                     throw new LCLangIOException(e.getMessage(), caller);
                 }
-            }, InputClass.PROTOTYPE.type);
-            case "getOutput": return method((caller, args) -> {
+            });
+            case "getOutput": return methodOld(OutputClass.PROTOTYPE.type, (caller, args) -> {
                 try {
                     return new OutputClass(caller, socket.getOutputStream());
                 } catch (IOException e) {
                     throw new LCLangIOException(e.getMessage(), caller);
                 }
-            }, OutputClass.PROTOTYPE.type);
-            case "isConnected": return method((caller, args) -> BoolClass.get(socket.isConnected()),
-                    BoolClass.type);
-            case "isClosed": return method((caller, args) -> BoolClass.get(socket.isClosed()),
-                    BoolClass.type);
-            case "getPort": return method((caller, args) -> IntClass.get(socket.getPort()),
-                    IntClass.TYPE);
+            });
+            case "isConnected": return method(BoolClass.type, (caller, args) -> BoolClass.get(socket.isConnected()));
+            case "isClosed": return method(BoolClass.type, (caller, args) -> BoolClass.get(socket.isClosed()));
+            case "getPort": return method(NumberClass.TYPE, (caller, args) -> NumberClass.get(socket.getPort()));
             case "close": return voidMethod((caller, args) -> {
                 try {
                     socket.close();
@@ -73,6 +65,6 @@ public class SocketClass extends LibraryClass {
             });
         }
 
-        return super.loadGlobal(target);
+        return super.loadGlobal(clazz, target);
     }
 }

@@ -8,14 +8,15 @@ import postvm.exceptions.LCLangRuntimeException;
 import postvm.exceptions.LCLangTypeErrorException;
 import postvm.library.classes.ArrayClass;
 import postvm.library.classes.BoolClass;
+import postvm.library.classes.NullClass;
 import postvm.library.classes.PostVMClass;
 import postvm.library.classes.numbers.NumberClass;
 
 public class UnaryOperationExpression extends Expression {
     public final Expression expression;
-    public final Operation operation;
+    public final int operation;
 
-    public UnaryOperationExpression(Expression expression, Operation operation, int line) {
+    public UnaryOperationExpression(Expression expression, int operation, int line) {
         super(line);
         this.expression = expression;
         this.operation = operation;
@@ -26,66 +27,72 @@ public class UnaryOperationExpression extends Expression {
         Caller caller = getCaller(prevCaller);
         Link leftValue = expression.visit(caller, visitor);
         if(leftValue.state != Link.State.NOTHING) return leftValue;
-        PostVMClass left = leftValue.get(caller);
 
-        PostVMClass clazz;
+        int clazz;
         switch (operation){
-            case ARRAY_ACCESS:
-                if(left instanceof ArrayClass) {
+            case Operation.ARRAY_ACCESS: {
+                PostVMClass left = leftValue.get();
+                if (left instanceof ArrayClass) {
                     ArrayClass array = (ArrayClass) left;
-                    return new Link(Link.State.NOTHING) {
-                        @Override
-                        public PostVMClass get(Caller caller) throws LCLangRuntimeException {
-                            return array.last();
-                        }
+                    return new Link(array.last(), Link.State.NOTHING) {
 
                         @Override
-                        public void set(Caller caller, PostVMClass value) throws LCLangRuntimeException {
+                        public void set(Caller caller, int value) throws LCLangRuntimeException {
                             array.add(value);
                         }
                     };
-                }else throw new LCLangTypeErrorException("Value is not array", caller);
+                } else throw new LCLangTypeErrorException("Value is not array", caller);
+            }
 
-            case NOT:
-                return left.cast(BoolClass.class).not().createLink();
+            case Operation.NOT:
+                return new Link(
+                        leftValue.classId == BoolClass.FALSE ?
+                                BoolClass.TRUE : BoolClass.FALSE
+                );
 
-            case NULL_CHECK:
-                if(left==null)
+            case Operation.NULL_CHECK:
+                if(leftValue.classId==NullClass.INSTANCE.classId)
                     throw new LCLangNullPointerException(caller);
-                else clazz = leftValue.get(caller);
+                else clazz = leftValue.classId;
 
                 break;
 
-            case UNARY_PLUS:
-                if(left.extendsClass instanceof NumberClass){
-                    clazz = left.extendsClass.cast(NumberClass.class).add(new NumberClass(1));
+            case Operation.UNARY_PLUS: {
+                PostVMClass left = leftValue.get();
+                if (left instanceof NumberClass) {
+                    clazz = left.cast(NumberClass.class).add(PostVMClass.instances.get(NumberClass.get(1)).cast(NumberClass.class));
                     break;
                 }
+            }
 
-            case UNARY_MINUS:
-                if(left.extendsClass instanceof NumberClass){
-                    clazz = left.extendsClass.cast(NumberClass.class).minus(new NumberClass(1));
+            case Operation.UNARY_MINUS: {
+                PostVMClass left = leftValue.get();
+                if (left instanceof NumberClass) {
+                    clazz = left.cast(NumberClass.class).minus(PostVMClass.instances.get(NumberClass.get(1)).cast(NumberClass.class));
                     break;
                 }
+            }
 
-            case BINARY_COMPLIMENT:
-                if(left.extendsClass instanceof NumberClass){
-                    return left.extendsClass.cast(NumberClass.class).compliment().createLink();
+            case Operation.BINARY_COMPLIMENT: {
+                PostVMClass left = leftValue.get();
+                if (left instanceof NumberClass) {
+                    return new Link(left.cast(NumberClass.class).compliment());
                 }
+            }
 
             default: throw new LCLangTypeErrorException("Operation not supported", caller);
         }
 
         leftValue.set(caller, clazz);
-        return clazz.createLink();
+        return new Link(clazz);
     }
 
-    public enum Operation {
-        NULL_CHECK,
-        UNARY_PLUS,
-        UNARY_MINUS,
-        NOT,
-        ARRAY_ACCESS,
-        BINARY_COMPLIMENT
+    public static class Operation {
+        public static final int NULL_CHECK = 1;
+        public static final int UNARY_PLUS = 2;
+        public static final int UNARY_MINUS = 3;
+        public static final int NOT = 4;
+        public static final int ARRAY_ACCESS = 5;
+        public static final int BINARY_COMPLIMENT = 6;
     }
 }

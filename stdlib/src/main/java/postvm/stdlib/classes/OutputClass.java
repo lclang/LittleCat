@@ -4,31 +4,30 @@ import postvm.Caller;
 import postvm.Utils;
 import postvm.exceptions.LCLangIOException;
 import postvm.library.classes.*;
-import postvm.library.classes.numbers.IntClass;
 import postvm.library.classes.numbers.NumberClass;
 import postvm.methods.Method;
 import postvm.types.CallableType;
-import postvm.types.Type;
 
 import java.io.*;
-import java.util.Collections;
 import java.util.List;
 
 public class OutputClass extends LibraryClass {
     public static final PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
             "Output",
-            PostVMClass.PROTOTYPE,
-            Utils.listOf(CallableType.get(IntClass.PROTOTYPE.type))
+            ObjectClass.PROTOTYPE,
+            Utils.listOf(CallableType.get(NumberClass.PROTOTYPE.type))
     ) {
         @Override
-        public PostVMClass createClass(Caller caller, List<PostVMClass> args) {
-            Method method = (Method) args.get(0);
+        public int createClass(Caller caller, Integer[] args) {
+            Method method = (Method) PostVMClass.instances.get(args[0]);
             return new OutputClass(caller, new OutputStream() {
                 @Override
                 public void write(int b) {
-                    method.call(caller, Collections.singletonList(IntClass.get(b)));
+                    method.call(caller, new Integer[]{
+                            NumberClass.get(b)
+                    });
                 }
-            });
+            }).classId;
         }
     };
 
@@ -42,12 +41,12 @@ public class OutputClass extends LibraryClass {
     }
 
     @Override
-    public PostVMClass loadGlobal(String target) {
+    public Integer loadGlobal(PostVMClass clazz, String target) {
         switch (target) {
             case "flush": return voidMethod((caller, args) -> printer.flush());
             case "close": return voidMethod((caller, args) -> printer.close());
             case "accept": return voidMethod((caller, args) -> {
-                InputClass input = (InputClass) args.get(0);
+                InputClass input = (InputClass) args[0];
 
                 try {
                     String line;
@@ -58,25 +57,25 @@ public class OutputClass extends LibraryClass {
                 }
 
             }, InputClass.PROTOTYPE.type);
-            case "write": return voidMethod((caller, args) -> printer.write(args.get(0)
+            case "write": return voidMethod((caller, args) -> printer.write(args[0]
                     .cast(NumberClass.class)
                     .value.byteValue()), NumberClass.TYPE);
             case "print": return voidMethod((caller, args) ->
-                    printer.print(args.get(0).toString(caller)), PostVMClass.OBJECT_TYPE);
+                    printer.print(args[0].toString(caller)), ObjectClass.OBJECT_TYPE);
             case "println": return voidMethod((caller, args) ->
-                    printer.println(args.get(0).toString(caller)), PostVMClass.OBJECT_TYPE);
+                    printer.println(args[0].toString(caller)), ObjectClass.OBJECT_TYPE);
             case "printf": return voidMethod((caller, args) -> {
-                String main = args.get(0).toString(caller);
-                List<PostVMClass> classes = ((ArrayClass) args.get(1)).value;
+                String main = args[0].toString(caller);
+                List<Integer> classes = ((ArrayClass) args[1]).value;
                 String[] printArgs = new String[classes.size()];
                 for (int i = 0; i < classes.size(); i++) {
-                    printArgs[i] = classes.get(i).toString(caller);
+                    printArgs[i] = PostVMClass.instances.get(classes.get(i)).toString(caller);
                 }
 
                 printer.printf(main, (Object[]) printArgs);
-            }, PostVMClass.OBJECT_TYPE, ArrayClass.type);
+            }, ObjectClass.OBJECT_TYPE, ArrayClass.type);
         }
 
-        return super.loadGlobal(target);
+        return super.loadGlobal(clazz, target);
     }
 }

@@ -9,28 +9,52 @@ import java.util.List;
 
 public abstract class PostVMClassPrototype {
     public final String name;
-    public final PostVMClassPrototype extendsClass;
     public final Type type = new Type(this);
-    private final List<Type> args;
+    public final Type[] args;
+    public final boolean finalClazz;
+
+    private final PostVMClassPrototype extendsClass;
+    private Method constructor = null;
+
+    public PostVMClassPrototype(String name,
+                                PostVMClassPrototype extendsClass,
+                                Type[] args,
+                                boolean finalClazz) {
+        this.name = name;
+        this.args = args;
+        this.extendsClass = extendsClass;
+        this.finalClazz = finalClazz;
+    }
+
+
+    public PostVMClassPrototype(String name,
+                                PostVMClassPrototype extendsClass,
+                                Type[] args) {
+        this(name, extendsClass, args, false);
+    }
 
     public PostVMClassPrototype(String name,
                                 PostVMClassPrototype extendsClass,
                                 List<Type> args) {
-        this.name = name;
-        this.args = args;
-        this.extendsClass = extendsClass;
+        this(name, extendsClass, args.toArray(new Type[0]), false);
+    }
+
+    public PostVMClassPrototype getExtendsClass() {
+        return extendsClass;
     }
 
     public Method getConstructor() {
-        return new Method(args, type) {
+        if(constructor==null) constructor = new Method(args, type) {
             @Override
-            public PostVMClass call(Caller caller, List<PostVMClass> args) throws LCLangRuntimeException {
+            public int call(Caller caller, Integer[] args) throws LCLangRuntimeException {
                 return createClass(caller, args);
             }
         };
+
+        return constructor;
     }
 
-    public abstract PostVMClass createClass(Caller caller, List<PostVMClass> args);
+    public abstract int createClass(Caller caller, Integer[] args);
 
     public boolean canCast(PostVMClassPrototype prototype) {
         return name.equals(prototype.name) ||

@@ -12,12 +12,12 @@ import java.util.List;
 public class FileClass extends LibraryClass {
     public static final PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
             "File",
-            PostVMClass.PROTOTYPE,
+            ObjectClass.PROTOTYPE,
             Utils.listOf(StringClass.PROTOTYPE.type)
     ) {
         @Override
-        public PostVMClass createClass(Caller caller, List<PostVMClass> args) {
-            return new FileClass(caller, new File(args.get(0).cast(StringClass.class).string));
+        public int createClass(Caller caller, Integer[] args) {
+            return new FileClass(caller, new File(PostVMClass.instances.get(args[0]).cast(StringClass.class).string)).classId;
         }
     };
 
@@ -29,57 +29,57 @@ public class FileClass extends LibraryClass {
     }
 
     @Override
-    public PostVMClass loadGlobal(String target) {
+    public Integer loadGlobal(PostVMClass clazz, String target) {
         switch (target) {
             case "name": return StringClass.get(file.getName());
             case "path": return StringClass.get(file.getPath());
             case "absolutePath": return StringClass.get(file.getAbsolutePath());
-            case "getCanonicalPath": return method((caller, args) -> {
+            case "getCanonicalPath": return method(StringClass.type, (caller, args) -> {
                 try {
                     return StringClass.get(file.getCanonicalPath());
                 } catch (IOException e) {
                     throw new LCLangIOException(e.getMessage(), caller);
                 }
-            }, StringClass.type);
+            });
 
-            case "exists": return method((caller, args) -> BoolClass.get(file.exists()), BoolClass.type);
-            case "isDirectory": return method((caller, args) -> BoolClass.get(file.isDirectory()), BoolClass.type);
-            case "isFile": return method((caller, args) -> BoolClass.get(file.isFile()), BoolClass.type);
-            case "files": return method((caller, args) -> {
-                List<PostVMClass> classList = new ArrayList<>();
+            case "exists": return method(BoolClass.type, (caller, args) -> BoolClass.get(file.exists()));
+            case "isDirectory": return method(BoolClass.type, (caller, args) -> BoolClass.get(file.isDirectory()));
+            case "isFile": return method(BoolClass.type, (caller, args) -> BoolClass.get(file.isFile()));
+            case "files": return method(ArrayClass.type, (caller, args) -> {
+                List<Integer> classList = new ArrayList<>();
                 File[] files = file.listFiles();
                 if(files!=null) for (File child: files)
-                    classList.add(new FileClass(caller, child));
+                    classList.add(new FileClass(caller, child).classId);
 
-                return new ArrayClass(classList);
-            }, ArrayClass.type);
+                return new ArrayClass(classList).classId;
+            });
 
-            case "openInput": return method((caller, lcClasses) -> {
+            case "openInput": return method(InputClass.PROTOTYPE.type.nullable(), (caller, lcClasses) -> {
                 try {
-                    return new InputClass(caller, new FileInputStream(file));
+                    return new InputClass(caller, new FileInputStream(file)).classId;
                 } catch (FileNotFoundException e) {
-                    return NullClass.INSTANCE;
+                    return NullClass.INSTANCE.classId;
                 }
-            }, InputClass.PROTOTYPE.type.nullable());
+            });
 
-            case "openOutput": method((caller, lcClasses) -> {
+            case "openOutput": method(OutputClass.PROTOTYPE.type.nullable(), (caller, lcClasses) -> {
                 try {
-                    return new OutputClass(caller, new FileOutputStream(file));
+                    return new OutputClass(caller, new FileOutputStream(file)).classId;
                 } catch (FileNotFoundException e) {
-                    return NullClass.INSTANCE;
+                    return NullClass.INSTANCE.classId;
                 }
-            }, OutputClass.PROTOTYPE.type.nullable());
+            });
 
-            case "createDir": return method((caller, lcClasses) -> BoolClass.get(file.mkdir()), BoolClass.type);
-            case "createDirs": return method((caller, lcClasses) -> BoolClass.get(file.mkdirs()), BoolClass.type);
-            case "create": return method((caller, lcClasses) -> {
+            case "createDir": return method(BoolClass.type, (caller, lcClasses) -> BoolClass.get(file.mkdir()));
+            case "createDirs": return method(BoolClass.type, (caller, lcClasses) -> BoolClass.get(file.mkdirs()));
+            case "create": return method(BoolClass.type, (caller, lcClasses) -> {
                 try {
                     return BoolClass.get(file.createNewFile());
                 } catch (IOException e) {
                     throw new LCLangIOException(e.getMessage(), caller);
                 }
-            }, BoolClass.type);
+            });
         }
-        return super.loadGlobal(target);
+        return super.loadGlobal(clazz, target);
     }
 }

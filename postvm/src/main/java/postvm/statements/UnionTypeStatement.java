@@ -8,17 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UnionTypeStatement extends TypeStatement {
-    public final List<TypeStatement> types;
+    public final TypeStatement[] types;
 
-    public UnionTypeStatement(List<TypeStatement> types) {
+    public UnionTypeStatement(TypeStatement[] types) {
         super(0);
         this.types = types;
     }
 
     @Override
     public Type toType(PostVMClass root) {
-        List<Type> types = new ArrayList<>();
-        for(TypeStatement type: this.types) types.add(type.toType(root));
+        Type[] types = new Type[this.types.length];
+        for (int i = 0, l = types.length; i < l; i++) {
+            types[i] = this.types[i].toType(root);
+        }
 
         return new UnionType(types);
     }

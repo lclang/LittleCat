@@ -8,22 +8,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LinkUtils {
-    public static List<Link> linksFromExpressions(Caller caller,
+    public static Link[] linksFromExpressions(Caller caller,
                                                   PostVMExecutor executor,
-                                                  List<Expression> expressions) throws LCLangRuntimeException {
-        ArrayList<Link> values = new ArrayList<>();
-        for (Expression expression : expressions) {
-            values.add(expression.visit(caller, executor));
+                                                  Expression[] expressions) throws LCLangRuntimeException {
+        Link[] values = new Link[expressions.length];
+        for (int i = 0, l = values.length; i < l; i++) {
+            values[i] = expressions[i].visit(caller, executor);
         }
 
         return values;
     }
 
-    public static List<PostVMClass> classesFromLinks(Caller caller,
-                                                     List<Link> values) throws LCLangRuntimeException {
-        ArrayList<PostVMClass> classes = new ArrayList<>();
-        for (Link expression : values) {
-            classes.add(expression.get(caller));
+    public static Integer[] classesFromLinks(Link[] values) throws LCLangRuntimeException {
+        Integer[] classes = new Integer[values.length];
+        for (int i = 0, l = classes.length; i < l; i++) {
+            classes[i] = values[i].get().classId;
         }
 
         return classes;

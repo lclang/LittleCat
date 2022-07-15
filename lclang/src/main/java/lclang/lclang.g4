@@ -54,6 +54,7 @@ COMPONENT: 'component';
 STOP: 'stop';
 RETURN: 'return';
 WHILE: 'while';
+LOOP: 'loop';
 AS: 'as';
 IF: 'if';
 IS: 'is';
@@ -176,7 +177,7 @@ stmt:
         expression SEMICOLON?
 ;
 
-whileStmt: WHILE condition=expression (COLON stmt)?;
+whileStmt: (WHILE|LOOP) condition=expression (COLON stmt)?;
 ifStmt: IF condition=expression COLON ifT=stmt (ELSE ifF=stmt)?;
 block: OPEN_BRACE stmt* CLOSE_BRACE;
 

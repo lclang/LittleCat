@@ -19,7 +19,7 @@ public class UIButton extends LibraryClass {
 
     private UIButton() {
         super(name);
-        constructor = method((caller, postVMClasses) -> new UIButton(new JButton()), type);
+        constructor = methodOld((caller, PostVMClasses) -> new UIButton(new JButton()), type);
     }
 
     public UIButton(JButton button) {
@@ -29,9 +29,9 @@ public class UIButton extends LibraryClass {
     }
 
     @Override
-    public PostVMClass loadGlobal(String target) {
+    public Integer loadGlobal(PostVMClass clazz, String target) {
         switch (target) {
-            case "getText": return method((caller, args) -> StringClass.get(button.getText()),
+            case "getText": return methodOld((caller, args) -> StringClass.get(button.getText()),
                     StringClass.type);
             case "setText": return voidMethod((caller, args) -> button.setText(args.get(0)
                             .cast(StringClass.class).string), StringClass.type);
@@ -40,6 +40,6 @@ public class UIButton extends LibraryClass {
                     CallableType.get(UIButton.type, VoidClass.PROTOTYPE.type));
         }
 
-        return super.loadGlobal(target);
+        return super.loadGlobal(clazz, target);
     }
 }

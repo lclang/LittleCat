@@ -9,10 +9,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CallableType extends Type {
-    public final List<Type> args;
+    public final Type[] args;
     public final Type returnType;
 
-    public CallableType(List<Type> args, Type returnType) {
+    public CallableType(Type[] args, Type returnType) {
         super(Method.PROTOTYPE);
         this.args = args;
         this.returnType = returnType;
@@ -35,11 +35,11 @@ public class CallableType extends Type {
         List<Type> arguments = new ArrayList<>(Arrays.asList(args));
         Type returnType = arguments.remove(args.length-1);
 
-        return new CallableType(arguments, returnType);
+        return new CallableType(arguments.toArray(new Type[0]), returnType);
     }
 
     @Override
     public String toString() {
-        return "("+ Utils.joinToString(", ", args, Type::toString)+") -> "+returnType;
+        return "("+ Utils.joinToString(", ", Arrays.asList(args), Type::toString)+") -> "+returnType;
     }
 }

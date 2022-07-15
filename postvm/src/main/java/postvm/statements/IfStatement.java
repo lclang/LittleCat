@@ -23,11 +23,13 @@ public class IfStatement extends Statement {
 
     @Override
     public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
-        PostVMClass cond = condition.visit(prevCaller, visitor).get(prevCaller);
+        int cond = condition.visit(prevCaller, visitor).classId;
         if(cond!=BoolClass.FALSE) {
             return ifTrue.visit(prevCaller, visitor);
         }else if(ifFalse!=null){
             return ifFalse.visit(prevCaller, visitor);
-        }else return VoidClass.value;
+        }
+
+        return VoidClass.value;
     }
 }

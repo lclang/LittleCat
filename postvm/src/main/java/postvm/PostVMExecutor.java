@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class PostVMExecutor {
     public final PostVMClass root;
     public PostVMExecutor parentExecutor = null;
-    public final HashMap<String, PostVMClass> variables = new HashMap<>();
+    public final HashMap<String, Integer> variables = new HashMap<>();
 
     public PostVMExecutor(PostVMClass root) {
         this.root = root;
@@ -20,22 +20,36 @@ public class PostVMExecutor {
         if(importVariables) parentExecutor = executor;
     }
 
-    public Link getVariableClass(Caller caller, String name) {
-        PostVMClass clazz = variables.getOrDefault(name, null);
-        if(clazz==null){
+    public Link getVariableClass(String name) {
+        Integer classId = VoidClass.INSTANCE.classId;
+        if(!variables.containsKey(name)){
             if(parentExecutor!=null) {
-                Link link = parentExecutor.getVariableClass(caller, name);
-                if(link != VoidClass.value) return link;
+                return parentExecutor.getVariableClass(name);
             }
 
-            clazz = root.getVariableClass(caller, name);
+            Integer global = root.getGlobal(name);
+            if(global!=null) classId = global;
+            else if(root.extendsClass!=null) return root.extendsClass.executor.getVariableClass(name);
+        }else{
+            classId = variables.get(name);
         }
 
-        return new ClassLink(clazz, Link.State.NOTHING) {
-            @Override
-            public void set(Caller caller, PostVMClass value) throws LCLangRuntimeException {
-                variables.put(name, value);
-            }
-        };
+        return new ExecutorLink(name,this, classId, Link.State.NOTHING);
+    }
+
+    public final static class ExecutorLink extends Link {
+        public final String name;
+        public final PostVMExecutor owner;
+
+        public ExecutorLink(String name, PostVMExecutor owner, int classId, int state) {
+            super(classId, state);
+            this.name = name;
+            this.owner = owner;
+        }
+
+        @Override
+        public void set(Caller caller, int classId) throws LCLangRuntimeException {
+            owner.variables.put(name, classId);
+        }
     }
 }

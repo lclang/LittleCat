@@ -1,7 +1,5 @@
-test = {
+println({
     return "Test string!"
-}
-
-println(test)
+})
 --OUTPUT--
 Test string!

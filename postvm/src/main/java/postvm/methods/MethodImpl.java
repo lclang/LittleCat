@@ -13,12 +13,12 @@ import java.util.List;
 
 public class MethodImpl extends Method {
     private final PostVMExecutor outExecutor;
-    private final List<MethodStatement.Argument> argsMap;
+    private final MethodStatement.Argument[] argsMap;
     private final Statement statement;
     private final boolean importVariables;
 
     public MethodImpl(PostVMExecutor outExecutor,
-                      List<MethodStatement.Argument> argsMap,
+                      MethodStatement.Argument[] argsMap,
                       Type returnType,
                       Statement statement,
                       boolean importVariables) throws LCLangRuntimeException {
@@ -31,21 +31,20 @@ public class MethodImpl extends Method {
     }
 
     @Override
-    public PostVMClass call(Caller caller, List<PostVMClass> args) throws LCLangRuntimeException {
+    public int call(Caller caller, Integer[] args) throws LCLangRuntimeException {
         PostVMExecutor executor = new PostVMExecutor(outExecutor, importVariables);
-
-        for (int i = 0; i < args.size(); i++) {
-            executor.variables.put(argsMap.get(i).name, args.get(i));
+        for (int i = 0; i < args.length; i++) {
+            executor.variables.put(argsMap[i].name, args[i]);
         }
 
         Caller stmtCaller = statement.getCaller(caller);
         stmtCaller.root = executor.root;
 
-        PostVMClass value = statement.visit(stmtCaller, executor).get(stmtCaller);
+        PostVMClass value = statement.visit(stmtCaller, executor).get();
         if(!returnType.isAccept(value.prototype.type))
             throw new LCLangTypeErrorException("invalid type of return (excepted "+returnType+
                     ", but returned "+value.prototype.type+")", stmtCaller);
 
-        return value;
+        return value.classId;
     }
 }
