@@ -19,8 +19,8 @@ public class LinkUtils {
         return values;
     }
 
-    public static Integer[] classesFromLinks(Link[] values) throws LCLangRuntimeException {
-        Integer[] classes = new Integer[values.length];
+    public static int[] classesFromLinks(Link[] values) throws LCLangRuntimeException {
+        int[] classes = new int[values.length];
         for (int i = 0, l = classes.length; i < l; i++) {
             classes[i] = values[i].get().classId;
         }

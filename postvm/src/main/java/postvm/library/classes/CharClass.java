@@ -15,7 +15,7 @@ public final class CharClass extends LibraryClass {
             Utils.listOf(NumberClass.TYPE)
     ) {
         @Override
-        public int createClass(Caller caller, Integer[] args) {
+        public int createClass(Caller caller, int[] args) {
             return CharClass.get((char) PostVMClass.instances.get(args[0]).cast(NumberClass.class)
                     .value.intValue());
         }

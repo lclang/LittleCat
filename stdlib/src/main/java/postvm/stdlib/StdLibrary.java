@@ -88,7 +88,7 @@ public class StdLibrary extends Library {
                 "std", ObjectClass.PROTOTYPE, Utils.listOf()
         ) {
             @Override
-            public int createClass(Caller caller, Integer[] args) {
+            public int createClass(Caller caller, int[] args) {
                 return instance;
             }
         };

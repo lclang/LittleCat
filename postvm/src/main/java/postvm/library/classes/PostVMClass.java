@@ -42,7 +42,7 @@ public abstract class PostVMClass {
     public PostVMClass(
             Caller caller,
             PostVMClassPrototype prototype,
-            Integer[] extendsArgs) {
+            int[] extendsArgs) {
         this(caller, prototype, prototype.name, extendsArgs);
     }
 
@@ -50,7 +50,7 @@ public abstract class PostVMClass {
             Caller caller,
             PostVMClassPrototype prototype,
             String path,
-            Integer[] extendsArgs) {
+            int[] extendsArgs) {
 
         this.prototype = prototype;
         this.path = path;
@@ -92,7 +92,7 @@ public abstract class PostVMClass {
             case Constants.FIELD_ID: return NumberClass.get(classId);
             case Constants.FIELD_EXTENDS: return extendsClass==null ? NullClass.INSTANCE.classId : extendsClass.classId;
             case Constants.FIELD_TYPE: return StringClass.get(clazz.prototype.name);
-            case Constants.FIELD_PROTOTYPE: return clazz.prototype.getConstructor().classId;
+            case Constants.FIELD_PROTOTYPE: return clazz.prototype.getConstructor();
 
             case "this": return clazz.classId;
         }
@@ -151,7 +151,7 @@ public abstract class PostVMClass {
         if(result!=null) {
             PostVMClass clazz = PostVMClass.instances.get(result);
             if(clazz instanceof Method) {
-                return ((Method) clazz).call(caller, new Integer[]{another.classId});
+                return ((Method) clazz).call(caller, new int[]{another.classId});
             }
 
             return result;
@@ -171,7 +171,7 @@ public abstract class PostVMClass {
         if(result!=null) {
             PostVMClass clazz = PostVMClass.instances.get(result);
             if(clazz instanceof Method) {
-                int response = ((Method) clazz).call(caller, new Integer[0]);
+                int response = ((Method) clazz).call(caller, new int[0]);
                 return ((StringClass) PostVMClass.instances.get(response)).string;
             }
 
@@ -207,7 +207,7 @@ public abstract class PostVMClass {
     public static int voidMethod(VoidMethod2<Caller, PostVMClass[]> body, Type... arguments) {
         return new Method(arguments, VoidClass.PROTOTYPE.type) {
             @Override
-            public int call(Caller caller, Integer[] args_) throws LCLangRuntimeException {
+            public int call(Caller caller, int[] args_) throws LCLangRuntimeException {
                 PostVMClass[] args = new PostVMClass[arguments.length];
                 for (int i = 0, l = args.length; i < l; i++) {
                     if(i < args_.length) args[i] = PostVMClass.instances.get(args_[i]);
@@ -228,7 +228,7 @@ public abstract class PostVMClass {
     public static int voidNativeMethod(VoidMethod2<Caller, Integer[]> body, Type... arguments) {
         return new Method(arguments, VoidClass.PROTOTYPE.type) {
             @Override
-            public int call(Caller caller, Integer[] args_) throws LCLangRuntimeException {
+            public int call(Caller caller, int[] args_) throws LCLangRuntimeException {
                 Integer[] args = new Integer[arguments.length];
                 for (int i = 0, l = args.length; i < l; i++) {
                     if(i < args_.length) args[i] = args_[i];
@@ -249,7 +249,7 @@ public abstract class PostVMClass {
     public static int nativeMethod(Type returnType, Function2<Caller, Integer[], Integer> body, Type... arguments) {
         return new Method(arguments, returnType) {
             @Override
-            public int call(Caller caller, Integer[] args_) throws LCLangRuntimeException {
+            public int call(Caller caller, int[] args_) throws LCLangRuntimeException {
                 Integer[] args = new Integer[arguments.length];
                 for (int i = 0, l = args.length; i < l; i++) {
                     if(i < args_.length) args[i] = args_[i];
@@ -268,7 +268,7 @@ public abstract class PostVMClass {
     public static int method(Type returnType, Function2<Caller, PostVMClass[], Integer> body, Type... arguments) {
         return new Method(arguments, returnType) {
             @Override
-            public int call(Caller caller, Integer[] args_) throws LCLangRuntimeException {
+            public int call(Caller caller, int[] args_) throws LCLangRuntimeException {
                 PostVMClass[] args = new PostVMClass[arguments.length];
                 for (int i = 0, l = args.length; i < l; i++) {
                     if(i < args_.length) args[i] = PostVMClass.instances.get(args_[i]);
@@ -287,7 +287,7 @@ public abstract class PostVMClass {
     public static int methodOld(Type returnType, Function2<Caller, PostVMClass[], PostVMClass> body, Type... arguments) {
         return new Method(arguments, returnType) {
             @Override
-            public int call(Caller caller, Integer[] args_) throws LCLangRuntimeException {
+            public int call(Caller caller, int[] args_) throws LCLangRuntimeException {
                 PostVMClass[] args = new PostVMClass[arguments.length];
                 for (int i = 0, l = args.length; i < l; i++) {
                     if(i < args_.length) args[i] = PostVMClass.instances.get(args_[i]);

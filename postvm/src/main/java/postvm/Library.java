@@ -12,7 +12,7 @@ public abstract class Library extends LibraryClass {
     public Library(String name) {
         super(null, new PostVMClassPrototype(name + "_library", ObjectClass.PROTOTYPE, Utils.listOf()) {
             @Override
-            public int createClass(Caller caller, Integer[] args) {
+            public int createClass(Caller caller, int[] args) {
                 throw new LCLangConstructorNotFoundException(caller);
             }
         });

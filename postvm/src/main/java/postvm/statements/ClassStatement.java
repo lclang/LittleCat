@@ -47,7 +47,7 @@ public class ClassStatement {
             }
 
             @Override
-            public int createClass(Caller caller, Integer[] args) {
+            public int createClass(Caller caller, int[] args) {
                 return new PostVMClass(caller, this, LinkUtils.classesFromLinks(
                         LinkUtils.linksFromExpressions(caller, caller.root.executor, extendsArguments)
                 )) {
@@ -72,7 +72,7 @@ public class ClassStatement {
                     public Integer loadGlobal(PostVMClass clazz, String target) {
                         MethodStatement methodStatement = methods.get(target);
                         if(methodStatement!=null) {
-                            return methodStatement.visit(this, true).classId;
+                            return methodStatement.visit(this, true);
                         }
 
                         return super.loadGlobal(clazz, target);

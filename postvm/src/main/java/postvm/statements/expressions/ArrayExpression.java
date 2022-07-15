@@ -8,6 +8,7 @@ import postvm.library.classes.PostVMClass;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ArrayExpression extends Expression {
     public final Expression[] array;
@@ -21,7 +22,9 @@ public class ArrayExpression extends Expression {
     public Link visit(Caller prevCaller, PostVMExecutor executor) throws LCLangRuntimeException {
         Link[] values = LinkUtils.linksFromExpressions(prevCaller, executor, array);
         return new Link(new ArrayClass(
-                Arrays.asList(LinkUtils.classesFromLinks(values))
+                Arrays.stream(
+                        LinkUtils.classesFromLinks(values)
+                ).boxed().collect(Collectors.toList())
         ).classId, Link.State.NOTHING) {
 
             @Override

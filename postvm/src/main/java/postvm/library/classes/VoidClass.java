@@ -16,7 +16,7 @@ public final class VoidClass extends LibraryClass {
             Utils.listOf()
     ) {
         @Override
-        public int createClass(Caller caller, Integer[] args) {
+        public int createClass(Caller caller, int[] args) {
             return INSTANCE.classId;
         }
     };

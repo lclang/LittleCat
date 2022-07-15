@@ -14,7 +14,7 @@ public abstract class PostVMClassPrototype {
     public final boolean finalClazz;
 
     private final PostVMClassPrototype extendsClass;
-    private Method constructor = null;
+    private Integer constructor = null;
 
     public PostVMClassPrototype(String name,
                                 PostVMClassPrototype extendsClass,
@@ -43,18 +43,18 @@ public abstract class PostVMClassPrototype {
         return extendsClass;
     }
 
-    public Method getConstructor() {
+    public Integer getConstructor() {
         if(constructor==null) constructor = new Method(args, type) {
             @Override
-            public int call(Caller caller, Integer[] args) throws LCLangRuntimeException {
+            public int call(Caller caller, int[] args) throws LCLangRuntimeException {
                 return createClass(caller, args);
             }
-        };
+        }.classId;
 
         return constructor;
     }
 
-    public abstract int createClass(Caller caller, Integer[] args);
+    public abstract int createClass(Caller caller, int[] args);
 
     public boolean canCast(PostVMClassPrototype prototype) {
         return name.equals(prototype.name) ||

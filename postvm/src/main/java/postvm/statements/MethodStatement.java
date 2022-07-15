@@ -26,14 +26,14 @@ public class MethodStatement {
         this.statement = statement;
     }
 
-    public MethodImpl visit(PostVMClass root, boolean importVariables) throws LCLangRuntimeException {
+    public int visit(PostVMClass root, boolean importVariables) throws LCLangRuntimeException {
         return new MethodImpl(
                 root.executor,
                 args,
                 returnType.toType(root),
                 statement,
                 importVariables
-        );
+        ).classId;
     }
 
     public static Type[] resolveArgs(PostVMClass root, Argument[] args) throws LCLangRuntimeException {

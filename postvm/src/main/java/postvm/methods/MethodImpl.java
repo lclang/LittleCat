@@ -9,8 +9,6 @@ import postvm.statements.MethodStatement;
 import postvm.statements.Statement;
 import postvm.types.Type;
 
-import java.util.List;
-
 public class MethodImpl extends Method {
     private final PostVMExecutor outExecutor;
     private final MethodStatement.Argument[] argsMap;
@@ -31,7 +29,7 @@ public class MethodImpl extends Method {
     }
 
     @Override
-    public int call(Caller caller, Integer[] args) throws LCLangRuntimeException {
+    public int call(Caller caller, int[] args) throws LCLangRuntimeException {
         PostVMExecutor executor = new PostVMExecutor(outExecutor, importVariables);
         for (int i = 0; i < args.length; i++) {
             executor.variables.put(argsMap[i].name, args[i]);

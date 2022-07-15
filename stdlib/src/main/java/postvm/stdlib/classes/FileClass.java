@@ -16,7 +16,7 @@ public class FileClass extends LibraryClass {
             Utils.listOf(StringClass.PROTOTYPE.type)
     ) {
         @Override
-        public int createClass(Caller caller, Integer[] args) {
+        public int createClass(Caller caller, int[] args) {
             return new FileClass(caller, new File(PostVMClass.instances.get(args[0]).cast(StringClass.class).string)).classId;
         }
     };

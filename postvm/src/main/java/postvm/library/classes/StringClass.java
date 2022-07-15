@@ -17,7 +17,7 @@ public final class StringClass extends LibraryClass {
             Utils.listOf(ObjectClass.PROTOTYPE.type)
     ) {
         @Override
-        public int createClass(Caller caller, Integer[] args) {
+        public int createClass(Caller caller, int[] args) {
             return get(PostVMClass.instances.get(args[0]).toString(caller));
         }
     };

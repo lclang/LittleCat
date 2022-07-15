@@ -12,7 +12,7 @@ public class LCLangFileClass extends PostVMClass {
     public static final String SCRIPT_CLASS_NAME = "__script";
     public static final String MAIN_METHOD_NAME = "__main";
 
-    public final HashMap<String, PostVMClass> globals = new HashMap<>();
+    public final HashMap<String, Integer> globals = new HashMap<>();
 
     public final static PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
             SCRIPT_CLASS_NAME,
@@ -20,7 +20,7 @@ public class LCLangFileClass extends PostVMClass {
             Collections.emptyList()
     ) {
         @Override
-        public int createClass(Caller caller, Integer[] args) {
+        public int createClass(Caller caller, int[] args) {
             return new LCLangFileClass(new File(caller.root.path)).classId;
         }
     };
@@ -28,7 +28,7 @@ public class LCLangFileClass extends PostVMClass {
     private final File file;
 
     public LCLangFileClass(File file) {
-        super(null, PROTOTYPE, file.getAbsolutePath(), new Integer[0]);
+        super(null, PROTOTYPE, file.getAbsolutePath(), new int[0]);
         this.file = file;
     }
 
@@ -41,14 +41,14 @@ public class LCLangFileClass extends PostVMClass {
         }
 
         if(globals.containsKey(target))
-            return globals.get(target).classId;
+            return globals.get(target);
 
         return super.loadGlobal(clazz, target);
     }
 
 
     public void execute(List<Integer> args) throws LCLangRuntimeException {
-        ((Method) globals.get(MAIN_METHOD_NAME)).call(new Caller(this, 0), new Integer[] {
+        ((Method) PostVMClass.instances.get(globals.get(MAIN_METHOD_NAME))).call(new Caller(this, 0), new int[] {
                 new ArrayClass(args).classId
         });
     }

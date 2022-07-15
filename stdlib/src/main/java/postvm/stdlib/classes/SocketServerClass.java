@@ -17,7 +17,7 @@ public class SocketServerClass extends LibraryClass {
             "SocketServer", ObjectClass.PROTOTYPE, Utils.listOf()
     ) {
         @Override
-        public int createClass(Caller caller, Integer[] args) {
+        public int createClass(Caller caller, int[] args) {
             int port = PostVMClass.instances.get(args[0]).cast(NumberClass.class).value.intValue();
 
             try {

@@ -327,7 +327,7 @@ public class LCCompiler extends lclangBaseVisitor<Statement> {
         for(lclangParser.GlobalContext globalContext: globalsCtx)
             root.globals.put(
                     globalContext.ID().getText(),
-                    visitValue(globalContext.value()).visit(null, root.executor).get()
+                    visitValue(globalContext.value()).visit(null, root.executor).classId
             );
 
         List<Statement> statements = new ArrayList<>();
@@ -337,7 +337,7 @@ public class LCCompiler extends lclangBaseVisitor<Statement> {
 
         root.globals.put(LCLangFileClass.MAIN_METHOD_NAME, new MethodImpl(root.executor, new MethodStatement.Argument[]{
                 new MethodStatement.Argument("args", new NamedTypeStatement("array", 0))
-        }, VoidClass.PROTOTYPE.type, new BlockStatement(statements.toArray(new Statement[0])), false));
+        }, VoidClass.PROTOTYPE.type, new BlockStatement(statements.toArray(new Statement[0])), false).classId);
 
         List<lclangParser.ClassExprContext> classExprContexts = ctx.classExpr();
         for(lclangParser.ClassExprContext classExprContext: classExprContexts)

@@ -18,12 +18,12 @@ public class OutputClass extends LibraryClass {
             Utils.listOf(CallableType.get(NumberClass.PROTOTYPE.type))
     ) {
         @Override
-        public int createClass(Caller caller, Integer[] args) {
+        public int createClass(Caller caller, int[] args) {
             Method method = (Method) PostVMClass.instances.get(args[0]);
             return new OutputClass(caller, new OutputStream() {
                 @Override
                 public void write(int b) {
-                    method.call(caller, new Integer[]{
+                    method.call(caller, new int[]{
                             NumberClass.get(b)
                     });
                 }

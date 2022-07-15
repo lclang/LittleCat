@@ -18,7 +18,7 @@ public class SocketClass extends LibraryClass {
             Utils.listOf(CallableType.get(NumberClass.PROTOTYPE.type))
     ) {
         @Override
-        public int createClass(Caller caller, Integer[] args) {
+        public int createClass(Caller caller, int[] args) {
             int port = PostVMClass.instances.get(args[1]).cast(NumberClass.class).value.intValue();
 
             try {

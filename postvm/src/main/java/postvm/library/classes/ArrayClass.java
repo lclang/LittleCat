@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public final class ArrayClass extends LibraryClass {
     public static final PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
@@ -19,8 +20,8 @@ public final class ArrayClass extends LibraryClass {
             Collections.emptyList()
     ) {
         @Override
-        public int createClass(Caller caller, Integer[] args) {
-            return new ArrayClass(Arrays.asList(args)).classId;
+        public int createClass(Caller caller, int[] args) {
+            return new ArrayClass(Arrays.stream(args).boxed().collect(Collectors.toList())).classId;
         }
     };
 
@@ -75,7 +76,7 @@ public final class ArrayClass extends LibraryClass {
             case "find": return method(ObjectClass.OBJECT_TYPE, (caller, args) -> {
                 Method method = (Method) args[0];
                 for (int item: value) {
-                    if(method.call(caller, new Integer[]{item})==BoolClass.TRUE){
+                    if(method.call(caller, new int[]{item})==BoolClass.TRUE){
                         return item;
                     }
                 }
@@ -86,7 +87,7 @@ public final class ArrayClass extends LibraryClass {
             case "forEach": return voidMethod((caller, args) -> {
                 Method method = (Method) args[0];
                 for (int item: value) {
-                    method.call(caller, new Integer[]{item});
+                    method.call(caller, new int[]{item});
                 }
             }, CallableType.get(ObjectClass.OBJECT_TYPE, VoidClass.PROTOTYPE.type));
         }

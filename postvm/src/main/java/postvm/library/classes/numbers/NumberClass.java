@@ -15,7 +15,7 @@ public final class NumberClass extends LibraryClass {
             Utils.listOf(ObjectClass.OBJECT_TYPE)
     ) {
         @Override
-        public int createClass(Caller caller, Integer[] args) {
+        public int createClass(Caller caller, int[] args) {
             return NumberClass.get(Double.parseDouble(PostVMClass.instances.get(args[0]).toString(caller)));
         }
     };

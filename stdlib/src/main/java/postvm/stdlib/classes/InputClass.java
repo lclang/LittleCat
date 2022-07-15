@@ -20,12 +20,12 @@ public class InputClass extends LibraryClass {
             Utils.listOf(CallableType.get(NumberClass.PROTOTYPE.type))
     ) {
         @Override
-        public int createClass(Caller caller, Integer[] args) {
+        public int createClass(Caller caller, int[] args) {
             Method method = PostVMClass.instances.get(args[0]).cast(Method.class);
             return new InputClass(caller, new InputStream() {
                 @Override
                 public int read() {
-                    return PostVMClass.instances.get(method.call(caller, new Integer[0])).cast(NumberClass.class).value.intValue();
+                    return PostVMClass.instances.get(method.call(caller, new int[0])).cast(NumberClass.class).value.intValue();
                 }
             }).classId;
         }

@@ -15,7 +15,7 @@ public class Method extends LibraryClass {
     ){
 
         @Override
-        public int createClass(Caller caller, Integer[] args) {
+        public int createClass(Caller caller, int[] args) {
             return new Method(new Type[0], VoidClass.PROTOTYPE.type).classId;
         }
     };
@@ -24,7 +24,6 @@ public class Method extends LibraryClass {
 
     public Type[] args;
     public Type returnType;
-
 
     public Method(Type[] args, Type returnType) {
         super(null, PROTOTYPE);
@@ -41,7 +40,7 @@ public class Method extends LibraryClass {
                             call(
                                     caller,
                                     PostVMClass.instances.get(args[0])
-                                        .cast(ArrayClass.class).value.toArray(new Integer[0])
+                                        .cast(ArrayClass.class).value.stream().mapToInt(i->i).toArray()
                             )
                     , ArrayClass.type);
         }
@@ -49,7 +48,7 @@ public class Method extends LibraryClass {
         return super.loadGlobal(clazz, target);
     }
 
-    public int call(Caller caller, Integer[] args) throws LCLangRuntimeException {
+    public int call(Caller caller, int[] args) throws LCLangRuntimeException {
         return VoidClass.INSTANCE.classId;
     }
 

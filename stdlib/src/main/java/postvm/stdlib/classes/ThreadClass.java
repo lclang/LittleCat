@@ -16,7 +16,7 @@ public class ThreadClass extends LibraryClass {
             CallableType.get(VoidClass.PROTOTYPE.type))
     ) {
         @Override
-        public int createClass(Caller caller, Integer[] args) {
+        public int createClass(Caller caller, int[] args) {
             return new ThreadClass(caller, PostVMClass.instances.get(args[0]).cast(Method.class)).classId;
         }
     };
@@ -27,7 +27,7 @@ public class ThreadClass extends LibraryClass {
     private ThreadClass(Caller caller, Method method) {
         super(caller, PROTOTYPE);
 
-        thread = new Thread(() -> method.call(threadCaller.get(), new Integer[0]));
+        thread = new Thread(() -> method.call(threadCaller.get(), new int[0]));
         thread.setUncaughtExceptionHandler((thread, exception) -> {
             System.out.println("unhandled exception");
             exception.printStackTrace();

@@ -30,7 +30,7 @@ public class CallExpression extends Expression {
             throw new LCLangTypeErrorException("Value is not callable (it is "+callClazz.prototype.name+")", expressionCaller);
 
         Type[] argsTypes = new Type[arguments.length];
-        Integer[] args = new Integer[argsTypes.length];
+        int[] args = new int[argsTypes.length];
 
         for (int i = 0, l = argsTypes.length; i < l; i++) {
             Expression argument = arguments[i];

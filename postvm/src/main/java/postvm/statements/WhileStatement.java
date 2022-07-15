@@ -24,9 +24,9 @@ public class WhileStatement extends Statement {
             while(condition.visit(prevCaller, visitor).classId != BoolClass.FALSE);
         }else while(condition.visit(prevCaller, visitor).classId != BoolClass.FALSE) {
             Link value = body.visit(prevCaller, visitor);
-            if(value.state== Link.State.RETURN)
+            if(value.state==Link.State.RETURN)
                 return value;
-            else if(value.state== Link.State.STOP)
+            else if(value.state==Link.State.STOP)
                 break;
         }
 

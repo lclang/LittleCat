@@ -12,7 +12,7 @@ public class MathClass extends LibraryClass {
     public static final PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
             "Math", ObjectClass.PROTOTYPE, Utils.listOf()) {
         @Override
-        public int createClass(Caller caller, Integer[] args) {
+        public int createClass(Caller caller, int[] args) {
             return INSTANCE.classId;
         }
     };

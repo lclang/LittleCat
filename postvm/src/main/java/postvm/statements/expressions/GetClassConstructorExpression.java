@@ -22,11 +22,11 @@ public class GetClassConstructorExpression extends Expression {
     public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
         PostVMClassPrototype clazz = visitor.root.getClass(name);
         if(clazz!=null) {
-            PostVMClass constructor = clazz.getConstructor();
+            Integer constructor = clazz.getConstructor();
             if(constructor==null)
                 return VoidClass.value;
 
-            return constructor.createLink();
+            return new Link(constructor);
         }
 
         throw new LCLangClassNotFoundException(name, getCaller(prevCaller));
