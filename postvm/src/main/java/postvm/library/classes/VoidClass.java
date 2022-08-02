@@ -22,7 +22,7 @@ public final class VoidClass extends LibraryClass {
     };
 
     public static final VoidClass INSTANCE = new VoidClass();
-    public static final Link value = INSTANCE.createLink();
+    public static final Link value = new Link(INSTANCE.classId);
 
     private VoidClass() {
         super(null, PROTOTYPE);

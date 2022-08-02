@@ -18,25 +18,22 @@ public abstract class PostVMClass {
         public final static String FIELD_TYPE = "__type";
         public final static String FIELD_EXTENDS = "__extends";
         public final static String FIELD_PROTOTYPE = "__prototype";
+        public static int lastClassId = 0;
     }
 
-    public final static List<PostVMClass> instances = new ArrayList<>();
-
-
-    public final int classId = instances.size();
+    public final static HashMap<Integer, PostVMClass> instances = new HashMap<>();
+    public final int classId = Constants.lastClassId++;
     public final PostVMClassPrototype prototype;
 
     public final String path;
 
     public final HashMap<String, PostVMClassPrototype> classes = new HashMap<>();
     public final PostVMExecutor executor = new PostVMExecutor(this);
-    public List<PostVMClass> parents = new ArrayList<>();
+    public PostVMClass[] parents = new PostVMClass[0];
     private PostVMClass extendsClass;
 
-    private Link link;
-
     {
-        instances.add(this);
+        instances.put(classId, this);
     }
 
     public PostVMClass(
@@ -79,15 +76,15 @@ public abstract class PostVMClass {
             case "equals": return method(BoolClass.type, (caller, args) -> BoolClass.get(args[0].classId == classId),
                     ObjectClass.OBJECT_TYPE);
             case "toString": return method(StringClass.type, (caller, args) -> {
-                List<String> parameters = new ArrayList<>();
+                StringBuilder parameters = new StringBuilder();
                 Set<Map.Entry<String, Integer>> entries = executor.variables.entrySet();
                 for (Map.Entry<String, Integer> entry : entries) {
                     PostVMClass variable = PostVMClass.instances.get(entry.getValue());
-                    parameters.add(entry.getKey()+": "+variable.prototype.name+" = "+
-                            variable.toString(caller));
+                    parameters.append(entry.getKey()).append(": ").append(variable.prototype.name).append(" = ").append(variable.toString(caller))
+                            .append(";");
                 }
 
-                return StringClass.get(clazz.prototype.name+"@class"+classId+": { " + String.join(", ", parameters) + " }");
+                return StringClass.get(clazz.prototype.name+"@class"+classId+": { " + parameters + " }");
             });
 
             case Constants.FIELD_ID: return NumberClass.get(classId);
@@ -139,12 +136,9 @@ public abstract class PostVMClass {
         return global;
     }
 
+    @Deprecated
     public Link createLink() {
-        if(link==null) {
-            link = new Link(classId, Link.State.NOTHING);
-        }
-
-        return link;
+        return new Link(classId, Link.State.NOTHING);
     }
 
     public int equals(PostVMClass another, Caller caller) {
@@ -226,17 +220,10 @@ public abstract class PostVMClass {
         }.classId;
     }
 
-    public static int voidNativeMethod(VoidMethod2<Caller, Integer[]> body, Type... arguments) {
+    public static int voidNativeMethod(VoidMethod2<Caller, int[]> body, Type... arguments) {
         return new Method(arguments, VoidClass.PROTOTYPE.type) {
             @Override
-            public int call(Caller caller, int[] args_) throws LCLangRuntimeException {
-                Integer[] args = new Integer[arguments.length];
-                for (int i = 0, l = args.length; i < l; i++) {
-                    if(i < args_.length) args[i] = args_[i];
-                    else args[i] = VoidClass.INSTANCE.classId;
-                }
-
-
+            public int call(Caller caller, int[] args) throws LCLangRuntimeException {
                 body.invoke(
                         caller,
                         args
@@ -247,16 +234,10 @@ public abstract class PostVMClass {
         }.classId;
     }
 
-    public static int nativeMethod(Type returnType, Function2<Caller, Integer[], Integer> body, Type... arguments) {
+    public static int nativeMethod(Type returnType, Function2<Caller, int[], Integer> body, Type... arguments) {
         return new Method(arguments, returnType) {
             @Override
-            public int call(Caller caller, int[] args_) throws LCLangRuntimeException {
-                Integer[] args = new Integer[arguments.length];
-                for (int i = 0, l = args.length; i < l; i++) {
-                    if(i < args_.length) args[i] = args_[i];
-                    else args[i] = VoidClass.INSTANCE.classId;
-                }
-
+            public int call(Caller caller, int[] args) throws LCLangRuntimeException {
                 return body.invoke(
                         caller,
                         args

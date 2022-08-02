@@ -5,9 +5,6 @@ import postvm.library.classes.PostVMClass;
 import postvm.types.CallableType;
 import postvm.types.Type;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class CallableTypeStatement extends TypeStatement {
     public final TypeStatement[] args;
     public final TypeStatement returnType;

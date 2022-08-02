@@ -5,9 +5,6 @@ import postvm.library.classes.PostVMClass;
 import postvm.methods.MethodImpl;
 import postvm.types.Type;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MethodStatement {
     public final String name;
     public final Argument[] args;

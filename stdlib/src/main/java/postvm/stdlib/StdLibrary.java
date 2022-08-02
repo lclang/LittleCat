@@ -9,9 +9,7 @@ import postvm.library.classes.*;
 import postvm.library.classes.numbers.NumberClass;
 import postvm.stdlib.classes.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -66,14 +64,14 @@ public class StdLibrary extends Library {
                 Matcher matcher = pattern.matcher(args[1].cast(StringClass.class).string);
                 if(!matcher.find()) return BoolClass.FALSE;
 
-                List<Integer> classes = new ArrayList<>();
-                classes.add(StringClass.get(matcher.group(0)));
-                for (int i = 0; i < matcher.groupCount(); i++) {
+                int[] classes = new int[matcher.groupCount()+1];
+                classes[0] = StringClass.get(matcher.group(0));
+                for (int i = 0, l = classes.length-1; i < l; i++) {
                     String group = matcher.group(i + 1);
                     int value = NullClass.INSTANCE.classId;
                     if(group!=null) value = StringClass.get(group);
 
-                    classes.add(value);
+                    classes[i] = value;
                 }
 
                 return new ArrayClass(classes).classId;
@@ -112,6 +110,7 @@ public class StdLibrary extends Library {
                 case "getProperty": return method(StringClass.type, (caller, args) ->
                         StringClass.get(System.getProperty(args[0].toString(caller))));
             }
+
             return super.loadGlobal(clazz, target);
         }
     }

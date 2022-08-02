@@ -2,26 +2,29 @@ package lclang;
 
 import postvm.Library;
 import postvm.library.LangLibrary;
+import postvm.library.classes.PostVMClass;
 import postvm.stdlib.StdLibrary;
 //import postvm.ui.UILibrary;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class Global {
     public static final String version;
     public static final int buildTime;
     public static final boolean useCache;
-    public static final ArrayList<LCLangFileClass> libraries = new ArrayList<>();
-    public static final ArrayList<Library> javaLibraries = new ArrayList<>();
+    public static PostVMClass[] libraries = new PostVMClass[0];
+    public static Library[] nativeLibs = new Library[] {
+            LangLibrary.INSTANCE,
+            StdLibrary.INSTANCE
+    };
 
     public static void printDebug(PrintStream out) {
         out.println("Version: "+version);
         out.println("Build time: "+buildTime);
         out.println("Use cache: "+useCache);
-        out.println("Libraries count: "+libraries.size());
-        out.println("Native libraries count: "+javaLibraries.size());
+        out.println("Libraries count: "+libraries.length);
+        out.println("Native libraries count: "+ nativeLibs.length);
     }
 
     static {
@@ -29,9 +32,5 @@ public class Global {
         version = prop.getString("version");
         buildTime = Integer.parseInt(prop.getString("buildTime"));
         useCache = prop.getString("useCache").equals("true");
-
-        javaLibraries.add(LangLibrary.INSTANCE);
-        javaLibraries.add(StdLibrary.INSTANCE);
-//        javaLibraries.add(new UILibrary());
     }
 }

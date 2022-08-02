@@ -6,17 +6,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 import org.mozilla.universalchardet.UniversalDetector;
-import postvm.Caller;
+import postvm.Library;
 import postvm.Utils;
 import postvm.library.LangLibrary;
-import postvm.library.classes.PostVMClass;
 import postvm.libs.TestLibrary;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -33,11 +30,11 @@ public class InterpreterTest {
             testList.add(DynamicTest.dynamicTest(file.getName(), () -> {
                 TestLibrary.output = new StringBuilder();
 
-                Global.libraries.clear();
-                Global.javaLibraries.clear();
-                Global.javaLibraries.add(LangLibrary.INSTANCE);
-//                Global.javaLibraries.add(new StdLibrary());
-                Global.javaLibraries.add(TestLibrary.INSTANCE);
+                Global.libraries = new LCLangFileClass[0];
+                Global.nativeLibs = new Library[] {
+                        LangLibrary.INSTANCE,
+                        TestLibrary.INSTANCE
+                };
 
                 String[] parts = Utils.readFile(file, UniversalDetector.detectCharset(file))
                         .split("--OUTPUT--\\R");
@@ -62,7 +59,7 @@ public class InterpreterTest {
                 long compileTime = endTime - startTime;
 
                 startTime = System.nanoTime();
-                executor.execute(Collections.emptyList());
+                executor.execute(new int[0]);
                 endTime = System.nanoTime();
                 long executeTime = endTime - startTime;
 

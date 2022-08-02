@@ -4,9 +4,6 @@ import postvm.library.classes.PostVMClass;
 import postvm.types.Type;
 import postvm.types.UnionType;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class UnionTypeStatement extends TypeStatement {
     public final TypeStatement[] types;
 

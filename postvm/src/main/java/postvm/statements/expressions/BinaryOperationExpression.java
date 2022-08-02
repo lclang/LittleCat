@@ -60,7 +60,7 @@ public class BinaryOperationExpression extends Expression {
                     return new Link(StringClass.get(leftClass.toString(caller)+rightClass.toString(caller)));
 
                 if(leftClass instanceof ArrayClass && rightClass instanceof ArrayClass)
-                    return ((ArrayClass) leftClass).merge((ArrayClass) rightClass).createLink();
+                    return new Link(((ArrayClass) leftClass).merge((ArrayClass) rightClass).classId);
 
             case Operation.MULTIPLICATION:
                 if((leftClass instanceof StringClass && rightClass instanceof NumberClass) ||
@@ -71,11 +71,11 @@ public class BinaryOperationExpression extends Expression {
                             :   String.format("%0" + ((NumberClass) leftClass).value + "d", 0)
                             .replace("0", rightClass.toString(caller))));
 
-            case Operation.OR: return (leftClass == VoidClass.INSTANCE || leftClass.classId == BoolClass.FALSE ?
-                    rightClass: leftClass).createLink();
+            case Operation.OR: return new Link((leftClass == VoidClass.INSTANCE || leftClass.classId == BoolClass.FALSE ?
+                    rightClass.classId: leftClass.classId));
             case Operation.AND: return leftClass != VoidClass.INSTANCE && leftClass.classId != BoolClass.FALSE &&
                     rightClass != VoidClass.INSTANCE && rightClass.classId != BoolClass.FALSE ?
-                    rightClass.createLink(): VoidClass.value;
+                    new Link(rightClass.classId): VoidClass.value;
 
             case Operation.NULLABLE_OR : if(leftClass==NullClass.INSTANCE)
                 return rightLink;

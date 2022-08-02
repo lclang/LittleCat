@@ -28,24 +28,29 @@ public class Main {
     public static void main(String[] args) {
         try {
             File librariesDirectory = new File(System.getProperty("libsPath", "./libs"));
+
             if (librariesDirectory.exists()) {
                 File[] librariesFiles = librariesDirectory.listFiles();
                 if (librariesFiles != null) {
-                    for (File libraryFile : librariesFiles) {
+                    PostVMClass[] libs = new PostVMClass[librariesFiles.length];
+                    for (int i = 0, l = librariesFiles.length; i < l; i++) {
+                        File libraryFile = librariesFiles[i];
                         String fileName = libraryFile.getName();
                         if (fileName.endsWith(".jar")) {
-                            loadJarLibrariesFromFile(libraryFile);
+                            libs[i] = loadJarLibrariesFromFile(libraryFile);
                         } else if (fileName.endsWith(".lcat")) {
                             LCLangFileClass executor = new LCLangFileClass(libraryFile);
                             try {
                                 executeInput(executor, Utils.readFile(libraryFile,
-                                        UniversalDetector.detectCharset(libraryFile)), Collections.emptyList());
-                                Global.libraries.add(executor);
+                                        UniversalDetector.detectCharset(libraryFile)), new int[0]);
+                                libs[i] = executor;
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         }
                     }
+
+                    Global.libraries = libs;
                 }
             }
 
@@ -59,7 +64,7 @@ public class Main {
                     String code = scanner.nextLine();
 
                     try {
-                        executeInput(cliExecutor, code, Collections.emptyList());
+                        executeInput(cliExecutor, code, new int[0]);
                     } catch (RuntimeException e) {
                         System.out.println(ERROR_COLOR + e.getMessage() + RESET_COLOR);
                     }
@@ -70,8 +75,7 @@ public class Main {
                 System.exit(0);
             }
 
-            List<String> programArgs = new ArrayList<>(Arrays.asList(args));
-            String filePathString = programArgs.remove(0);
+            String filePathString = args[0];
             Path filePath = Paths.get(filePathString);
             if(!filePath.isAbsolute()) filePath = Paths.get(
                     System.getProperty("user.dir"),
@@ -87,9 +91,12 @@ public class Main {
             if(file.length()==0L) return;
             LCLangFileClass executor = new LCLangFileClass(file);
 
-            List<Integer> arguments = new ArrayList<>();
-            for(String argument: programArgs) arguments.add(StringClass.get(argument));
+            int[] arguments = new int[args.length-1];
+            for (int i = 0, l = arguments.length; i < l; i++) {
+                arguments[i] = StringClass.get(args[i+1]);
+            }
 
+            System.gc();
             executeInput(executor, Utils.readFile(file, UniversalDetector.detectCharset(file)), arguments);
         } catch (RuntimeException e) {
             if(e instanceof LCLangRuntimeException||e instanceof LCLangLexerException)
@@ -104,7 +111,7 @@ public class Main {
         } catch (IOException ignored) {}
     }
 
-    public static void loadJarLibrariesFromFile(File libraryFile) {
+    public static Library loadJarLibrariesFromFile(File libraryFile) {
         try {
             JarFile jarFile = new JarFile(libraryFile);
             Enumeration<JarEntry> entries = jarFile.entries();
@@ -122,16 +129,18 @@ public class Main {
                         .replace('/', '.');
                 Class<?> clazz = classLoader.loadClass(className);
                 if (Library.class.isAssignableFrom(clazz))
-                    Global.javaLibraries.add((Library) clazz.newInstance());
+                    return (Library) clazz.newInstance();
             }
         } catch (Exception e) {
             System.out.println(ERROR_COLOR);
             e.printStackTrace();
             System.out.println("Library "+ libraryFile.getName() + "not loaded" + RESET_COLOR);
         }
+
+        return null;
     }
 
-    public static void executeInput(LCLangFileClass executor, String file, List<Integer> args) throws LCLangRuntimeException {
+    public static void executeInput(LCLangFileClass executor, String file, int[] args) throws LCLangRuntimeException {
         lclangParser parser = new lclangParser(new CommonTokenStream(
                 new lclangLexer(CharStreams.fromString(file))
         ));

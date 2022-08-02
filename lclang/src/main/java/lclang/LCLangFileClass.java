@@ -47,7 +47,7 @@ public class LCLangFileClass extends PostVMClass {
     }
 
 
-    public void execute(List<Integer> args) throws LCLangRuntimeException {
+    public void execute(int[] args) throws LCLangRuntimeException {
         ((Method) PostVMClass.instances.get(globals.get(MAIN_METHOD_NAME))).call(new Caller(this, 0), new int[] {
                 new ArrayClass(args).classId
         });

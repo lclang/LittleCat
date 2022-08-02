@@ -6,8 +6,6 @@ import postvm.exceptions.LCLangIOException;
 import postvm.library.classes.*;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class FileClass extends LibraryClass {
     public static final PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
@@ -46,12 +44,14 @@ public class FileClass extends LibraryClass {
             case "isDirectory": return method(BoolClass.type, (caller, args) -> BoolClass.get(file.isDirectory()));
             case "isFile": return method(BoolClass.type, (caller, args) -> BoolClass.get(file.isFile()));
             case "files": return method(ArrayClass.type, (caller, args) -> {
-                List<Integer> classList = new ArrayList<>();
                 File[] files = file.listFiles();
-                if(files!=null) for (File child: files)
-                    classList.add(new FileClass(caller, child).classId);
-
-                return new ArrayClass(classList).classId;
+                if(files!=null) {
+                    int[] classList = new int[files.length];
+                    for (int i = 0, l = files.length; i < l; i++) {
+                        classList[i] = new FileClass(caller, files[i]).classId;
+                    }
+                    return new ArrayClass(classList).classId;
+                }else return new ArrayClass(new int[0]).classId;
             });
 
             case "openInput": return method(InputClass.PROTOTYPE.type.nullable(), (caller, lcClasses) -> {

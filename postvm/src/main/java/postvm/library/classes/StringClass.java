@@ -6,8 +6,6 @@ import postvm.Utils;
 import postvm.library.classes.numbers.NumberClass;
 import postvm.types.Type;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public final class StringClass extends LibraryClass {
@@ -45,11 +43,12 @@ public final class StringClass extends LibraryClass {
                         Objects.equals(arg.cast(StringClass.class).string, string));
             }, ObjectClass.OBJECT_TYPE);
             case "toArray": return method(ArrayClass.type, (caller, lcClasses) -> {
-                List<Integer> classes = new ArrayList<>();
-
                 char[] chars = string.toCharArray();
-                for (char character: chars)
-                    classes.add(CharClass.get(character));
+                int[] classes = new int[chars.length];
+
+                for (int i = 0, l = chars.length; i < l; i++) {
+                    classes[i] = chars[i];
+                }
 
                 return new ArrayClass(classes).classId;
             });
@@ -60,10 +59,11 @@ public final class StringClass extends LibraryClass {
             case "startsWith": return method(BoolClass.type, (caller, args) -> BoolClass.get(string.startsWith(args[0]
                     .cast(StringClass.class).string)), type);
             case "split": return method(type, (caller, args) -> {
-                List<Integer> classes = new ArrayList<>();
                 String[] parts = string.split(args[0].cast(StringClass.class).string);
-                for (String part: parts)
-                    classes.add(StringClass.get(part));
+                int[] classes = new int[parts.length];
+                for (int i = 0, l = parts.length; i < l; i++) {
+                    classes[i] = StringClass.get(parts[i]);
+                }
 
                 return new ArrayClass(classes).classId;
             }, type);

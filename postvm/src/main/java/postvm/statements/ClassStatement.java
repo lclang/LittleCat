@@ -53,7 +53,7 @@ public class ClassStatement {
                     public final HashMap<String, MethodStatement> methods = new HashMap<>();
 
                     {
-                        parents.add(root);
+                        parents = new PostVMClass[] { root };
                         for(MethodStatement methodStatement: methodStatements) {
                             methods.put(methodStatement.name, methodStatement);
                         }

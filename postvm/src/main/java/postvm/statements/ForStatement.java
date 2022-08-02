@@ -28,7 +28,7 @@ public class ForStatement extends Statement {
             throw new LCLangTypeErrorException("Expected array", prevCaller);
 
         ArrayClass array = (ArrayClass) clazz;
-        for (int i = 0; i < array.value.size(); i++) {
+        for (int i = 0; i < array.value.length; i++) {
             value.visit(prevCaller, visitor).set(prevCaller, array.get(0));
             Link value = statement.visit(prevCaller, visitor);
             if(value.state== Link.State.RETURN)

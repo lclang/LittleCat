@@ -30,11 +30,4 @@ public class AccessExpression extends Expression {
 
         return variable.visit(caller, clazzLink.get().executor);
     }
-
-    @Override
-    public void compile(List<Integer> bytes, Caller prevCaller) {
-        expression.compile(bytes, getCaller(prevCaller));
-        bytes.add(Opcodes.GET_FIELD);
-        bytes.addAll(compileBytes(variable.name.getBytes(StandardCharsets.UTF_8)));
-    }
 }

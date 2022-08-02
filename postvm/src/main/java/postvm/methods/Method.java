@@ -40,7 +40,7 @@ public class Method extends LibraryClass {
                             call(
                                     caller,
                                     PostVMClass.instances.get(args[0])
-                                        .cast(ArrayClass.class).value.stream().mapToInt(i->i).toArray()
+                                        .cast(ArrayClass.class).value
                             )
                     , ArrayClass.type);
         }

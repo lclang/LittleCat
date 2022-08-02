@@ -1,10 +1,8 @@
 package lclang;
 
 import org.antlr.v4.runtime.tree.ParseTree;
-import postvm.Caller;
 import postvm.Utils;
 import postvm.exceptions.LCLangRuntimeException;
-import postvm.library.classes.ArrayClass;
 import postvm.library.classes.PostVMClass;
 import postvm.library.classes.VoidClass;
 import postvm.methods.MethodImpl;
@@ -320,8 +318,9 @@ public class LCCompiler extends lclangBaseVisitor<Statement> {
     }
 
     public void fillFile(LCLangFileClass root, lclangParser.FileContext ctx) throws LCLangRuntimeException {
-        root.parents.addAll(Global.javaLibraries);
-        root.parents.addAll(Global.libraries);
+        root.parents = new PostVMClass[Global.nativeLibs.length + Global.libraries.length];
+        System.arraycopy(Global.nativeLibs, 0, root.parents, 0, Global.nativeLibs.length);
+        System.arraycopy(Global.libraries, 0, root.parents, Global.nativeLibs.length, Global.libraries.length);
 
         List<lclangParser.GlobalContext> globalsCtx = ctx.global();
         for(lclangParser.GlobalContext globalContext: globalsCtx)

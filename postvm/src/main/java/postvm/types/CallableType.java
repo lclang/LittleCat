@@ -4,9 +4,7 @@ import postvm.TypeUtils;
 import postvm.Utils;
 import postvm.methods.Method;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class CallableType extends Type {
     public final Type[] args;
@@ -32,10 +30,11 @@ public class CallableType extends Type {
     }
 
     public static CallableType get(Type... args) {
-        List<Type> arguments = new ArrayList<>(Arrays.asList(args));
-        Type returnType = arguments.remove(args.length-1);
+        Type returnType = args[0];
+        Type[] arguments = new Type[args.length-1];
+        System.arraycopy(args, 1, arguments, 0, arguments.length);
 
-        return new CallableType(arguments.toArray(new Type[0]), returnType);
+        return new CallableType(arguments, returnType);
     }
 
     @Override

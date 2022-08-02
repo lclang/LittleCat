@@ -66,10 +66,10 @@ public class OutputClass extends LibraryClass {
                     printer.println(args[0].toString(caller)), ObjectClass.OBJECT_TYPE);
             case "printf": return voidMethod((caller, args) -> {
                 String main = args[0].toString(caller);
-                List<Integer> classes = ((ArrayClass) args[1]).value;
-                String[] printArgs = new String[classes.size()];
-                for (int i = 0; i < classes.size(); i++) {
-                    printArgs[i] = PostVMClass.instances.get(classes.get(i)).toString(caller);
+                int[] classes = ((ArrayClass) args[1]).value;
+                String[] printArgs = new String[classes.length];
+                for (int i = 0; i < classes.length; i++) {
+                    printArgs[i] = PostVMClass.instances.get(classes[i]).toString(caller);
                 }
 
                 printer.printf(main, (Object[]) printArgs);

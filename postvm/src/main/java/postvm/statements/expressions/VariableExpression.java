@@ -18,14 +18,6 @@ public class VariableExpression extends Expression {
         return visitor.getVariableClass(name);
     }
 
-    @Override
-    public void compile(List<Integer> bytes, Caller prevCaller) {
-        bytes.add(Opcodes.GET);
-//        bytes.add(Opcodes.STR);
-        bytes.addAll(compileBytes(name.getBytes()));
-//        bytes.add(Opcodes.STR);
-    }
-
     public static VariableExpression get(String name) {
         if(CacheManager.cacheExpression.containsKey("variable-" + name))
             return (VariableExpression) CacheManager.cacheExpression.get("variable-" + name);
