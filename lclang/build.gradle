@@ -54,17 +54,6 @@ jar {
 }
 
 task appJar(type: Jar, dependsOn: classes) {
-    archivesBaseName = "app"
-    manifest.attributes "Main-Class": "lclang.Main"
-
-    from {
-        configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    } {
-        exclude "META-INF/*.SF"
-        exclude "META-INF/*.DSA"
-        exclude "META-INF/*.RSA"
-    }
-
     with jar
 }
 
