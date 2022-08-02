@@ -10,8 +10,6 @@ import postvm.library.classes.PostVMClass;
 import postvm.methods.Method;
 import postvm.types.Type;
 
-import java.util.List;
-
 public class CallExpression extends Expression {
     public final Expression expression;
     public final Expression[] arguments;
@@ -61,10 +59,5 @@ public class CallExpression extends Expression {
         }
 
         return new Link(method.call(getCaller(prevCaller), args));
-    }
-
-    @Override
-    public void compile(List<Integer> bytes, Caller prevCaller) {
-        super.compile(bytes, prevCaller);
     }
 }
