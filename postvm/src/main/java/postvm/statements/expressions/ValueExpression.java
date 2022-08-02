@@ -32,23 +32,6 @@ public class ValueExpression extends Expression {
         return new Link(valueVisited);
     }
 
-    @Override
-    public void compile(List<Integer> bytes, Caller prevCaller) {
-        switch (type) {
-            case ValueType.CHAR:
-            case ValueType.NUMBER:
-                bytes.add(Opcodes.NUM_STORE);
-                bytes.add((int) ((Number) value).byteValue());
-                break;
-
-            case ValueType.STRING:
-            case ValueType.BOOL:
-                bytes.add(Opcodes.BOOL_STORE);
-                bytes.add(((boolean) value) ? 1: 0);
-                break;
-        }
-    }
-
     public static class ValueType {
         public static final int NUMBER = 1;
         public static final int CHAR = 2;
