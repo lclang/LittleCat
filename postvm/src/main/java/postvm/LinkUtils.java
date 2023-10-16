@@ -1,14 +1,10 @@
 package postvm;
 
 import postvm.exceptions.LCLangRuntimeException;
-import postvm.library.classes.PostVMClass;
 import postvm.statements.expressions.Expression;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class LinkUtils {
-    public static Link[] linksFromExpressions(Caller caller,
+    public static Link[] linksFromExpressions(int caller,
                                                   PostVMExecutor executor,
                                                   Expression[] expressions) throws LCLangRuntimeException {
         Link[] values = new Link[expressions.length];

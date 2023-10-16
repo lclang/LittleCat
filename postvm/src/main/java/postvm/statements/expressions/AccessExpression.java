@@ -1,13 +1,9 @@
 package postvm.statements.expressions;
 
-import postvm.Caller;
 import postvm.Link;
 import postvm.Opcodes;
 import postvm.PostVMExecutor;
-import postvm.exceptions.LCLangNullPointerException;
 import postvm.exceptions.LCLangRuntimeException;
-import postvm.library.classes.NullClass;
-import postvm.library.classes.PostVMClass;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -23,8 +19,8 @@ public class AccessExpression extends Expression {
     }
 
     @Override
-    public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
-        Caller caller = getCaller(prevCaller);
+    public Link visit(int prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
+        int caller = getCaller(prevCaller);
         Link clazzLink = expression.visit(caller, visitor);
         if(clazzLink.state!=Link.State.NOTHING) return clazzLink;
 
@@ -32,7 +28,7 @@ public class AccessExpression extends Expression {
     }
 
     @Override
-    public void compile(List<Integer> bytes, Caller prevCaller) {
+    public void compile(List<Integer> bytes, int prevCaller) {
         expression.compile(bytes, getCaller(prevCaller));
         bytes.add(Opcodes.GET_FIELD);
         bytes.addAll(compileBytes(variable.name.getBytes(StandardCharsets.UTF_8)));

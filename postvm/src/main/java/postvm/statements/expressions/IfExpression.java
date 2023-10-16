@@ -1,10 +1,9 @@
 package postvm.statements.expressions;
 
-import postvm.Caller;
 import postvm.Link;
 import postvm.PostVMExecutor;
 import postvm.exceptions.LCLangRuntimeException;
-import postvm.library.classes.BoolClass;
+import postvm.library.classes.BoolClassInstance;
 
 public class IfExpression extends Expression {
     public final Expression condition;
@@ -19,8 +18,8 @@ public class IfExpression extends Expression {
     }
 
     @Override
-    public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
-        if(condition.visit(prevCaller, visitor).classId!=BoolClass.FALSE){
+    public Link visit(int prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
+        if(condition.visit(prevCaller, visitor).classId!= BoolClassInstance.FALSE){
             return ifTrue.visit(prevCaller, visitor);
         }
 

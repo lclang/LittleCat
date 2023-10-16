@@ -1,38 +1,36 @@
 package postvm.ui;
 
-import postvm.library.classes.LibraryClass;
-import postvm.library.classes.PostVMClass;
-import postvm.library.classes.StringClass;
-import postvm.types.Type;
+import postvm.classes.PostVMClassInstance;
+import postvm.classes.PostVMClassPrototype;
+import postvm.library.classes.StringClassInstance;
 
 import javax.swing.*;
+import java.util.Collections;
 
-public class UIText extends LibraryClass {
-    public static final String name = "UIText";
-    public static final UIText INSTANCE = new UIText();
-    public static final Type type = INSTANCE.classType;
-    public JLabel label;
+public class UIText extends UIView<JLabel> {
+    public final static PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
+            "UIText",
+            UIView.PROTOTYPE,
+            Collections.emptyList()
+    ) {
+        @Override
+        public int createClass(int caller, int[] args) {
+            return new UIText(caller, new JLabel()).classId;
+        }
+    };
 
-    private UIText() {
-        super(name);
-        constructor = methodOld((caller, PostVMClasses) -> new UIText(new JLabel()), type);
-    }
-
-    public UIText(JLabel label) {
-        super(name);
-        this.label = label;
-        this.extendsClass = new UIView(label);
+    public UIText(int caller, JLabel label) {
+        super(caller, PROTOTYPE, label);
     }
 
     @Override
-    public Integer loadGlobal(PostVMClass clazz, String target) {
+    public Integer loadMethod(PostVMClassInstance clazz, String target) {
         switch (target) {
-            case "getText": return methodOld((caller, args) -> StringClass.get(label.getText()),
-                    StringClass.type);
-            case "setText": return voidMethod((caller, args) -> label.setText(args.get(0)
-                            .cast(StringClass.class).string), StringClass.type);
+            case "getText": return nativeMethod(StringClassInstance.type, (caller, args) -> StringClassInstance.get(container.getText()));
+            case "setText": return voidMethod((caller, args) -> container.setText(args[0]
+                            .cast(StringClassInstance.class).string), StringClassInstance.type);
         }
 
-        return super.loadGlobal(clazz, target);
+        return super.loadMethod(clazz, target);
     }
 }

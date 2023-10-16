@@ -1,38 +1,62 @@
 package postvm;
 
-import postvm.library.classes.PostVMClass;
+import postvm.classes.PostVMClassInstance;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Caller {
-    public PostVMClass root;
-    public final int line;
-    public final Caller prevCaller;
+    public static final int CALLER_NONE = 0;
+    public static final int ROOT_BY_PREV = -1;
 
-    public Caller(PostVMClass root, int line, Caller prevCaller) {
+    public static ArrayDeque<Integer> reuseIds = new ArrayDeque<>();
+    public final static List<Caller> instances = new ArrayList<>();
+    public static int lastInstanceId = 0;
+    public final int instance = reuseIds.peek() != null ? reuseIds.pop(): lastInstanceId++;
+
+    public final int root;
+    public final int line;
+    public final int prevCaller;
+
+    private Caller(int root, int line, int prevCaller) {
         this.root = root;
         this.line = line;
         this.prevCaller = prevCaller;
     }
+    public static int register(int root, int line, int prevCaller) {
+        int rootClassId = root == ROOT_BY_PREV ? Caller.instances.get(prevCaller).root : root;
 
-    public Caller(PostVMClass root, int line) {
-        this(root, line, null);
+        Caller caller = new Caller(rootClassId, line, prevCaller);
+        if(caller.instance < instances.size()-1) {
+            instances.set(caller.instance, caller);
+        }else{
+            instances.add(caller);
+        }
+
+        return caller.instance;
+    }
+
+    public static void unregister(int instance) {
+        reuseIds.add(instance);
+        instances.set(instance, null);
     }
 
     @Override
     public String toString() {
-        return "at "+root.path+":"+line+"";
+        return "at "+ PostVMClassInstance.instances.get(root).path+":"+line;
     }
 
     public List<Caller> toList() {
         List<Caller> callers = new ArrayList<>();
-        if(prevCaller!=null) {
-            callers.addAll(prevCaller.toList());
+
+        Caller prevCallerInstance = prevCaller == 0 ? null: instances.get(prevCaller);
+        if(prevCallerInstance != null) {
+            callers.addAll(prevCallerInstance.toList());
         }
 
-        if(prevCaller==null||prevCaller.line!=line)
+        if(prevCallerInstance == null || prevCallerInstance.line!=line)
             callers.add(this);
 
         return callers;

@@ -188,7 +188,7 @@ extendsArgs: (expression COMMA)* expression?;
 
 arg: ID (COLON type)?;
 attribute: AS_ATTR ID;
-method: attribute* METHOD ID OPEN (arg COMMA)* arg? CLOSE (COLON returnType=type)? (block|ASSIGN expression);
+method: attribute* METHOD variable OPEN (arg COMMA)* arg? CLOSE (COLON returnType=type)? (block|ASSIGN expression);
 
 use: USE GLOBAL? name=ID (AS alias=ID) FROM (fromPackage=ID|fromFile=STRING) SEMICOLON?;
 

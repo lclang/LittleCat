@@ -1,16 +1,15 @@
 package postvm.statements.expressions;
 
-import postvm.Caller;
 import postvm.Link;
 import postvm.PostVMExecutor;
 import postvm.exceptions.LCLangNullPointerException;
 import postvm.exceptions.LCLangRuntimeException;
 import postvm.exceptions.LCLangTypeErrorException;
-import postvm.library.classes.ArrayClass;
-import postvm.library.classes.BoolClass;
-import postvm.library.classes.NullClass;
-import postvm.library.classes.PostVMClass;
-import postvm.library.classes.numbers.NumberClass;
+import postvm.library.classes.ArrayClassInstance;
+import postvm.library.classes.BoolClassInstance;
+import postvm.library.classes.NullClassInstance;
+import postvm.classes.PostVMClassInstance;
+import postvm.library.classes.NumberClassInstance;
 
 public class UnaryOperationExpression extends Expression {
     public final Expression expression;
@@ -23,21 +22,21 @@ public class UnaryOperationExpression extends Expression {
     }
 
     @Override
-    public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
-        Caller caller = getCaller(prevCaller);
+    public Link visit(int prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
+        int caller = getCaller(prevCaller);
         Link leftValue = expression.visit(caller, visitor);
         if(leftValue.state != Link.State.NOTHING) return leftValue;
 
         int clazz;
         switch (operation){
             case Operation.ARRAY_ACCESS: {
-                PostVMClass left = leftValue.get();
-                if (left instanceof ArrayClass) {
-                    ArrayClass array = (ArrayClass) left;
+                PostVMClassInstance left = leftValue.get();
+                if (left instanceof ArrayClassInstance) {
+                    ArrayClassInstance array = (ArrayClassInstance) left;
                     return new Link(array.last(), Link.State.NOTHING) {
 
                         @Override
-                        public void set(Caller caller, int value) throws LCLangRuntimeException {
+                        public void set(int caller, int value) throws LCLangRuntimeException {
                             array.add(value);
                         }
                     };
@@ -46,37 +45,37 @@ public class UnaryOperationExpression extends Expression {
 
             case Operation.NOT:
                 return new Link(
-                        leftValue.classId == BoolClass.FALSE ?
-                                BoolClass.TRUE : BoolClass.FALSE
+                        leftValue.classId == BoolClassInstance.FALSE ?
+                                BoolClassInstance.TRUE : BoolClassInstance.FALSE
                 );
 
             case Operation.NULL_CHECK:
-                if(leftValue.classId==NullClass.INSTANCE.classId)
+                if(leftValue.classId== NullClassInstance.INSTANCE.classId)
                     throw new LCLangNullPointerException(caller);
                 else clazz = leftValue.classId;
 
                 break;
 
             case Operation.UNARY_PLUS: {
-                PostVMClass left = leftValue.get();
-                if (left instanceof NumberClass) {
-                    clazz = left.cast(NumberClass.class).add(PostVMClass.instances.get(NumberClass.get(1)).cast(NumberClass.class));
+                PostVMClassInstance left = leftValue.get();
+                if (left instanceof NumberClassInstance) {
+                    clazz = left.cast(NumberClassInstance.class).add(PostVMClassInstance.instances.get(NumberClassInstance.get(1)).cast(NumberClassInstance.class));
                     break;
                 }
             }
 
             case Operation.UNARY_MINUS: {
-                PostVMClass left = leftValue.get();
-                if (left instanceof NumberClass) {
-                    clazz = left.cast(NumberClass.class).minus(PostVMClass.instances.get(NumberClass.get(1)).cast(NumberClass.class));
+                PostVMClassInstance left = leftValue.get();
+                if (left instanceof NumberClassInstance) {
+                    clazz = left.cast(NumberClassInstance.class).minus(PostVMClassInstance.instances.get(NumberClassInstance.get(1)).cast(NumberClassInstance.class));
                     break;
                 }
             }
 
             case Operation.BINARY_COMPLIMENT: {
-                PostVMClass left = leftValue.get();
-                if (left instanceof NumberClass) {
-                    return new Link(left.cast(NumberClass.class).compliment());
+                PostVMClassInstance left = leftValue.get();
+                if (left instanceof NumberClassInstance) {
+                    return new Link(left.cast(NumberClassInstance.class).compliment());
                 }
             }
 

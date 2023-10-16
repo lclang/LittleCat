@@ -4,12 +4,12 @@ import postvm.Caller;
 import postvm.PostVMExecutor;
 import postvm.exceptions.LCLangRuntimeException;
 import postvm.exceptions.LCLangTypeErrorException;
-import postvm.library.classes.PostVMClass;
+import postvm.classes.PostVMClassInstance;
 import postvm.statements.MethodStatement;
 import postvm.statements.Statement;
 import postvm.types.Type;
 
-public class MethodImpl extends Method {
+public class MethodImpl extends MethodInstance {
     private final PostVMExecutor outExecutor;
     private final MethodStatement.Argument[] argsMap;
     private final Statement statement;
@@ -29,19 +29,23 @@ public class MethodImpl extends Method {
     }
 
     @Override
-    public int call(Caller caller, int[] args) throws LCLangRuntimeException {
+    public int call(int inst, int caller, int[] args) throws LCLangRuntimeException {
         PostVMExecutor executor = new PostVMExecutor(outExecutor, importVariables);
+        if(inst != NO_INSTANCE) {
+            executor.variables.put("this", inst);
+        }
+
         for (int i = 0; i < args.length; i++) {
             executor.variables.put(argsMap[i].name, args[i]);
         }
 
-        Caller stmtCaller = statement.getCaller(caller);
-        stmtCaller.root = executor.root;
-
-        PostVMClass value = statement.visit(stmtCaller, executor).get();
+        int stmtCaller = Caller.register(executor.root.classId, statement.line, caller);
+        PostVMClassInstance value = statement.visit(stmtCaller, executor).get();
         if(!returnType.isAccept(value.prototype.type))
             throw new LCLangTypeErrorException("invalid type of return (excepted "+returnType+
                     ", but returned "+value.prototype.type+")", stmtCaller);
+
+        Caller.unregister(stmtCaller);
 
         return value.classId;
     }

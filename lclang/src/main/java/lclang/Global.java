@@ -3,7 +3,7 @@ package lclang;
 import postvm.Library;
 import postvm.library.LangLibrary;
 import postvm.stdlib.StdLibrary;
-//import postvm.ui.UILibrary;
+import postvm.ui.UILibrary;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ public class Global {
     public static final String version;
     public static final int buildTime;
     public static final boolean useCache;
-    public static final ArrayList<LCLangFileClass> libraries = new ArrayList<>();
+    public static final ArrayList<LCLangFileClassInstance> libraries = new ArrayList<>();
     public static final ArrayList<Library> javaLibraries = new ArrayList<>();
 
     public static void printDebug(PrintStream out) {
@@ -32,6 +32,6 @@ public class Global {
 
         javaLibraries.add(LangLibrary.INSTANCE);
         javaLibraries.add(StdLibrary.INSTANCE);
-//        javaLibraries.add(new UILibrary());
+        javaLibraries.add(UILibrary.INSTANCE);
     }
 }

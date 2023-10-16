@@ -2,7 +2,7 @@ package postvm.types;
 
 import postvm.TypeUtils;
 import postvm.Utils;
-import postvm.methods.Method;
+import postvm.methods.MethodInstance;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,14 +13,14 @@ public class CallableType extends Type {
     public final Type returnType;
 
     public CallableType(Type[] args, Type returnType) {
-        super(Method.PROTOTYPE);
+        super(MethodInstance.PROTOTYPE);
         this.args = args;
         this.returnType = returnType;
     }
 
     @Override
     public boolean isAcceptWithoutNullable(Type another) {
-        if(another == Method.type) return true;
+        if(another == MethodInstance.type) return true;
         boolean result = super.isAcceptWithoutNullable(another);
         if(result||another instanceof CallableType){
             CallableType anotherCallableType = (CallableType) another;

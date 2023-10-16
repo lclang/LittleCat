@@ -1,11 +1,10 @@
 package postvm.statements;
 
-import postvm.Caller;
 import postvm.Link;
 import postvm.PostVMExecutor;
 import postvm.exceptions.LCLangRuntimeException;
-import postvm.library.classes.BoolClass;
-import postvm.library.classes.VoidClass;
+import postvm.library.classes.BoolClassInstance;
+import postvm.library.classes.VoidClassInstance;
 import postvm.statements.expressions.Expression;
 
 public class WhileStatement extends Statement {
@@ -19,10 +18,10 @@ public class WhileStatement extends Statement {
     }
 
     @Override
-    public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
+    public Link visit(int prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
         if(body==null) {
-            while(condition.visit(prevCaller, visitor).classId != BoolClass.FALSE);
-        }else while(condition.visit(prevCaller, visitor).classId != BoolClass.FALSE) {
+            while(condition.visit(prevCaller, visitor).classId != BoolClassInstance.FALSE);
+        }else while(condition.visit(prevCaller, visitor).classId != BoolClassInstance.FALSE) {
             Link value = body.visit(prevCaller, visitor);
             if(value.state==Link.State.RETURN)
                 return value;
@@ -30,6 +29,6 @@ public class WhileStatement extends Statement {
                 break;
         }
 
-        return VoidClass.value;
+        return VoidClassInstance.value;
     }
 }

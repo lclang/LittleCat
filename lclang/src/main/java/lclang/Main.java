@@ -7,9 +7,7 @@ import postvm.Library;
 import postvm.Utils;
 import postvm.exceptions.LCLangLexerException;
 import postvm.exceptions.LCLangRuntimeException;
-import postvm.library.classes.ArrayClass;
-import postvm.library.classes.PostVMClass;
-import postvm.library.classes.StringClass;
+import postvm.library.classes.StringClassInstance;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,6 +26,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             File librariesDirectory = new File(System.getProperty("libsPath", "./libs"));
+
             if (librariesDirectory.exists()) {
                 File[] librariesFiles = librariesDirectory.listFiles();
                 if (librariesFiles != null) {
@@ -36,7 +35,7 @@ public class Main {
                         if (fileName.endsWith(".jar")) {
                             loadJarLibrariesFromFile(libraryFile);
                         } else if (fileName.endsWith(".lcat")) {
-                            LCLangFileClass executor = new LCLangFileClass(libraryFile);
+                            LCLangFileClassInstance executor = new LCLangFileClassInstance(libraryFile);
                             try {
                                 executeInput(executor, Utils.readFile(libraryFile,
                                         UniversalDetector.detectCharset(libraryFile)), Collections.emptyList());
@@ -52,7 +51,7 @@ public class Main {
             if(args.length==0) {
                 System.out.println("Little cat "+Global.version+" (Build date: "+Global.buildTime+")");
                 Scanner scanner = new Scanner(System.in);
-                LCLangFileClass cliExecutor = new LCLangFileClass(new File("./cli"));
+                LCLangFileClassInstance cliExecutor = new LCLangFileClassInstance(new File("./cli"));
 
                 System.out.print("> ");
                 while (scanner.hasNextLine()) {
@@ -85,10 +84,10 @@ public class Main {
             }
 
             if(file.length()==0L) return;
-            LCLangFileClass executor = new LCLangFileClass(file);
+            LCLangFileClassInstance executor = new LCLangFileClassInstance(file);
 
             List<Integer> arguments = new ArrayList<>();
-            for(String argument: programArgs) arguments.add(StringClass.get(argument));
+            for(String argument: programArgs) arguments.add(StringClassInstance.get(argument));
 
             executeInput(executor, Utils.readFile(file, UniversalDetector.detectCharset(file)), arguments);
         } catch (RuntimeException e) {
@@ -122,7 +121,7 @@ public class Main {
                         .replace('/', '.');
                 Class<?> clazz = classLoader.loadClass(className);
                 if (Library.class.isAssignableFrom(clazz))
-                    Global.javaLibraries.add((Library) clazz.newInstance());
+                    Global.javaLibraries.add((Library) clazz.getConstructor().newInstance());
             }
         } catch (Exception e) {
             System.out.println(ERROR_COLOR);
@@ -131,7 +130,7 @@ public class Main {
         }
     }
 
-    public static void executeInput(LCLangFileClass executor, String file, List<Integer> args) throws LCLangRuntimeException {
+    public static void executeInput(LCLangFileClassInstance executor, String file, List<Integer> args) throws LCLangRuntimeException {
         lclangParser parser = new lclangParser(new CommonTokenStream(
                 new lclangLexer(CharStreams.fromString(file))
         ));

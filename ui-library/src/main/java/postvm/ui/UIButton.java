@@ -1,45 +1,41 @@
 package postvm.ui;
 
-import postvm.library.classes.LibraryClass;
-import postvm.library.classes.PostVMClass;
-import postvm.library.classes.StringClass;
-import postvm.library.classes.VoidClass;
-import postvm.methods.Method;
+import postvm.classes.PostVMClassInstance;
+import postvm.classes.PostVMClassPrototype;
+import postvm.library.classes.*;
+import postvm.methods.MethodInstance;
 import postvm.types.CallableType;
-import postvm.types.Type;
 
 import javax.swing.*;
 import java.util.Collections;
 
-public class UIButton extends LibraryClass {
-    public static final String name = "UIButton";
-    public static final UIButton INSTANCE = new UIButton();
-    public static final Type type = INSTANCE.classType;
-    public JButton button;
+public class UIButton extends UIView<JButton> {
+    public final static PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
+            "UIButton",
+            UIView.PROTOTYPE,
+            Collections.emptyList()
+    ) {
+        @Override
+        public int createClass(int caller, int[] args) {
+            return new UIButton(caller, new JButton()).classId;
+        }
+    };
 
-    private UIButton() {
-        super(name);
-        constructor = methodOld((caller, PostVMClasses) -> new UIButton(new JButton()), type);
-    }
-
-    public UIButton(JButton button) {
-        super(name);
-        this.button = button;
-        this.extendsClass = new UIView(button);
+    public UIButton(int caller, JButton button) {
+        super(caller, PROTOTYPE, button);
     }
 
     @Override
-    public Integer loadGlobal(PostVMClass clazz, String target) {
+    public Integer loadMethod(PostVMClassInstance clazz, String target) {
         switch (target) {
-            case "getText": return methodOld((caller, args) -> StringClass.get(button.getText()),
-                    StringClass.type);
-            case "setText": return voidMethod((caller, args) -> button.setText(args.get(0)
-                            .cast(StringClass.class).string), StringClass.type);
-            case "setOnClick": return voidMethod((caller, args) -> button.addActionListener(e -> args.get(0)
-                    .cast(Method.class).call(caller, Collections.singletonList(this))),
-                    CallableType.get(UIButton.type, VoidClass.PROTOTYPE.type));
+            case "getText": return nativeMethod(StringClassInstance.type, (caller, args) -> StringClassInstance.get(container.getText()));
+            case "setText": return voidMethod((caller, args) -> container.setText(args[0]
+                            .cast(StringClassInstance.class).string), StringClassInstance.type);
+            case "setOnClick": return voidMethod((caller, args) -> container.addActionListener(e -> args[0]
+                    .cast(MethodInstance.class).call(caller, new int[0])),
+                    CallableType.get(UIButton.type, VoidClassInstance.PROTOTYPE.type));
         }
 
-        return super.loadGlobal(clazz, target);
+        return super.loadMethod(clazz, target);
     }
 }

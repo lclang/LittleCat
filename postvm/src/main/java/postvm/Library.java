@@ -1,18 +1,15 @@
 package postvm;
 
 import postvm.exceptions.LCLangConstructorNotFoundException;
-import postvm.library.classes.LibraryClass;
-import postvm.library.classes.ObjectClass;
-import postvm.library.classes.PostVMClass;
-import postvm.library.classes.PostVMClassPrototype;
+import postvm.library.classes.LibraryClassInstance;
+import postvm.library.classes.ObjectClassInstance;
+import postvm.classes.PostVMClassPrototype;
 
-import java.util.List;
-
-public abstract class Library extends LibraryClass {
+public abstract class Library extends LibraryClassInstance {
     public Library(String name) {
-        super(null, new PostVMClassPrototype(name + "_library", ObjectClass.PROTOTYPE, Utils.listOf()) {
+        super(Caller.CALLER_NONE, new PostVMClassPrototype(name + "_library", ObjectClassInstance.PROTOTYPE, Utils.listOf()) {
             @Override
-            public int createClass(Caller caller, int[] args) {
+            public int createClass(int caller, int[] args) {
                 throw new LCLangConstructorNotFoundException(caller);
             }
         });

@@ -6,17 +6,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 import org.mozilla.universalchardet.UniversalDetector;
-import postvm.Caller;
 import postvm.Utils;
 import postvm.library.LangLibrary;
-import postvm.library.classes.PostVMClass;
 import postvm.libs.TestLibrary;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -44,7 +41,7 @@ public class InterpreterTest {
                 String scriptPart = parts[0];
                 String outputPart = parts[1];
 
-                LCLangFileClass executor = new LCLangFileClass(file);
+                LCLangFileClassInstance executor = new LCLangFileClassInstance(file);
                 lclangParser parser = new lclangParser(new CommonTokenStream(
                         new lclangLexer(CharStreams.fromString(scriptPart))
                 ));

@@ -2,8 +2,8 @@ package postvm.library;
 
 import postvm.Library;
 import postvm.library.classes.*;
-import postvm.library.classes.numbers.NumberClass;
-import postvm.methods.Method;
+import postvm.library.classes.NumberClassInstance;
+import postvm.methods.MethodInstance;
 
 public final class LangLibrary extends Library {
     public static final LangLibrary INSTANCE = new LangLibrary();
@@ -11,20 +11,20 @@ public final class LangLibrary extends Library {
     private LangLibrary() {
         super("lang");
 
-        classes.put("any", ObjectClass.PROTOTYPE);
-        classes.put("object", ObjectClass.PROTOTYPE);
-        classes.put("array", ArrayClass.PROTOTYPE);
-        classes.put("bool", BoolClass.PROTOTYPE);
-        classes.put("char", CharClass.PROTOTYPE);
+        classes.put("any", ObjectClassInstance.PROTOTYPE);
+        classes.put("object", ObjectClassInstance.PROTOTYPE);
+        classes.put("array", ArrayClassInstance.PROTOTYPE);
+        classes.put("bool", BoolClassInstance.PROTOTYPE);
+        classes.put("char", CharClassInstance.PROTOTYPE);
 
-        classes.put("double", NumberClass.PROTOTYPE);
-        classes.put("int", NumberClass.PROTOTYPE);
-        classes.put("long", NumberClass.PROTOTYPE);
-        classes.put("number", NumberClass.PROTOTYPE);
+        classes.put("double", NumberClassInstance.PROTOTYPE);
+        classes.put("int", NumberClassInstance.PROTOTYPE);
+        classes.put("long", NumberClassInstance.PROTOTYPE);
+        classes.put("number", NumberClassInstance.PROTOTYPE);
 
-        classes.put("string", StringClass.PROTOTYPE);
-        classes.put("null", NullClass.PROTOTYPE);
-        classes.put("callable", Method.PROTOTYPE);
-        classes.put("void", VoidClass.PROTOTYPE);
+        classes.put("string", StringClassInstance.PROTOTYPE);
+        classes.put("null", NullClassInstance.PROTOTYPE);
+        classes.put("callable", MethodInstance.PROTOTYPE);
+        classes.put("void", VoidClassInstance.PROTOTYPE);
     }
 }

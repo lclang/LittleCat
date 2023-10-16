@@ -26,7 +26,7 @@ public class LambdaExpression extends Expression {
     }
 
     @Override
-    public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
+    public Link visit(int prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
         return new MethodImpl(visitor, args,
                 returnType.toType(visitor.root), expression, true).createLink();
     }

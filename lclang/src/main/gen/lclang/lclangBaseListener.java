@@ -1,4 +1,4 @@
-// Generated from /mnt/sdb9/IdeaProjects/lclang-java/lclang/src/main/java/lclang/lclang.g4 by ANTLR 4.9.2
+// Generated from /home/levkopo/IdeaProjects/LittleCat/lclang/src/main/java/lclang/lclang.g4 by ANTLR 4.13.1
 package lclang;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -10,6 +10,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
  * which can be extended to create a listener which only needs to handle a subset
  * of the available methods.
  */
+@SuppressWarnings("CheckReturnValue")
 public class lclangBaseListener implements lclangListener {
 	/**
 	 * {@inheritDoc}

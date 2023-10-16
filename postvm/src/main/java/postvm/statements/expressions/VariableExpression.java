@@ -14,12 +14,12 @@ public class VariableExpression extends Expression {
     }
 
     @Override
-    public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
+    public Link visit(int prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
         return visitor.getVariableClass(name);
     }
 
     @Override
-    public void compile(List<Integer> bytes, Caller prevCaller) {
+    public void compile(List<Integer> bytes, int prevCaller) {
         bytes.add(Opcodes.GET);
 //        bytes.add(Opcodes.STR);
         bytes.addAll(compileBytes(name.getBytes()));

@@ -1,12 +1,10 @@
 package postvm.statements;
 
-import postvm.Caller;
 import postvm.Link;
 import postvm.PostVMExecutor;
 import postvm.exceptions.LCLangRuntimeException;
-import postvm.library.classes.BoolClass;
-import postvm.library.classes.PostVMClass;
-import postvm.library.classes.VoidClass;
+import postvm.library.classes.BoolClassInstance;
+import postvm.library.classes.VoidClassInstance;
 import postvm.statements.expressions.Expression;
 
 public class IfStatement extends Statement {
@@ -22,14 +20,14 @@ public class IfStatement extends Statement {
     }
 
     @Override
-    public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
+    public Link visit(int prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
         int cond = condition.visit(prevCaller, visitor).classId;
-        if(cond!=BoolClass.FALSE) {
+        if(cond!= BoolClassInstance.FALSE) {
             return ifTrue.visit(prevCaller, visitor);
         }else if(ifFalse!=null){
             return ifFalse.visit(prevCaller, visitor);
         }
 
-        return VoidClass.value;
+        return VoidClassInstance.value;
     }
 }

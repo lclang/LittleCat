@@ -1,15 +1,15 @@
 package postvm.statements;
 
 import postvm.exceptions.LCLangClassNotFoundException;
-import postvm.library.classes.ObjectClass;
-import postvm.library.classes.PostVMClass;
-import postvm.library.classes.PostVMClassPrototype;
-import postvm.library.classes.VoidClass;
+import postvm.library.classes.ObjectClassInstance;
+import postvm.classes.PostVMClassInstance;
+import postvm.classes.PostVMClassPrototype;
+import postvm.library.classes.VoidClassInstance;
 import postvm.types.Type;
 
 public class NamedTypeStatement extends TypeStatement {
-    public static final NamedTypeStatement ANY = new NamedTypeStatement(ObjectClass.OBJECT_TYPE.clazz.name, 0);
-    public static final NamedTypeStatement VOID = new NamedTypeStatement(VoidClass.PROTOTYPE.type.clazz.name, 0);
+    public static final NamedTypeStatement ANY = new NamedTypeStatement(ObjectClassInstance.OBJECT_TYPE.clazz.name, 0);
+    public static final NamedTypeStatement VOID = new NamedTypeStatement(VoidClassInstance.PROTOTYPE.type.clazz.name, 0);
     
     public final String name;
 
@@ -19,7 +19,7 @@ public class NamedTypeStatement extends TypeStatement {
     }
 
     @Override
-    public Type toType(PostVMClass root) throws LCLangClassNotFoundException {
+    public Type toType(PostVMClassInstance root) throws LCLangClassNotFoundException {
         PostVMClassPrototype clazz = root.getClass(name);
         if(clazz!=null) {
             Type type = new Type(clazz);

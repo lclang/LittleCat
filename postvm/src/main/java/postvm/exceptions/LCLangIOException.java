@@ -1,9 +1,7 @@
 package postvm.exceptions;
 
-import postvm.Caller;
-
 public class LCLangIOException extends LCLangRuntimeException {
-    public LCLangIOException(String message, Caller caller) {
+    public LCLangIOException(String message, int caller) {
         super("IO Exception", message, caller);
     }
 }

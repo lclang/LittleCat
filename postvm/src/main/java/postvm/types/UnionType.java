@@ -1,18 +1,15 @@
 package postvm.types;
 
 import postvm.Utils;
-import postvm.library.classes.ObjectClass;
-import postvm.library.classes.PostVMClass;
-import postvm.methods.Method;
+import postvm.library.classes.ObjectClassInstance;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class UnionType extends Type {
     public final Type[] types;
 
     public UnionType(Type[] types) {
-        super(ObjectClass.PROTOTYPE);
+        super(ObjectClassInstance.PROTOTYPE);
         this.types = types;
         this.nullable = false;
     }

@@ -1,13 +1,12 @@
 package postvm.statements.expressions;
 
-import postvm.Caller;
 import postvm.Link;
 import postvm.PostVMExecutor;
 import postvm.TypeUtils;
 import postvm.exceptions.LCLangRuntimeException;
 import postvm.exceptions.LCLangTypeErrorException;
-import postvm.library.classes.PostVMClass;
-import postvm.methods.Method;
+import postvm.classes.PostVMClassInstance;
+import postvm.methods.MethodInstance;
 import postvm.types.Type;
 
 import java.util.List;
@@ -23,10 +22,10 @@ public class CallExpression extends Expression {
     }
 
     @Override
-    public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
-        Caller expressionCaller = expression.getCaller(prevCaller);
-        PostVMClass callClazz = expression.visit(prevCaller, visitor).get();
-        if(!callClazz.prototype.canCast(Method.PROTOTYPE))
+    public Link visit(int prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
+        int expressionCaller = expression.getCaller(prevCaller);
+        PostVMClassInstance callClazz = expression.visit(prevCaller, visitor).get();
+        if(!callClazz.prototype.canCast(MethodInstance.PROTOTYPE))
             throw new LCLangTypeErrorException("Value is not callable (it is "+callClazz.prototype.name+")", expressionCaller);
 
         Type[] argsTypes = new Type[arguments.length];
@@ -38,12 +37,12 @@ public class CallExpression extends Expression {
             Link argumentValue = argument.visit(prevCaller, visitor);
             if(argumentValue.state!=Link.State.NOTHING) return argumentValue;
 
-            PostVMClass clazz = argumentValue.get();
+            PostVMClassInstance clazz = argumentValue.get();
             argsTypes[i] = clazz.prototype.type;
             args[i] = clazz.classId;
         }
 
-        Method method = (Method) callClazz;
+        MethodInstance method = (MethodInstance) callClazz;
 
         int notAcceptArg = TypeUtils.isAccept(method.args, argsTypes);
         if(notAcceptArg!=-1) {
@@ -64,7 +63,7 @@ public class CallExpression extends Expression {
     }
 
     @Override
-    public void compile(List<Integer> bytes, Caller prevCaller) {
+    public void compile(List<Integer> bytes, int prevCaller) {
         super.compile(bytes, prevCaller);
     }
 }

@@ -1,9 +1,7 @@
 package postvm;
 
-import postvm.library.classes.VoidClass;
+import postvm.library.classes.VoidClassInstance;
 import postvm.types.Type;
-
-import java.util.List;
 
 public class TypeUtils {
     public static int isAccept(Type[] filterTypes, Type[] checkTypes) {
@@ -12,7 +10,7 @@ public class TypeUtils {
         }
 
         for (int i = 0; i < filterTypes.length; i++) {
-            Type checkType = VoidClass.PROTOTYPE.type;
+            Type checkType = VoidClassInstance.PROTOTYPE.type;
             if(checkTypes.length>i) checkType = checkTypes[i];
 
             if(!filterTypes[i].isAccept(checkType)) {

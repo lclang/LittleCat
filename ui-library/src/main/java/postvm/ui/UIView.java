@@ -1,37 +1,42 @@
 package postvm.ui;
 
-import postvm.library.classes.LibraryClass;
-import postvm.library.classes.PostVMClass;
-import postvm.library.classes.numbers.NumberClass;
-import postvm.types.Type;
+import postvm.classes.PostVMClassInstance;
+import postvm.classes.PostVMClassPrototype;
+import postvm.library.classes.NumberClassInstance;
 
 import javax.swing.*;
+import java.util.Collections;
 
-public class UIView extends LibraryClass {
-    public static final String name = "UIView";
-    public static final UIView INSTANCE = new UIView();
-    public static final Type type = INSTANCE.classType;
-    public JComponent component;
+public class UIView<T extends JComponent> extends UIContainer<T> {
     public int id;
 
-    private UIView() {
-        super(name);
+    public final static PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
+            "UIView",
+            UIContainer.PROTOTYPE,
+            Collections.emptyList()
+    ) {
+        @Override
+        public int createClass(int caller, int[] args) {
+            return new UIView<>(caller, new JPanel()).classId;
+        }
+    };
+
+    protected UIView(int caller, PostVMClassPrototype prototype, T component) {
+        super(caller, prototype, component);
     }
 
-    public UIView(JComponent component) {
-        super(name);
-        this.component = component;
-        this.extendsClass = new UIContainer(component);
+    protected UIView(int caller, T component) {
+        super(caller, PROTOTYPE, component);
     }
 
     @Override
-    public Integer loadGlobal(PostVMClass clazz, String target) {
+    public Integer loadMethod(PostVMClassInstance clazz, String target) {
         switch (target) {
-            case "getId": return methodOld((caller, args) -> NumberClass.get(id), NumberClass.TYPE);
-            case "setId": return voidMethod((caller, args) -> id = args.get(0).cast(NumberClass.class).value.intValue(),
-                    NumberClass.TYPE);
+            case "getId": return nativeMethod(NumberClassInstance.TYPE, (caller, args) -> NumberClassInstance.get(id));
+            case "setId": return voidMethod((caller, args) -> id = args[0].cast(NumberClassInstance.class).value.intValue(),
+                    NumberClassInstance.TYPE);
         }
 
-        return super.loadGlobal(clazz, target);
+        return super.loadMethod(clazz, target);
     }
 }

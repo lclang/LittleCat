@@ -19,14 +19,14 @@ public class AssignExpression extends Expression {
     }
 
     @Override
-    public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
+    public Link visit(int prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
         Link value = right.visit(prevCaller, visitor);
         left.visit(prevCaller, visitor).set(prevCaller, value.classId);
         return value;
     }
 
     @Override
-    public void compile(List<Integer> bytes, Caller prevCaller) {
+    public void compile(List<Integer> bytes, int prevCaller) {
         right.compile(bytes, prevCaller);
         left.compile(bytes, prevCaller);
         bytes.add(Opcodes.SET);

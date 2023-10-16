@@ -3,33 +3,30 @@ package postvm.library.classes;
 import postvm.Caller;
 import postvm.Link;
 import postvm.Utils;
+import postvm.classes.PostVMClassPrototype;
 import postvm.exceptions.LCLangRuntimeException;
-import postvm.exceptions.LCLangTypeErrorException;
-import postvm.types.Type;
 
-import java.util.List;
-
-public final class VoidClass extends LibraryClass {
+public final class VoidClassInstance extends LibraryClassInstance {
     public static final PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
             "void",
-            ObjectClass.PROTOTYPE,
+            ObjectClassInstance.PROTOTYPE,
             Utils.listOf()
     ) {
         @Override
-        public int createClass(Caller caller, int[] args) {
+        public int createClass(int caller, int[] args) {
             return INSTANCE.classId;
         }
     };
 
-    public static final VoidClass INSTANCE = new VoidClass();
+    public static final VoidClassInstance INSTANCE = new VoidClassInstance();
     public static final Link value = INSTANCE.createLink();
 
-    private VoidClass() {
-        super(null, PROTOTYPE);
+    private VoidClassInstance() {
+        super(Caller.CALLER_NONE, PROTOTYPE);
     }
 
     @Override
-    public String toString(Caller caller) throws LCLangRuntimeException {
+    public String toString(int caller) throws LCLangRuntimeException {
         return "";
     }
 }

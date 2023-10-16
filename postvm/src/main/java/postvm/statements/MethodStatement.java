@@ -1,12 +1,9 @@
 package postvm.statements;
 
 import postvm.exceptions.LCLangRuntimeException;
-import postvm.library.classes.PostVMClass;
+import postvm.classes.PostVMClassInstance;
 import postvm.methods.MethodImpl;
 import postvm.types.Type;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MethodStatement {
     public final String name;
@@ -26,7 +23,7 @@ public class MethodStatement {
         this.statement = statement;
     }
 
-    public int visit(PostVMClass root, boolean importVariables) throws LCLangRuntimeException {
+    public int visit(PostVMClassInstance root, boolean importVariables) throws LCLangRuntimeException {
         return new MethodImpl(
                 root.executor,
                 args,
@@ -36,7 +33,7 @@ public class MethodStatement {
         ).classId;
     }
 
-    public static Type[] resolveArgs(PostVMClass root, Argument[] args) throws LCLangRuntimeException {
+    public static Type[] resolveArgs(PostVMClassInstance root, Argument[] args) throws LCLangRuntimeException {
         Type[] types = new Type[args.length];
         for (int i = 0, l = args.length; i < l; i++) {
             types[i] = args[i].type.toType(root);

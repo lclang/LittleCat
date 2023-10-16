@@ -1,53 +1,65 @@
 package postvm.ui;
 
-import postvm.library.classes.BoolClass;
-import postvm.library.classes.LibraryClass;
-import postvm.library.classes.PostVMClass;
-import postvm.library.classes.numbers.NumberClass;
+import postvm.classes.PostVMClassInstance;
+import postvm.classes.PostVMClassPrototype;
+import postvm.library.classes.*;
+import postvm.library.classes.NumberClassInstance;
 import postvm.types.Type;
 
+import javax.swing.*;
 import java.awt.*;
+import java.util.Collections;
 
-public class UIContainer extends LibraryClass {
-    public static final String name = "UIContainer";
-    public static final UIContainer INSTANCE = new UIContainer();
-    public static final Type type = INSTANCE.classType;
-    public Container container;
+public class UIContainer<T extends Container> extends LibraryClassInstance {
+    public T container;
+    public final static PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
+            "UIContainer",
+            null,
+            Collections.emptyList()
+    ) {
+        @Override
+        public int createClass(int caller, int[] args) {
+            return new UIContainer<>(caller, new JPanel()).classId;
+        }
+    };
 
-    private UIContainer() {
-        super(name);
+    public static Type type = PROTOTYPE.type;
+
+    protected UIContainer(int caller, PostVMClassPrototype prototype, T container) {
+        super(caller, prototype);
+        this.container = container;
     }
 
-    public UIContainer(Container container) {
-        super(name);
+    protected UIContainer(int caller, T container) {
+        this(caller, PROTOTYPE, container);
         this.container = container;
     }
 
     @Override
-    public Integer loadGlobal(PostVMClass clazz, String target) {
+    public Integer loadMethod(PostVMClassInstance clazz, String target) {
         switch (target) {
             case "doLayout": return voidMethod((caller, args) -> container.doLayout());
             case "addNotify": return voidMethod((caller, args) -> container.addNotify());
             case "removeNotify": return voidMethod((caller, args) -> container.removeNotify());
             case "removeAll": return voidMethod((caller, args) -> container.removeAll());
             case "setSize": return voidMethod((caller, args) -> container.setSize(
-                    args.get(0).cast(NumberClass.class).value.intValue(),
-                    args.get(1).cast(NumberClass.class).value.intValue()
-            ), NumberClass.TYPE, NumberClass.TYPE);
+                    args[0].cast(NumberClassInstance.class).value.intValue(),
+                    args[1].cast(NumberClassInstance.class).value.intValue()
+            ), NumberClassInstance.TYPE, NumberClassInstance.TYPE);
             case "setMinimumSize": return voidMethod((caller, args) -> container.setMinimumSize(new Dimension(
-                    args.get(0).cast(NumberClass.class).value.intValue(),
-                    args.get(1).cast(NumberClass.class).value.intValue()
-            )), NumberClass.TYPE, NumberClass.TYPE);
+                    args[0].cast(NumberClassInstance.class).value.intValue(),
+                    args[1].cast(NumberClassInstance.class).value.intValue()
+            )), NumberClassInstance.TYPE, NumberClassInstance.TYPE);
             case "setMaximumSize": return voidMethod((caller, args) -> container.setMaximumSize(new Dimension(
-                    args.get(0).cast(NumberClass.class).value.intValue(),
-                    args.get(1).cast(NumberClass.class).value.intValue()
-            )), NumberClass.TYPE, NumberClass.TYPE);
-            case "setVisible": return voidMethod((caller, args) -> container.setVisible(args.get(0)==BoolClass.TRUE),
-                    BoolClass.type);
-            case "add": return voidMethod((caller, args) -> container.add(args.get(0)
+                    args[0].cast(NumberClassInstance.class).value.intValue(),
+                    args[1].cast(NumberClassInstance.class).value.intValue()
+            )), NumberClassInstance.TYPE, NumberClassInstance.TYPE);
+            case "setVisible": return voidMethod((caller, args) -> container.setVisible(args[0].classId== BoolClassInstance.TRUE),
+                    BoolClassInstance.type);
+            case "add": return voidMethod((caller, args) -> container.add(args[0]
                             .cast(UIContainer.class).container), type);
         }
 
-        return super.loadGlobal(clazz, target);
+        return super.loadMethod(clazz, target);
     }
 }

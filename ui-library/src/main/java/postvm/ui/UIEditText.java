@@ -1,38 +1,36 @@
 package postvm.ui;
 
-import postvm.library.classes.LibraryClass;
-import postvm.library.classes.PostVMClass;
-import postvm.library.classes.StringClass;
-import postvm.types.Type;
+import postvm.classes.PostVMClassInstance;
+import postvm.classes.PostVMClassPrototype;
+import postvm.library.classes.StringClassInstance;
 
 import javax.swing.*;
+import java.util.Collections;
 
-public class UIEditText extends LibraryClass {
-    public static final String name = "UIEditText";
-    public static final UIEditText INSTANCE = new UIEditText();
-    public static final Type type = INSTANCE.classType;
-    public JTextArea textArea;
+public class UIEditText extends UIView<JTextArea> {
+    public final static PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
+            "UIEditText",
+            UIView.PROTOTYPE,
+            Collections.emptyList()
+    ) {
+        @Override
+        public int createClass(int caller, int[] args) {
+            return new UIEditText(caller, new JTextArea()).classId;
+        }
+    };
 
-    private UIEditText() {
-        super(name);
-        constructor = methodOld((caller, PostVMClasses) -> new UIEditText(new JTextArea()), type);
-    }
-
-    public UIEditText(JTextArea textArea) {
-        super(name);
-        this.textArea = textArea;
-        this.extendsClass = new UIView(textArea);
+    public UIEditText(int caller, JTextArea textArea) {
+        super(caller, PROTOTYPE, textArea);
     }
 
     @Override
-    public Integer loadGlobal(PostVMClass clazz, String target) {
+    public Integer loadMethod(PostVMClassInstance clazz, String target) {
         switch (target) {
-            case "getText": return methodOld((caller, args) -> StringClass.get(textArea.getText()),
-                    StringClass.type);
-            case "setText": return voidMethod((caller, args) -> textArea.setText(args.get(0)
-                            .cast(StringClass.class).string), StringClass.type);
+            case "getText": return nativeMethod(StringClassInstance.type, (caller, args) -> StringClassInstance.get(container.getText()));
+            case "setText": return voidMethod((caller, args) -> container.setText(args[0]
+                            .cast(StringClassInstance.class).string), StringClassInstance.type);
         }
 
-        return super.loadGlobal(clazz, target);
+        return super.loadMethod(clazz, target);
     }
 }

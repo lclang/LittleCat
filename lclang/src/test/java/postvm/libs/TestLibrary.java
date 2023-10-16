@@ -1,8 +1,8 @@
 package postvm.libs;
 
 import postvm.Library;
-import postvm.library.classes.ObjectClass;
-import postvm.library.classes.PostVMClass;
+import postvm.library.classes.ObjectClassInstance;
+import postvm.classes.PostVMClassInstance;
 
 public class TestLibrary extends Library {
     public static final TestLibrary INSTANCE = new TestLibrary();
@@ -13,14 +13,14 @@ public class TestLibrary extends Library {
     }
 
     @Override
-    public Integer loadGlobal(PostVMClass clazz, String target) {
+    public Integer loadMethod(PostVMClassInstance clazz, String target) {
         switch (target) {
             case "print": return voidMethod((caller, args) ->
-                    output.append(args[0].toString(caller)), ObjectClass.OBJECT_TYPE);
+                    output.append(args[0].toString(caller)), ObjectClassInstance.OBJECT_TYPE);
             case "println": return voidMethod((caller, args) ->
-                    output.append(args[0].toString(caller)).append("\r\n"), ObjectClass.OBJECT_TYPE);
+                    output.append(args[0].toString(caller)).append("\r\n"), ObjectClassInstance.OBJECT_TYPE);
         }
 
-        return super.loadGlobal(clazz, target);
+        return super.loadMethod(clazz, target);
     }
 }

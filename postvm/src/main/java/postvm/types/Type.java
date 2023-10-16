@@ -1,7 +1,7 @@
 package postvm.types;
 
-import postvm.library.classes.NullClass;
-import postvm.library.classes.PostVMClassPrototype;
+import postvm.library.classes.NullClassInstance;
+import postvm.classes.PostVMClassPrototype;
 
 public class Type implements Cloneable {
     public boolean nullable = false;
@@ -12,9 +12,9 @@ public class Type implements Cloneable {
     }
 
     public boolean isAccept(Type another) {
-        if(NullClass.PROTOTYPE==clazz) return true;
+        if(NullClassInstance.PROTOTYPE==clazz) return true;
 
-        if(another.clazz==NullClass.PROTOTYPE)
+        if(another.clazz== NullClassInstance.PROTOTYPE)
             return nullable;
 
         return isAcceptWithoutNullable(another) && (nullable || !another.nullable);
@@ -30,7 +30,7 @@ public class Type implements Cloneable {
     }
 
     public Type nullable() {
-        return new UnionType(new Type[] { NullClass.PROTOTYPE.type, this });
+        return new UnionType(new Type[] { NullClassInstance.PROTOTYPE.type, this });
     }
 
     public Type notNullable() {

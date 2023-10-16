@@ -1,10 +1,8 @@
 package postvm.statements.expressions;
 
-import postvm.Caller;
 import postvm.Link;
 import postvm.PostVMExecutor;
 import postvm.exceptions.LCLangRuntimeException;
-import postvm.library.classes.VoidClass;
 
 public class ReturnExpression extends Expression {
     public final Expression expression;
@@ -15,7 +13,7 @@ public class ReturnExpression extends Expression {
     }
 
     @Override
-    public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
+    public Link visit(int prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
         Link value = expression.visit(prevCaller, visitor);
         value.state = Link.State.RETURN;
         return value;

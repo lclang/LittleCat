@@ -1,39 +1,41 @@
 package postvm.ui;
 
-import postvm.library.classes.BoolClass;
-import postvm.library.classes.LibraryClass;
-import postvm.library.classes.PostVMClass;
+import postvm.library.classes.BoolClassInstance;
+import postvm.classes.PostVMClassInstance;
+import postvm.classes.PostVMClassPrototype;
 import postvm.types.Type;
 
 import javax.swing.*;
+import java.util.Collections;
 
-public class UILinearLayout extends LibraryClass {
+public class UILinearLayout extends UIView<JPanel> {
+    public final static PostVMClassPrototype PROTOTYPE = new PostVMClassPrototype(
+            "UILinearLayout",
+            UIView.PROTOTYPE,
+            Collections.emptyList()
+    ) {
+        @Override
+        public int createClass(int caller, int[] args) {
+            return new UILinearLayout(caller, new JPanel()).classId;
+        }
+    };
+    public static Type type = PROTOTYPE.type;
+
     public static final String name = "UILinearLayout";
-    public static final UILinearLayout INSTANCE = new UILinearLayout();
-    public static final Type type = INSTANCE.classType;
-    public JPanel frame;
 
-    private UILinearLayout() {
-        super(name);
-        constructor = methodOld((caller, args) -> new UILinearLayout(new JPanel()), type);
-    }
-
-    public UILinearLayout(JPanel frame) {
-        super(name);
-        this.frame = frame;
-        this.extendsClass = new UIView(frame);
-        this.frame.setLayout(new BoxLayout(frame, BoxLayout.Y_AXIS));
+    public UILinearLayout(int caller, JPanel frame) {
+        super(caller, PROTOTYPE, frame);
     }
 
     @Override
-    public Integer loadGlobal(PostVMClass clazz, String target) {
+    public Integer loadMethod(PostVMClassInstance clazz, String target) {
         switch (target) {
-            case "setHorizontal": return voidMethod((caller, args) -> frame.setLayout(
-                    new BoxLayout(frame, args.get(0) == BoolClass.TRUE ?
+            case "setHorizontal": return voidMethod((caller, args) -> container.setLayout(
+                    new BoxLayout(container, args[0].classId == BoolClassInstance.TRUE ?
                             BoxLayout.X_AXIS :
-                            BoxLayout.Y_AXIS)), BoolClass.type);
+                            BoxLayout.Y_AXIS)), BoolClassInstance.type);
         }
 
-        return super.loadGlobal(clazz, target);
+        return super.loadMethod(clazz, target);
     }
 }

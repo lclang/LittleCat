@@ -3,9 +3,9 @@ package postvm.statements;
 import postvm.Caller;
 import postvm.LinkUtils;
 import postvm.exceptions.LCLangRuntimeException;
-import postvm.library.classes.ObjectClass;
-import postvm.library.classes.PostVMClass;
-import postvm.library.classes.PostVMClassPrototype;
+import postvm.library.classes.ObjectClassInstance;
+import postvm.classes.PostVMClassInstance;
+import postvm.classes.PostVMClassPrototype;
 import postvm.statements.expressions.Expression;
 
 import java.util.HashMap;
@@ -35,20 +35,22 @@ public class ClassStatement {
         this.methodStatements = methodStatements;
     }
 
-    public void visit(PostVMClass root) throws LCLangRuntimeException {
+    public void visit(PostVMClassInstance root) throws LCLangRuntimeException {
         PostVMClassPrototype classPrototype = new PostVMClassPrototype(
                 name, null, MethodStatement.resolveArgs(root, arguments)
         ) {
             @Override
             public PostVMClassPrototype getExtendsClass() {
-                if(classExtends==null) return ObjectClass.PROTOTYPE;
+                if(classExtends==null) return ObjectClassInstance.PROTOTYPE;
                 return classExtends.toType(root).clazz;
             }
 
             @Override
-            public int createClass(Caller caller, int[] args) {
-                return new PostVMClass(caller, this, root.path, LinkUtils.classesFromLinks(
-                        LinkUtils.linksFromExpressions(caller, caller.root.executor, extendsArguments)
+            public int createClass(int caller, int[] args) {
+                return new PostVMClassInstance(caller, this, root.path, LinkUtils.classesFromLinks(
+                        LinkUtils.linksFromExpressions(caller, PostVMClassInstance.instances.get(
+                                Caller.instances.get(caller).root
+                        ).executor, extendsArguments)
                 )) {
                     public final HashMap<String, MethodStatement> methods = new HashMap<>();
 
@@ -63,19 +65,19 @@ public class ClassStatement {
                         }
 
                         for (Statement statement: init) {
-                            Caller classCaller = new Caller(this, statement.line, caller);
+                            int classCaller = Caller.register(this.classId, statement.line, caller);
                             statement.visit(classCaller, executor);
                         }
                     }
 
                     @Override
-                    public Integer loadGlobal(PostVMClass clazz, String target) {
+                    public Integer loadMethod(PostVMClassInstance clazz, String target) {
                         MethodStatement methodStatement = methods.get(target);
                         if(methodStatement!=null) {
                             return methodStatement.visit(this, true);
                         }
 
-                        return super.loadGlobal(clazz, target);
+                        return super.loadMethod(clazz, target);
                     }
                 }.classId;
             }

@@ -16,10 +16,10 @@ public abstract class Statement {
         this.line = line;
     }
 
-    public abstract Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException;
+    public abstract Link visit(int prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException;
 
-    public Caller getCaller(Caller caller) {
-        return new Caller(caller.root, line, caller);
+    public int getCaller(int caller) {
+        return Caller.register(Caller.ROOT_BY_PREV, line, caller);
     }
 
     public static List<Integer> compileBytes(byte[] bytes) {
@@ -31,5 +31,5 @@ public abstract class Statement {
         return list;
     }
 
-    public void compile(List<Integer> bytes, Caller prevCaller) {};
+    public void compile(List<Integer> bytes, int prevCaller) {};
 }

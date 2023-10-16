@@ -1,14 +1,11 @@
 package postvm.statements.expressions;
 
-import postvm.Caller;
 import postvm.Link;
 import postvm.PostVMExecutor;
 import postvm.exceptions.LCLangClassNotFoundException;
-import postvm.exceptions.LCLangConstructorNotFoundException;
 import postvm.exceptions.LCLangRuntimeException;
-import postvm.library.classes.PostVMClass;
-import postvm.library.classes.PostVMClassPrototype;
-import postvm.library.classes.VoidClass;
+import postvm.classes.PostVMClassPrototype;
+import postvm.library.classes.VoidClassInstance;
 
 public class GetClassConstructorExpression extends Expression {
     public final String name;
@@ -19,12 +16,12 @@ public class GetClassConstructorExpression extends Expression {
     }
 
     @Override
-    public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
+    public Link visit(int prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
         PostVMClassPrototype clazz = visitor.root.getClass(name);
         if(clazz!=null) {
             Integer constructor = clazz.getConstructor();
             if(constructor==null)
-                return VoidClass.value;
+                return VoidClassInstance.value;
 
             return new Link(constructor);
         }

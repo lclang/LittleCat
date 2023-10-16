@@ -1,10 +1,9 @@
 package postvm.statements;
 
-import postvm.Caller;
 import postvm.Link;
 import postvm.PostVMExecutor;
 import postvm.exceptions.LCLangRuntimeException;
-import postvm.library.classes.VoidClass;
+import postvm.library.classes.VoidClassInstance;
 
 public class BlockStatement extends Statement {
     public final Statement[] statements;
@@ -15,14 +14,15 @@ public class BlockStatement extends Statement {
     }
 
     @Override
-    public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
+    public Link visit(int prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
         for(Statement stmt: statements) {
-            Caller caller = stmt.getCaller(prevCaller);
+            int caller = stmt.getCaller(prevCaller);
+
             Link value = stmt.visit(caller, visitor);
             if (value.state!=Link.State.NOTHING)
                 return value;
         }
 
-        return VoidClass.value;
+        return VoidClassInstance.value;
     }
 }

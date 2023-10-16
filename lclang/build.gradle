@@ -19,11 +19,11 @@ repositories {
 }
 
 dependencies {
-    antlr 'org.antlr:antlr4:4.9.3'
+    antlr 'org.antlr:antlr4:4.13.1'
     implementation 'com.github.albfernandez:juniversalchardet:2.4.0'
     implementation project(':postvm')
     implementation project(':stdlib')
-//    implementation project(':ui-library')
+    implementation project(':ui-library')
 
     testImplementation(platform('org.junit:junit-bom:5.7.2'))
     testImplementation('org.junit.jupiter:junit-jupiter:5.8.1')

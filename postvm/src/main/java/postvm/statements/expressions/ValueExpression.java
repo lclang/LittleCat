@@ -3,7 +3,7 @@ package postvm.statements.expressions;
 import postvm.*;
 import postvm.exceptions.LCLangRuntimeException;
 import postvm.library.classes.*;
-import postvm.library.classes.numbers.NumberClass;
+import postvm.library.classes.NumberClassInstance;
 
 import java.util.List;
 
@@ -20,20 +20,20 @@ public class ValueExpression extends Expression {
     private Integer valueVisited = null;
 
     @Override
-    public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
+    public Link visit(int prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
         if(valueVisited==null) switch (type) {
-            case ValueType.CHAR: valueVisited = CharClass.get((char) value); break;
-            case ValueType.NUMBER: valueVisited = NumberClass.get((Number) value); break;
-            case ValueType.STRING: valueVisited = StringClass.get((String) value); break;
-            case ValueType.BOOL: valueVisited = BoolClass.get((boolean) value); break;
-            default: valueVisited = VoidClass.INSTANCE.classId; break;
+            case ValueType.CHAR: valueVisited = CharClassInstance.get((char) value); break;
+            case ValueType.NUMBER: valueVisited = NumberClassInstance.get((Number) value); break;
+            case ValueType.STRING: valueVisited = StringClassInstance.get((String) value); break;
+            case ValueType.BOOL: valueVisited = BoolClassInstance.get((boolean) value); break;
+            default: valueVisited = VoidClassInstance.INSTANCE.classId; break;
         }
 
         return new Link(valueVisited);
     }
 
     @Override
-    public void compile(List<Integer> bytes, Caller prevCaller) {
+    public void compile(List<Integer> bytes, int prevCaller) {
         switch (type) {
             case ValueType.CHAR:
             case ValueType.NUMBER:

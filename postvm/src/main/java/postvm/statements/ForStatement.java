@@ -1,12 +1,11 @@
 package postvm.statements;
 
-import postvm.Caller;
 import postvm.Link;
 import postvm.PostVMExecutor;
 import postvm.exceptions.LCLangRuntimeException;
 import postvm.exceptions.LCLangTypeErrorException;
-import postvm.library.classes.ArrayClass;
-import postvm.library.classes.PostVMClass;
+import postvm.library.classes.ArrayClassInstance;
+import postvm.classes.PostVMClassInstance;
 import postvm.statements.expressions.Expression;
 
 public class ForStatement extends Statement {
@@ -22,12 +21,12 @@ public class ForStatement extends Statement {
     }
 
     @Override
-    public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
-        PostVMClass clazz = values.visit(prevCaller, visitor).get();
-        if(!clazz.prototype.canCast(ArrayClass.PROTOTYPE))
+    public Link visit(int prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
+        PostVMClassInstance clazz = values.visit(prevCaller, visitor).get();
+        if(!clazz.prototype.canCast(ArrayClassInstance.PROTOTYPE))
             throw new LCLangTypeErrorException("Expected array", prevCaller);
 
-        ArrayClass array = (ArrayClass) clazz;
+        ArrayClassInstance array = (ArrayClassInstance) clazz;
         for (int i = 0; i < array.value.size(); i++) {
             value.visit(prevCaller, visitor).set(prevCaller, array.get(0));
             Link value = statement.visit(prevCaller, visitor);

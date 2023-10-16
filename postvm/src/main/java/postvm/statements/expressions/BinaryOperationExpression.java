@@ -1,12 +1,12 @@
 package postvm.statements.expressions;
 
-import postvm.Caller;
 import postvm.Link;
 import postvm.PostVMExecutor;
+import postvm.classes.PostVMClassInstance;
 import postvm.exceptions.LCLangRuntimeException;
 import postvm.exceptions.LCLangTypeErrorException;
 import postvm.library.classes.*;
-import postvm.library.classes.numbers.NumberClass;
+import postvm.library.classes.NumberClassInstance;
 
 public class BinaryOperationExpression extends Expression {
     public final Expression left;
@@ -21,20 +21,20 @@ public class BinaryOperationExpression extends Expression {
     }
 
     @Override
-    public Link visit(Caller prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
-        Caller caller = getCaller(prevCaller);
+    public Link visit(int prevCaller, PostVMExecutor visitor) throws LCLangRuntimeException {
+        int caller = getCaller(prevCaller);
 
         Link rightLink = right.visit(caller, visitor);
         if(rightLink.state!=Link.State.NOTHING) return rightLink;
-        PostVMClass rightClass = rightLink.get();
+        PostVMClassInstance rightClass = rightLink.get();
 
         Link leftLink = left.visit(caller, visitor);
         if(leftLink.state!=Link.State.NOTHING) return leftLink;
-        PostVMClass leftClass = leftLink.get();
+        PostVMClassInstance leftClass = leftLink.get();
 
-        if(leftClass.prototype.canCast(NumberClass.PROTOTYPE) && rightClass.prototype.canCast(NumberClass.PROTOTYPE)) {
-            NumberClass leftNumber = (NumberClass) leftClass;
-            NumberClass rightNumber = (NumberClass) rightClass;
+        if(leftClass.prototype.canCast(NumberClassInstance.PROTOTYPE) && rightClass.prototype.canCast(NumberClassInstance.PROTOTYPE)) {
+            NumberClassInstance leftNumber = (NumberClassInstance) leftClass;
+            NumberClassInstance rightNumber = (NumberClassInstance) rightClass;
 
             switch (operation) {
                 case Operation.POW: return new Link(leftNumber.pow(rightNumber));
@@ -56,42 +56,42 @@ public class BinaryOperationExpression extends Expression {
 
         switch (operation) {
             case Operation.ADD:
-                if(leftClass instanceof StringClass || rightClass instanceof StringClass)
-                    return new Link(StringClass.get(leftClass.toString(caller)+rightClass.toString(caller)));
+                if(leftClass instanceof StringClassInstance || rightClass instanceof StringClassInstance)
+                    return new Link(StringClassInstance.get(leftClass.toString(caller)+rightClass.toString(caller)));
 
-                if(leftClass instanceof ArrayClass && rightClass instanceof ArrayClass)
-                    return ((ArrayClass) leftClass).merge((ArrayClass) rightClass).createLink();
+                if(leftClass instanceof ArrayClassInstance && rightClass instanceof ArrayClassInstance)
+                    return ((ArrayClassInstance) leftClass).merge((ArrayClassInstance) rightClass).createLink();
 
             case Operation.MULTIPLICATION:
-                if((leftClass instanceof StringClass && rightClass instanceof NumberClass) ||
-                        (rightClass instanceof StringClass && leftClass instanceof NumberClass))
-                    return new Link(StringClass.get(rightClass instanceof NumberClass ?
-                            String.format("%0" + ((NumberClass) rightClass).value + "d", 0)
+                if((leftClass instanceof StringClassInstance && rightClass instanceof NumberClassInstance) ||
+                        (rightClass instanceof StringClassInstance && leftClass instanceof NumberClassInstance))
+                    return new Link(StringClassInstance.get(rightClass instanceof NumberClassInstance ?
+                            String.format("%0" + ((NumberClassInstance) rightClass).value + "d", 0)
                                     .replace("0", leftClass.toString(caller))
-                            :   String.format("%0" + ((NumberClass) leftClass).value + "d", 0)
+                            :   String.format("%0" + ((NumberClassInstance) leftClass).value + "d", 0)
                             .replace("0", rightClass.toString(caller))));
 
-            case Operation.OR: return (leftClass == VoidClass.INSTANCE || leftClass.classId == BoolClass.FALSE ?
+            case Operation.OR: return (leftClass == VoidClassInstance.INSTANCE || leftClass.classId == BoolClassInstance.FALSE ?
                     rightClass: leftClass).createLink();
-            case Operation.AND: return leftClass != VoidClass.INSTANCE && leftClass.classId != BoolClass.FALSE &&
-                    rightClass != VoidClass.INSTANCE && rightClass.classId != BoolClass.FALSE ?
-                    rightClass.createLink(): VoidClass.value;
+            case Operation.AND: return leftClass != VoidClassInstance.INSTANCE && leftClass.classId != BoolClassInstance.FALSE &&
+                    rightClass != VoidClassInstance.INSTANCE && rightClass.classId != BoolClassInstance.FALSE ?
+                    rightClass.createLink(): VoidClassInstance.value;
 
-            case Operation.NULLABLE_OR : if(leftClass==NullClass.INSTANCE)
+            case Operation.NULLABLE_OR : if(leftClass== NullClassInstance.INSTANCE)
                 return rightLink;
             else return leftLink;
 
             case Operation.ARRAY_ACCESS: {
-                if(leftClass instanceof ArrayClass) {
-                    if (rightClass instanceof NumberClass)
-                        return new Link(((ArrayClass) leftClass)
-                                .get(((NumberClass) rightClass).value.intValue()));
+                if(leftClass instanceof ArrayClassInstance) {
+                    if (rightClass instanceof NumberClassInstance)
+                        return new Link(((ArrayClassInstance) leftClass)
+                                .get(((NumberClassInstance) rightClass).value.intValue()));
                     else throw new LCLangTypeErrorException("invalid index: excepted int", caller);
                 }else throw new LCLangTypeErrorException("excepted array or map", caller);
             }
 
             case Operation.EQUALS: return new Link(leftClass.equals(rightClass, caller));
-            case Operation.NOT_EQUALS: return new Link(BoolClass.not(leftClass.equals(rightClass, caller)));
+            case Operation.NOT_EQUALS: return new Link(BoolClassInstance.not(leftClass.equals(rightClass, caller)));
 
             default: throw new LCLangTypeErrorException("Operation not supported: "+operation, caller);
         }

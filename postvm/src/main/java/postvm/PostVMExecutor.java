@@ -1,17 +1,17 @@
 package postvm;
 
 import postvm.exceptions.LCLangRuntimeException;
-import postvm.library.classes.PostVMClass;
-import postvm.library.classes.VoidClass;
+import postvm.classes.PostVMClassInstance;
+import postvm.library.classes.VoidClassInstance;
 
 import java.util.HashMap;
 
 public class PostVMExecutor {
-    public final PostVMClass root;
+    public final PostVMClassInstance root;
     public PostVMExecutor parentExecutor = null;
     public final HashMap<String, Integer> variables = new HashMap<>();
 
-    public PostVMExecutor(PostVMClass root) {
+    public PostVMExecutor(PostVMClassInstance root) {
         this.root = root;
     }
 
@@ -21,7 +21,7 @@ public class PostVMExecutor {
     }
 
     public Link getVariableClass(String name) {
-        Integer classId = VoidClass.INSTANCE.classId;
+        Integer classId = VoidClassInstance.INSTANCE.classId;
         if(!variables.containsKey(name)){
             if(parentExecutor!=null) {
                 return parentExecutor.getVariableClass(name);
@@ -48,7 +48,7 @@ public class PostVMExecutor {
         }
 
         @Override
-        public void set(Caller caller, int classId) throws LCLangRuntimeException {
+        public void set(int caller, int classId) throws LCLangRuntimeException {
             owner.variables.put(name, classId);
         }
     }
